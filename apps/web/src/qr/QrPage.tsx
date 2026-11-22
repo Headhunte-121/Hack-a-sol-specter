@@ -17,6 +17,7 @@ export default function QrPage() {
   const [expected, setExpected] = useState('')
   const [scanning, setScanning] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [opening, setOpening] = useState(false)
   const video = useRef<HTMLVideoElement>(null)
   const stream = useRef<MediaStream | null>(null)
   const raf = useRef<number>(0)
@@ -39,10 +40,13 @@ export default function QrPage() {
   /** openScanner: the camera is requested only when the user taps Scan, and stopped as soon as a code is read. */
   async function openScanner() {
     setError(null); setRaw(null)
+    setOpening(true) // the first request can take a moment (a permission question, or one quiet retry)
     try {
       stream.current = await openCamera()
     } catch (e) {
       setError(cameraErrorKey(e)); return // blocked, busy, missing or unsupported: each gets its own next step
+    } finally {
+      setOpening(false)
     }
     setScanning(true)
     const v = video.current // always on the page (hidden until scanning), so it exists before React re-renders
@@ -89,7 +93,7 @@ export default function QrPage() {
         <button className="btn btn-secondary w-full" onClick={stop}>⏹ {t('qr.stop')}</button>
       ) : (
         <div className="grid gap-2">
-          <button className="btn btn-primary" disabled={!secure} onClick={openScanner}>📷 {t('qr.scan')}</button>
+          <button className="btn btn-primary" disabled={!secure || opening} onClick={openScanner}>📷 {opening ? t('qr.opening') : t('qr.scan')}</button>
           <label className="btn btn-secondary cursor-pointer">🖼️ {t('qr.upload')}
             <input type="file" accept="image/*" className="sr-only" onChange={(e) => { const f = e.target.files?.[0]; if (f) void fromFile(f); e.target.value = '' }} />
           </label>
