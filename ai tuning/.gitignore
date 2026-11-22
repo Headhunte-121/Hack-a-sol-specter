@@ -1,0 +1,4 @@
+data/ext/
+data/emb_wild.npy
+__pycache__/
+*.pyc
