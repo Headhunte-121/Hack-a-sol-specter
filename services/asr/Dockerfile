@@ -15,7 +15,9 @@ ENV PYTHONUNBUFFERED=1 \
     HF_HOME=/srv/hf-cache \
     ASR_MODEL=tiny \
     ASR_DEVICE=cpu \
-    ASR_CORS=*
+    ASR_CORS=* \
+    ASR_PRELOAD=1 \
+    FORWARDED_ALLOW_IPS=*
 
 RUN python -c "from faster_whisper import WhisperModel; WhisperModel('tiny', device='cpu', compute_type='int8')" \
  && chmod -R a+rwX /srv/hf-cache
