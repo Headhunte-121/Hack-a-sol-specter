@@ -1,0 +1,27 @@
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# secrets (never commit)
+.env
+*.key
+*.pem
+
+# third-party datasets and model downloads (re-create with the scripts; check each licence before redistributing)
+ai tuning/data/ext/
+ai tuning/data/mt_hi_raw.csv
+ai tuning/data/emb_wild.npy
+ai tuning/data/emb_cache_v2.npz
+ai tuning/data/*.log
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# regenerable binaries
+ai tuning/data/*.npy
+ai tuning/data/*.npz
