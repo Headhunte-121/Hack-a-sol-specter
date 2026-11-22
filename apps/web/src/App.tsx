@@ -8,10 +8,12 @@ import { usePwaBootstrap } from './shell/pwa'
 import { useLang } from './shell/i18n'
 
 const Placeholder = lazy(() => import('./shell/Placeholder'))
+const DetectorPage = lazy(() => import('./detector/DetectorPage'))
 
 const ROUTES: Record<string, () => React.ReactElement> = {
   '/': () => <Home />,
   '/settings': () => <Settings />,
+  '/message': () => <DetectorPage />,
 }
 
 export default function App() {
