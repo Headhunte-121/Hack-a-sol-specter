@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { LANGS, useLang } from './i18n'
+import { LANGS, useLang, type Lang } from './i18n'
 import { navigate } from './router'
 import { Icon } from './ui'
 
@@ -17,15 +17,23 @@ export function LanguageSwitch() {
   )
 }
 
-/** The pill on the home screen: shows the current language and cycles to the next one when tapped. */
+/** The language dropdown on the home screen. A native list, so phones open their own large picker and screen readers announce it. */
 export function LangPill() {
   const { lang, setLang, t } = useLang()
-  const i = LANGS.findIndex((l) => l.code === lang)
-  const next = LANGS[(i + 1) % LANGS.length]
   return (
-    <button onClick={() => setLang(next.code)} aria-label={`${t('common.language')}: ${next.label}`} className="min-h-12 shrink-0 rounded-full border-2 border-brand bg-white px-4 text-[17px] font-bold text-brand">
-      {t('home.lang_button', { name: LANGS[i]?.label ?? '' })}
-    </button>
+    <label className="relative flex min-h-12 shrink-0 items-center rounded-full border-2 border-brand bg-white text-brand">
+      <span className="sr-only">{t('common.language')}</span>
+      <span className="pointer-events-none absolute left-3"><Icon name="globe" size={20} /></span>
+      <select
+        value={lang}
+        onChange={(e) => setLang(e.target.value as Lang)}
+        data-testid="lang-select"
+        className="min-h-12 cursor-pointer appearance-none rounded-full bg-transparent pl-9 pr-9 text-[17px] font-bold text-brand"
+      >
+        {LANGS.map((l) => <option key={l.code} value={l.code} lang={l.code === 'cg' ? 'hne' : l.code} className="bg-white text-ink">{l.label}</option>)}
+      </select>
+      <span className="pointer-events-none absolute right-3"><Icon name="down" size={18} stroke={2.5} /></span>
+    </label>
   )
 }
 

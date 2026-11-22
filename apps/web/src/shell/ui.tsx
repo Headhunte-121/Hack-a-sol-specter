@@ -21,6 +21,8 @@ const PATHS = {
   folder: ['M3 6h6l2 2h10v11H3z'],
   camera: ['M3 7h4l2-2h6l2 2h4v12H3z', 'M16 13a4 4 0 1 1-8 0 4 4 0 0 1 8 0z'],
   trash: ['M5 7h14M9 7V4h6v3M7 7l1 13h8l1-13'],
+  globe: ['M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z', 'M3 12h18', 'M12 3c2.4 2.5 3.6 5.5 3.6 9s-1.2 6.5-3.6 9c-2.4-2.5-3.6-5.5-3.6-9s1.2-6.5 3.6-9z'],
+  down: 'M6 9l6 6 6-6',
 }
 export type IconName = keyof typeof PATHS
 
