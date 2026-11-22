@@ -1,16 +1,17 @@
 import { useEffect, useMemo, useState } from 'react'
-import { loadLastResult } from '../detector/lastResult'
-import { formatDate, useLang } from '../shell/i18n'
-import { setBusy } from '../shell/busy'
-import { Layout } from '../shell/Layout'
-import { currentQuery } from '../shell/router'
-import { kvGet, kvSet } from '../shell/storage'
-import { CHANNELS, LAST_VERIFIED } from './channels'
-import { buildEvidenceChecklist, chooseChannel, type Answers, type ChecklistId, type Outcome, type StepId } from './routing'
-import { buildReportSummary } from './summary'
 import { ShareReport } from '../dashboard/ShareReport'
+import { loadLastResult } from '../detector/lastResult'
+import { setBusy } from '../shell/busy'
+import { formatDate, useLang } from '../shell/i18n'
+import { Layout } from '../shell/Layout'
+import { kvGet, kvSet } from '../shell/storage'
+import { Banner, Icon, NumberedList, type Tone } from '../shell/ui'
+import { CHANNELS, LAST_VERIFIED } from './channels'
+import { buildEvidenceChecklist, chooseChannel, type Answers, type ChecklistId, type ChannelId, type Outcome, type StepId } from './routing'
+import { buildReportSummary } from './summary'
 
 const isTouch = () => typeof window !== 'undefined' && window.matchMedia?.('(pointer: coarse)').matches
+const CARD_TONE: Record<ChannelId, Tone> = { helpline_1930: 'bad', bank_then_1930: 'warn', chakshu: 'info', cybercrime_portal: 'info', tips: 'ok' }
 
 export default function ReportPage() {
   const { t, lang } = useLang()
@@ -18,7 +19,7 @@ export default function ReportPage() {
   const [shared, setShared] = useState<boolean | null>(null)
   const [copied, setCopied] = useState(false)
   const [offlineNote, setOfflineNote] = useState(false)
-  const last = useMemo(() => (currentQuery().get('from') ? loadLastResult() : loadLastResult()), [])
+  const last = useMemo(() => loadLastResult(), [])
 
   useEffect(() => {
     setBusy('report', outcome !== null) // an app update must never refresh the page mid-report
@@ -40,11 +41,7 @@ export default function ReportPage() {
 
   const summary = useMemo(() => (route && route.channel !== 'tips' ? buildReportSummary(last, t) : ''), [route?.channel, last, lang])
   const copy = async () => {
-    try {
-      await navigator.clipboard.writeText(summary)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
-    } catch { /* clipboard blocked: the text stays selectable */ }
+    try { await navigator.clipboard.writeText(summary); setCopied(true); setTimeout(() => setCopied(false), 2000) } catch { /* clipboard blocked: the text stays selectable */ }
   }
   const share = async () => { try { await navigator.share?.({ text: summary }) } catch { /* cancelled */ } }
   const openPortal = (url: string) => {
@@ -59,92 +56,86 @@ export default function ReportPage() {
     block_cards: t('step.block_cards'), keep_evidence: t('step.keep_evidence'), dont_delete: t('step.dont_delete'), watch_followup: t('step.watch_followup'),
     read_tips: t('step.read_tips'), open_learn: t('step.open_learn'),
   }
-  const Big = ({ onClick, children, primary }: { onClick: () => void; children: React.ReactNode; primary?: boolean }) => (
-    <button className={`btn w-full ${primary ? 'btn-primary' : 'btn-secondary'}`} onClick={onClick}>{children}</button>
-  )
+  const callButton = isTouch()
+    ? <a className="btn btn-primary !min-h-[68px] !text-[26px]" href={`tel:${CHANNELS.helpline_1930.phone}`}><Icon name="phone" size={30} color="#fff" />{t('report.act.call_1930')}</a>
+    : <button className="btn btn-primary !min-h-[68px] !text-[24px]" onClick={() => navigator.clipboard?.writeText('1930')}><Icon name="phone" size={30} color="#fff" />{t('report.act.dial_desktop')}: 1930</button>
 
   return (
-    <Layout title={t('report.title')}>
-      <p className="rounded-xl border-2 border-amber-600 bg-amber-50 p-3 text-sm text-amber-950">⚠️ {t('report.warning')}</p>
-
+    <Layout title={t('report.title')} onBack={outcome ? reset : undefined}>
+      {/* question 1 */}
       {!outcome && (
-        <section className="space-y-3">
-          <h2 className="text-lg font-bold">{t('report.q1')}</h2>
-          <Big primary onClick={() => setOutcome('money_lost')}>💸 {t('report.q1.money')}</Big>
-          <Big onClick={() => setOutcome('no_money')}>🛡️ {t('report.q1.nomoney')}</Big>
-          <Big onClick={() => setOutcome('other_cyber')}>🧑‍💻 {t('report.q1.other')}</Big>
-          <Big onClick={() => setOutcome('checking')}>🔎 {t('report.q1.checking')}</Big>
-        </section>
+        <>
+          <div className="text-[21px] font-bold leading-snug">{t('report.q.money')}</div>
+          <div className="flex gap-2.5">
+            <button className="btn btn-primary flex-1" onClick={() => setOutcome('money_lost')}>{t('report.a.yes')}</button>
+            <button className="btn btn-secondary flex-1" onClick={() => setOutcome('no_money')}>{t('report.a.no')}</button>
+          </div>
+          <Banner tone="warn" className="!text-[17px]">{t('report.warning')}</Banner>
+          <div className="text-[16px] font-bold text-muted">{t('report.other_hint')}</div>
+          <button className="btn btn-secondary !min-h-14 !text-[18px]" onClick={() => setOutcome('other_cyber')}>{t('report.q1.other')}</button>
+          <button className="btn btn-secondary !min-h-14 !text-[18px]" onClick={() => setOutcome('checking')}>{t('report.q1.checking')}</button>
+        </>
       )}
 
+      {/* question 2 */}
       {outcome === 'no_money' && shared === null && (
-        <section className="space-y-3">
-          <h2 className="text-lg font-bold">{t('report.q2')}</h2>
-          <Big primary onClick={() => setShared(true)}>{t('report.q2.yes')}</Big>
-          <Big onClick={() => setShared(false)}>{t('report.q2.no')}</Big>
-          <button className="underline" onClick={reset}>{t('report.restart')}</button>
-        </section>
+        <>
+          <div className="text-[21px] font-bold leading-snug">{t('report.q2')}</div>
+          <div className="flex gap-2.5">
+            <button className="btn btn-primary flex-1" onClick={() => setShared(true)}>{t('report.q2.yes')}</button>
+            <button className="btn btn-secondary flex-1" onClick={() => setShared(false)}>{t('report.q2.no')}</button>
+          </div>
+        </>
       )}
 
+      {/* the channel */}
       {route && (
-        <section className="space-y-4" data-testid="channel-card" data-channel={route.channel}>
-          <div className="card space-y-2 border-teal-700">
-            <h2 className="text-xl font-bold">{t(`report.ch.${route.channel}.title`)}</h2>
-            <p>{t(`report.ch.${route.channel}.why`)}</p>
-            <p className="text-xs text-slate-600">{t('report.verified', { date: formatDate(new Date(LAST_VERIFIED), lang) })} · {t('report.verified.note')}</p>
-          </div>
+        <div className="flex flex-col gap-3" data-testid="channel-card" data-channel={route.channel}>
+          <Banner tone={CARD_TONE[route.channel]}>
+            <div className="text-[22px] font-bold leading-snug">{t(`report.ch.${route.channel}.title`)}</div>
+            <div className="text-[18px] leading-snug">{t(`report.ch.${route.channel}.why`)}</div>
+          </Banner>
 
-          <div className="space-y-2">
-            {(route.primary === 'call_1930' || route.secondary === 'open_cybercrime') && route.channel !== 'tips' && route.primary === 'call_1930' && (
-              isTouch()
-                ? <a className="btn btn-danger" href={`tel:${CHANNELS.helpline_1930.phone}`}>{t('report.act.call_1930')}</a>
-                : <button className="btn btn-danger" onClick={() => navigator.clipboard?.writeText('1930')}>{t('report.act.dial_desktop')}: 1930</button>
-            )}
-            {(route.primary === 'open_cybercrime' || route.secondary === 'open_cybercrime') && (
-              <button className={`btn w-full ${route.primary === 'open_cybercrime' ? 'btn-primary' : 'btn-secondary'}`} onClick={() => openPortal(CHANNELS.cybercrime.url)}>{t('report.act.open_cybercrime')}</button>
-            )}
-            {route.primary === 'open_chakshu' && <button className="btn btn-primary w-full" onClick={() => openPortal(CHANNELS.chakshu.url)}>{t('report.act.open_chakshu')}</button>}
-            {route.primary === 'open_learn' && <a className="btn btn-primary" href="#/learn">{t('report.act.learn')}</a>}
-            {offlineNote && <p role="status" className="rounded-lg bg-slate-200 p-2 text-sm">{t('report.offline')}</p>}
-          </div>
+          {(route.primary === 'call_1930' && route.channel !== 'tips') && callButton}
+          {(route.primary === 'open_cybercrime' || route.secondary === 'open_cybercrime') && (
+            <button className={`btn ${route.primary === 'open_cybercrime' ? 'btn-primary' : 'btn-secondary'}`} onClick={() => openPortal(CHANNELS.cybercrime.url)}>{t('report.act.open_cybercrime')}</button>
+          )}
+          {route.primary === 'open_chakshu' && <button className="btn btn-primary" onClick={() => openPortal(CHANNELS.chakshu.url)}>{t('report.act.open_chakshu')}</button>}
+          {route.primary === 'open_learn' && <a className="btn btn-primary" href="#/learn">{t('report.act.learn')}</a>}
+          {offlineNote && <Banner tone="info" role="status" className="!text-[16px]">{t('report.offline')}</Banner>}
 
-          <div className="card">
-            <h3 className="mb-2 font-bold">{t('report.steps')}</h3>
-            <ol className="list-decimal space-y-2 pl-5">{route.steps.map((s) => <li key={s}>{stepText[s]}</li>)}</ol>
-          </div>
+          <div className="mt-1 text-[20px] font-bold">{t('report.steps')}</div>
+          <NumberedList items={route.steps.map((s) => stepText[s])} />
 
           {checklist.length > 0 && (
-            <div className="card">
-              <h3 className="mb-2 font-bold">{t('report.ready')}</h3>
-              <ul className="space-y-2">
+            <>
+              <div className="mt-1 text-[20px] font-bold">{t('report.ready')}</div>
+              <div className="flex flex-col gap-2">
                 {checklist.map((id) => (
-                  <li key={id}>
-                    <label className="flex min-h-11 items-center gap-3">
-                      <input type="checkbox" className="size-6" checked={!!ticks[id]} onChange={() => tick(id)} />
-                      <span>{t(`ck.${id}`)}</span>
-                    </label>
-                  </li>
+                  <label key={id} className="flex min-h-14 items-center gap-3.5 rounded-[14px] border-2 border-line bg-white px-3.5 py-2 text-[19px] leading-snug">
+                    <input type="checkbox" className="size-7 flex-none accent-brand" checked={!!ticks[id]} onChange={() => tick(id)} />
+                    {t(`ck.${id}`)}
+                  </label>
                 ))}
-              </ul>
-            </div>
+              </div>
+            </>
           )}
 
           {summary && (
             <div className="card space-y-2">
               <h3 className="font-bold">{t('summary.title')}</h3>
-              <pre className="whitespace-pre-wrap rounded-lg bg-slate-100 p-3 text-sm">{summary}</pre>
+              <pre className="whitespace-pre-wrap rounded-lg bg-surface p-3 text-[14px]">{summary}</pre>
               <div className="flex gap-2">
-                <button className="btn btn-secondary flex-1" onClick={copy}>📋 {copied ? t('common.copied') : t('common.copy')}</button>
-                {typeof navigator.share === 'function' && <button className="btn btn-secondary flex-1" onClick={share}>↗ {t('summary.share')}</button>}
+                <button className="btn btn-secondary flex-1 !min-h-14 !text-[18px]" onClick={copy}>{copied ? t('common.copied') : t('common.copy')}</button>
+                {typeof navigator.share === 'function' && <button className="btn btn-secondary flex-1 !min-h-14 !text-[18px]" onClick={share}>{t('summary.share')}</button>}
               </div>
             </div>
           )}
 
           {last && route.channel !== 'tips' && <ShareReport kind={last.kind} signals={last.signals} category={last.category as never} band={last.band === 'looks_genuine' ? 'suspicious' : last.band} />}
 
-          <p className="text-sm text-slate-600">{t('report.disclaimer')}</p>
-          <button className="underline" onClick={reset}>{t('report.restart')}</button>
-        </section>
+          <p className="mt-2 text-[16px] leading-snug text-muted">{t('report.disclaimer')} {t('report.verified', { date: formatDate(new Date(LAST_VERIFIED), lang) })}</p>
+        </div>
       )}
     </Layout>
   )
