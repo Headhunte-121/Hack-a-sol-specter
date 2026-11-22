@@ -1,0 +1,39 @@
+services:
+  # Anonymous Reports & Scam Trends API
+  api:
+    build:
+      context: ./services/api
+      dockerfile: Dockerfile
+    image: suraksha-api:latest
+    container_name: suraksha-api
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - API_DB=/data/reports.db
+      - API_SECRET=change-me-in-production
+      - API_CORS=*
+      - PORT=8000
+    volumes:
+      - ./services/api/data:/data
+    command: >
+      sh -c "if [ ! -f /data/reports.db ]; then python -m app.seed; fi && uvicorn app.main:app --host 0.0.0.0 --port 8000"
+
+  # Speech-to-Text Call Transcription Service (optional/heavy)
+  asr:
+    build:
+      context: ./services/asr
+      dockerfile: Dockerfile
+    image: suraksha-asr:latest
+    container_name: suraksha-asr
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
+    environment:
+      - ASR_MODEL=small
+      - ASR_DEVICE=cpu
+      - ASR_CORS=*
+    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8001"]
+    profiles:
+      - all
+      - asr
