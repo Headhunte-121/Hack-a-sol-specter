@@ -1,0 +1,26 @@
+{
+  "version": "2026-11-22.1",
+  "notes": "Brand names a scammer is likely to imitate, with the official registrable domains. VERIFY against the official sites before launch; this list is a starting point, not exhaustive.",
+  "brands": [
+    { "name": "SBI", "tokens": ["sbi", "onlinesbi", "statebankofindia"], "official": ["sbi.co.in", "onlinesbi.sbi", "sbicard.com", "sbi.bank.in"] },
+    { "name": "HDFC Bank", "tokens": ["hdfc", "hdfcbank"], "official": ["hdfcbank.com", "hdfc.com", "hdfcbank.bank.in"] },
+    { "name": "ICICI Bank", "tokens": ["icici", "icicibank"], "official": ["icicibank.com", "icicibank.bank.in"] },
+    { "name": "Axis Bank", "tokens": ["axisbank", "axis"], "official": ["axisbank.com", "axis.bank.in"] },
+    { "name": "Kotak", "tokens": ["kotak"], "official": ["kotak.com", "kotak.bank.in"] },
+    { "name": "Punjab National Bank", "tokens": ["pnbindia", "pnb"], "official": ["pnbindia.in", "pnb.bank.in"] },
+    { "name": "Paytm", "tokens": ["paytm"], "official": ["paytm.com", "paytmbank.com"] },
+    { "name": "PhonePe", "tokens": ["phonepe"], "official": ["phonepe.com"] },
+    { "name": "Google Pay", "tokens": ["gpay", "googlepay"], "official": ["pay.google.com", "google.com", "gpay.app"] },
+    { "name": "Amazon", "tokens": ["amazon"], "official": ["amazon.in", "amazon.com", "amzn.in", "amzn.to"] },
+    { "name": "Flipkart", "tokens": ["flipkart"], "official": ["flipkart.com", "fkrt.it"] },
+    { "name": "Jio", "tokens": ["jio", "myjio"], "official": ["jio.com", "ril.com"] },
+    { "name": "Airtel", "tokens": ["airtel"], "official": ["airtel.in", "airtel.com"] },
+    { "name": "UIDAI (Aadhaar)", "tokens": ["uidai", "aadhaar", "aadhar"], "official": ["uidai.gov.in", "myaadhaar.uidai.gov.in"] },
+    { "name": "Income Tax", "tokens": ["incometax", "incometaxindia"], "official": ["incometax.gov.in", "incometaxindia.gov.in"] },
+    { "name": "IRCTC", "tokens": ["irctc"], "official": ["irctc.co.in"] },
+    { "name": "NPCI / UPI", "tokens": ["npci", "bhimupi"], "official": ["npci.org.in"] },
+    { "name": "India Post", "tokens": ["indiapost"], "official": ["indiapost.gov.in"] },
+    { "name": "EPFO", "tokens": ["epfo", "epfindia"], "official": ["epfindia.gov.in", "epfo.gov.in"] },
+    { "name": "Cyber crime portal", "tokens": ["cybercrime"], "official": ["cybercrime.gov.in"] }
+  ]
+}
