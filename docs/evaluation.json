@@ -1,0 +1,610 @@
+{
+  "model_version": "2026-11-22.1",
+  "model_bytes": 1332195,
+  "thresholds": {
+    "suspicious": 0.05,
+    "scam": 0.21
+  },
+  "test": {
+    "name": "test (group-aware split)",
+    "overall@0.5": {
+      "n": 3050,
+      "scam": 1036,
+      "accuracy": 0.9859016393442623,
+      "precision": 0.9910979228486647,
+      "recall": 0.9671814671814671,
+      "f1": 0.9789936492427943,
+      "tn": 2005,
+      "fp": 9,
+      "fn": 34,
+      "tp": 1002,
+      "false_alarm_rate": 0.004468718967229395,
+      "auc_pr": 0.9970549400583724,
+      "auc_roc": 0.9983057784696314
+    },
+    "flag@suspicious_cut": {
+      "n": 3050,
+      "scam": 1036,
+      "accuracy": 0.980655737704918,
+      "precision": 0.9586854460093897,
+      "recall": 0.9855212355212355,
+      "f1": 0.9719181342217992,
+      "tn": 1970,
+      "fp": 44,
+      "fn": 15,
+      "tp": 1021,
+      "false_alarm_rate": 0.021847070506454815,
+      "auc_pr": 0.9970549400583724,
+      "auc_roc": 0.9983057784696314
+    },
+    "bands": {
+      "likely_scam": {
+        "scam": 1004,
+        "genuine": 20
+      },
+      "suspicious": {
+        "scam": 17,
+        "genuine": 24
+      },
+      "looks_genuine": {
+        "scam": 15,
+        "genuine": 1970
+      }
+    },
+    "keyword_baseline": {
+      "n": 3050,
+      "scam": 1036,
+      "accuracy": 0.6750819672131148,
+      "precision": 0.7184466019417476,
+      "recall": 0.07142857142857142,
+      "f1": 0.1299385425812116,
+      "tn": 1985,
+      "fp": 29,
+      "fn": 962,
+      "tp": 74,
+      "false_alarm_rate": 0.014399205561072492
+    },
+    "per_language": {
+      "english": {
+        "n": 2802,
+        "scam": 921,
+        "accuracy": 0.9850107066381156,
+        "precision": 0.9910614525139665,
+        "recall": 0.9630836047774158,
+        "f1": 0.9768722466960352,
+        "tn": 1873,
+        "fp": 8,
+        "fn": 34,
+        "tp": 887,
+        "false_alarm_rate": 0.004253056884635832,
+        "auc_pr": 0.996626822850881,
+        "auc_roc": 0.9981326494270091
+      },
+      "hindi": {
+        "n": 67,
+        "scam": 9,
+        "accuracy": 0.9850746268656716,
+        "precision": 0.9,
+        "recall": 1.0,
+        "f1": 0.9473684210526315,
+        "tn": 57,
+        "fp": 1,
+        "fn": 0,
+        "tp": 9,
+        "false_alarm_rate": 0.017241379310344827,
+        "auc_pr": 1.0000000000000002,
+        "auc_roc": 1.0
+      },
+      "hinglish": {
+        "n": 181,
+        "scam": 106,
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tn": 75,
+        "fp": 0,
+        "fn": 0,
+        "tp": 106,
+        "false_alarm_rate": 0.0,
+        "auc_pr": 1.0,
+        "auc_roc": 1.0
+      }
+    },
+    "per_source": {
+      "bolewara_uci": {
+        "n": 527,
+        "scam": 92,
+        "accuracy": 0.9772296015180265,
+        "precision": 0.9444444444444444,
+        "recall": 0.9239130434782609,
+        "f1": 0.9340659340659341,
+        "tn": 430,
+        "fp": 5,
+        "fn": 7,
+        "tp": 85,
+        "false_alarm_rate": 0.011494252873563218,
+        "auc_pr": 0.9591702035459355,
+        "auc_roc": 0.9862818590704646
+      },
+      "cloveai": {
+        "n": 1008,
+        "scam": 28,
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tn": 980,
+        "fp": 0,
+        "fn": 0,
+        "tp": 28,
+        "false_alarm_rate": 0.0,
+        "auc_pr": 0.9999999999999999,
+        "auc_roc": 1.0
+      },
+      "shade63": {
+        "n": 1254,
+        "scam": 794,
+        "accuracy": 0.9760765550239234,
+        "precision": 0.9961038961038962,
+        "recall": 0.9659949622166247,
+        "f1": 0.9808184143222506,
+        "tn": 457,
+        "fp": 3,
+        "fn": 27,
+        "tp": 767,
+        "false_alarm_rate": 0.006521739130434782,
+        "auc_pr": 0.999100062758449,
+        "auc_roc": 0.9984475961011937
+      },
+      "team_messages_v3": {
+        "n": 34,
+        "scam": 19,
+        "accuracy": 0.9705882352941176,
+        "precision": 0.95,
+        "recall": 1.0,
+        "f1": 0.9743589743589743,
+        "tn": 14,
+        "fp": 1,
+        "fn": 0,
+        "tp": 19,
+        "false_alarm_rate": 0.06666666666666667,
+        "auc_pr": 1.0,
+        "auc_roc": 1.0
+      },
+      "team_syn1": {
+        "n": 59,
+        "scam": 14,
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tn": 45,
+        "fp": 0,
+        "fn": 0,
+        "tp": 14,
+        "false_alarm_rate": 0.0,
+        "auc_pr": 0.9999999999999999,
+        "auc_roc": 1.0
+      },
+      "team_syn2": {
+        "n": 75,
+        "scam": 12,
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tn": 63,
+        "fp": 0,
+        "fn": 0,
+        "tp": 12,
+        "false_alarm_rate": 0.0,
+        "auc_pr": 1.0,
+        "auc_roc": 1.0
+      },
+      "ysangam_calls": {
+        "n": 93,
+        "scam": 77,
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tn": 16,
+        "fp": 0,
+        "fn": 0,
+        "tp": 77,
+        "false_alarm_rate": 0.0,
+        "auc_pr": 1.0,
+        "auc_roc": 1.0
+      }
+    },
+    "calibration": {
+      "ece": 0.01094201923515804,
+      "bins": [
+        {
+          "bin": "0.0-0.1",
+          "n": 2011,
+          "mean_p": 0.0027764419817531104,
+          "frac_scam": 0.014420686225758329
+        },
+        {
+          "bin": "0.1-0.2",
+          "n": 14,
+          "mean_p": 0.14679221596143407,
+          "frac_scam": 0.21428571428571427
+        },
+        {
+          "bin": "0.2-0.3",
+          "n": 7,
+          "mean_p": 0.26339208846982803,
+          "frac_scam": 0.14285714285714285
+        },
+        {
+          "bin": "0.3-0.4",
+          "n": 6,
+          "mean_p": 0.34631568336859314,
+          "frac_scam": 0.0
+        },
+        {
+          "bin": "0.4-0.5",
+          "n": 1,
+          "mean_p": 0.42144550225596733,
+          "frac_scam": 1.0
+        },
+        {
+          "bin": "0.5-0.6",
+          "n": 4,
+          "mean_p": 0.5611406729027514,
+          "frac_scam": 0.75
+        },
+        {
+          "bin": "0.6-0.7",
+          "n": 5,
+          "mean_p": 0.6455740959328664,
+          "frac_scam": 0.8
+        },
+        {
+          "bin": "0.7-0.8",
+          "n": 6,
+          "mean_p": 0.7639214132431658,
+          "frac_scam": 0.6666666666666666
+        },
+        {
+          "bin": "0.8-0.9",
+          "n": 1,
+          "mean_p": 0.8240422477591978,
+          "frac_scam": 1.0
+        },
+        {
+          "bin": "0.9-1.0",
+          "n": 995,
+          "mean_p": 0.9982155057671646,
+          "frac_scam": 0.9949748743718593
+        }
+      ]
+    },
+    "bias": {
+      "genuine_bank_alerts": {
+        "n": 357,
+        "false_alarm_rate": 0.0
+      },
+      "genuine_otp_messages": {
+        "n": 53,
+        "false_alarm_rate": 0.018867924528301886
+      },
+      "genuine_other": {
+        "n": 1641,
+        "false_alarm_rate": 0.004875076173065204
+      },
+      "by_language": {
+        "english": {
+          "n": 1881,
+          "false_alarm_rate": 0.004253056884635832
+        },
+        "hindi": {
+          "n": 58,
+          "false_alarm_rate": 0.017241379310344827
+        },
+        "hinglish": {
+          "n": 75,
+          "false_alarm_rate": 0.0
+        }
+      },
+      "by_length": {
+        "short": {
+          "n": 731,
+          "false_alarm_rate": 0.0027359781121751026
+        },
+        "medium": {
+          "n": 1268,
+          "false_alarm_rate": 0.00473186119873817
+        },
+        "long": {
+          "n": 15,
+          "false_alarm_rate": 0.06666666666666667
+        }
+      }
+    },
+    "confident_mistakes": [
+      {
+        "text": "Solve d Case : A Man Was Found Murdered On  &lt;DECIMAL&gt; . &lt;#&gt;  AfterNoon. 1,His wife called Police. 2,Police questioned everyone. ",
+        "label": 0,
+        "p": 1.0,
+        "lang": "english"
+      },
+      {
+        "text": "OTP: 482913 is your SBI OTP. Never share with anyone. If you did not request this, your account may be compromised - reply YES to block.",
+        "label": 1,
+        "p": 0.0,
+        "lang": "english"
+      },
+      {
+        "text": "Hi ya babe x u 4goten bout me?' scammers getting smart..Though this is a regular vodafone no, if you respond you get further prem rate msg/s",
+        "label": 1,
+        "p": 0.011,
+        "lang": "english"
+      },
+      {
+        "text": "Passport Seva: Your passport application status is 'Under Review'. Estimated processing time: 7-10 working days. Track at passportindia.gov.",
+        "label": 0,
+        "p": 0.984,
+        "lang": "english"
+      },
+      {
+        "text": "You have received a payment request of Rs 30,000 on Google Pay. Approve it to receive a cashback reward credited directly to your wallet. Ta",
+        "label": 1,
+        "p": 0.016,
+        "lang": "english"
+      }
+    ],
+    "ms_per_message_python": 1.0205025751082624
+  },
+  "challenge": {
+    "name": "challenge (hand-written, never trained on)",
+    "overall@0.5": {
+      "n": 160,
+      "scam": 80,
+      "accuracy": 0.9125,
+      "precision": 0.9230769230769231,
+      "recall": 0.9,
+      "f1": 0.9113924050632911,
+      "tn": 74,
+      "fp": 6,
+      "fn": 8,
+      "tp": 72,
+      "false_alarm_rate": 0.075,
+      "auc_pr": 0.9811306083081043,
+      "auc_roc": 0.9795312500000001
+    },
+    "flag@suspicious_cut": {
+      "n": 160,
+      "scam": 80,
+      "accuracy": 0.89375,
+      "precision": 0.8387096774193549,
+      "recall": 0.975,
+      "f1": 0.9017341040462428,
+      "tn": 65,
+      "fp": 15,
+      "fn": 2,
+      "tp": 78,
+      "false_alarm_rate": 0.1875,
+      "auc_pr": 0.9811306083081043,
+      "auc_roc": 0.9795312500000001
+    },
+    "bands": {
+      "likely_scam": {
+        "scam": 74,
+        "genuine": 7
+      },
+      "suspicious": {
+        "scam": 4,
+        "genuine": 8
+      },
+      "looks_genuine": {
+        "scam": 2,
+        "genuine": 65
+      }
+    },
+    "keyword_baseline": {
+      "n": 160,
+      "scam": 80,
+      "accuracy": 0.5625,
+      "precision": 1.0,
+      "recall": 0.125,
+      "f1": 0.2222222222222222,
+      "tn": 80,
+      "fp": 0,
+      "fn": 70,
+      "tp": 10,
+      "false_alarm_rate": 0.0
+    },
+    "per_language": {
+      "english": {
+        "n": 54,
+        "scam": 26,
+        "accuracy": 0.9074074074074074,
+        "precision": 0.8620689655172413,
+        "recall": 0.9615384615384616,
+        "f1": 0.9090909090909091,
+        "tn": 24,
+        "fp": 4,
+        "fn": 1,
+        "tp": 25,
+        "false_alarm_rate": 0.14285714285714285,
+        "auc_pr": 0.9892124542124541,
+        "auc_roc": 0.989010989010989
+      },
+      "hindi": {
+        "n": 52,
+        "scam": 26,
+        "accuracy": 0.8846153846153846,
+        "precision": 0.9545454545454546,
+        "recall": 0.8076923076923077,
+        "f1": 0.875,
+        "tn": 25,
+        "fp": 1,
+        "fn": 5,
+        "tp": 21,
+        "false_alarm_rate": 0.038461538461538464,
+        "auc_pr": 0.9788544440509321,
+        "auc_roc": 0.9778106508875739
+      },
+      "hinglish": {
+        "n": 54,
+        "scam": 28,
+        "accuracy": 0.9444444444444444,
+        "precision": 0.9629629629629629,
+        "recall": 0.9285714285714286,
+        "f1": 0.9454545454545454,
+        "tn": 25,
+        "fp": 1,
+        "fn": 2,
+        "tp": 26,
+        "false_alarm_rate": 0.038461538461538464,
+        "auc_pr": 0.9845075948017123,
+        "auc_roc": 0.9807692307692307
+      }
+    },
+    "per_source": {
+      "challenge_v1": {
+        "n": 160,
+        "scam": 80,
+        "accuracy": 0.9125,
+        "precision": 0.9230769230769231,
+        "recall": 0.9,
+        "f1": 0.9113924050632911,
+        "tn": 74,
+        "fp": 6,
+        "fn": 8,
+        "tp": 72,
+        "false_alarm_rate": 0.075,
+        "auc_pr": 0.9811306083081043,
+        "auc_roc": 0.9795312500000001
+      }
+    },
+    "calibration": {
+      "ece": 0.05810507224731774,
+      "bins": [
+        {
+          "bin": "0.0-0.1",
+          "n": 74,
+          "mean_p": 0.00964989908431247,
+          "frac_scam": 0.06756756756756757
+        },
+        {
+          "bin": "0.1-0.2",
+          "n": 5,
+          "mean_p": 0.13884477073340834,
+          "frac_scam": 0.2
+        },
+        {
+          "bin": "0.3-0.4",
+          "n": 2,
+          "mean_p": 0.3219159780297715,
+          "frac_scam": 1.0
+        },
+        {
+          "bin": "0.4-0.5",
+          "n": 1,
+          "mean_p": 0.4881470640638822,
+          "frac_scam": 0.0
+        },
+        {
+          "bin": "0.5-0.6",
+          "n": 5,
+          "mean_p": 0.5457528334983863,
+          "frac_scam": 0.6
+        },
+        {
+          "bin": "0.6-0.7",
+          "n": 2,
+          "mean_p": 0.6541342899371291,
+          "frac_scam": 0.5
+        },
+        {
+          "bin": "0.8-0.9",
+          "n": 2,
+          "mean_p": 0.8525943681908096,
+          "frac_scam": 0.5
+        },
+        {
+          "bin": "0.9-1.0",
+          "n": 69,
+          "mean_p": 0.993856807082735,
+          "frac_scam": 0.9710144927536232
+        }
+      ]
+    },
+    "bias": {
+      "genuine_bank_alerts": {
+        "n": 14,
+        "false_alarm_rate": 0.07142857142857142
+      },
+      "genuine_otp_messages": {
+        "n": 11,
+        "false_alarm_rate": 0.09090909090909091
+      },
+      "genuine_other": {
+        "n": 58,
+        "false_alarm_rate": 0.06896551724137931
+      },
+      "by_language": {
+        "english": {
+          "n": 28,
+          "false_alarm_rate": 0.14285714285714285
+        },
+        "hindi": {
+          "n": 26,
+          "false_alarm_rate": 0.038461538461538464
+        },
+        "hinglish": {
+          "n": 26,
+          "false_alarm_rate": 0.038461538461538464
+        }
+      },
+      "by_length": {
+        "short": {
+          "n": 37,
+          "false_alarm_rate": 0.0
+        },
+        "medium": {
+          "n": 43,
+          "false_alarm_rate": 0.13953488372093023
+        }
+      }
+    },
+    "confident_mistakes": [
+      {
+        "text": "गलती से आपके खाते में 5000 रुपये चले गए हैं, कृपया वापस भेज दें और मेरा कलेक्ट रिक्वेस्ट मंज़ूर करें।",
+        "label": 1,
+        "p": 0.011,
+        "lang": "hindi"
+      },
+      {
+        "text": "Hello, I accidentally sent Rs 5000 to your UPI, please return it. Also kindly approve the collect request I sent.",
+        "label": 1,
+        "p": 0.011,
+        "lang": "english"
+      },
+      {
+        "text": "Aapka Aadhaar update request mil gaya hai. URN se uidai.gov.in par status check karein.",
+        "label": 0,
+        "p": 0.965,
+        "lang": "hinglish"
+      },
+      {
+        "text": "Your Uber ride with Suresh is arriving in 3 mins. Share OTP 4821 with the driver to start your trip.",
+        "label": 0,
+        "p": 0.938,
+        "lang": "english"
+      },
+      {
+        "text": "आपका बिजली कनेक्शन आज रात कट जाएगा क्योंकि बिल अपडेट नहीं है। तुरंत अधिकारी को फोन करें।",
+        "label": 1,
+        "p": 0.062,
+        "lang": "hindi"
+      }
+    ],
+    "ms_per_message_python": 0.8649915456771851
+  }
+}
