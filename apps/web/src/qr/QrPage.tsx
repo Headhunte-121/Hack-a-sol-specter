@@ -3,6 +3,7 @@ import type { BrandsFile } from '../detector/url'
 import { saveLastResult } from '../detector/lastResult'
 import { useLang } from '../shell/i18n'
 import { Layout } from '../shell/Layout'
+import { cameraErrorKey, openCamera } from './camera'
 import { decodeImageFile, decodeQr } from './decode'
 import { analyzeQr, type QrAnalysis } from './parse'
 
@@ -39,9 +40,9 @@ export default function QrPage() {
   async function openScanner() {
     setError(null); setRaw(null)
     try {
-      stream.current = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
-    } catch {
-      setError('qr.err.camera'); return
+      stream.current = await openCamera()
+    } catch (e) {
+      setError(cameraErrorKey(e)); return // blocked, busy, missing or unsupported: each gets its own next step
     }
     setScanning(true)
     const v = video.current // always on the page (hidden until scanning), so it exists before React re-renders
@@ -96,7 +97,17 @@ export default function QrPage() {
         </div>
       )}
 
-      {error && <p role="alert" className="rounded-2xl border-2 border-bad-line bg-bad-bg p-3 text-bad">{t(error)}</p>}
+      {error && (
+        <div role="alert" className="flex flex-col gap-3 rounded-2xl border-2 border-bad-line bg-bad-bg p-3 text-bad">
+          <p>{t(error)}</p>
+          {error.startsWith('qr.err.camera') && (
+            // the phone's own camera app takes the picture, so this works even when the browser may not use the camera
+            <label className="btn btn-primary cursor-pointer" data-testid="qr-take-photo">📷 {t('qr.take_photo')}
+              <input type="file" accept="image/*" capture="environment" className="sr-only" onChange={(e) => { const f = e.target.files?.[0]; if (f) void fromFile(f); e.target.value = '' }} />
+            </label>
+          )}
+        </div>
+      )}
 
       {a && (
         <section aria-live="polite" className={`space-y-3 rounded-2xl border-4 p-4 ${RISK_STYLE[a.risk]}`} data-testid="qr-result" data-risk={a.risk}>
