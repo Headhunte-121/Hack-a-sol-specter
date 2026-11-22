@@ -31,6 +31,9 @@ ml/artifacts/
 node_modules/
 dist/
 *.tsbuildinfo
+
+
+project_bundle.txt
 services/api/data/
 *.db
 services/asr/models/
