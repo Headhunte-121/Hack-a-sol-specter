@@ -12,7 +12,6 @@ S = {
  "cat.fake_qr": ("Fake QR code", "फ़र्ज़ी क्यूआर कोड", "फर्जी क्यूआर कोड"),
  "cat.other": ("Other", "अन्य", "आन"),
  # flow
- "report.title": ("Report a scam", "ठगी की रिपोर्ट करें", "ठगी के रिपोर्ट करव"),
  "report.q1": ("What happened?", "क्या हुआ?", "का होइस?"),
  "report.q1.money": ("Money has left my account", "मेरे खाते से पैसे चले गए", "मोर खाता ले पइसा चल दिस"),
  "report.q1.nomoney": ("No money lost yet", "अभी पैसे नहीं गए", "अभी पइसा नइ गे हे"),
@@ -25,13 +24,9 @@ S = {
  "report.why": ("Why this channel", "यह माध्यम क्यों", "ए माध्यम काबर"),
  "report.ready": ("Keep these ready", "ये तैयार रखें", "ए तैयार राखव"),
  "report.steps": ("Do these in order", "इन्हें क्रम से करें", "एला क्रम ले करव"),
- "report.verified": ("Last verified: {date}", "अंतिम जाँच: {date}", "आखिरी जांच: {date}"),
  "report.verified.note": ("Numbers and websites can change. Confirm on the official site.", "नंबर और वेबसाइट बदल सकती हैं। आधिकारिक साइट पर पुष्टि करें।", "नंबर अउ वेबसाइट बदल सकथे। आधिकारिक साइट म पुष्टि करव।"),
  "report.warning": ("Nobody from a bank, the police or a courier service will ask for your OTP, your PIN or a transfer to a 'safe account'.", "बैंक, पुलिस या कूरियर का कोई कर्मचारी आपसे ओटीपी, पिन या 'सुरक्षित खाते' में पैसे ट्रांसफ़र करने को नहीं कहेगा।", "बैंक, पुलिस या कूरियर के कोनो कर्मचारी तुंहर ले ओटीपी, पिन या 'सुरक्षित खाता' म पइसा ट्रांसफर करे बर नइ कहय।"),
- "report.disclaimer": ("This app does not file the complaint for you and cannot recover money. It only guides you to the official channel.", "यह ऐप आपकी शिकायत दर्ज नहीं करता और पैसे वापस नहीं दिला सकता। यह सिर्फ़ आधिकारिक माध्यम तक पहुँचाता है।", "ए ऐप तुंहर शिकायत दर्ज नइ करय अउ पइसा वापस नइ दिला सकय। ए सिरिफ आधिकारिक माध्यम तक पहुंचाथे।"),
  # channel cards
- "report.ch.helpline_1930.title": ("Call the 1930 helpline now", "अभी 1930 हेल्पलाइन पर कॉल करें", "अभी 1930 हेल्पलाइन म कॉल करव"),
- "report.ch.helpline_1930.why": ("1930 is the national cyber fraud helpline. Speed matters: the sooner you report a money loss, the better the chance of stopping it.", "1930 राष्ट्रीय साइबर ठगी हेल्पलाइन है। जल्दी करना ज़रूरी है: पैसे जाने की जितनी जल्दी रिपोर्ट करेंगे, उसे रोकने की संभावना उतनी बेहतर।", "1930 राष्ट्रीय साइबर ठगी हेल्पलाइन हे। जल्दी करना जरूरी हे: पइसा जाए के जतके जल्दी रिपोर्ट करहू, ओला रोके के संभावना ओतके बढ़िया।"),
  "report.ch.bank_then_1930.title": ("Call your bank first, then 1930", "पहले अपने बैंक को कॉल करें, फिर 1930", "पहिली अपन बैंक ला कॉल करव, तहां ले 1930"),
  "report.ch.bank_then_1930.why": ("You shared a code or detail, so the thief may try to use it. Call your bank and your card or UPI provider right now, using the number printed on your card or passbook. Then call 1930.", "आपने कोड या जानकारी बताई है, इसलिए ठग उसका इस्तेमाल कर सकता है। अभी अपने बैंक और कार्ड या यूपीआई कंपनी को कॉल करें, कार्ड या पासबुक पर छपे नंबर पर। फिर 1930 पर कॉल करें।", "तुमन कोड या जानकारी बताए हव, एकरे सेती ठग ओकर उपयोग कर सकथे। अभी अपन बैंक अउ कार्ड या यूपीआई कंपनी ला कॉल करव, कार्ड या पासबुक म छपे नंबर म। तहां ले 1930 म कॉल करव।"),
  "report.ch.chakshu.title": ("Report it on Chakshu (Sanchar Saathi)", "चक्षु (संचार साथी) पर रिपोर्ट करें", "चक्षु (संचार साथी) म रिपोर्ट करव"),
@@ -41,11 +36,6 @@ S = {
  "report.ch.tips.title": ("Good: nothing has happened", "अच्छा है: कुछ नहीं हुआ", "बढ़िया हे: कुछु नइ होइस"),
  "report.ch.tips.why": ("Stay careful. Never share an OTP or PIN, and check any message before you click.", "सावधान रहें। ओटीपी या पिन कभी साझा न करें, और क्लिक करने से पहले हर संदेश जाँचें।", "सावधान रहव। ओटीपी या पिन कभू साझा झन करव, अउ क्लिक करे ले पहिली हर संदेसा जांचव।"),
  # actions
- "report.act.call_1930": ("📞 Call 1930", "📞 1930 पर कॉल करें", "📞 1930 म कॉल करव"),
- "report.act.dial_desktop": ("Dial 1930 from your phone", "अपने फ़ोन से 1930 डायल करें", "अपन फोन ले 1930 डायल करव"),
- "report.act.open_cybercrime": ("🌐 Open cybercrime.gov.in", "🌐 cybercrime.gov.in खोलें", "🌐 cybercrime.gov.in खोलव"),
- "report.act.open_chakshu": ("🌐 Open Chakshu", "🌐 चक्षु खोलें", "🌐 चक्षु खोलव"),
- "report.act.learn": ("🎓 Open the lessons", "🎓 पाठ खोलें", "🎓 पाठ खोलव"),
  "report.offline": ("No internet right now. Open the portal when you are online. Your checklist stays saved.", "अभी इंटरनेट नहीं है। इंटरनेट आने पर पोर्टल खोलें। आपकी सूची सहेजी रहेगी।", "अभी इंटरनेट नइ हे। इंटरनेट आए म पोर्टल खोलव। तुंहर सूची सहेजे रइही।"),
  # steps
  "step.call_1930": ("Call 1930 and tell them what happened", "1930 पर कॉल करके बताएँ कि क्या हुआ", "1930 म कॉल करके बतावव कि का होइस"),
@@ -59,11 +49,8 @@ S = {
  "step.read_tips": ("Read the safety tips and keep your OTP and PIN private", "सुरक्षा सुझाव पढ़ें और अपना ओटीपी व पिन गुप्त रखें", "सुरक्षा सुझाव पढ़व अउ अपन ओटीपी अउ पिन गुप्त राखव"),
  "step.open_learn": ("Take a short lesson", "एक छोटा पाठ पढ़ें", "एक छोटे पाठ पढ़व"),
  # checklist
- "ck.screenshot_message": ("Screenshot of the message or chat", "संदेश या चैट का स्क्रीनशॉट", "संदेसा या चैट के स्क्रीनशॉट"),
  "ck.sender_number": ("The sender's number or ID", "भेजने वाले का नंबर या आईडी", "भेजइया के नंबर या आईडी"),
  "ck.call_time": ("Time and length of the call", "कॉल का समय और अवधि", "कॉल के समय अउ अवधि"),
- "ck.transaction": ("Transaction ID and amount", "लेन-देन की आईडी और रकम", "लेन-देन के आईडी अउ रकम"),
- "ck.bank_app": ("Name of your bank or UPI app", "आपके बैंक या यूपीआई ऐप का नाम", "तुंहर बैंक या यूपीआई ऐप के नाम"),
  "ck.payment_screenshot": ("Screenshot of the payment", "भुगतान का स्क्रीनशॉट", "भुगतान के स्क्रीनशॉट"),
  "ck.links_apps": ("Any links or app names the scammer sent", "ठग ने जो लिंक या ऐप भेजे उनके नाम", "ठग हर जउन लिंक या ऐप भेजिस ओकर नाम"),
  "ck.statement": ("Bank statement showing the payment", "भुगतान दिखाता बैंक स्टेटमेंट", "भुगतान दिखइया बैंक स्टेटमेंट"),

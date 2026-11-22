@@ -1,9 +1,5 @@
 S = {
  "home.tagline": ("Check messages, calls and QR codes. Works offline.", "संदेश, कॉल और क्यूआर जाँचें। बिना इंटरनेट भी चलता है।", "संदेसा, कॉल अउ क्यूआर जांचव। बिना इंटरनेट घलो चलथे।"),
- "tile.message": ("Check a Message", "संदेश जाँचें", "संदेसा जांचव"),
- "tile.call": ("Check a Call", "कॉल जाँचें", "कॉल जांचव"),
- "tile.report": ("Report a Scam", "ठगी की रिपोर्ट करें", "ठगी के रिपोर्ट करव"),
- "tile.learn": ("Learn and Quiz", "सीखें और क्विज़", "सीखव अउ क्विज़"),
  "tile.trends": ("Scam Trends", "ठगी के रुझान", "ठगी के रुझान"),
  "tile.qr": ("Check a QR", "क्यूआर जाँचें", "क्यूआर जांचव"),
  "tile.duringcall": ("On a call right now?", "अभी कॉल पर हैं?", "अभी कॉल म हव?"),
