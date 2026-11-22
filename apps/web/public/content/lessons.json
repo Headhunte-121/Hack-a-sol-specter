@@ -1,0 +1,274 @@
+{
+ "version": "2026-11-22.1",
+ "lessons": [
+  {
+   "id": "otp_pin_card",
+   "scripts": [
+    "kyc_bank",
+    "otp"
+   ],
+   "title": {
+    "en": "OTP, PIN and card safety",
+    "hi": "ओटीपी, पिन और कार्ड की सुरक्षा",
+    "cg": "ओटीपी, पिन अउ कार्ड के सुरक्षा"
+   },
+   "example": {
+    "en": "A caller says: \"I am from your bank. Tell me the code that just came on your phone so I can stop a wrong payment.\" That code is the key to your money. Anyone who has it can take your money.",
+    "hi": "एक कॉल करने वाला कहता है: \"मैं आपके बैंक से बोल रहा हूँ। अभी फ़ोन पर आया कोड बताइए ताकि मैं गलत भुगतान रोक सकूँ।\" वह कोड आपके पैसे की चाबी है। जिसके पास वह कोड है, वह आपका पैसा निकाल सकता है।",
+    "cg": "एक कॉल करइया कहिथे: \"मैं तुंहर बैंक ले बोलत हंव। अभी फोन म आए कोड बतावव ताकि मैं गलत भुगतान रोक सकंव।\" ओ कोड तुंहर पइसा के चाबी हे। जेकर तीर ओ कोड हे, ओ तुंहर पइसा निकाल सकथे।"
+   },
+   "signs": [
+    {
+     "en": "Someone asks for your OTP, ATM PIN, UPI PIN or CVV",
+     "hi": "कोई आपसे ओटीपी, एटीएम पिन, यूपीआई पिन या सीवीवी माँगता है",
+     "cg": "कोनो तुंहर ले ओटीपी, एटीएम पिन, यूपीआई पिन या सीवीवी मांगथे"
+    },
+    {
+     "en": "They say it is only to \"stop\" or \"cancel\" a payment",
+     "hi": "वे कहते हैं कि यह सिर्फ़ किसी भुगतान को \"रोकने\" या \"रद्द\" करने के लिए है",
+     "cg": "ओमन कहिथे कि ए सिरिफ कोनो भुगतान ला \"रोके\" या \"रद्द\" करे बर हे"
+    },
+    {
+     "en": "They sound official and are in a hurry",
+     "hi": "वे सरकारी अंदाज़ में बात करते हैं और जल्दी मचाते हैं",
+     "cg": "ओमन सरकारी अंदाज म गोठियाथे अउ जल्दी मचाथे"
+    }
+   ],
+   "todo": {
+    "en": "Hang up. Never tell anyone your OTP, PIN or CVV. No real bank employee will ever ask for them.",
+    "hi": "कॉल काट दें। अपना ओटीपी, पिन या सीवीवी किसी को न बताएँ। असली बैंक कर्मचारी कभी नहीं माँगता।",
+    "cg": "कॉल काट दव। अपन ओटीपी, पिन या सीवीवी कखरो ला झन बतावव। असली बैंक कर्मचारी कभू नइ मांगय।"
+   }
+  },
+  {
+   "id": "fake_kyc",
+   "scripts": [
+    "kyc_bank"
+   ],
+   "title": {
+    "en": "Fake KYC and bank calls",
+    "hi": "फ़र्ज़ी केवाईसी और बैंक के कॉल",
+    "cg": "फर्जी केवाईसी अउ बैंक के कॉल"
+   },
+   "example": {
+    "en": "An SMS says: \"Your account will be blocked today. Update KYC at this link.\" The link opens a copy of a bank website that steals your details.",
+    "hi": "एक एसएमएस कहता है: \"आपका खाता आज बंद हो जाएगा। इस लिंक पर केवाईसी अपडेट करें।\" वह लिंक बैंक की नकली वेबसाइट खोलता है जो आपकी जानकारी चुरा लेती है।",
+    "cg": "एक एसएमएस कहिथे: \"तुंहर खाता आज बंद हो जाही। ए लिंक म केवाईसी अपडेट करव।\" ओ लिंक बैंक के नकली वेबसाइट खोलथे जउन तुंहर जानकारी चोरा लेथे।"
+   },
+   "signs": [
+    {
+     "en": "A threat that your account will be blocked",
+     "hi": "खाता बंद होने की धमकी",
+     "cg": "खाता बंद होए के धमकी"
+    },
+    {
+     "en": "A link or a phone number to \"update KYC\"",
+     "hi": "\"केवाईसी अपडेट\" के लिए लिंक या फ़ोन नंबर",
+     "cg": "\"केवाईसी अपडेट\" बर लिंक या फोन नंबर"
+    },
+    {
+     "en": "Pressure to act today",
+     "hi": "आज ही करने का दबाव",
+     "cg": "आजे करे के दबाव"
+    }
+   ],
+   "todo": {
+    "en": "Do not click. Update KYC only at your bank branch or in the official bank app that you opened yourself.",
+    "hi": "लिंक न खोलें। केवाईसी सिर्फ़ अपनी बैंक शाखा में या खुद खोले गए आधिकारिक बैंक ऐप में करें।",
+    "cg": "लिंक झन खोलव। केवाईसी सिरिफ अपन बैंक शाखा म या खुद खोले आधिकारिक बैंक ऐप म करव।"
+   }
+  },
+  {
+   "id": "digital_arrest",
+   "scripts": [
+    "digital_arrest"
+   ],
+   "title": {
+    "en": "Digital arrest and police calls",
+    "hi": "डिजिटल अरेस्ट और पुलिस के कॉल",
+    "cg": "डिजिटल अरेस्ट अउ पुलिस के कॉल"
+   },
+   "example": {
+    "en": "A caller in a police uniform on video says a parcel in your name has drugs. He says you are under \"digital arrest\", must stay on the call and tell no one, and must move money to a \"safe account\".",
+    "hi": "वीडियो कॉल पर पुलिस की वर्दी में एक आदमी कहता है कि आपके नाम के पार्सल में ड्रग्स मिले हैं। वह कहता है कि आप \"डिजिटल अरेस्ट\" में हैं, कॉल पर बने रहें, किसी को न बताएँ और पैसे \"सुरक्षित खाते\" में भेजें।",
+    "cg": "वीडियो कॉल म पुलिस के वर्दी पहिरे एक आदमी कहिथे कि तुंहर नाम के पार्सल म ड्रग्स मिले हे। ओ कहिथे कि तुमन \"डिजिटल अरेस्ट\" म हव, कॉल म बने रहव, कखरो ला झन बतावव अउ पइसा \"सुरक्षित खाता\" म भेजव।"
+   },
+   "signs": [
+    {
+     "en": "Police, CBI or customs on a video call",
+     "hi": "वीडियो कॉल पर पुलिस, सीबीआई या कस्टम",
+     "cg": "वीडियो कॉल म पुलिस, सीबीआई या कस्टम"
+    },
+    {
+     "en": "\"Do not tell anyone\" and \"do not disconnect\"",
+     "hi": "\"किसी को न बताएँ\" और \"कॉल न काटें\"",
+     "cg": "\"कखरो ला झन बतावव\" अउ \"कॉल झन काटव\""
+    },
+    {
+     "en": "A demand to transfer money to prove you are innocent",
+     "hi": "निर्दोष साबित करने के लिए पैसे ट्रांसफ़र करने की माँग",
+     "cg": "निर्दोष साबित करे बर पइसा ट्रांसफर करे के मांग"
+    }
+   ],
+   "todo": {
+    "en": "Hang up. No police or government office arrests or questions anyone over a video call or asks for money. Tell a family member and report to 1930.",
+    "hi": "कॉल काट दें। कोई पुलिस या सरकारी दफ़्तर वीडियो कॉल पर न गिरफ़्तार करता है, न पूछताछ करता है, न पैसे माँगता है। परिवार को बताएँ और 1930 पर रिपोर्ट करें।",
+    "cg": "कॉल काट दव। कोनो पुलिस या सरकारी दफ्तर वीडियो कॉल म न गिरफ्तार करय, न पूछताछ करय, न पइसा मांगय। परिवार ला बतावव अउ 1930 म रिपोर्ट करव।"
+   }
+  },
+  {
+   "id": "courier_customs",
+   "scripts": [
+    "courier_customs"
+   ],
+   "title": {
+    "en": "Courier, customs and parcel scams",
+    "hi": "कूरियर, कस्टम और पार्सल की ठगी",
+    "cg": "कूरियर, कस्टम अउ पार्सल के ठगी"
+   },
+   "example": {
+    "en": "An SMS says: \"Your parcel is held. Pay Rs 49 for redelivery at this link.\" Or a call says your parcel has illegal items and you must pay a fine.",
+    "hi": "एक एसएमएस कहता है: \"आपका पार्सल रुका है। दोबारा डिलीवरी के लिए इस लिंक पर Rs 49 भरें।\" या कॉल पर कहा जाता है कि पार्सल में अवैध सामान है और जुर्माना भरना होगा।",
+    "cg": "एक एसएमएस कहिथे: \"तुंहर पार्सल रुके हे। फेर डिलीवरी बर ए लिंक म Rs 49 भरव।\" या कॉल म कहे जाथे कि पार्सल म अवैध सामान हे अउ जुर्माना भरे ला परही।"
+   },
+   "signs": [
+    {
+     "en": "A parcel you were not expecting",
+     "hi": "ऐसा पार्सल जिसकी आपको उम्मीद नहीं थी",
+     "cg": "अइसन पार्सल जेकर तुंहला उम्मीद नइ रिहिस"
+    },
+    {
+     "en": "A small fee or fine to be paid through a link",
+     "hi": "लिंक से भरने के लिए छोटी फ़ीस या जुर्माना",
+     "cg": "लिंक ले भरे बर छोटे फीस या जुर्माना"
+    },
+    {
+     "en": "A threat of arrest or legal action",
+     "hi": "गिरफ़्तारी या कानूनी कार्रवाई की धमकी",
+     "cg": "गिरफ्तारी या कानूनी कार्रवाई के धमकी"
+    }
+   ],
+   "todo": {
+    "en": "Ignore it. Track real parcels only on the courier's official app or website, using the tracking number.",
+    "hi": "नज़रअंदाज़ करें। असली पार्सल सिर्फ़ कूरियर के आधिकारिक ऐप या वेबसाइट पर ट्रैकिंग नंबर से देखें।",
+    "cg": "अनदेखा करव। असली पार्सल सिरिफ कूरियर के आधिकारिक ऐप या वेबसाइट म ट्रैकिंग नंबर ले देखव।"
+   }
+  },
+  {
+   "id": "upi_qr",
+   "scripts": [
+    "payment_request",
+    "fake_qr",
+    "lottery_prize"
+   ],
+   "title": {
+    "en": "UPI and QR safety",
+    "hi": "यूपीआई और क्यूआर की सुरक्षा",
+    "cg": "यूपीआई अउ क्यूआर के सुरक्षा"
+   },
+   "example": {
+    "en": "A buyer says: \"I will pay you. Scan this QR code and enter your PIN to receive the money.\" Scanning a QR and entering your PIN sends money OUT of your account.",
+    "hi": "एक खरीदार कहता है: \"मैं आपको पैसे दूँगा। पैसे पाने के लिए यह क्यूआर स्कैन करें और अपना पिन डालें।\" क्यूआर स्कैन करके पिन डालने से पैसे आपके खाते से बाहर जाते हैं।",
+    "cg": "एक खरीददार कहिथे: \"मैं तुंहला पइसा देहूं। पइसा पाए बर ए क्यूआर स्कैन करव अउ अपन पिन डारव।\" क्यूआर स्कैन करके पिन डारे ले पइसा तुंहर खाता ले बाहिर जाथे।"
+   },
+   "signs": [
+    {
+     "en": "You are asked to enter your UPI PIN to receive money",
+     "hi": "पैसे पाने के लिए आपसे यूपीआई पिन डालने को कहा जाता है",
+     "cg": "पइसा पाए बर तुंहर ले यूपीआई पिन डारे बर कहे जाथे"
+    },
+    {
+     "en": "A \"collect request\" from a stranger",
+     "hi": "किसी अजनबी का \"कलेक्ट रिक्वेस्ट\"",
+     "cg": "कोनो अजनबी के \"कलेक्ट रिक्वेस्ट\""
+    },
+    {
+     "en": "A story of a payment sent \"by mistake\"",
+     "hi": "\"गलती से\" भेजे गए पैसे की कहानी",
+     "cg": "\"गलती ले\" भेजे पइसा के कहानी"
+    }
+   ],
+   "todo": {
+    "en": "To receive money you never need a PIN. Decline unknown collect requests and check your bank app yourself.",
+    "hi": "पैसे पाने के लिए पिन कभी नहीं चाहिए। अनजान कलेक्ट रिक्वेस्ट मना करें और अपने बैंक ऐप में खुद देखें।",
+    "cg": "पइसा पाए बर पिन कभू नइ चाही। अनजान कलेक्ट रिक्वेस्ट मना करव अउ अपन बैंक ऐप म खुद देखव।"
+   }
+  },
+  {
+   "id": "links_apps",
+   "scripts": [
+    "phishing_link",
+    "investment_job",
+    "loan_app"
+   ],
+   "title": {
+    "en": "Fake links, apps and remote access",
+    "hi": "फ़र्ज़ी लिंक, ऐप और रिमोट एक्सेस",
+    "cg": "फर्जी लिंक, ऐप अउ रिमोट एक्सेस"
+   },
+   "example": {
+    "en": "A \"bank officer\" asks you to install a screen-sharing app \"to fix the problem\". Once installed, he can see your screen, your OTPs and your PIN.",
+    "hi": "एक \"बैंक अधिकारी\" कहता है कि \"समस्या ठीक करने के लिए\" स्क्रीन-शेयर वाला ऐप इंस्टॉल करें। इंस्टॉल होते ही वह आपकी स्क्रीन, ओटीपी और पिन देख सकता है।",
+    "cg": "एक \"बैंक अधिकारी\" कहिथे कि \"समस्या ठीक करे बर\" स्क्रीन-शेयर वाले ऐप इंस्टॉल करव। इंस्टॉल होते ही ओ तुंहर स्क्रीन, ओटीपी अउ पिन देख सकथे।"
+   },
+   "signs": [
+    {
+     "en": "A stranger asks you to install an app or open a .apk file",
+     "hi": "कोई अजनबी ऐप इंस्टॉल करने या .apk फ़ाइल खोलने को कहता है",
+     "cg": "कोनो अजनबी ऐप इंस्टॉल करे या .apk फाइल खोले बर कहिथे"
+    },
+    {
+     "en": "A short link (bit.ly) or an address that copies a bank name",
+     "hi": "छोटा लिंक (bit.ly) या बैंक के नाम की नकल करने वाला पता",
+     "cg": "छोटे लिंक (bit.ly) या बैंक के नाम के नकल करइया पता"
+    },
+    {
+     "en": "Easy money or a job that asks you to pay a fee first",
+     "hi": "आसान कमाई या ऐसी नौकरी जिसमें पहले फ़ीस माँगी जाए",
+     "cg": "आसान कमाई या अइसन नौकरी जेमा पहिली फीस मांगे जाथे"
+    }
+   ],
+   "todo": {
+    "en": "Install apps only from the official app store. Never install screen-sharing apps for a stranger. Open bank sites by typing the address yourself.",
+    "hi": "ऐप सिर्फ़ आधिकारिक ऐप स्टोर से इंस्टॉल करें। किसी अजनबी के कहने पर स्क्रीन-शेयर ऐप कभी न डालें। बैंक की साइट का पता खुद टाइप करके खोलें।",
+    "cg": "ऐप सिरिफ आधिकारिक ऐप स्टोर ले इंस्टॉल करव। कोनो अजनबी के कहे म स्क्रीन-शेयर ऐप कभू झन डारव। बैंक के साइट के पता खुद टाइप करके खोलव।"
+   }
+  },
+  {
+   "id": "what_to_do",
+   "scripts": [],
+   "title": {
+    "en": "What to do if it happens",
+    "hi": "अगर ठगी हो जाए तो क्या करें",
+    "cg": "यदि ठगी हो जाय त का करव"
+   },
+   "example": {
+    "en": "Ravi shared a code with a fake bank caller and lost Rs 20,000. He called 1930 within minutes, then filed a complaint on cybercrime.gov.in and kept the messages.",
+    "hi": "रवि ने नकली बैंक वाले को कोड बता दिया और Rs 20,000 गँवा बैठा। उसने कुछ ही मिनटों में 1930 पर कॉल किया, फिर cybercrime.gov.in पर शिकायत की और संदेश सँभालकर रखे।",
+    "cg": "रवि नकली बैंक वाले ला कोड बता दिस अउ Rs 20,000 गंवा दिस। ओ कुछ मिनट म 1930 म कॉल करिस, फेर cybercrime.gov.in म शिकायत करिस अउ संदेसा सहेज के राखिस।"
+   },
+   "signs": [
+    {
+     "en": "You gave a code, PIN or card detail",
+     "hi": "आपने कोड, पिन या कार्ड की जानकारी दे दी",
+     "cg": "तुमन कोड, पिन या कार्ड के जानकारी दे देव"
+    },
+    {
+     "en": "Money left your account",
+     "hi": "आपके खाते से पैसे गए",
+     "cg": "तुंहर खाता ले पइसा गिस"
+    },
+    {
+     "en": "You feel ashamed or scared: anyone can be targeted",
+     "hi": "आपको शर्म या डर लग रहा है: कोई भी निशाना बन सकता है",
+     "cg": "तुंहला शरम या डर लगत हे: कोनो घलो निशाना बन सकथे"
+    }
+   ],
+   "todo": {
+    "en": "Act fast: call 1930, then file on cybercrime.gov.in. Call your bank, block cards and UPI, keep all evidence, and tell someone you trust.",
+    "hi": "तुरंत करें: 1930 पर कॉल करें, फिर cybercrime.gov.in पर शिकायत करें। बैंक को कॉल करें, कार्ड और यूपीआई बंद कराएँ, सारे सबूत रखें और किसी भरोसेमंद को बताएँ।",
+    "cg": "तुरते करव: 1930 म कॉल करव, फेर cybercrime.gov.in म शिकायत करव। बैंक ला कॉल करव, कार्ड अउ यूपीआई बंद करावव, जम्मो सबूत राखव अउ कोनो भरोसा के आदमी ला बतावव।"
+   }
+  }
+ ]
+}
