@@ -4,6 +4,7 @@ import { Layout } from './Layout'
 import { useOnlineStatus } from './online'
 import { applyUpdate, dismissUpdate, promptInstall, usePwaState } from './pwa'
 import { subscribeQueue } from './queue'
+import { AlertsFeed } from '../dashboard/AlertsFeed'
 
 const TILES = [
   { to: '/message', icon: '💬', key: 'tile.message' },
@@ -54,6 +55,8 @@ export function Home() {
           </div>
         </div>
       )}
+
+      <AlertsFeed />
 
       <nav aria-label="modules" className="grid grid-cols-2 gap-3">
         {TILES.map((x) => (

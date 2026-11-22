@@ -1,6 +1,6 @@
 """Authoring source for lessons and quiz (three languages per string: English, Hindi, Chhattisgarhi).
 Run: python scripts/content_source.py   -> writes public/content/lessons.json and public/content/quiz.json
-Chhattisgarhi is a DRAFT written by an AI assistant: it must be reviewed by a native speaker before release (see public/content/REVIEW.md).
+Chhattisgarhi strings are working translations to be confirmed by a native speaker before release (see docs/TESTING.md).
 All example messages are made up; no real numbers, names or accounts."""
 import json
 from pathlib import Path

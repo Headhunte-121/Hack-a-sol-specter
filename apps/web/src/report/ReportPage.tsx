@@ -8,6 +8,7 @@ import { kvGet, kvSet } from '../shell/storage'
 import { CHANNELS, LAST_VERIFIED } from './channels'
 import { buildEvidenceChecklist, chooseChannel, type Answers, type ChecklistId, type Outcome, type StepId } from './routing'
 import { buildReportSummary } from './summary'
+import { ShareReport } from '../dashboard/ShareReport'
 
 const isTouch = () => typeof window !== 'undefined' && window.matchMedia?.('(pointer: coarse)').matches
 
@@ -138,6 +139,8 @@ export default function ReportPage() {
               </div>
             </div>
           )}
+
+          {last && route.channel !== 'tips' && <ShareReport kind={last.kind} signals={last.signals} category={last.category as never} band={last.band === 'looks_genuine' ? 'suspicious' : last.band} />}
 
           <p className="text-sm text-slate-600">{t('report.disclaimer')}</p>
           <button className="underline" onClick={reset}>{t('report.restart')}</button>

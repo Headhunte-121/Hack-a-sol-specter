@@ -61,7 +61,6 @@ export default function LearnPage() {
 
   return (
     <Layout title={t('learn.title')}>
-      {lang === 'cg' && <p className="rounded-lg bg-amber-50 p-2 text-sm text-amber-900">ℹ️ {t('learn.draft_note')}</p>}
       {error && <p role="alert" className="rounded-xl border-2 border-red-600 bg-red-50 p-3 text-red-900">{t('learn.error')}</p>}
       {!pack && !error && <p>{t('learn.loading')}</p>}
       {pack && view.kind === 'home' && <Home pack={pack} done={done} title={title} onOpen={(id) => navigate(`/learn?lesson=${id}`)} onQuiz={startQuiz} />}

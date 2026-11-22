@@ -34,3 +34,6 @@ dist/
 
 
 project_bundle.txt
+services/api/data/
+*.db
+services/asr/models/

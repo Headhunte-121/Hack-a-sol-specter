@@ -5,12 +5,15 @@ import { Settings } from './shell/Settings'
 import { Layout } from './shell/Layout'
 import { usePath } from './shell/router'
 import { usePwaBootstrap } from './shell/pwa'
-import { useLang } from './shell/i18n'
+import { useReportSync } from './dashboard/sync'
 
-const Placeholder = lazy(() => import('./shell/Placeholder'))
 const DetectorPage = lazy(() => import('./detector/DetectorPage'))
 const ReportPage = lazy(() => import('./report/ReportPage'))
 const LearnPage = lazy(() => import('./learn/LearnPage'))
+const TrendsPage = lazy(() => import('./dashboard/TrendsPage'))
+const CallPage = lazy(() => import('./call/CallPage'))
+const QrPage = lazy(() => import('./qr/QrPage'))
+const DuringCallPage = lazy(() => import('./duringcall/DuringCallPage'))
 
 const ROUTES: Record<string, () => React.ReactElement> = {
   '/': () => <Home />,
@@ -18,17 +21,21 @@ const ROUTES: Record<string, () => React.ReactElement> = {
   '/message': () => <DetectorPage />,
   '/report': () => <ReportPage />,
   '/learn': () => <LearnPage />,
+  '/trends': () => <TrendsPage />,
+  '/call': () => <CallPage />,
+  '/qr': () => <QrPage />,
+  '/during-call': () => <DuringCallPage />,
 }
 
 export default function App() {
   usePwaBootstrap()
+  useReportSync()
   const path = usePath()
-  const { t } = useLang()
   const render = ROUTES[path]
   return (
     <ErrorBoundary key={path}>
       <Suspense fallback={<Layout><p>…</p></Layout>}>
-        {render ? render() : path === '/' ? <Home /> : <Placeholder title={t('module.soon')} />}
+        {render ? render() : <Home />}
       </Suspense>
     </ErrorBoundary>
   )

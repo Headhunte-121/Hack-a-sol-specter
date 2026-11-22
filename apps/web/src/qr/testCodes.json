@@ -1,0 +1,12 @@
+[
+  { "id": "shop_with_amount", "text": "upi://pay?pa=ramesh.store@okhdfcbank&pn=Ramesh%20General%20Store&am=250&cu=INR&tn=Groceries", "kind": "upi", "risk": "medium", "flags": ["preset_amount"] },
+  { "id": "shop_static", "text": "upi://pay?pa=ramesh.store@okhdfcbank&pn=Ramesh%20General%20Store&cu=INR", "kind": "upi", "risk": "none", "flags": [] },
+  { "id": "tampered_refund", "text": "upi://pay?pa=refund.desk@ybl&pn=Refund%20Desk&am=4999&tn=Refund%20reward%20claim", "kind": "upi", "risk": "high", "flags": ["preset_amount", "refund_note"] },
+  { "id": "odd_handle", "text": "upi://pay?pa=shop123@paytmq&pn=City%20Mobiles", "kind": "upi", "risk": "medium", "flags": ["odd_handle"] },
+  { "id": "no_name_big_amount", "text": "upi://pay?pa=payee.demo@ybl&am=75000", "kind": "upi", "risk": "medium", "flags": ["no_name", "preset_amount", "big_amount"] },
+  { "id": "malformed", "text": "upi://pay?pn=Someone&am=100", "kind": "upi", "risk": "high", "flags": ["malformed", "preset_amount"] },
+  { "id": "lookalike_link", "text": "http://hdfc-secure-login.xyz/verify", "kind": "url", "risk": "high", "flags": [] },
+  { "id": "official_link", "text": "https://www.hdfcbank.com/personal", "kind": "url", "risk": "none", "flags": [] },
+  { "id": "plain_text", "text": "Hello, this is a plain text QR code", "kind": "text", "risk": "none", "flags": [] },
+  { "id": "shortened_link", "text": "https://bit.ly/3xYz9", "kind": "url", "risk": "medium", "flags": [] }
+]

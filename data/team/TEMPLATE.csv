@@ -1,0 +1,4 @@
+text,label,lang,group
+"Aapka account aaj band ho jayega. KYC update karne ke liye is link par click karein: bit.ly/abc123",1,hinglish,example-kyc-link
+"आपका ओटीपी 123456 है। इसे किसी को न बताएं। - बैंक",0,hindi,example-otp
+"Rs 500 debited from A/c XX1234 on 12-Nov. If not you, call the number on the back of your card.",0,english,example-debit
