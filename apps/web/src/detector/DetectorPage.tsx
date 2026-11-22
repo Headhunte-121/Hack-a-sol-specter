@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { ShareReport } from '../dashboard/ShareReport'
 import { useBackStep, useInnerScreenOnReturn } from '../shell/backStep'
+import { pick } from '../learn/content'
 import { useLang } from '../shell/i18n'
 import { Layout } from '../shell/Layout'
 import { Banner, Icon, NumberedList, type Tone } from '../shell/ui'
@@ -11,9 +12,9 @@ import { loadScorer, type Scorer } from './model'
 import type { BrandsFile } from './url'
 
 const BAND = {
-  likely_scam: { tone: 'bad' as Tone, icon: 'octagon' as const, color: '#c62828', num: 'bad' as const, advice: 'advice.scam', en: 'Likely scam' },
-  suspicious: { tone: 'warn' as Tone, icon: 'warn' as const, color: '#7a4600', num: 'bad' as const, advice: 'advice.suspicious', en: 'Suspicious' },
-  looks_genuine: { tone: 'ok' as Tone, icon: 'check' as const, color: '#14583a', num: 'ok' as const, advice: 'advice.genuine', en: 'Looks genuine' },
+  likely_scam: { tone: 'bad' as Tone, icon: 'octagon' as const, color: '#c62828', num: 'bad' as const, advice: 'advice.scam' },
+  suspicious: { tone: 'warn' as Tone, icon: 'warn' as const, color: '#7a4600', num: 'bad' as const, advice: 'advice.suspicious' },
+  looks_genuine: { tone: 'ok' as Tone, icon: 'check' as const, color: '#14583a', num: 'ok' as const, advice: 'advice.genuine' },
 }
 
 /** Render text with highlight ranges as plain text nodes (React escapes everything; no HTML insertion). */
@@ -89,7 +90,7 @@ export default function DetectorPage() {
             <Icon name={b.icon} size={52} color={b.color} />
             <div>
               <div className="text-[30px] font-bold leading-tight">{t(`band.${result.band}`)}</div>
-              <div className="text-[20px] leading-snug">{t(`band.sub.${result.band}`)}{lang !== 'en' ? ` · ${b.en}` : ''}</div>
+              <div className="text-[20px] leading-snug">{t(`band.sub.${result.band}`)}</div>
             </div>
           </Banner>
           <p className="-mt-1 text-[15px] text-muted">{t(`conf.${result.confidence}`)} · {t(`detector.script.${result.script}`)}</p>
@@ -156,7 +157,7 @@ export default function DetectorPage() {
         <div className="flex flex-wrap gap-2">
           {DEMO_MESSAGES.map((m) => (
             <button key={m.id} className="rounded-full border-2 border-line bg-white px-3.5 py-2 text-[15px] font-bold text-ink" onClick={() => check(m.text)}>
-              {m.label}
+              {pick(m.label, lang)}
             </button>
           ))}
         </div>

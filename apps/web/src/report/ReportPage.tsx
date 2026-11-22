@@ -40,7 +40,7 @@ export default function ReportPage() {
     kvSet(`checklist.${route!.channel}`, next) // saveChecklistProgress: on the device only
   }
 
-  const summary = useMemo(() => (route && route.channel !== 'tips' ? buildReportSummary(last, t) : ''), [route?.channel, last, lang])
+  const summary = useMemo(() => (route && route.channel !== 'tips' ? buildReportSummary(last, t, new Date(), lang) : ''), [route?.channel, last, lang])
   const copy = async () => {
     try { await navigator.clipboard.writeText(summary); setCopied(true); setTimeout(() => setCopied(false), 2000) } catch { /* clipboard blocked: the text stays selectable */ }
   }
