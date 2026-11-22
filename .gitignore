@@ -31,3 +31,7 @@ ml/artifacts/
 node_modules/
 dist/
 *.tsbuildinfo
+
+
+pack-project.js
+project_bundle.txt
