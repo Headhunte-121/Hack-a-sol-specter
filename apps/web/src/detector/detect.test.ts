@@ -70,6 +70,14 @@ describe('links', () => {
       expect(checkUrl(u, brands).risk).toBe('low')
     }
   })
+  it('does not flag the brands\' own sister sites, but still flags lookalikes of them', () => {
+    for (const u of ['https://yonosbi.sbi', 'https://retail.onlinesbi.sbi/login', 'https://www.icicidirect.com', 'https://bucket.s3.amazonaws.com/x.pdf', 'https://www.hdfclife.com', 'https://www.jiomart.com']) {
+      expect(checkUrl(u, brands).risk, u).toBe('low')
+    }
+    for (const u of ['https://yonosbi-kyc.com', 'https://icicidirect-refund.in', 'https://amazonaws-login.xyz']) {
+      expect(checkUrl(u, brands).flags.map((f) => f.id), u).toContain('lookalike_brand')
+    }
+  })
   it('combineBand: a high-risk link raises a band but never lowers one', () => {
     const hi = [{ host: 'x', flags: [], risk: 'high' as const }]
     const lo = [{ host: 'x', flags: [], risk: 'low' as const }]

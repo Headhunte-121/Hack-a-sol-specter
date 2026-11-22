@@ -20,13 +20,18 @@ export default function QrPage() {
   const stream = useRef<MediaStream | null>(null)
   const raf = useRef<number>(0)
 
-  useEffect(() => { void fetch('/model/brands.json').then((r) => r.json()).then(setBrands); return stop }, [])
+  useEffect(() => {
+    // without the brand list the UPI checks still work; only the lookalike-name link check is skipped
+    fetch('/model/brands.json').then((r) => r.json()).then(setBrands).catch(() => setBrands({ version: 'none', brands: [] }))
+    return stop
+  }, [])
   const secure = typeof window === 'undefined' || window.isSecureContext // camera works over HTTPS or localhost only
 
   function stop() {
     cancelAnimationFrame(raf.current)
     stream.current?.getTracks().forEach((x) => x.stop())
     stream.current = null
+    if (video.current) video.current.srcObject = null
     setScanning(false)
   }
 
@@ -39,7 +44,9 @@ export default function QrPage() {
       setError('qr.err.camera'); return
     }
     setScanning(true)
-    const v = video.current!; v.srcObject = stream.current; await v.play().catch(() => {})
+    const v = video.current // always on the page (hidden until scanning), so it exists before React re-renders
+    if (!v) { stop(); return }
+    v.srcObject = stream.current; await v.play().catch(() => {})
     const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d', { willReadFrequently: true })!
     const tick = () => {
       if (v.readyState >= 2 && v.videoWidth) {
@@ -76,11 +83,9 @@ export default function QrPage() {
         <input value={expected} onChange={(e) => setExpected(e.target.value)} maxLength={60} className="mt-1 min-h-12 w-full rounded-2xl border-2 border-line bg-white text-ink px-3 font-normal" />
       </label>
 
+      <video ref={video} playsInline muted hidden={!scanning} className="w-full rounded-xl bg-black" aria-label={t('qr.scan')} />
       {scanning ? (
-        <div className="space-y-2">
-          <video ref={video} playsInline muted className="w-full rounded-xl bg-black" aria-label={t('qr.scan')} />
-          <button className="btn btn-secondary w-full" onClick={stop}>⏹ {t('qr.stop')}</button>
-        </div>
+        <button className="btn btn-secondary w-full" onClick={stop}>⏹ {t('qr.stop')}</button>
       ) : (
         <div className="grid gap-2">
           <button className="btn btn-primary" disabled={!secure} onClick={openScanner}>📷 {t('qr.scan')}</button>

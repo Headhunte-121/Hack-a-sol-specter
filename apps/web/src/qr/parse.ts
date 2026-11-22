@@ -31,8 +31,10 @@ const KNOWN_HANDLES = new Set([
   'okhdfcbank', 'okicici', 'oksbi', 'okaxis', 'ybl', 'ibl', 'axl', 'paytm', 'apl', 'upi', 'sbi', 'icici', 'hdfcbank', 'axisbank', 'kotak', 'pnb', 'boi', 'cnrb', 'idfcbank', 'indus', 'yesbank',
   'ptsbi', 'ptyes', 'pthdfc', 'ptaxis', 'fbl', 'federal', 'rbl', 'aubank', 'jio', 'airtel', 'postbank', 'unionbank', 'barodampay', 'ikwik', 'freecharge', 'abfspay', 'waicici', 'wahdfcbank', 'wasbi',
 ])
-const REFUND_WORDS = /refund|reward|cashback|prize|lottery|winner|claim|gift|receive|credited|मुफ्त|इनाम|रिफंड|लॉटरी|inaam|jeet/i
-const URGENT_WORDS = /urgent|immediately|now|today|last|expire|kyc|otp|block|turant|abhi|तुरंत|अभी/i
+// Latin words match whole words only, so names and ordinary words ("Abhishek", "Jeet", "plastic", "known") do not trip them.
+// Words that are also common names ("Jeet", "Abhi") are left out; "jeeta"/"jeete" (won) and Devanagari "अभी" stay.
+const REFUND_WORDS = /\b(refunds?|rewards?|cashback|prizes?|lottery|winners?|claim|gifts?|receive|credited|inaam|jeet(a|e|o))\b|मुफ्त|इनाम|रिफंड|लॉटरी/i
+const URGENT_WORDS = /\b(urgent(ly)?|immediately|now|today|last|expir(e|es|ed|y)|kyc|otp|block(ed)?|turant)\b|तुरंत|अभी/i
 
 export function classifyPayload(text: string): PayloadKind {
   const s = text.trim()

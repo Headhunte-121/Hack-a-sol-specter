@@ -102,8 +102,9 @@ export async function uploadForTranscript(blob: Blob, opts: UploadOpts = {}): Pr
   throw new AsrError('failed')
 }
 
-/** recordAudio: microphone permission is asked only when recording starts. Stops by itself at 3 minutes. */
-export async function startRecording(onAutoStop?: (b: Blob) => void): Promise<{ stop: () => Promise<Blob> }> {
+/** recordAudio: microphone permission is asked only when recording starts. Stops by itself at 3 minutes.
+ *  cancel() turns the microphone off and throws the recording away: nothing is handed on for upload. */
+export async function startRecording(onAutoStop?: (b: Blob) => void): Promise<{ stop: () => Promise<Blob>; cancel: () => void }> {
   let stream: MediaStream
   try {
     stream = await navigator.mediaDevices.getUserMedia({ audio: true })
@@ -120,6 +121,15 @@ export async function startRecording(onAutoStop?: (b: Blob) => void): Promise<{ 
     }
   })
   rec.start()
-  const auto = setTimeout(() => { if (rec.state !== 'inactive') { rec.stop(); void finished.then((b) => onAutoStop?.(b)) } }, LIMITS.maxSeconds * 1000 - 1000)
-  return { stop: () => { clearTimeout(auto); if (rec.state !== 'inactive') rec.stop(); return finished } }
+  let discarded = false
+  const auto = setTimeout(() => { if (rec.state !== 'inactive') { rec.stop(); void finished.then((b) => { if (!discarded) onAutoStop?.(b) }) } }, LIMITS.maxSeconds * 1000 - 1000)
+  return {
+    stop: () => { clearTimeout(auto); if (rec.state !== 'inactive') rec.stop(); return finished },
+    cancel: () => {
+      discarded = true
+      clearTimeout(auto)
+      if (rec.state !== 'inactive') rec.stop()
+      stream.getTracks().forEach((t) => t.stop())
+    },
+  }
 }

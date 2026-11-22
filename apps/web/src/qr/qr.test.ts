@@ -7,7 +7,7 @@ import en from '../i18n/en.json'
 import hi from '../i18n/hi.json'
 import cg from '../i18n/cg.json'
 import { decodeQr } from './decode'
-import { analyzeQr, classifyPayload, parseUpiLink } from './parse'
+import { analyzeQr, checkUpiRisks, classifyPayload, parseUpiLink } from './parse'
 import codes from './testCodes.json'
 
 const brands = JSON.parse(readFileSync(join(__dirname, '..', '..', 'public', 'model', 'brands.json'), 'utf8')) as BrandsFile
@@ -63,6 +63,17 @@ describe('parsing and checks', () => {
     const t = 'upi://pay?pa=ramesh.store@okhdfcbank&pn=Ramesh%20General%20Store'
     expect(analyzeQr(t, brands, 'Ramesh General').flags).toEqual([])
     expect(analyzeQr(t, brands, 'Sunita Medical').flags.map((f) => f.id)).toContain('name_mismatch')
+  })
+  it('note words match whole words, so names and ordinary words are not flagged', () => {
+    const ids = (tn: string) => checkUpiRisks({ pa: 'shop@ybl', pn: 'Shop', tn }).map((f) => f.id)
+    for (const tn of ['Abhishek rent', 'Paid to Jeet Kumar', 'Abhi tea stall', 'plastic items', 'known supplier', 'Blockbuster tickets']) {
+      expect(ids(tn), tn).toEqual([])
+    }
+    expect(ids('Refund for your order')).toContain('refund_note')
+    expect(ids('aapne inaam jeeta')).toContain('refund_note')
+    expect(ids('लॉटरी इनाम')).toContain('refund_note')
+    expect(ids('pay now or KYC blocked')).toContain('urgent_note')
+    expect(ids('तुरंत भुगतान करें')).toContain('urgent_note')
   })
   it('never uses the word "safe" in any QR result text, in any language', () => {
     const keys = Object.keys(en).filter((k) => /^qr\.(risk|none_note|flag|rule)/.test(k))
