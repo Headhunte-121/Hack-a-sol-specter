@@ -130,4 +130,4 @@ IndicBERT (`ai4bharat/indic-bert`) is gated on Hugging Face and was not tested.
 
 ## Next steps
 
-See the "Improving accuracy" list in the project discussion: translate English external data into Hindi/Hinglish, add rule features (URL shorteners, OTP/PIN requests), more hard-negative genuine messages, quantise and export the chosen model.
+Translate English external data into Hindi/Hinglish, add rule features (URL shorteners, OTP/PIN requests), add more hard-negative genuine messages, then quantise and export the chosen model. The shipped on-device model is built in `ml/`.

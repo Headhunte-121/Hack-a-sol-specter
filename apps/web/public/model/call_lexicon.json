@@ -1,0 +1,58 @@
+{
+  "version": "2026-11-22.1",
+  "notes": "Scam call scripts as sequences of stages. Phrases are written naturally (Hindi script, Hinglish spelling, English) as 'phrase|weight'. A trailing * on the last word means prefix match. English loanwords written in Devanagari are mapped to Latin by call/normalize.ts, so write them in Latin here. A stage counts as heard when the weights of its hits add up to 2 or more; strong when 3 or more. A single word such as bank or police never triggers a warning alone. Built from: the team's acted scripts, the public Hinglish call-transcript dataset (licence unchecked, only ideas used), and typical warning signs in the public Sanchar Saathi advisories.",
+  "common": {
+    "urgency": [
+      "abhi|1", "turant|2", "jaldi|1", "aaj hi|1", "right now|2", "immediately|2", "within an hour|2", "within 24 hours|2", "24 ghante|2", "2 ghante|2", "ek ghante|2", "ghante me|1",
+      "अभी|1", "तुरंत|2", "जल्दी|1", "आज ही|1", "घंटे में|2", "एक घंटे|2", "आज रात|1", "last chance|2", "deadline|1"
+    ],
+    "isolation": [
+      "kisi ko mat|3", "kisi ko na bata*|3", "kisi se baat mat|3", "किसी को मत|3", "किसी को न बता*|3", "किसी से बात मत|3", "किसी से बात न|3", "do not tell anyone|3", "don t tell anyone|3",
+      "do not disconnect|3", "don t disconnect|3", "call mat kat*|3", "call mat kaat*|3", "call मत काट*|3", "कॉल मत काट*|3", "call न काट*|3", "stay on the line|3", "stay on video call|3",
+      "video call par rah*|3", "video call पर रह*|3", "वीडियो कॉल पर रह*|3", "family ko mat|3", "परिवार को मत|3", "confidential|2", "गोपनीय|2", "keep this secret|3"
+    ]
+  },
+  "scripts": [
+    {
+      "id": "fake_kyc",
+      "stages": {
+        "authority": ["bank se bol*|2", "bank से बोल*|2", "bank manager|2", "bank officer|2", "customer care|2", "head office|2", "calling from bank|2", "bank ka|1", "bank|1", "toll free|1"],
+        "accusation": ["kyc|2", "kyc update|3", "kyc expire*|3", "kyc pending|3", "account block*|3", "account बंद|3", "खाता बंद|3", "khata band|3", "account suspend*|3", "card block*|3", "sim block*|3", "pan link|2", "pan not linked|3", "account freeze|3", "account band|3"],
+        "demand": ["otp|3", "code bata*|3", "कोड बता*|3", "pin bata*|3", "पिन बता*|3", "card number|3", "cvv|3", "link par click|3", "link पर click|3", "app install|3", "anydesk|3", "apk|3", "download karo|2", "भेजो|1", "share karo|2", "otp share|3"]
+      }
+    },
+    {
+      "id": "digital_arrest",
+      "stages": {
+        "authority": ["cbi|2", "police|2", "पुलिस|2", "narcotics|3", "crime branch|3", "cyber cell|3", "enforcement directorate|3", "mumbai police|3", "delhi police|3", "inspector|2", "officer bol*|2", "supreme court|2", "customs officer|2", "trai|2", "ed officer|3"],
+        "accusation": ["arrest|3", "digital arrest|3", "warrant|3", "case darj|3", "case registered|3", "money laundering|3", "drugs|3", "illegal|2", "aadhaar misuse|3", "fake sim|3", "गिरफ्तार*|3", "giraft*|3", "वारंट|3", "अवैध|2", "फर्जी सिम|3", "आपके नाम|1", "aapke naam|1", "human trafficking|3", "hawala|3"],
+        "demand": ["transfer|2", "safe account|3", "सुरक्षित खाता|3", "surakshit khata|3", "verification ke liye paise|3", "paise bhej*|3", "पैसे भेज*|3", "amount transfer|3", "rbi account|3", "bail|3", "जमानत|3", "settlement|2", "fine|2", "जुर्माना|2", "jurmana|2", "पैसे ट्रांसफर|3"]
+      }
+    },
+    {
+      "id": "courier_customs",
+      "stages": {
+        "authority": ["fedex|2", "dhl|2", "customs|2", "courier|1", "india post|2", "parcel department|2", "कूरियर कंपनी|2", "courier company|2", "customs department|3"],
+        "accusation": ["parcel mein|2", "parcel में|2", "पार्सल में|2", "drugs|3", "illegal|2", "passport|2", "fake passport|3", "seized|3", "held at customs|3", "customs me ruka|3", "रोका|1", "roka|1", "अवैध|2", "सीज़|3", "contraband|3", "prohibited|3", "suspicious parcel|3"],
+        "demand": ["customs fee|3", "clearance fee|3", "customs charge*|3", "fine|2", "jurmana|2", "जुर्माना|2", "fee bhej*|3", "payment karo|2", "pay karo|2", "upi|1", "transfer|2", "link par pay|3", "redelivery fee|3"]
+      }
+    },
+    {
+      "id": "electricity_disconnect",
+      "stages": {
+        "authority": ["bijli vibhag|3", "बिजली विभाग|3", "electricity board|3", "electricity department|3", "bijli board|3", "बिजली बोर्ड|3", "meter reading officer|2"],
+        "accusation": ["bill pending|3", "bill baki|3", "बिल बाकी|3", "connection kat*|3", "कनेक्शन कट*|3", "बिजली कट*|3", "bijli kat*|3", "disconnect*|3", "meter kyc|3", "मीटर केवाईसी|3"],
+        "demand": ["app download|3", "apk|3", "number par call|2", "नंबर पर कॉल|2", "otp|3", "payment karo|2", "pay karo|2", "turant pay|3", "link par click|3"]
+      }
+    },
+    {
+      "id": "lottery_prize",
+      "stages": {
+        "authority": ["kbc|3", "lucky draw|2", "lottery company|3", "prize department|3", "amazon se|2", "jio se|2"],
+        "accusation": ["jeet*|2", "जीत*|2", "winner|3", "lottery|3", "लॉटरी|3", "inaam|3", "इनाम|3", "prize|3", "gift voucher|2", "lucky draw|3"],
+        "demand": ["processing fee|3", "registration fee|3", "tax bhej*|3", "tax जमा|3", "paise bhej*|3", "पैसे भेज*|3", "advance|2", "gst|2", "otp|3", "bank details|3", "बैंक डिटेल|3"]
+      }
+    }
+  ],
+  "benign": ["your order|1", "delivery boy|1", "delivery|1", "appointment|1", "statement|1", "ghar aa gaya|1", "khana|1", "reminder|1", "thank you|1", "dhanyavad|1", "धन्यवाद|1", "डिलीवरी|1", "अपॉइंटमेंट|1", "खाना|1", "मम्मी|1", "papa|1", "ghar|1", "घर|1"]
+}

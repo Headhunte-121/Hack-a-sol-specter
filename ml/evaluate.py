@@ -143,8 +143,8 @@ def main():
         L.append("")
     L += ["## How to read this", "",
           "- The **test** split is group-aware (no template shared with training) but most of its text comes from public datasets that look templated and mostly English, so its scores are optimistic.",
-          "- The **challenge** set is hand-written. It was written with AI help and was looked at during the model experiments in `ai tuning/`, so it is not a pristine blind test; "
-          "the team should add its own independently written challenge messages (`data/challenge_team.csv`) before claiming final numbers.",
+          "- The **challenge** set is hand-written but was written by the same authors as the training templates and inspected during development, so it is not a fully blind test. "
+          "Independently written messages (`data/challenge_team.csv`) should be added before final numbers are quoted.",
           "- Hindi (Devanagari) training data is small (a few hundred team-written rows); expect weaker results there. Counts are small, so percentages carry wide uncertainty.",
           "- No on-phone timing is reported here; see the Vitest parity/timing test for TypeScript scoring speed.", ""]
     (DOCS / "evaluation_report.md").write_text("\n".join(L), encoding="utf-8")
