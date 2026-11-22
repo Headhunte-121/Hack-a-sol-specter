@@ -33,6 +33,8 @@ services:
       - ASR_MODEL=small
       - ASR_DEVICE=cpu
       - ASR_CORS=*
+    volumes:
+      - ./services/asr/app:/srv/app
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8001"]
     profiles:
       - all
