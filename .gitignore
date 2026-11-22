@@ -25,3 +25,5 @@ Thumbs.db
 # regenerable binaries
 ai tuning/data/*.npy
 ai tuning/data/*.npz
+data/processed/
+ml/artifacts/
