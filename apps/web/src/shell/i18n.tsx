@@ -44,6 +44,10 @@ export function formatNumber(value: number, lang: Lang): string {
 export function formatDate(d: Date | number, lang: Lang): string {
   return new Intl.DateTimeFormat(lang === 'en' ? 'en-IN' : 'hi-IN-u-nu-latn', { dateStyle: 'medium' }).format(d)
 }
+/** formatDateTime: date and 24-hour time in the app's language (Hindi month names, no English AM/PM), e.g. "23 नव॰ 2026, 01:51". */
+export function formatDateTime(d: Date | number, lang: Lang): string {
+  return new Intl.DateTimeFormat(lang === 'en' ? 'en-IN' : 'hi-IN-u-nu-latn', { dateStyle: 'medium', timeStyle: 'short', hourCycle: 'h23' }).format(d)
+}
 
 type Ctx = { lang: Lang; setLang: (l: Lang) => void; t: (key: string, values?: Record<string, string | number>) => string }
 const LangContext = createContext<Ctx>({ lang: 'hi', setLang: () => {}, t: (k) => translate('hi', k) })

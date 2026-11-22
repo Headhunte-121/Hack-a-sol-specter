@@ -32,7 +32,7 @@ S = {
  "trends.about.never": ("What is never collected: message text, phone numbers, names, audio or your exact location.", "जो कभी इकट्ठा नहीं होता: संदेश का पाठ, फ़ोन नंबर, नाम, ऑडियो या आपकी सटीक लोकेशन।", "जउन कभू नइ सकेलाय: संदेसा के पाठ, फोन नंबर, नाम, ऑडियो या तुंहर सटीक लोकेशन।"),
  "trends.about.rule": ("A district and period with fewer than {min} reports is hidden, so no one can be identified.", "जिस ज़िले और अवधि में {min} से कम रिपोर्ट हों, उसे छिपा दिया जाता है ताकि किसी की पहचान न हो।", "जउन जिला अउ अवधि म {min} ले कम रिपोर्ट होथे, ओला लुका दे जाथे ताकि कखरो पहिचान झन होय।"),
  "trends.about.indicative": ("These figures are indicative, not official statistics. Anyone could try to send false reports; limits reduce this but do not remove it.", "ये आँकड़े संकेतात्मक हैं, सरकारी आँकड़े नहीं। कोई झूठी रिपोर्ट भेजने की कोशिश कर सकता है; सीमाएँ इसे घटाती हैं, पूरी तरह रोकती नहीं।", "ए आंकड़ा संकेतात्मक हे, सरकारी आंकड़ा नोहय। कोनो झूठा रिपोर्ट भेजे के कोसिस कर सकथे; सीमा एला घटाथे, पूरा नइ रोकय।"),
- "trends.export": ("Download the figures (CSV)", "आँकड़े डाउनलोड करें (CSV)", "आंकड़ा डाउनलोड करव (CSV)"),
+ "trends.export": ("Download the figures (CSV)", "आँकड़े डाउनलोड करें (स्प्रेडशीट फ़ाइल)", "आंकड़ा डाउनलोड करव (स्प्रेडशीट फाइल)"),
  "trends.rising": ("Rising this week", "इस हफ़्ते बढ़ रहे", "ए हफ्ता बढ़त हे"),
  "share.title": ("Help others: add to the scam trends", "दूसरों की मदद करें: ठगी के रुझान में जोड़ें", "दूसर के मदद करव: ठगी के रुझान म जोड़व"),
  "share.region": ("Your district", "आपका ज़िला", "तुंहर जिला"),

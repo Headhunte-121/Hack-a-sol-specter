@@ -1,61 +1,61 @@
 {
-  "version": "2026-11-22.1",
+  "version": "2026-11-23.1",
   "notes": "ACTED EXAMPLE TRANSCRIPTS written for the demo and for testing the lexicon. They are not real calls and no real person's voice or number is used. Real recorded clips (12 or more, with consenting team members) must be added by the team: see docs/call_clips.md.",
   "calls": [
-    { "id": "kyc_hinglish", "title": "Fake KYC call (Hinglish)", "style": "hinglish", "expect": { "script": "fake_kyc", "level": "high" }, "segments": [
+    { "id": "kyc_hinglish", "title": { "en": "Fake KYC call (Hinglish)", "hi": "फ़र्ज़ी केवाईसी कॉल (हिंग्लिश)", "cg": "फर्जी केवाईसी कॉल (हिंग्लिश)" }, "style": "hinglish", "expect": { "script": "fake_kyc", "level": "high" }, "segments": [
       { "start": 0, "end": 6, "text": "Hello sir, main SBI bank ke head office se bol raha hoon." },
       { "start": 6, "end": 14, "text": "Aapka KYC update nahi hai, isliye aapka account aaj block ho jayega." },
       { "start": 14, "end": 22, "text": "Aapko turant ek code batana hoga jo abhi aapke phone par aaya hai, wo OTP hai." },
       { "start": 22, "end": 30, "text": "Please jaldi bataiye, nahi to account band ho jayega." } ] },
-    { "id": "kyc_hindi", "title": "फ़र्ज़ी केवाईसी कॉल (हिन्दी)", "style": "hindi", "expect": { "script": "fake_kyc", "level": "high" }, "segments": [
+    { "id": "kyc_hindi", "title": { "en": "Fake KYC call (Hindi)", "hi": "फ़र्ज़ी केवाईसी कॉल (हिन्दी)", "cg": "फर्जी केवाईसी कॉल (हिन्दी)" }, "style": "hindi", "expect": { "script": "fake_kyc", "level": "high" }, "segments": [
       { "start": 0, "end": 5, "text": "नमस्ते, मैं बैंक मैनेजर बोल रहा हूँ।" },
       { "start": 5, "end": 14, "text": "आपका केवाईसी अपडेट नहीं हुआ है और आपका खाता बंद हो जाएगा।" },
       { "start": 14, "end": 24, "text": "अभी मैं आपके नंबर पर ओटीपी भेज रहा हूँ, वह कोड मुझे बताइए।" },
       { "start": 24, "end": 28, "text": "यह बात किसी को मत बताना।" } ] },
-    { "id": "kyc_english", "title": "Fake KYC call (English)", "style": "hinglish", "expect": { "script": "fake_kyc", "level": "high" }, "segments": [
+    { "id": "kyc_english", "title": { "en": "Fake KYC call (English)", "hi": "फ़र्ज़ी केवाईसी कॉल (अंग्रेज़ी)", "cg": "फर्जी केवाईसी कॉल (अंगरेजी)" }, "style": "hinglish", "expect": { "script": "fake_kyc", "level": "high" }, "segments": [
       { "start": 0, "end": 12, "text": "Hello, this is customer care calling from your bank. Your account will be suspended today because KYC is pending." },
       { "start": 12, "end": 24, "text": "Please install the AnyDesk app so I can update KYC for you, and share the OTP immediately." } ] },
-    { "id": "arrest_hindi", "title": "डिजिटल अरेस्ट कॉल (हिन्दी)", "style": "hindi", "expect": { "script": "digital_arrest", "level": "high" }, "segments": [
+    { "id": "arrest_hindi", "title": { "en": "Digital arrest call (Hindi)", "hi": "डिजिटल अरेस्ट कॉल (हिन्दी)", "cg": "डिजिटल अरेस्ट कॉल (हिन्दी)" }, "style": "hindi", "expect": { "script": "digital_arrest", "level": "high" }, "segments": [
       { "start": 0, "end": 7, "text": "मैं मुंबई पुलिस क्राइम ब्रांच से इंस्पेक्टर बोल रहा हूँ।" },
       { "start": 7, "end": 18, "text": "आपके नाम से एक पार्सल पकड़ा गया है जिसमें ड्रग्स मिले हैं और आपके खिलाफ वारंट जारी हुआ है।" },
       { "start": 18, "end": 28, "text": "आप अभी से डिजिटल अरेस्ट में हैं, वीडियो कॉल पर रहिए और कॉल मत काटिए।" },
       { "start": 28, "end": 40, "text": "यह बात किसी को मत बताना। जमानत के लिए आपको अभी सुरक्षित खाते में पैसे ट्रांसफर करने होंगे।" } ] },
-    { "id": "arrest_hinglish", "title": "Digital arrest call (Hinglish)", "style": "hinglish", "expect": { "script": "digital_arrest", "level": "high" }, "segments": [
+    { "id": "arrest_hinglish", "title": { "en": "Digital arrest call (Hinglish)", "hi": "डिजिटल अरेस्ट कॉल (हिंग्लिश)", "cg": "डिजिटल अरेस्ट कॉल (हिंग्लिश)" }, "style": "hinglish", "expect": { "script": "digital_arrest", "level": "high" }, "segments": [
       { "start": 0, "end": 10, "text": "Main CBI officer bol raha hoon. Aapke Aadhaar se ek fake SIM issue hui hai aur money laundering ka case darj hua hai." },
       { "start": 10, "end": 18, "text": "Aap digital arrest me hain, video call par rahiye aur kisi ko mat bataiye." },
       { "start": 18, "end": 26, "text": "Verification ke liye aapko abhi paise transfer karne honge safe account me." } ] },
-    { "id": "arrest_english", "title": "Digital arrest call (English)", "style": "hinglish", "expect": { "script": "digital_arrest", "level": "high" }, "segments": [
+    { "id": "arrest_english", "title": { "en": "Digital arrest call (English)", "hi": "डिजिटल अरेस्ट कॉल (अंग्रेज़ी)", "cg": "डिजिटल अरेस्ट कॉल (अंगरेजी)" }, "style": "hinglish", "expect": { "script": "digital_arrest", "level": "high" }, "segments": [
       { "start": 0, "end": 14, "text": "This is Delhi Police cyber cell. A case is registered against you for money laundering, there is an arrest warrant." },
       { "start": 14, "end": 28, "text": "Do not disconnect the call and do not tell anyone. Transfer the amount to the RBI account immediately to avoid arrest." } ] },
-    { "id": "courier_hinglish", "title": "Fake courier / customs call (Hinglish)", "style": "hinglish", "expect": { "script": "courier_customs", "level": "high" }, "segments": [
+    { "id": "courier_hinglish", "title": { "en": "Fake courier / customs call (Hinglish)", "hi": "फ़र्ज़ी कूरियर / कस्टम कॉल (हिंग्लिश)", "cg": "फर्जी कूरियर / कस्टम कॉल (हिंग्लिश)" }, "style": "hinglish", "expect": { "script": "courier_customs", "level": "high" }, "segments": [
       { "start": 0, "end": 8, "text": "Hello, main FedEx courier se bol raha hoon. Aapke naam ke parcel me drugs aur fake passport mile hain." },
       { "start": 8, "end": 18, "text": "Customs department ne parcel seize kiya hai, aapko turant customs fee pay karni hogi nahi to giraftari ho sakti hai." } ] },
-    { "id": "courier_hindi", "title": "फ़र्ज़ी कस्टम / कूरियर कॉल (हिन्दी)", "style": "hindi", "expect": { "script": "courier_customs", "level": "high" }, "segments": [
+    { "id": "courier_hindi", "title": { "en": "Fake customs / courier call (Hindi)", "hi": "फ़र्ज़ी कस्टम / कूरियर कॉल (हिन्दी)", "cg": "फर्जी कस्टम / कूरियर कॉल (हिन्दी)" }, "style": "hindi", "expect": { "script": "courier_customs", "level": "high" }, "segments": [
       { "start": 0, "end": 5, "text": "नमस्ते, मैं कस्टम विभाग से बोल रहा हूँ।" },
       { "start": 5, "end": 13, "text": "आपके पार्सल में अवैध सामान मिला है, पार्सल रोक दिया गया है।" },
       { "start": 13, "end": 22, "text": "जुर्माना भरने के लिए अभी इस लिंक पर पेमेंट कीजिए, वरना कार्रवाई होगी।" } ] },
-    { "id": "courier_english", "title": "Fake customs call (English)", "style": "hinglish", "expect": { "script": "courier_customs", "level": "high" }, "segments": [
+    { "id": "courier_english", "title": { "en": "Fake customs call (English)", "hi": "फ़र्ज़ी कस्टम कॉल (अंग्रेज़ी)", "cg": "फर्जी कस्टम कॉल (अंगरेजी)" }, "style": "hinglish", "expect": { "script": "courier_customs", "level": "high" }, "segments": [
       { "start": 0, "end": 14, "text": "This is DHL customs. Your parcel is held at customs because it contains prohibited items." },
       { "start": 14, "end": 26, "text": "Pay the customs fee through this link now or the parcel will be seized." } ] },
-    { "id": "genuine_bank_service", "title": "Genuine bank service call (Hinglish)", "style": "hinglish", "expect": { "script": null, "level": "low" }, "segments": [
+    { "id": "genuine_bank_service", "title": { "en": "Genuine bank service call (Hinglish)", "hi": "असली बैंक सेवा कॉल (हिंग्लिश)", "cg": "असली बैंक सेवा कॉल (हिंग्लिश)" }, "style": "hinglish", "expect": { "script": null, "level": "low" }, "segments": [
       { "start": 0, "end": 8, "text": "Hello sir, main HDFC bank customer care se bol raha hoon. Aapne kal card limit badhane ke liye request kiya tha." },
       { "start": 8, "end": 16, "text": "Aapki request process ho gayi hai, ab aap app me limit dekh sakte hain." },
       { "start": 16, "end": 24, "text": "Koi OTP ya PIN share mat kijiye, ye bas information ke liye call tha. Dhanyavad." } ] },
-    { "id": "genuine_delivery", "title": "Genuine delivery call (Hinglish)", "style": "hinglish", "expect": { "script": null, "level": "low" }, "segments": [
+    { "id": "genuine_delivery", "title": { "en": "Genuine delivery call (Hinglish)", "hi": "असली डिलीवरी कॉल (हिंग्लिश)", "cg": "असली डिलीवरी कॉल (हिंग्लिश)" }, "style": "hinglish", "expect": { "script": null, "level": "low" }, "segments": [
       { "start": 0, "end": 7, "text": "Hello, main Amazon delivery se bol raha hoon, aapka parcel aaj shaam tak aa jayega." },
       { "start": 7, "end": 15, "text": "Aap ghar par rahenge na? Delivery boy ko address samajh nahi aa raha hai, landmark bata dijiye." },
       { "start": 15, "end": 18, "text": "Theek hai, dhanyavad." } ] },
-    { "id": "genuine_family", "title": "परिवार का कॉल (हिन्दी)", "style": "hindi", "expect": { "script": null, "level": "low" }, "segments": [
+    { "id": "genuine_family", "title": { "en": "Family call (Hindi)", "hi": "परिवार का कॉल (हिन्दी)", "cg": "परिवार के कॉल (हिन्दी)" }, "style": "hindi", "expect": { "script": null, "level": "low" }, "segments": [
       { "start": 0, "end": 8, "text": "हेलो बेटा, खाना खा लिया? मैं आज देर से आऊँगा, तुम लोग इंतज़ार मत करना।" },
       { "start": 8, "end": 14, "text": "और हाँ, कल सुबह मम्मी को डॉक्टर के पास ले जाना है, याद रखना।" } ] },
-    { "id": "genuine_appointment", "title": "Genuine hospital reminder (English)", "style": "hinglish", "expect": { "script": null, "level": "low" }, "segments": [
+    { "id": "genuine_appointment", "title": { "en": "Genuine hospital reminder (English)", "hi": "अस्पताल का असली अपॉइंटमेंट कॉल (अंग्रेज़ी)", "cg": "अस्पताल के असली अपॉइंटमेंट कॉल (अंगरेजी)" }, "style": "hinglish", "expect": { "script": null, "level": "low" }, "segments": [
       { "start": 0, "end": 12, "text": "Hello, this is City Hospital reception. Your appointment with the doctor is tomorrow at 11 am. Please bring your reports. Thank you." } ] },
-    { "id": "genuine_branch_kyc", "title": "Genuine bank branch call about KYC (Hindi)", "style": "hindi", "expect": { "script": null, "level": "low" }, "segments": [
+    { "id": "genuine_branch_kyc", "title": { "en": "Genuine bank branch call about KYC (Hindi)", "hi": "केवाईसी पर बैंक शाखा का असली कॉल (हिन्दी)", "cg": "केवाईसी बर बैंक शाखा के असली कॉल (हिन्दी)" }, "style": "hindi", "expect": { "script": null, "level": "low" }, "segments": [
       { "start": 0, "end": 12, "text": "नमस्ते, मैं बैंक की शाखा से बोल रहा हूँ। आपका केवाईसी अपडेट बाकी है, कृपया अपने दस्तावेज़ों के साथ शाखा में आइए।" },
       { "start": 12, "end": 20, "text": "किसी लिंक पर क्लिक न करें और अपना ओटीपी किसी को न बताएं।" } ] },
-    { "id": "genuine_fraud_awareness", "title": "Genuine bank fraud-awareness call (English)", "style": "hinglish", "expect": { "script": null, "level": "low" }, "segments": [
+    { "id": "genuine_fraud_awareness", "title": { "en": "Genuine bank fraud-awareness call (English)", "hi": "बैंक का असली ठगी-जागरूकता कॉल (अंग्रेज़ी)", "cg": "बैंक के असली ठगी-जागरूकता कॉल (अंगरेजी)" }, "style": "hinglish", "expect": { "script": null, "level": "low" }, "segments": [
       { "start": 0, "end": 14, "text": "Hello, this is SBI customer care. We are calling to tell you that we never ask for your OTP or PIN. If anyone calls you asking for OTP, do not share it." } ] },
-    { "id": "genuine_electricity", "title": "Genuine electricity bill reminder (Hinglish)", "style": "hinglish", "expect": { "script": null, "level": "low" }, "segments": [
+    { "id": "genuine_electricity", "title": { "en": "Genuine electricity bill reminder (Hinglish)", "hi": "बिजली बिल का असली कॉल (हिंग्लिश)", "cg": "बिजली बिल के असली कॉल (हिंग्लिश)" }, "style": "hinglish", "expect": { "script": null, "level": "low" }, "segments": [
       { "start": 0, "end": 10, "text": "Namaste, aapka bijli bill is mahine ka 1240 rupaye bana hai. Last date 20 tarikh hai. Aap official app ya counter par bhar sakte hain." } ] }
   ]
 }

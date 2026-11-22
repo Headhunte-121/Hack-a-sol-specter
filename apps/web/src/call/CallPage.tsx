@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { loadScorer, type Scorer } from '../detector/model'
+import { pick, type Tri } from '../learn/content'
 import { handleFeedback, saveLastResult } from '../detector/lastResult'
 import { ShareReport } from '../dashboard/ShareReport'
 import type { CategoryCode } from '../shared/categories'
@@ -10,9 +11,9 @@ import { asrBase, AsrError, audioDuration, startRecording, uploadForTranscript, 
 import { buildEvidenceNote, SCRIPT_CATEGORY } from './evidence'
 import { postProcessTranscript } from './normalize'
 
-interface DemoCall { id: string; title: string; style: string; segments: Segment[] }
+interface DemoCall { id: string; title: Tri; style: string; segments: Segment[] }
 type Mode = 'examples' | 'paste' | 'audio'
-type Analysed = { result: CallResult; segments: Segment[]; duration: number | null; label?: string }
+type Analysed = { result: CallResult; segments: Segment[]; duration: number | null; label?: Tri }
 
 const LEVEL_STYLE = {
   high: { box: 'border-bad-line bg-bad-bg text-bad', icon: '⛔' },
@@ -21,7 +22,7 @@ const LEVEL_STYLE = {
 } as const
 
 export default function CallPage() {
-  const { t } = useLang()
+  const { t, lang } = useLang()
   const [lex, setLex] = useState<Lexicon | null>(null)
   const [demos, setDemos] = useState<DemoCall[]>([])
   const [scorer, setScorer] = useState<Scorer | null>(null)
@@ -47,7 +48,7 @@ export default function CallPage() {
     return () => { live = false; recRef.current?.cancel(); abort.current?.abort() }
   }, [])
 
-  const run = (segments: Segment[], duration: number | null, label?: string) => {
+  const run = (segments: Segment[], duration: number | null, label?: Tri) => {
     if (!lex) return
     const result = analyzeCall(segments, lex, scorer)
     setOut({ result, segments, duration, label })
@@ -113,7 +114,7 @@ export default function CallPage() {
 
   const copyNote = async () => {
     if (!res) return
-    try { await navigator.clipboard.writeText(buildEvidenceNote(res, out!.duration, t)); setCopied(true); setTimeout(() => setCopied(false), 2000) } catch { /* clipboard blocked */ }
+    try { await navigator.clipboard.writeText(buildEvidenceNote(res, out!.duration, t, new Date(), lang)); setCopied(true); setTimeout(() => setCopied(false), 2000) } catch { /* clipboard blocked */ }
   }
   const tabs: Mode[] = ['examples', 'paste', 'audio']
   const topEv = res && res.topScript ? res.evidence.find((e) => e.script === res.topScript) : null
@@ -128,7 +129,7 @@ export default function CallPage() {
       {mode === 'examples' && (
         <section className="space-y-2">
           <p className="text-sm text-muted">{t('call.examples.note')}</p>
-          {demos.map((d) => <button key={d.id} className="card w-full text-left font-bold" onClick={() => run(d.segments, d.segments[d.segments.length - 1]?.end ?? null, d.title)}>🎧 {d.title}</button>)}
+          {demos.map((d) => <button key={d.id} className="card w-full text-left font-bold" onClick={() => run(d.segments, d.segments[d.segments.length - 1]?.end ?? null, d.title)}>🎧 {pick(d.title, lang)}</button>)}
         </section>
       )}
 
@@ -167,7 +168,7 @@ export default function CallPage() {
 
       {res && style && out && (
         <section aria-live="polite" className={`space-y-3 rounded-2xl border-4 p-4 ${style.box}`} data-testid="call-result" data-level={res.level}>
-          {out.label && <p className="text-xs">{t('call.example.label')}: {out.label}</p>}
+          {out.label && <p className="text-xs">{t('call.example.label')}: {pick(out.label, lang)}</p>}
           <div className="flex items-center gap-3"><span className="text-4xl" aria-hidden>{style.icon}</span>
             <div><p className="text-xl font-bold">{t(`call.level.${res.level}`)}</p>{res.topScript && res.level !== 'low' && <p className="font-bold">{t(`call.script.${res.topScript}`)}</p>}</div></div>
           <p>{t(`call.advice.${res.level}`)}</p>

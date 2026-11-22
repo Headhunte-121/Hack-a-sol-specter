@@ -1,12 +1,13 @@
 import type { CallResult } from './analyze'
 import { fmtTime } from './analyze'
+import { formatDateTime, type Lang } from '../shell/i18n'
 
 type T = (key: string, values?: Record<string, string | number>) => string
 
 /** buildEvidenceNote: copyable text with date, duration and flagged phrases (no audio, no phone numbers) that feeds the reporting checklist. */
-export function buildEvidenceNote(r: CallResult, durationSec: number | null, t: T, now: Date = new Date()): string {
-  const lines = [`${t('evidence.title')} · ${now.toLocaleString()}`]
-  if (durationSec) lines.push(`${t('summary.duration')}: ${Math.round(durationSec)} s`)
+export function buildEvidenceNote(r: CallResult, durationSec: number | null, t: T, now: Date = new Date(), lang: Lang = 'en'): string {
+  const lines = [`${t('evidence.title')} · ${formatDateTime(now, lang)}`]
+  if (durationSec) lines.push(`${t('summary.duration')}: ${t('summary.seconds', { n: Math.round(durationSec) })}`)
   if (r.topScript) lines.push(`${t('summary.looks_like')}: ${t(`call.script.${r.topScript}`)}`)
   const seen = new Set<string>()
   for (const h of r.hits) {
