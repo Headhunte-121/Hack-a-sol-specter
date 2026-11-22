@@ -1,0 +1,907 @@
+{
+ "version": "2026-11-22.1",
+ "questions": [
+  {
+   "id": "q_otp_1",
+   "topic": "otp_pin_card",
+   "difficulty": 1,
+   "type": "tf",
+   "question": {
+    "en": "A bank employee may ask for your OTP to verify who you are.",
+    "hi": "बैंक का कर्मचारी आपकी पहचान जाँचने के लिए आपका ओटीपी माँग सकता है।",
+    "cg": "बैंक के कर्मचारी तुंहर पहिचान जांचे बर तुंहर ओटीपी मांग सकथे।"
+   },
+   "options": [
+    {
+     "en": "True",
+     "hi": "सही",
+     "cg": "सही"
+    },
+    {
+     "en": "False",
+     "hi": "गलत",
+     "cg": "गलत"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "False. No bank employee will ever ask for your OTP. If someone does, it is a scam.",
+    "hi": "गलत। कोई बैंक कर्मचारी कभी आपका ओटीपी नहीं माँगता। जो माँगे वह ठग है।",
+    "cg": "गलत। कोनो बैंक कर्मचारी कभू तुंहर ओटीपी नइ मांगय। जउन मांगथे ओ ठग हे।"
+   }
+  },
+  {
+   "id": "q_otp_2",
+   "topic": "otp_pin_card",
+   "difficulty": 1,
+   "type": "mcq",
+   "question": {
+    "en": "Which of these must you never tell anyone?",
+    "hi": "इनमें से कौन-सी चीज़ आपको किसी को कभी नहीं बतानी चाहिए?",
+    "cg": "इनमा ले कोन चीज तुंहला कखरो ला कभू नइ बताना चाही?"
+   },
+   "options": [
+    {
+     "en": "The name of your village",
+     "hi": "आपके गाँव का नाम",
+     "cg": "तुंहर गाँव के नाम"
+    },
+    {
+     "en": "Your OTP",
+     "hi": "आपका ओटीपी",
+     "cg": "तुंहर ओटीपी"
+    },
+    {
+     "en": "Your favourite food",
+     "hi": "आपका पसंदीदा खाना",
+     "cg": "तुंहर पसंद के खाना"
+    },
+    {
+     "en": "Your school name",
+     "hi": "आपके स्कूल का नाम",
+     "cg": "तुंहर स्कूल के नाम"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "Your OTP is the key to your money. Keep it, your PIN and your CVV secret.",
+    "hi": "ओटीपी आपके पैसे की चाबी है। इसे, अपने पिन और सीवीवी को गुप्त रखें।",
+    "cg": "ओटीपी तुंहर पइसा के चाबी हे। एला, अपन पिन अउ सीवीवी ला गुप्त राखव।"
+   }
+  },
+  {
+   "id": "q_otp_3",
+   "topic": "otp_pin_card",
+   "difficulty": 2,
+   "type": "scenario",
+   "question": {
+    "en": "You get: \"Your OTP is 482913 for a payment of Rs 5,000 at ShopX. Do not share it.\" You did not make this payment. What do you do?",
+    "hi": "आपको संदेश मिलता है: \"ShopX पर Rs 5,000 के भुगतान के लिए आपका ओटीपी 482913 है। इसे साझा न करें।\" आपने यह भुगतान नहीं किया। आप क्या करेंगे?",
+    "cg": "तुंहला संदेसा मिलथे: \"ShopX म Rs 5,000 के भुगतान बर तुंहर ओटीपी 482913 हे। एला साझा झन करव।\" तुमन ए भुगतान नइ करे हव। तुमन का करहू?"
+   },
+   "options": [
+    {
+     "en": "Call the number printed on your card and ask the bank to block it",
+     "hi": "कार्ड पर छपे नंबर पर कॉल करके बैंक से कार्ड बंद करवाएँ",
+     "cg": "कार्ड म छपे नंबर म कॉल करके बैंक ले कार्ड बंद करवावव"
+    },
+    {
+     "en": "Reply with the OTP to cancel the payment",
+     "hi": "भुगतान रद्द करने के लिए ओटीपी भेज दें",
+     "cg": "भुगतान रद्द करे बर ओटीपी भेज देवव"
+    },
+    {
+     "en": "Do nothing and forget about it",
+     "hi": "कुछ न करें और भूल जाएँ",
+     "cg": "कुछु झन करव अउ भुला जावव"
+    }
+   ],
+   "answer": 0,
+   "explanation": {
+    "en": "Someone is trying to use your card. Never send the OTP. Call your bank on the number on your card.",
+    "hi": "कोई आपके कार्ड का इस्तेमाल करने की कोशिश कर रहा है। ओटीपी कभी न भेजें। कार्ड पर छपे नंबर पर बैंक को कॉल करें।",
+    "cg": "कोनो तुंहर कार्ड के उपयोग करे के कोसिस करत हे। ओटीपी कभू झन भेजव। कार्ड म छपे नंबर म बैंक ला कॉल करव।"
+   }
+  },
+  {
+   "id": "q_otp_4",
+   "topic": "otp_pin_card",
+   "difficulty": 3,
+   "type": "mcq",
+   "question": {
+    "en": "Your shopping app says: \"Share this delivery OTP with the delivery person when you receive your parcel.\" You are holding the parcel. What is right?",
+    "hi": "आपका शॉपिंग ऐप कहता है: \"पार्सल लेते समय यह डिलीवरी ओटीपी डिलीवरी वाले को बताएँ।\" पार्सल आपके हाथ में है। सही क्या है?",
+    "cg": "तुंहर शॉपिंग ऐप कहिथे: \"पार्सल लेवत समय ए डिलीवरी ओटीपी डिलीवरी वाले ला बतावव।\" पार्सल तुंहर हाथ म हे। सही का हे?"
+   },
+   "options": [
+    {
+     "en": "Giving this delivery OTP to the person at your door is fine, because you placed that order. A bank OTP for a payment is never to be shared.",
+     "hi": "दरवाज़े पर खड़े व्यक्ति को यह डिलीवरी ओटीपी देना ठीक है, क्योंकि ऑर्डर आपने किया है। भुगतान का बैंक ओटीपी कभी साझा नहीं करना।",
+     "cg": "दरवाजा म खड़े आदमी ला ए डिलीवरी ओटीपी देना ठीक हे, काबर कि ऑर्डर तुमन करे हव। भुगतान के बैंक ओटीपी कभू साझा नइ करना।"
+    },
+    {
+     "en": "Never share any OTP, even this one",
+     "hi": "कोई भी ओटीपी कभी साझा न करें, यह भी नहीं",
+     "cg": "कोनो घलो ओटीपी कभू साझा झन करव, ए घलो नइ"
+    },
+    {
+     "en": "Share it with anyone who phones you about the order",
+     "hi": "ऑर्डर के बारे में फ़ोन करने वाले किसी को भी दे दें",
+     "cg": "ऑर्डर के बारे म फोन करइया कखरो ला घलो दे देवव"
+    }
+   ],
+   "answer": 0,
+   "explanation": {
+    "en": "Only the delivery OTP from your own order app, only to the person standing at your door. A caller asking for it is a scam.",
+    "hi": "सिर्फ़ अपने ऑर्डर ऐप का डिलीवरी ओटीपी, सिर्फ़ दरवाज़े पर खड़े व्यक्ति को। फ़ोन पर माँगने वाला ठग है।",
+    "cg": "सिरिफ अपन ऑर्डर ऐप के डिलीवरी ओटीपी, सिरिफ दरवाजा म खड़े आदमी ला। फोन म मांगइया ठग हे।"
+   }
+  },
+  {
+   "id": "q_kyc_1",
+   "topic": "fake_kyc",
+   "difficulty": 1,
+   "type": "tf",
+   "question": {
+    "en": "Banks update your KYC by sending an SMS link that you must click.",
+    "hi": "बैंक केवाईसी अपडेट करने के लिए एसएमएस में लिंक भेजते हैं जिस पर आपको क्लिक करना होता है।",
+    "cg": "बैंक केवाईसी अपडेट करे बर एसएमएस म लिंक भेजथे जेमा तुंहला क्लिक करे ला परथे।"
+   },
+   "options": [
+    {
+     "en": "True",
+     "hi": "सही",
+     "cg": "सही"
+    },
+    {
+     "en": "False",
+     "hi": "गलत",
+     "cg": "गलत"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "False. A KYC link by SMS is a classic scam. Update KYC at the branch or in the official app.",
+    "hi": "गलत। एसएमएस में केवाईसी का लिंक सबसे आम ठगी है। केवाईसी शाखा में या आधिकारिक ऐप में करें।",
+    "cg": "गलत। एसएमएस म केवाईसी के लिंक सबले आम ठगी हे। केवाईसी शाखा म या आधिकारिक ऐप म करव।"
+   }
+  },
+  {
+   "id": "q_kyc_2",
+   "topic": "fake_kyc",
+   "difficulty": 1,
+   "type": "mcq",
+   "question": {
+    "en": "A message says: \"Your account will be blocked today. Update KYC at this link.\" What is the best action?",
+    "hi": "संदेश कहता है: \"आपका खाता आज बंद हो जाएगा। इस लिंक पर केवाईसी अपडेट करें।\" सबसे अच्छा कदम क्या है?",
+    "cg": "संदेसा कहिथे: \"तुंहर खाता आज बंद हो जाही। ए लिंक म केवाईसी अपडेट करव।\" सबले बढ़िया कदम का हे?"
+   },
+   "options": [
+    {
+     "en": "Click quickly so the account is not blocked",
+     "hi": "खाता बंद न हो, इसलिए जल्दी क्लिक करें",
+     "cg": "खाता बंद झन होय, एकरे सेती जल्दी क्लिक करव"
+    },
+    {
+     "en": "Do not click. Check with your bank on the number on your card",
+     "hi": "क्लिक न करें। कार्ड पर छपे नंबर पर बैंक से पूछें",
+     "cg": "क्लिक झन करव। कार्ड म छपे नंबर म बैंक ले पूछव"
+    },
+    {
+     "en": "Forward it to your friends",
+     "hi": "अपने दोस्तों को भेज दें",
+     "cg": "अपन संगवारी मन ला भेज देवव"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "The hurry is the trick. Real banks do not block accounts through a link.",
+    "hi": "जल्दी मचाना ही चाल है। असली बैंक लिंक भेजकर खाता बंद नहीं करते।",
+    "cg": "जल्दी मचाना ही चाल हे। असली बैंक लिंक भेजके खाता बंद नइ करय।"
+   }
+  },
+  {
+   "id": "q_kyc_3",
+   "topic": "fake_kyc",
+   "difficulty": 2,
+   "type": "mcq",
+   "question": {
+    "en": "Where is it safe to update your KYC?",
+    "hi": "केवाईसी अपडेट करना कहाँ सुरक्षित है?",
+    "cg": "केवाईसी अपडेट करना कहाँ सुरक्षित हे?"
+   },
+   "options": [
+    {
+     "en": "At a link sent by an unknown number",
+     "hi": "अनजान नंबर से आए लिंक पर",
+     "cg": "अनजान नंबर ले आए लिंक म"
+    },
+    {
+     "en": "At your bank branch, or in the official bank app you opened yourself",
+     "hi": "अपनी बैंक शाखा में, या खुद खोले गए आधिकारिक बैंक ऐप में",
+     "cg": "अपन बैंक शाखा म, या खुद खोले आधिकारिक बैंक ऐप म"
+    },
+    {
+     "en": "By telling a caller your Aadhaar and PAN",
+     "hi": "फ़ोन करने वाले को आधार और पैन बताकर",
+     "cg": "फोन करइया ला आधार अउ पैन बताके"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "Only channels you opened yourself are safe.",
+    "hi": "सिर्फ़ वही माध्यम सुरक्षित हैं जिन्हें आपने खुद खोला हो।",
+    "cg": "सिरिफ ओइसने माध्यम सुरक्षित हे जेला तुमन खुद खोले हव।"
+   }
+  },
+  {
+   "id": "q_kyc_4",
+   "topic": "fake_kyc",
+   "difficulty": 3,
+   "type": "scenario",
+   "question": {
+    "en": "SMS: \"Dear customer, your PAN is not linked. Call 98XXXXXXXX today to avoid a penalty.\"",
+    "hi": "एसएमएस: \"प्रिय ग्राहक, आपका पैन लिंक नहीं है। जुर्माने से बचने के लिए आज ही 98XXXXXXXX पर कॉल करें।\"",
+    "cg": "एसएमएस: \"प्रिय ग्राहक, तुंहर पैन लिंक नइ हे। जुर्माना ले बचे बर आजे 98XXXXXXXX म कॉल करव।\""
+   },
+   "options": [
+    {
+     "en": "Safe",
+     "hi": "सुरक्षित",
+     "cg": "सुरक्षित"
+    },
+    {
+     "en": "A scam",
+     "hi": "ठगी",
+     "cg": "ठगी"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "A scam: a mobile number, a penalty threat and a deadline. Official notices do not ask you to call a mobile number.",
+    "hi": "ठगी: मोबाइल नंबर, जुर्माने की धमकी और समय-सीमा। आधिकारिक सूचना मोबाइल नंबर पर कॉल करने को नहीं कहती।",
+    "cg": "ठगी: मोबाइल नंबर, जुर्माना के धमकी अउ समय-सीमा। आधिकारिक सूचना मोबाइल नंबर म कॉल करे बर नइ कहय।"
+   }
+  },
+  {
+   "id": "q_arr_1",
+   "topic": "digital_arrest",
+   "difficulty": 1,
+   "type": "tf",
+   "question": {
+    "en": "The police or the CBI can arrest you over a video call.",
+    "hi": "पुलिस या सीबीआई वीडियो कॉल पर आपको गिरफ़्तार कर सकती है।",
+    "cg": "पुलिस या सीबीआई वीडियो कॉल म तुंहला गिरफ्तार कर सकथे।"
+   },
+   "options": [
+    {
+     "en": "True",
+     "hi": "सही",
+     "cg": "सही"
+    },
+    {
+     "en": "False",
+     "hi": "गलत",
+     "cg": "गलत"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "False. \"Digital arrest\" does not exist in law. It is a scam.",
+    "hi": "गलत। \"डिजिटल अरेस्ट\" कानून में होता ही नहीं। यह ठगी है।",
+    "cg": "गलत। \"डिजिटल अरेस्ट\" कानून म होबे नइ करय। ए ठगी हे।"
+   }
+  },
+  {
+   "id": "q_arr_2",
+   "topic": "digital_arrest",
+   "difficulty": 1,
+   "type": "mcq",
+   "question": {
+    "en": "A caller on video says you are under \"digital arrest\" and must tell no one. What does this tell you?",
+    "hi": "वीडियो कॉल पर कोई कहता है कि आप \"डिजिटल अरेस्ट\" में हैं और किसी को न बताएँ। इससे क्या पता चलता है?",
+    "cg": "वीडियो कॉल म कोनो कहिथे कि तुमन \"डिजिटल अरेस्ट\" म हव अउ कखरो ला झन बतावव। एकर ले का पता चलथे?"
+   },
+   "options": [
+    {
+     "en": "It is serious, so obey",
+     "hi": "मामला गंभीर है, इसलिए मानें",
+     "cg": "मामला गंभीर हे, एकरे सेती मानव"
+    },
+    {
+     "en": "It is a scam: scammers want to keep you isolated",
+     "hi": "यह ठगी है: ठग आपको अकेला रखना चाहते हैं",
+     "cg": "ए ठगी हे: ठग तुंहला अकेला राखना चाहथे"
+    },
+    {
+     "en": "It is a normal police step",
+     "hi": "यह पुलिस की सामान्य कार्रवाई है",
+     "cg": "ए पुलिस के सामान्य कार्रवाई हे"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "Isolation stops you from checking with family. Talk to someone you trust right away.",
+    "hi": "अकेला रखने से आप परिवार से पूछ नहीं पाते। तुरंत किसी भरोसेमंद से बात करें।",
+    "cg": "अकेला राखे ले तुमन परिवार ले पूछ नइ पाव। तुरते कोनो भरोसा के आदमी ले गोठियावव।"
+   }
+  },
+  {
+   "id": "q_arr_3",
+   "topic": "digital_arrest",
+   "difficulty": 2,
+   "type": "mcq",
+   "question": {
+    "en": "They ask you to move your money to a \"safe account\" to prove you are innocent. What do you do?",
+    "hi": "वे कहते हैं कि निर्दोष साबित करने के लिए पैसे \"सुरक्षित खाते\" में भेजें। आप क्या करेंगे?",
+    "cg": "ओमन कहिथे कि निर्दोष साबित करे बर पइसा \"सुरक्षित खाता\" म भेजव। तुमन का करहू?"
+   },
+   "options": [
+    {
+     "en": "Transfer it quickly",
+     "hi": "जल्दी से ट्रांसफ़र कर दें",
+     "cg": "जल्दी ट्रांसफर कर देवव"
+    },
+    {
+     "en": "Hang up, tell family, and report to 1930",
+     "hi": "कॉल काटें, परिवार को बताएँ और 1930 पर रिपोर्ट करें",
+     "cg": "कॉल काटव, परिवार ला बतावव अउ 1930 म रिपोर्ट करव"
+    },
+    {
+     "en": "Ask for a discount",
+     "hi": "कम रकम की बात करें",
+     "cg": "कम रकम के गोठ करव"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "No government office asks you to send money to prove anything.",
+    "hi": "कोई सरकारी दफ़्तर कुछ साबित करने के लिए पैसे भेजने को नहीं कहता।",
+    "cg": "कोनो सरकारी दफ्तर कुछु साबित करे बर पइसा भेजे बर नइ कहय।"
+   }
+  },
+  {
+   "id": "q_arr_4",
+   "topic": "digital_arrest",
+   "difficulty": 2,
+   "type": "scenario",
+   "question": {
+    "en": "A courier call says a parcel in your name has drugs and connects you to \"Mumbai Police\" on video.",
+    "hi": "एक कूरियर कॉल कहता है कि आपके नाम के पार्सल में ड्रग्स हैं और आपको वीडियो पर \"मुंबई पुलिस\" से जोड़ता है।",
+    "cg": "एक कूरियर कॉल कहिथे कि तुंहर नाम के पार्सल म ड्रग्स हे अउ तुंहला वीडियो म \"मुंबई पुलिस\" ले जोड़थे।"
+   },
+   "options": [
+    {
+     "en": "Safe",
+     "hi": "सुरक्षित",
+     "cg": "सुरक्षित"
+    },
+    {
+     "en": "A scam",
+     "hi": "ठगी",
+     "cg": "ठगी"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "A scam: the courier-to-police hand-off is the standard \"digital arrest\" script.",
+    "hi": "ठगी: कूरियर से पुलिस को जोड़ना \"डिजिटल अरेस्ट\" की जानी-पहचानी चाल है।",
+    "cg": "ठगी: कूरियर ले पुलिस ला जोड़ना \"डिजिटल अरेस्ट\" के जाने-पहचाने चाल हे।"
+   }
+  },
+  {
+   "id": "q_cou_1",
+   "topic": "courier_customs",
+   "difficulty": 1,
+   "type": "tf",
+   "question": {
+    "en": "A courier company can ask you to pay a customs fee through a random SMS link.",
+    "hi": "कूरियर कंपनी किसी अनजान एसएमएस लिंक से कस्टम फ़ीस भरने को कह सकती है।",
+    "cg": "कूरियर कंपनी कोनो अनजान एसएमएस लिंक ले कस्टम फीस भरे बर कह सकथे।"
+   },
+   "options": [
+    {
+     "en": "True",
+     "hi": "सही",
+     "cg": "सही"
+    },
+    {
+     "en": "False",
+     "hi": "गलत",
+     "cg": "गलत"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "False. Check any fee in the courier's official app.",
+    "hi": "गलत। किसी भी फ़ीस को कूरियर के आधिकारिक ऐप में जाँचें।",
+    "cg": "गलत। कोनो घलो फीस ला कूरियर के आधिकारिक ऐप म जांचव।"
+   }
+  },
+  {
+   "id": "q_cou_2",
+   "topic": "courier_customs",
+   "difficulty": 1,
+   "type": "mcq",
+   "question": {
+    "en": "SMS: \"Parcel held. Pay Rs 49 at this link for redelivery.\" You are not expecting a parcel. What do you do?",
+    "hi": "एसएमएस: \"पार्सल रुका है। दोबारा डिलीवरी के लिए इस लिंक पर Rs 49 भरें।\" आपको कोई पार्सल नहीं आना है। आप क्या करेंगे?",
+    "cg": "एसएमएस: \"पार्सल रुके हे। फेर डिलीवरी बर ए लिंक म Rs 49 भरव।\" तुंहला कोनो पार्सल नइ आना हे। तुमन का करहू?"
+   },
+   "options": [
+    {
+     "en": "Pay, it is only Rs 49",
+     "hi": "सिर्फ़ Rs 49 है, भर दें",
+     "cg": "सिरिफ Rs 49 हे, भर देवव"
+    },
+    {
+     "en": "Ignore and delete it",
+     "hi": "नज़रअंदाज़ करके मिटा दें",
+     "cg": "अनदेखा करके मिटा देवव"
+    },
+    {
+     "en": "Reply with your address",
+     "hi": "अपना पता भेज दें",
+     "cg": "अपन पता भेज देवव"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "Small fees are used to steal your card details. Ignore it.",
+    "hi": "छोटी फ़ीस के बहाने आपकी कार्ड जानकारी चुराई जाती है। नज़रअंदाज़ करें।",
+    "cg": "छोटे फीस के बहाना तुंहर कार्ड जानकारी चोराए जाथे। अनदेखा करव।"
+   }
+  },
+  {
+   "id": "q_cou_3",
+   "topic": "courier_customs",
+   "difficulty": 2,
+   "type": "mcq",
+   "question": {
+    "en": "How can you safely check a real parcel?",
+    "hi": "असली पार्सल को सुरक्षित तरीके से कैसे जाँचें?",
+    "cg": "असली पार्सल ला सुरक्षित तरीका ले कइसे जांचव?"
+   },
+   "options": [
+    {
+     "en": "Tap the link in the SMS",
+     "hi": "एसएमएस के लिंक पर टैप करें",
+     "cg": "एसएमएस के लिंक म टैप करव"
+    },
+    {
+     "en": "Use the tracking number in the courier's official app or website that you opened yourself",
+     "hi": "कूरियर के आधिकारिक ऐप या वेबसाइट में, जिसे आपने खुद खोला हो, ट्रैकिंग नंबर डालें",
+     "cg": "कूरियर के आधिकारिक ऐप या वेबसाइट म, जेला तुमन खुद खोले हव, ट्रैकिंग नंबर डारव"
+    },
+    {
+     "en": "Call the number in the SMS",
+     "hi": "एसएमएस वाले नंबर पर कॉल करें",
+     "cg": "एसएमएस वाले नंबर म कॉल करव"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "Always start from the official app, never from the message.",
+    "hi": "हमेशा आधिकारिक ऐप से शुरू करें, संदेश से नहीं।",
+    "cg": "हमेसा आधिकारिक ऐप ले सुरु करव, संदेसा ले नइ।"
+   }
+  },
+  {
+   "id": "q_cou_4",
+   "topic": "courier_customs",
+   "difficulty": 3,
+   "type": "scenario",
+   "question": {
+    "en": "A call says your parcel has illegal items and you must pay a fine today to avoid arrest.",
+    "hi": "कॉल कहता है कि आपके पार्सल में अवैध सामान है और गिरफ़्तारी से बचने के लिए आज जुर्माना भरें।",
+    "cg": "कॉल कहिथे कि तुंहर पार्सल म अवैध सामान हे अउ गिरफ्तारी ले बचे बर आजे जुर्माना भरव।"
+   },
+   "options": [
+    {
+     "en": "Safe",
+     "hi": "सुरक्षित",
+     "cg": "सुरक्षित"
+    },
+    {
+     "en": "A scam",
+     "hi": "ठगी",
+     "cg": "ठगी"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "A scam: a fine demanded by phone with an arrest threat.",
+    "hi": "ठगी: फ़ोन पर गिरफ़्तारी की धमकी के साथ जुर्माने की माँग।",
+    "cg": "ठगी: फोन म गिरफ्तारी के धमकी के संग जुर्माना के मांग।"
+   }
+  },
+  {
+   "id": "q_upi_1",
+   "topic": "upi_qr",
+   "difficulty": 1,
+   "type": "tf",
+   "question": {
+    "en": "To receive money by UPI you must enter your UPI PIN.",
+    "hi": "यूपीआई से पैसे पाने के लिए आपको अपना यूपीआई पिन डालना पड़ता है।",
+    "cg": "यूपीआई ले पइसा पाए बर तुंहला अपन यूपीआई पिन डारे ला परथे।"
+   },
+   "options": [
+    {
+     "en": "True",
+     "hi": "सही",
+     "cg": "सही"
+    },
+    {
+     "en": "False",
+     "hi": "गलत",
+     "cg": "गलत"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "False. You only enter the PIN to SEND money. Receiving never needs a PIN.",
+    "hi": "गलत। पिन सिर्फ़ पैसे भेजने के लिए डाला जाता है। पैसे पाने में पिन कभी नहीं लगता।",
+    "cg": "गलत। पिन सिरिफ पइसा भेजे बर डारे जाथे। पइसा पाए म पिन कभू नइ लगय।"
+   }
+  },
+  {
+   "id": "q_upi_2",
+   "topic": "upi_qr",
+   "difficulty": 1,
+   "type": "mcq",
+   "question": {
+    "en": "A \"buyer\" asks you to scan his QR code to receive payment. What happens if you scan it and enter your PIN?",
+    "hi": "एक \"खरीदार\" पैसे देने के लिए अपना क्यूआर स्कैन करने को कहता है। स्कैन करके पिन डालने पर क्या होगा?",
+    "cg": "एक \"खरीददार\" पइसा देवत बर अपन क्यूआर स्कैन करे बर कहिथे। स्कैन करके पिन डारे ले का होही?"
+   },
+   "options": [
+    {
+     "en": "You receive money",
+     "hi": "आपको पैसे मिलेंगे",
+     "cg": "तुंहला पइसा मिलही"
+    },
+    {
+     "en": "Money leaves your account",
+     "hi": "आपके खाते से पैसे चले जाएँगे",
+     "cg": "तुंहर खाता ले पइसा चल दिही"
+    },
+    {
+     "en": "Nothing happens",
+     "hi": "कुछ नहीं होगा",
+     "cg": "कुछु नइ होही"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "A QR to pay is not a QR to get paid. Do not scan it.",
+    "hi": "पैसे भेजने वाला क्यूआर पैसे पाने का क्यूआर नहीं होता। इसे स्कैन न करें।",
+    "cg": "पइसा भेजइया क्यूआर पइसा पाए के क्यूआर नइ होय। एला स्कैन झन करव।"
+   }
+  },
+  {
+   "id": "q_upi_3",
+   "topic": "upi_qr",
+   "difficulty": 2,
+   "type": "mcq",
+   "question": {
+    "en": "A \"collect request\" from a stranger appears in your UPI app. What do you do?",
+    "hi": "आपके यूपीआई ऐप में किसी अजनबी का \"कलेक्ट रिक्वेस्ट\" आया है। आप क्या करेंगे?",
+    "cg": "तुंहर यूपीआई ऐप म कोनो अजनबी के \"कलेक्ट रिक्वेस्ट\" आए हे। तुमन का करहू?"
+   },
+   "options": [
+    {
+     "en": "Approve it",
+     "hi": "मंज़ूर कर दें",
+     "cg": "मंजूर कर देवव"
+    },
+    {
+     "en": "Decline it and report the sender",
+     "hi": "मना करें और भेजने वाले की रिपोर्ट करें",
+     "cg": "मना करव अउ भेजइया के रिपोर्ट करव"
+    },
+    {
+     "en": "Approve a small amount to test",
+     "hi": "जाँचने के लिए छोटी रकम मंज़ूर करें",
+     "cg": "जांचे बर छोटे रकम मंजूर करव"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "Approving a collect request sends money out. Decline it.",
+    "hi": "कलेक्ट रिक्वेस्ट मंज़ूर करने से पैसे बाहर जाते हैं। मना करें।",
+    "cg": "कलेक्ट रिक्वेस्ट मंजूर करे ले पइसा बाहिर जाथे। मना करव।"
+   }
+  },
+  {
+   "id": "q_upi_4",
+   "topic": "upi_qr",
+   "difficulty": 3,
+   "type": "scenario",
+   "question": {
+    "en": "A stranger says: \"I sent you Rs 5,000 by mistake, please return it,\" and also sends a collect request.",
+    "hi": "एक अजनबी कहता है: \"मैंने गलती से आपको Rs 5,000 भेज दिए, कृपया लौटा दें,\" और साथ में कलेक्ट रिक्वेस्ट भी भेजता है।",
+    "cg": "एक अजनबी कहिथे: \"मैं गलती ले तुंहला Rs 5,000 भेज देंव, किरपा करके लौटा देवव,\" अउ संग म कलेक्ट रिक्वेस्ट घलो भेजथे।"
+   },
+   "options": [
+    {
+     "en": "Safe",
+     "hi": "सुरक्षित",
+     "cg": "सुरक्षित"
+    },
+    {
+     "en": "A scam",
+     "hi": "ठगी",
+     "cg": "ठगी"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "A scam. Do not approve the request. Check your bank app yourself and ask your bank if you really received money.",
+    "hi": "ठगी। रिक्वेस्ट मंज़ूर न करें। अपने बैंक ऐप में खुद देखें और बैंक से पूछें कि पैसे सच में आए या नहीं।",
+    "cg": "ठगी। रिक्वेस्ट मंजूर झन करव। अपन बैंक ऐप म खुद देखव अउ बैंक ले पूछव कि पइसा सच म आइस कि नइ।"
+   }
+  },
+  {
+   "id": "q_lnk_1",
+   "topic": "links_apps",
+   "difficulty": 1,
+   "type": "tf",
+   "question": {
+    "en": "It is safe to install a screen-sharing app if a \"bank officer\" asks you to.",
+    "hi": "अगर कोई \"बैंक अधिकारी\" कहे तो स्क्रीन-शेयर ऐप इंस्टॉल करना सुरक्षित है।",
+    "cg": "यदि कोनो \"बैंक अधिकारी\" कहय त स्क्रीन-शेयर ऐप इंस्टॉल करना सुरक्षित हे।"
+   },
+   "options": [
+    {
+     "en": "True",
+     "hi": "सही",
+     "cg": "सही"
+    },
+    {
+     "en": "False",
+     "hi": "गलत",
+     "cg": "गलत"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "False. With such an app the caller can see your screen, OTPs and PIN.",
+    "hi": "गलत। ऐसे ऐप से फ़ोन करने वाला आपकी स्क्रीन, ओटीपी और पिन देख सकता है।",
+    "cg": "गलत। अइसन ऐप ले फोन करइया तुंहर स्क्रीन, ओटीपी अउ पिन देख सकथे।"
+   }
+  },
+  {
+   "id": "q_lnk_2",
+   "topic": "links_apps",
+   "difficulty": 2,
+   "type": "mcq",
+   "question": {
+    "en": "Which address is most likely to be fake?",
+    "hi": "इनमें से कौन-सा पता नकली होने की सबसे ज़्यादा संभावना रखता है?",
+    "cg": "इनमा ले कोन पता नकली होए के सबले जादा संभावना रखथे?"
+   },
+   "options": [
+    {
+     "en": "sbi.co.in",
+     "hi": "sbi.co.in",
+     "cg": "sbi.co.in"
+    },
+    {
+     "en": "sbi-kyc-update.top",
+     "hi": "sbi-kyc-update.top",
+     "cg": "sbi-kyc-update.top"
+    },
+    {
+     "en": "onlinesbi.sbi",
+     "hi": "onlinesbi.sbi",
+     "cg": "onlinesbi.sbi"
+    },
+    {
+     "en": "hdfcbank.com",
+     "hi": "hdfcbank.com",
+     "cg": "hdfcbank.com"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "It adds extra words and an odd ending to a bank's name. The real sites are short and official.",
+    "hi": "इसमें बैंक के नाम के साथ अतिरिक्त शब्द और अजीब अंत जुड़ा है। असली साइटें छोटी और आधिकारिक होती हैं।",
+    "cg": "एमा बैंक के नाम संग अतिरिक्त शब्द अउ अजीब अंत जुड़े हे। असली साइट छोटे अउ आधिकारिक होथे।"
+   }
+  },
+  {
+   "id": "q_lnk_3",
+   "topic": "links_apps",
+   "difficulty": 2,
+   "type": "mcq",
+   "question": {
+    "en": "An unknown contact sends a file called \"Wedding invitation.apk\". What do you do?",
+    "hi": "एक अनजान संपर्क \"Wedding invitation.apk\" नाम की फ़ाइल भेजता है। आप क्या करेंगे?",
+    "cg": "एक अनजान संपर्क \"Wedding invitation.apk\" नाम के फाइल भेजथे। तुमन का करहू?"
+   },
+   "options": [
+    {
+     "en": "Open it to see the card",
+     "hi": "कार्ड देखने के लिए खोलें",
+     "cg": "कार्ड देखे बर खोलव"
+    },
+    {
+     "en": "Delete it without opening",
+     "hi": "बिना खोले मिटा दें",
+     "cg": "बिना खोले मिटा देवव"
+    },
+    {
+     "en": "Forward it to family",
+     "hi": "परिवार को भेज दें",
+     "cg": "परिवार ला भेज देवव"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "An .apk file is an app. Fake invitation apps can take over your phone and your bank apps.",
+    "hi": ".apk फ़ाइल एक ऐप होती है। नकली निमंत्रण ऐप आपके फ़ोन और बैंक ऐप पर कब्ज़ा कर सकते हैं।",
+    "cg": ".apk फाइल एक ऐप होथे। नकली निमंत्रण ऐप तुंहर फोन अउ बैंक ऐप म कब्जा कर सकथे।"
+   }
+  },
+  {
+   "id": "q_lnk_4",
+   "topic": "links_apps",
+   "difficulty": 3,
+   "type": "scenario",
+   "question": {
+    "en": "SMS: \"Congratulations! You won a phone. Claim it at bit.ly/x7Kq2.\"",
+    "hi": "एसएमएस: \"बधाई हो! आपने फ़ोन जीता है। bit.ly/x7Kq2 पर पाएँ।\"",
+    "cg": "एसएमएस: \"बधाई हो! तुमन फोन जीते हव। bit.ly/x7Kq2 म पावव।\""
+   },
+   "options": [
+    {
+     "en": "Safe",
+     "hi": "सुरक्षित",
+     "cg": "सुरक्षित"
+    },
+    {
+     "en": "A scam",
+     "hi": "ठगी",
+     "cg": "ठगी"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "A scam: a prize you did not enter for, and a shortened link that hides the real address.",
+    "hi": "ठगी: ऐसा इनाम जिसमें आपने हिस्सा नहीं लिया, और छोटा लिंक जो असली पता छिपाता है।",
+    "cg": "ठगी: अइसन इनाम जेमा तुमन हिस्सा नइ लेव, अउ छोटे लिंक जेन असली पता लुकाथे।"
+   }
+  },
+  {
+   "id": "q_do_1",
+   "topic": "what_to_do",
+   "difficulty": 1,
+   "type": "mcq",
+   "question": {
+    "en": "You lost money in a scam just now. Which number do you call first?",
+    "hi": "अभी एक ठगी में आपके पैसे चले गए। सबसे पहले किस नंबर पर कॉल करें?",
+    "cg": "अभी एक ठगी म तुंहर पइसा चल दिस। सबले पहिली कोन नंबर म कॉल करव?"
+   },
+   "options": [
+    {
+     "en": "1930",
+     "hi": "1930",
+     "cg": "1930"
+    },
+    {
+     "en": "100 only after a week",
+     "hi": "एक हफ़्ते बाद सिर्फ़ 100",
+     "cg": "एक हफ्ता बाद सिरिफ 100"
+    },
+    {
+     "en": "The scammer's number",
+     "hi": "ठग का नंबर",
+     "cg": "ठग के नंबर"
+    }
+   ],
+   "answer": 0,
+   "explanation": {
+    "en": "1930 is the national cyber fraud helpline. Speed matters.",
+    "hi": "1930 राष्ट्रीय साइबर ठगी हेल्पलाइन है। जल्दी करना ज़रूरी है।",
+    "cg": "1930 राष्ट्रीय साइबर ठगी हेल्पलाइन हे। जल्दी करना जरूरी हे।"
+   }
+  },
+  {
+   "id": "q_do_2",
+   "topic": "what_to_do",
+   "difficulty": 1,
+   "type": "tf",
+   "question": {
+    "en": "After you were cheated, deleting the chat and messages helps the police.",
+    "hi": "ठगी के बाद चैट और संदेश मिटा देने से पुलिस को मदद मिलती है।",
+    "cg": "ठगी के बाद चैट अउ संदेसा मिटा देहे ले पुलिस ला मदद मिलथे।"
+   },
+   "options": [
+    {
+     "en": "True",
+     "hi": "सही",
+     "cg": "सही"
+    },
+    {
+     "en": "False",
+     "hi": "गलत",
+     "cg": "गलत"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "False. Keep every message, screenshot and payment record as evidence.",
+    "hi": "गलत। हर संदेश, स्क्रीनशॉट और भुगतान का रिकॉर्ड सबूत के लिए रखें।",
+    "cg": "गलत। हर संदेसा, स्क्रीनशॉट अउ भुगतान के रिकॉर्ड सबूत बर राखव।"
+   }
+  },
+  {
+   "id": "q_do_3",
+   "topic": "what_to_do",
+   "difficulty": 2,
+   "type": "mcq",
+   "question": {
+    "en": "After calling 1930, where else should you file a complaint?",
+    "hi": "1930 पर कॉल करने के बाद आप और कहाँ शिकायत दर्ज करें?",
+    "cg": "1930 म कॉल करे के बाद तुमन अउ कहाँ शिकायत दर्ज करव?"
+   },
+   "options": [
+    {
+     "en": "cybercrime.gov.in",
+     "hi": "cybercrime.gov.in",
+     "cg": "cybercrime.gov.in"
+    },
+    {
+     "en": "A social media post",
+     "hi": "सोशल मीडिया पोस्ट",
+     "cg": "सोशल मीडिया पोस्ट"
+    },
+    {
+     "en": "Nowhere",
+     "hi": "कहीं नहीं",
+     "cg": "कहूँ नइ"
+    }
+   ],
+   "answer": 0,
+   "explanation": {
+    "en": "File on the national cybercrime portal, cybercrime.gov.in, and keep your evidence ready.",
+    "hi": "राष्ट्रीय साइबर अपराध पोर्टल cybercrime.gov.in पर शिकायत करें और सबूत तैयार रखें।",
+    "cg": "राष्ट्रीय साइबर अपराध पोर्टल cybercrime.gov.in म शिकायत करव अउ सबूत तैयार राखव।"
+   }
+  },
+  {
+   "id": "q_do_4",
+   "topic": "what_to_do",
+   "difficulty": 2,
+   "type": "mcq",
+   "question": {
+    "en": "You got a suspicious call but lost no money. Where can you report it?",
+    "hi": "आपको एक संदिग्ध कॉल आया लेकिन कोई पैसा नहीं गया। रिपोर्ट कहाँ करें?",
+    "cg": "तुंहला एक संदिग्ध कॉल आइस फेर कोनो पइसा नइ गिस। रिपोर्ट कहाँ करव?"
+   },
+   "options": [
+    {
+     "en": "Chakshu on the Sanchar Saathi portal",
+     "hi": "संचार साथी पोर्टल पर चक्षु",
+     "cg": "संचार साथी पोर्टल म चक्षु"
+    },
+    {
+     "en": "Call the scammer back",
+     "hi": "ठग को वापस कॉल करें",
+     "cg": "ठग ला वापस कॉल करव"
+    },
+    {
+     "en": "Do nothing",
+     "hi": "कुछ न करें",
+     "cg": "कुछु झन करव"
+    }
+   ],
+   "answer": 0,
+   "explanation": {
+    "en": "Chakshu is for reporting suspected fraud calls and messages before any loss.",
+    "hi": "नुकसान से पहले संदिग्ध ठगी वाले कॉल और संदेश की रिपोर्ट के लिए चक्षु है।",
+    "cg": "नुकसान ले पहिली संदिग्ध ठगी वाले कॉल अउ संदेसा के रिपोर्ट बर चक्षु हे।"
+   }
+  }
+ ]
+}
