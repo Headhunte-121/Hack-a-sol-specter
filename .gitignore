@@ -33,5 +33,4 @@ dist/
 *.tsbuildinfo
 
 
-pack-project.js
 project_bundle.txt
