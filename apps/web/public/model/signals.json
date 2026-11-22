@@ -2,89 +2,657 @@
   "version": "2026-11-22.1",
   "notes": "Interpretable scam signals. A signal fires when every group has at least one phrase hit and no 'none' phrase hits. Phrases are space-separated lowercase tokens; a trailing * on the last token means prefix match. Used as extra model features and as explanation text, never as the whole classifier.",
   "signals": [
-    {"id": "asks_secret_code", "kind": "risk",
-     "groups": [
-       ["otp", "ओटीपी", "cvv", "सीवीवी", "pin", "पिन", "card number", "कार्ड नंबर", "6 digit", "6 अंकों", "password", "पासवर्ड", "code", "कोड", "upi pin", "यूपीआई पिन"],
-       ["share", "send", "tell", "give", "enter", "submit", "batao", "bataiye", "bata", "batayein", "bhejo", "bhejiye", "bhej", "daalo", "dalo", "बताएं", "बताइए", "बताओ", "भेजें", "भेजिए", "भेज", "साझा करें", "डालें", "दर्ज करें"]
-     ],
-     "none": ["do not share", "don t share", "never share", "not share", "do not disclose", "share na karein", "share na kare", "na batayein", "na bataye", "na bataen", "kisi ko na", "साझा न", "न बताएं", "किसी को न", "ignore this", "अनदेखा", "ignore karein"]},
-    {"id": "asks_id_details", "kind": "risk",
-     "groups": [
-       ["aadhaar", "aadhar", "आधार", "pan", "पैन", "bank details", "बैंक विवरण", "बैंक डिटेल", "account number", "खाता नंबर", "खाता संख्या", "bank account", "बैंक खाता"],
-       ["share", "send", "tell", "give", "enter", "submit", "update", "verify", "batao", "bataiye", "bata", "bhejo", "bhejiye", "bharo", "update karo", "update karein", "बताएं", "बताइए", "भेजें", "अपडेट", "वेरिफाई", "सत्यापित", "भरें", "डालें"]
-     ],
-     "none": ["successfully", "सफलतापूर्वक", "has been received", "request received", "mil gaya", "प्राप्त हो गया", "track status", "स्थिति देखें"]},
-    {"id": "urgency", "kind": "risk",
-     "groups": [[
-       "immediately", "urgent", "urgently", "right now", "today only", "tonight", "last notice", "final warning", "final notice", "limited time", "expires today", "expiring today", "asap", "24 hours", "2 hours", "1 hour", "within 24", "abhi", "turant", "jaldi", "aaj hi", "ghante me", "ghante mein", "24 ghante", "2 ghante", "aaj raat", "तुरंत", "अभी", "आज ही", "घंटे में", "आज रात", "अंतिम", "24 घंटे", "2 घंटे"
-     ]], "none": []},
-    {"id": "threat", "kind": "risk",
-     "groups": [[
-       "blocked", "block", "suspended", "suspend", "arrest*", "legal action", "court", "disconnect*", "deactivat*", "cancel*", "freeze", "frozen", "band ho", "kat jayega", "kat di", "kaat di", "giraft*", "summons", "penalty", "ब्लॉक", "बंद", "गिरफ्तार*", "कानूनी", "कोर्ट", "फ्रीज", "रद्द", "काट दी", "काट दिया", "जुर्माना"
-     ]], "none": ["successfully", "सफलतापूर्वक"]},
-    {"id": "prize_claim", "kind": "risk",
-     "groups": [[
-       "won", "winner", "lottery", "prize", "congratulations", "congrats", "lucky draw", "free recharge", "gift voucher", "jeet*", "jeete", "inaam", "badhai", "बधाई", "लॉटरी", "इनाम", "जीत*", "लकी ड्रॉ", "मुफ्त रिचार्ज", "गिफ्ट वाउचर"
-     ]], "none": ["on your promotion", "promotion ki", "प्रमोशन की"]},
-    {"id": "kyc_demand", "kind": "risk",
-     "groups": [
-       ["kyc", "केवाईसी", "pan card", "aadhaar card", "आधार कार्ड", "pan"],
-       ["update", "verify", "expire*", "pending", "blocked", "suspend*", "link", "अपडेट", "वेरिफाई", "सत्यापित", "बाकी", "बंद", "समाप्त", "karein", "karo"]
-     ],
-     "none": ["successfully", "सफलतापूर्वक", "has been successfully", "ho gaya hai thanks", "धन्यवाद", "thanks", "thank you"]},
-    {"id": "upfront_fee", "kind": "risk",
-     "groups": [
-       ["fee", "charges", "charge", "registration fee", "processing fee", "deposit", "tax", "शुल्क", "फीस", "जमा", "पंजीकरण"],
-       ["loan", "job", "lottery", "prize", "parcel", "refund", "claim", "joining", "release", "approved", "bonus", "लोन", "जॉब", "इनाम", "पार्सल", "रिफंड", "बोनस", "मंजूर", "जॉइनिंग", "claim karo", "inaam", "paisa", "amount"]
-     ],
-     "none": ["successfully", "successful", "सफल", "debited", "credited", "official app", "thank you for", "धन्यवाद"]},
-    {"id": "install_app", "kind": "risk",
-     "groups": [[
-       "apk", "anydesk", "teamviewer", "quicksupport", "install app", "app install", "download app", "download the app", "install the app", "screen share", "remote access", "ऐप इंस्टॉल", "एपीके", "एनीडेस्क", "टीमव्यूअर", "apk download", "app download"
-     ]], "none": []},
-    {"id": "callback_number", "kind": "risk",
-     "groups": [
-       ["call", "contact", "whatsapp", "telegram", "कॉल", "संपर्क", "व्हाट्सऐप", "टेलीग्राम"],
-       ["phonetok"]
-     ], "none": []},
-    {"id": "has_link", "kind": "risk",
-     "groups": [["urltok", "urlshorttok", "urlsusptok"]], "none": []},
-    {"id": "short_or_odd_link", "kind": "risk",
-     "groups": [["urlshorttok", "urlsusptok"]], "none": []},
-    {"id": "payment_request", "kind": "risk",
-     "groups": [
-       ["pay", "payment karo", "pay karo", "deposit", "transfer", "remit", "jama karo", "jama karein", "bharo", "bhejo", "भुगतान करें", "जमा करें", "भरें", "भेजिए", "भेज दीजिए", "भेजें"],
-       ["amounttok", "fee", "charges", "शुल्क", "फीस", "penalty", "जुर्माना", "tax"]
-     ],
-     "none": ["has been paid", "was successful", "successfully", "सफल", "debited", "credited", "official app", "official portal", "आधिकारिक", "pay on the official", "pay via", "pay through"]},
-    {"id": "authority_claim", "kind": "risk",
-     "groups": [[
-       "cbi", "police", "cyber cell", "cyber crime", "trai", "customs", "income tax", "enforcement directorate", "narcotics", "rbi", "ed officer", "सीबीआई", "पुलिस", "साइबर", "ट्राई", "कस्टम", "आयकर", "इनकम टैक्स", "नारकोटिक्स"
-     ]], "none": []},
-    {"id": "secrecy_or_isolation", "kind": "risk",
-     "groups": [[
-       "do not tell", "don t tell", "keep secret", "keep this secret", "stay on call", "stay on the line", "stay on video call", "video call par", "वीडियो कॉल पर", "kisi ko mat", "किसी को मत", "do not disconnect", "mat katna", "mat kaatna", "disconnect mat"
-     ]], "none": []},
-    {"id": "easy_money", "kind": "risk",
-     "groups": [[
-       "work from home", "part time job", "part time", "guaranteed return*", "guaranteed", "double your", "paisa double", "पैसा दोगुना", "दोगुना", "रोज़ कमाएं", "roz kamao", "roz kamayein", "daily earn", "earn rs", "earn amounttok", "kamayein", "kamao", "कमाएं", "गारंटी"
-     ]], "none": []},
-    {"id": "impersonated_brand_action", "kind": "risk",
-     "groups": [
-       ["paytm", "phonepe", "gpay", "netflix", "amazon", "flipkart", "sbi", "hdfc", "icici", "axis", "kotak", "jio", "airtel", "फोनपे", "पेटीएम", "नेटफ्लिक्स", "अमेज़न"],
-       ["urlsusptok", "urlshorttok"]
-     ], "none": []},
-    {"id": "official_channel_wording", "kind": "reassure",
-     "groups": [[
-       "official app", "official website", "official portal", "official site", "आधिकारिक", "not you", "if you did not", "ignore this", "reference number", "ref no", "track your order", "thank you for", "thanks for", "धन्यवाद", "संदर्भ संख्या", "official app se", "nahi the", "नहीं थे"
-     ]], "none": []},
-    {"id": "tells_not_to_share", "kind": "reassure",
-     "groups": [[
-       "do not share", "don t share", "never share", "not share", "do not disclose", "share na karein", "share na kare", "na batayein", "na bataye", "kisi ko na", "साझा न", "न बताएं", "किसी को न"
-     ]], "none": []},
-    {"id": "transaction_notice", "kind": "reassure",
-     "groups": [[
-       "debited", "credited", "available balance", "avl bal", "a c", "डेबिट", "जमा हुए", "जमा हो गया", "debit hue", "credit ho gaya", "credit hue", "shesh rashi", "शेष राशि", "balance"
-     ]], "none": []}
+    {
+      "id": "asks_secret_code",
+      "kind": "risk",
+      "groups": [
+        [
+          "otp",
+          "ओटीपी",
+          "cvv",
+          "सीवीवी",
+          "pin",
+          "पिन",
+          "card number",
+          "कार्ड नंबर",
+          "6 digit",
+          "6 अंकों",
+          "password",
+          "पासवर्ड",
+          "code",
+          "कोड",
+          "upi pin",
+          "यूपीआई पिन"
+        ],
+        [
+          "share",
+          "send",
+          "tell",
+          "give",
+          "enter",
+          "submit",
+          "batao",
+          "bataiye",
+          "bata",
+          "batayein",
+          "bhejo",
+          "bhejiye",
+          "bhej",
+          "daalo",
+          "dalo",
+          "बताएं",
+          "बताइए",
+          "बताओ",
+          "भेजें",
+          "भेजिए",
+          "भेज",
+          "साझा करें",
+          "डालें",
+          "दर्ज करें"
+        ]
+      ],
+      "none": [
+        "do not share",
+        "don t share",
+        "never share",
+        "not share",
+        "do not disclose",
+        "share na karein",
+        "share na kare",
+        "na batayein",
+        "na bataye",
+        "na bataen",
+        "kisi ko na",
+        "साझा न",
+        "न बताएं",
+        "किसी को न",
+        "ignore this",
+        "अनदेखा",
+        "ignore karein"
+      ]
+    },
+    {
+      "id": "asks_id_details",
+      "kind": "risk",
+      "groups": [
+        [
+          "aadhaar",
+          "aadhar",
+          "आधार",
+          "pan",
+          "पैन",
+          "bank details",
+          "बैंक विवरण",
+          "बैंक डिटेल",
+          "account number",
+          "खाता नंबर",
+          "खाता संख्या",
+          "bank account",
+          "बैंक खाता"
+        ],
+        [
+          "share",
+          "send",
+          "tell",
+          "give",
+          "enter",
+          "submit",
+          "update",
+          "verify",
+          "batao",
+          "bataiye",
+          "bata",
+          "bhejo",
+          "bhejiye",
+          "bharo",
+          "update karo",
+          "update karein",
+          "बताएं",
+          "बताइए",
+          "भेजें",
+          "अपडेट",
+          "वेरिफाई",
+          "सत्यापित",
+          "भरें",
+          "डालें"
+        ]
+      ],
+      "none": [
+        "successfully",
+        "सफलतापूर्वक",
+        "has been received",
+        "request received",
+        "mil gaya",
+        "प्राप्त हो गया",
+        "track status",
+        "स्थिति देखें"
+      ]
+    },
+    {
+      "id": "urgency",
+      "kind": "risk",
+      "groups": [
+        [
+          "immediately",
+          "urgent",
+          "urgently",
+          "right now",
+          "today only",
+          "tonight",
+          "last notice",
+          "final warning",
+          "final notice",
+          "limited time",
+          "expires today",
+          "expiring today",
+          "asap",
+          "24 hours",
+          "2 hours",
+          "1 hour",
+          "within 24",
+          "abhi",
+          "turant",
+          "jaldi",
+          "aaj hi",
+          "ghante me",
+          "ghante mein",
+          "24 ghante",
+          "2 ghante",
+          "aaj raat",
+          "तुरंत",
+          "अभी",
+          "आज ही",
+          "घंटे में",
+          "आज रात",
+          "अंतिम",
+          "24 घंटे",
+          "2 घंटे"
+        ]
+      ],
+      "none": []
+    },
+    {
+      "id": "threat",
+      "kind": "risk",
+      "groups": [
+        [
+          "blocked",
+          "block",
+          "suspended",
+          "suspend",
+          "arrest*",
+          "legal action",
+          "court",
+          "disconnect*",
+          "deactivat*",
+          "cancel*",
+          "freeze",
+          "frozen",
+          "band ho",
+          "kat jayega",
+          "kat di",
+          "kaat di",
+          "giraft*",
+          "summons",
+          "penalty",
+          "ब्लॉक",
+          "बंद",
+          "गिरफ्तार*",
+          "कानूनी",
+          "कोर्ट",
+          "फ्रीज",
+          "रद्द",
+          "काट दी",
+          "काट दिया",
+          "जुर्माना"
+        ]
+      ],
+      "none": [
+        "successfully",
+        "सफलतापूर्वक"
+      ]
+    },
+    {
+      "id": "prize_claim",
+      "kind": "risk",
+      "groups": [
+        [
+          "won",
+          "winner",
+          "lottery",
+          "prize",
+          "congratulations",
+          "congrats",
+          "lucky draw",
+          "free recharge",
+          "gift voucher",
+          "jeet*",
+          "jeete",
+          "inaam",
+          "badhai",
+          "बधाई",
+          "लॉटरी",
+          "इनाम",
+          "जीत*",
+          "लकी ड्रॉ",
+          "मुफ्त रिचार्ज",
+          "गिफ्ट वाउचर"
+        ]
+      ],
+      "none": [
+        "on your promotion",
+        "promotion ki",
+        "प्रमोशन की"
+      ]
+    },
+    {
+      "id": "kyc_demand",
+      "kind": "risk",
+      "groups": [
+        [
+          "kyc",
+          "केवाईसी",
+          "pan card",
+          "aadhaar card",
+          "आधार कार्ड",
+          "pan"
+        ],
+        [
+          "update",
+          "verify",
+          "expire*",
+          "pending",
+          "blocked",
+          "suspend*",
+          "link",
+          "अपडेट",
+          "वेरिफाई",
+          "सत्यापित",
+          "बाकी",
+          "बंद",
+          "समाप्त",
+          "karein",
+          "karo"
+        ]
+      ],
+      "none": [
+        "successfully",
+        "सफलतापूर्वक",
+        "has been successfully",
+        "ho gaya hai thanks",
+        "धन्यवाद",
+        "thanks",
+        "thank you"
+      ]
+    },
+    {
+      "id": "upfront_fee",
+      "kind": "risk",
+      "groups": [
+        [
+          "fee",
+          "charges",
+          "charge",
+          "registration fee",
+          "processing fee",
+          "deposit",
+          "tax",
+          "शुल्क",
+          "फीस",
+          "जमा",
+          "पंजीकरण"
+        ],
+        [
+          "loan",
+          "job",
+          "lottery",
+          "prize",
+          "parcel",
+          "refund",
+          "claim",
+          "joining",
+          "release",
+          "approved",
+          "bonus",
+          "लोन",
+          "जॉब",
+          "इनाम",
+          "पार्सल",
+          "रिफंड",
+          "बोनस",
+          "मंजूर",
+          "जॉइनिंग",
+          "claim karo",
+          "inaam",
+          "paisa",
+          "amount"
+        ]
+      ],
+      "none": [
+        "successfully",
+        "successful",
+        "सफल",
+        "debited",
+        "credited",
+        "official app",
+        "thank you for",
+        "धन्यवाद"
+      ]
+    },
+    {
+      "id": "install_app",
+      "kind": "risk",
+      "groups": [
+        [
+          "apk",
+          "anydesk",
+          "teamviewer",
+          "quicksupport",
+          "install app",
+          "app install",
+          "download app",
+          "download the app",
+          "install the app",
+          "screen share",
+          "remote access",
+          "ऐप इंस्टॉल",
+          "एपीके",
+          "एनीडेस्क",
+          "टीमव्यूअर",
+          "apk download",
+          "app download"
+        ]
+      ],
+      "none": []
+    },
+    {
+      "id": "callback_number",
+      "kind": "risk",
+      "groups": [
+        [
+          "call",
+          "contact",
+          "whatsapp",
+          "telegram",
+          "कॉल",
+          "संपर्क",
+          "व्हाट्सऐप",
+          "टेलीग्राम"
+        ],
+        [
+          "phonetok"
+        ]
+      ],
+      "none": []
+    },
+    {
+      "id": "has_link",
+      "kind": "risk",
+      "groups": [
+        [
+          "urltok",
+          "urlshorttok",
+          "urlsusptok"
+        ]
+      ],
+      "none": []
+    },
+    {
+      "id": "short_or_odd_link",
+      "kind": "risk",
+      "groups": [
+        [
+          "urlshorttok",
+          "urlsusptok"
+        ]
+      ],
+      "none": []
+    },
+    {
+      "id": "payment_request",
+      "kind": "risk",
+      "groups": [
+        [
+          "pay",
+          "payment karo",
+          "pay karo",
+          "deposit",
+          "transfer",
+          "remit",
+          "jama karo",
+          "jama karein",
+          "bharo",
+          "bhejo",
+          "भुगतान करें",
+          "जमा करें",
+          "भरें",
+          "भेजिए",
+          "भेज दीजिए",
+          "भेजें"
+        ],
+        [
+          "amounttok",
+          "fee",
+          "charges",
+          "शुल्क",
+          "फीस",
+          "penalty",
+          "जुर्माना",
+          "tax"
+        ]
+      ],
+      "none": [
+        "has been paid",
+        "was successful",
+        "successfully",
+        "सफल",
+        "debited",
+        "credited",
+        "official app",
+        "official portal",
+        "आधिकारिक",
+        "pay on the official",
+        "pay via",
+        "pay through"
+      ]
+    },
+    {
+      "id": "authority_claim",
+      "kind": "risk",
+      "groups": [
+        [
+          "cbi",
+          "police",
+          "cyber cell",
+          "cyber crime",
+          "trai",
+          "customs",
+          "income tax",
+          "enforcement directorate",
+          "narcotics",
+          "rbi",
+          "ed officer",
+          "सीबीआई",
+          "पुलिस",
+          "साइबर",
+          "ट्राई",
+          "कस्टम",
+          "आयकर",
+          "इनकम टैक्स",
+          "नारकोटिक्स"
+        ]
+      ],
+      "none": []
+    },
+    {
+      "id": "secrecy_or_isolation",
+      "kind": "risk",
+      "groups": [
+        [
+          "do not tell",
+          "don t tell",
+          "keep secret",
+          "keep this secret",
+          "stay on call",
+          "stay on the line",
+          "stay on video call",
+          "video call par",
+          "वीडियो कॉल पर",
+          "kisi ko mat",
+          "किसी को मत",
+          "do not disconnect",
+          "mat katna",
+          "mat kaatna",
+          "disconnect mat"
+        ]
+      ],
+      "none": []
+    },
+    {
+      "id": "easy_money",
+      "kind": "risk",
+      "groups": [
+        [
+          "work from home",
+          "part time job",
+          "part time",
+          "guaranteed return*",
+          "guaranteed",
+          "double your",
+          "paisa double",
+          "पैसा दोगुना",
+          "दोगुना",
+          "रोज़ कमाएं",
+          "roz kamao",
+          "roz kamayein",
+          "daily earn",
+          "earn rs",
+          "earn amounttok",
+          "kamayein",
+          "kamao",
+          "कमाएं",
+          "गारंटी"
+        ]
+      ],
+      "none": []
+    },
+    {
+      "id": "impersonated_brand_action",
+      "kind": "risk",
+      "groups": [
+        [
+          "paytm",
+          "phonepe",
+          "gpay",
+          "netflix",
+          "amazon",
+          "flipkart",
+          "sbi",
+          "hdfc",
+          "icici",
+          "axis",
+          "kotak",
+          "jio",
+          "airtel",
+          "फोनपे",
+          "पेटीएम",
+          "नेटफ्लिक्स",
+          "अमेज़न"
+        ],
+        [
+          "urlsusptok",
+          "urlshorttok"
+        ]
+      ],
+      "none": []
+    },
+    {
+      "id": "official_channel_wording",
+      "kind": "reassure",
+      "groups": [
+        [
+          "official app",
+          "official website",
+          "official portal",
+          "official site",
+          "आधिकारिक",
+          "not you",
+          "if you did not",
+          "ignore this",
+          "reference number",
+          "ref no",
+          "track your order",
+          "thank you for",
+          "thanks for",
+          "धन्यवाद",
+          "संदर्भ संख्या",
+          "official app se",
+          "nahi the",
+          "नहीं थे"
+        ]
+      ],
+      "none": []
+    },
+    {
+      "id": "tells_not_to_share",
+      "kind": "reassure",
+      "groups": [
+        [
+          "do not share",
+          "don t share",
+          "never share",
+          "not share",
+          "do not disclose",
+          "share na karein",
+          "share na kare",
+          "na batayein",
+          "na bataye",
+          "kisi ko na",
+          "साझा न",
+          "न बताएं",
+          "किसी को न"
+        ],
+        [
+          "otp",
+          "ओटीपी",
+          "cvv",
+          "सीवीवी",
+          "pin",
+          "पिन",
+          "code",
+          "कोड",
+          "password",
+          "पासवर्ड",
+          "link",
+          "लिंक",
+          "card number",
+          "कार्ड नंबर"
+        ]
+      ],
+      "none": []
+    },
+    {
+      "id": "transaction_notice",
+      "kind": "reassure",
+      "groups": [
+        [
+          "debited",
+          "credited",
+          "available balance",
+          "avl bal",
+          "a c",
+          "डेबिट",
+          "जमा हुए",
+          "जमा हो गया",
+          "debit hue",
+          "credit ho gaya",
+          "credit hue",
+          "shesh rashi",
+          "शेष राशि",
+          "balance"
+        ]
+      ],
+      "none": []
+    }
   ]
 }

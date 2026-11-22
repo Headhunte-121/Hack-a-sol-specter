@@ -35,7 +35,7 @@ def main():
     for t in texts:
         r = model.score(t, sg)
         rows.append({"text": t, "words": r["words"], "signals": r["signals"], "z": r["z"], "p": r["p"]})
-    (OUT / "parity.json").write_text(json.dumps(rows, ensure_ascii=False), encoding="utf-8")
+    (ROOT / "apps" / "web" / "src" / "detector" / "__fixtures__" / "parity.json").write_text(json.dumps(rows, ensure_ascii=False), encoding="utf-8")
     print(f"wrote {len(rows)} parity examples")
 
 
