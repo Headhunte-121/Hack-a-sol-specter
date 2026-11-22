@@ -30,16 +30,21 @@ export default function CallPage() {
   const [out, setOut] = useState<Analysed | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [status, setStatus] = useState<string | null>(null)
-  const [recording, setRecording] = useState<{ stop: () => Promise<Blob> } | null>(null)
+  const [recording, setRecording] = useState<{ stop: () => Promise<Blob>; cancel: () => void } | null>(null)
   const [fb, setFb] = useState(false)
   const [copied, setCopied] = useState(false)
   const abort = useRef<AbortController | null>(null)
+  const recRef = useRef<{ cancel: () => void } | null>(null)
   const segRefs = useRef<Record<number, HTMLElement | null>>({})
+  recRef.current = recording
 
   useEffect(() => {
-    void fetch('/model/call_lexicon.json').then((r) => r.json()).then(setLex)
-    void fetch('/content/demo_calls.json').then((r) => r.json()).then((j: { calls: DemoCall[] }) => setDemos(j.calls))
-    void loadScorer().then(setScorer).catch(() => setScorer(null)) // the learned window score is optional: rules still work without it
+    let live = true
+    fetch('/model/call_lexicon.json').then((r) => r.json()).then((j) => live && setLex(j)).catch(() => live && setError('detector.error'))
+    fetch('/content/demo_calls.json').then((r) => r.json()).then((j: { calls: DemoCall[] }) => live && setDemos(j.calls)).catch(() => {})
+    void loadScorer().then((s) => live && setScorer(s)).catch(() => live && setScorer(null)) // the learned window score is optional: rules still work without it
+    // leaving the page turns the microphone off and throws the recording away, and stops any upload in progress
+    return () => { live = false; recRef.current?.cancel(); abort.current?.abort() }
   }, [])
 
   const run = (segments: Segment[], duration: number | null, label?: string) => {

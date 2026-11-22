@@ -6,13 +6,14 @@ import { hasConsent, setConsent } from './consent'
 import { clearQueue } from './queue'
 import { kvClearAll } from './storage'
 
-/** clearLocalData: remove history, progress, queued reports and caches, after confirmation. */
+/** clearLocalData: remove history, progress, queued reports and saved copies, after confirmation. The app's own files
+ *  (the offline copy of the app, model and lessons) hold no user data and are kept, so the app still opens without internet. */
 export async function clearLocalData(): Promise<void> {
   kvClearAll()
   await clearQueue().catch(() => {})
+  try { sessionStorage.clear() } catch { /* ignore */ }
   try {
-    for (const k of await caches.keys()) await caches.delete(k)
-    for (const r of (await navigator.serviceWorker?.getRegistrations()) ?? []) await r.unregister()
+    for (const k of await caches.keys()) if (!k.startsWith('workbox-precache')) await caches.delete(k)
   } catch {
     /* ignore */
   }
