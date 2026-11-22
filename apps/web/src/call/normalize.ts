@@ -11,6 +11,11 @@ export const CANON: Record<string, string> = {
   कोड: 'code', पिन: 'pin', ऐप: 'app', एप: 'app', एपीके: 'apk', ऑफिस: 'office', हेड: 'head', कस्टमर: 'customer', केयर: 'care', ट्राई: 'trai', नारकोटिक्स: 'narcotics',
   क्राइम: 'crime', ब्रांच: 'branch', साइबर: 'cyber', सेल: 'cell', एनफोर्समेंट: 'enforcement', डायरेक्टरेट: 'directorate', लॉटरी: 'lottery', केबीसी: 'kbc', प्राइज: 'prize',
   इमीडिएटली: 'immediately', कन्फर्म: 'confirm', वेरिफाई: 'verify', कॉन्फिडेंशियल: 'confidential', रिफंड: 'refund', डीएचएल: 'dhl', फीस: 'fee', टैक्स: 'tax', जीएसटी: 'gst',
+  // other spellings speech recognition produces for the same words on Hindi and Hinglish calls
+  अटीपी: 'otp', ओटिपी: 'otp', ओटीपि: 'otp', ओटिपि: 'otp', केवायसी: 'kyc', केवाइसी: 'kyc',
+  अकाउन्ट: 'account', अकॉउंट: 'account', अकाुन्ट: 'account', एकाउंट: 'account', अकौंट: 'account', अफिस: 'office', ओफिस: 'office', आफिस: 'office',
+  बंक: 'bank', बेंक: 'bank', पेंडिंग: 'pending', पेन्डिंग: 'pending', पंडिंग: 'pending', पंटिंग: 'pending', ब्लोक: 'block', ब्लाक: 'block', पोलिस: 'police', पुलीस: 'police',
+  जेगा: 'जाएगा', जायेगा: 'जाएगा', जाऐगा: 'जाएगा',
 }
 
 /** canonToken: Unicode NFC, drop nukta, unify chandrabindu to anusvara, map Devanagari loanwords to Latin. */
