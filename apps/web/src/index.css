@@ -1,0 +1,22 @@
+@import "tailwindcss";
+@import "@fontsource/noto-sans-devanagari/400.css";
+@import "@fontsource/noto-sans-devanagari/700.css";
+
+@theme {
+  --font-sans: "Noto Sans Devanagari", system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", sans-serif;
+  --color-brand: #0f766e;
+  --color-brand-dark: #115e59;
+}
+
+html { font-size: 18px; -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: #f1f5f9; color: #0f172a; font-family: var(--font-sans); min-height: 100vh; }
+button, a, select, textarea, input { font: inherit; }
+:focus-visible { outline: 3px solid #f59e0b; outline-offset: 2px; }
+.btn { display: flex; align-items: center; justify-content: center; gap: .5rem; min-height: 3.5rem; padding: .75rem 1.25rem; border-radius: .9rem; font-weight: 700; border: 2px solid transparent; cursor: pointer; text-align: center; text-decoration: none; }
+.btn-primary { background: var(--color-brand); color: #fff; }
+.btn-primary:active { background: var(--color-brand-dark); }
+.btn-secondary { background: #fff; color: #0f172a; border-color: #94a3b8; }
+.btn-danger { background: #b91c1c; color: #fff; }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+.card { background: #fff; border-radius: 1rem; padding: 1rem; border: 1px solid #cbd5e1; }
+mark.hl { background: #fecaca; color: #7f1d1d; border-radius: .25rem; padding: 0 .15rem; font-weight: 700; }
