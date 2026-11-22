@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { categoryFromSignals, LESSON_FOR_CATEGORY } from '../shared/categories'
 import { setBusy } from '../shell/busy'
 import { useLang } from '../shell/i18n'
+import { useBackStep, useInnerScreenOnReturn } from '../shell/backStep'
 import { Layout } from '../shell/Layout'
 import { currentQuery, navigate } from '../shell/router'
 import { Banner, Icon } from '../shell/ui'
@@ -58,7 +59,10 @@ export default function LearnPage() {
   const title = (l: Lesson) => pick(l.title, lang)
   const startQuiz = () => setView({ kind: 'quiz' })
   const isResult = view.kind === 'result'
-  const onBack = view.kind === 'quiz' || isResult ? () => setView({ kind: 'home' }) : view.kind === 'lesson' ? () => navigate('/learn') : undefined
+  // Phone Back leaves the quiz or score screen for the lesson list. A lesson has its own address, so Back from it is plain history.
+  useInnerScreenOnReturn()
+  const back = useBackStep(view.kind === 'quiz' || isResult, () => setView({ kind: 'home' }))
+  const onBack = view.kind === 'quiz' || isResult ? back : undefined
 
   return (
     <Layout title={isResult ? t('learn.score.title') : view.kind === 'home' ? t('learn.title') : undefined} onBack={onBack}>
@@ -68,7 +72,7 @@ export default function LearnPage() {
       {pack && view.kind === 'lesson' && (
         <LessonView lesson={pack.lessons.find((l) => l.id === view.id) ?? pack.lessons[0]} done={done.includes(view.id)} onDone={(id) => { markLessonComplete(id); setDone(doneLessons()) }} onQuiz={startQuiz} />
       )}
-      {pack && view.kind === 'quiz' && <QuizView pack={pack} onFinish={(attempt, previous) => setView({ kind: 'result', attempt, previous })} onQuit={() => setView({ kind: 'home' })} />}
+      {pack && view.kind === 'quiz' && <QuizView pack={pack} onFinish={(attempt, previous) => setView({ kind: 'result', attempt, previous })} onQuit={back} />}
       {pack && view.kind === 'result' && <ResultView pack={pack} attempt={view.attempt} previous={view.previous} title={title} onRetry={startQuiz} />}
     </Layout>
   )
