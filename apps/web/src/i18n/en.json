@@ -24,6 +24,7 @@
   "call.advice.low": "No check is perfect. Scammers change their scripts. If anything feels wrong, hang up and verify.",
   "call.advice.medium": "Be careful. Do not share any code or money. Verify by calling the official number yourself.",
   "call.analyse": "Analyse",
+  "call.another": "Check another call",
   "call.audio.limits": "Up to 5 MB and 3 minutes.",
   "call.audio.nobackend": "The audio service is not connected in this version. Use Examples or Paste text.",
   "call.audio.pick": "Choose an audio file",
