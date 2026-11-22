@@ -2,8 +2,7 @@
 
 Why: public data has almost no Hindi/Hinglish, and the spec's collection targets (100+ Hindi scams, 150+ Hinglish scams,
 150+ scary-looking genuine messages) are met with this file. All messages are written from patterns, contain no real
-numbers/names/accounts, and each template is one split group. Drafted with Claude Code (AI-tool disclosure in README);
-a native speaker should review wording. Output: data/team/messages_v3.csv
+numbers/names/accounts, and each template is one split group. A native speaker should confirm the wording. Output: data/team/messages_v3.csv
 """
 import csv
 import random
