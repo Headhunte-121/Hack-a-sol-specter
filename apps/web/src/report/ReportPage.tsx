@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { ShareReport } from '../dashboard/ShareReport'
 import { loadLastResult } from '../detector/lastResult'
+import { useBackStep, useInnerScreenOnReturn } from '../shell/backStep'
 import { setBusy } from '../shell/busy'
 import { formatDate, useLang } from '../shell/i18n'
 import { Layout } from '../shell/Layout'
@@ -50,6 +51,15 @@ export default function ReportPage() {
     window.open(url, '_blank', 'noopener,noreferrer')
   }
   const reset = () => { setOutcome(null); setShared(null); setCopied(false); setOfflineNote(false) }
+  // Phone Back returns to the first question; coming back from a lesson or another screen shows the same advice again.
+  useInnerScreenOnReturn((d) => {
+    const o = d?.outcome
+    if (o !== 'money_lost' && o !== 'no_money' && o !== 'other_cyber' && o !== 'checking') return false
+    setOutcome(o)
+    setShared(typeof d?.shared === 'boolean' ? d.shared : null)
+    return true
+  })
+  const back = useBackStep(outcome !== null, reset, { outcome, shared })
 
   const stepText: Record<StepId, string> = {
     call_1930: t('step.call_1930'), open_cybercrime: t('step.open_cybercrime'), open_chakshu: t('step.open_chakshu'), call_bank: t('step.call_bank'),
@@ -61,7 +71,7 @@ export default function ReportPage() {
     : <button className="btn btn-primary !min-h-[68px] !text-[24px]" onClick={() => navigator.clipboard?.writeText('1930')}><Icon name="phone" size={30} color="#fff" />{t('report.act.dial_desktop')}: 1930</button>
 
   return (
-    <Layout title={t('report.title')} onBack={outcome ? reset : undefined}>
+    <Layout title={t('report.title')} onBack={outcome ? back : undefined}>
       {/* question 1 */}
       {!outcome && (
         <>

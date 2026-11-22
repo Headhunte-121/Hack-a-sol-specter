@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { ShareReport } from '../dashboard/ShareReport'
+import { useBackStep, useInnerScreenOnReturn } from '../shell/backStep'
 import { useLang } from '../shell/i18n'
 import { Layout } from '../shell/Layout'
 import { Banner, Icon, NumberedList, type Tone } from '../shell/ui'
@@ -45,13 +46,26 @@ export default function DetectorPage() {
     return () => { live = false }
   }, [])
 
-  const check = (text = input) => {
+  const check = (text = input, fresh = true) => {
     if (!scorer || !brands || !text.trim()) return
     const r = analyzeInput(text, scorer, brands)
+    setInput(text)
     setResult(r)
     setFb(false)
-    saveLastResult({ kind: r.type, band: r.band, script: r.script, signals: r.scamSignals, phrases: r.topWords, at: Date.now() })
+    if (fresh) saveLastResult({ kind: r.type, band: r.band, script: r.script, signals: r.scamSignals, phrases: r.topWords, at: Date.now() })
   }
+
+  // Phone Back closes the result and keeps the text; coming back from the report or a lesson shows the same result again.
+  const [restoreText, setRestoreText] = useState<string | null>(null)
+  useInnerScreenOnReturn((d) => {
+    const text = typeof d?.text === 'string' ? d.text : null
+    if (text) { setInput(text); setRestoreText(text) }
+    return text !== null
+  })
+  useEffect(() => {
+    if (restoreText && scorer && brands) { check(restoreText, false); setRestoreText(null) }
+  }, [restoreText, scorer, brands])
+  const back = useBackStep(result !== null, () => setResult(null), { text: input })
 
   const canSpeak = useMemo(() => typeof window !== 'undefined' && 'speechSynthesis' in window, [])
   const speak = () => {
@@ -69,7 +83,7 @@ export default function DetectorPage() {
     const b = BAND[result.band]
     const scamLike = result.band !== 'looks_genuine'
     return (
-      <Layout back onBack={() => setResult(null)}>
+      <Layout back onBack={back}>
         <div data-testid="result-card" data-band={result.band} className="flex flex-col gap-3" aria-live="polite">
           <Banner tone={b.tone} className="flex items-center gap-3.5 !px-4 !py-3.5">
             <Icon name={b.icon} size={52} color={b.color} />
@@ -141,7 +155,7 @@ export default function DetectorPage() {
         <h2 className="mb-2 text-[16px] font-bold text-muted">{t('detector.examples')}</h2>
         <div className="flex flex-wrap gap-2">
           {DEMO_MESSAGES.map((m) => (
-            <button key={m.id} className="rounded-full border-2 border-line bg-white px-3.5 py-2 text-[15px] font-bold text-ink" onClick={() => { setInput(m.text); check(m.text) }}>
+            <button key={m.id} className="rounded-full border-2 border-line bg-white px-3.5 py-2 text-[15px] font-bold text-ink" onClick={() => check(m.text)}>
               {m.label}
             </button>
           ))}
