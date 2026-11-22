@@ -140,7 +140,7 @@ export default function ReportPage() {
             </div>
           )}
 
-          {last && route.channel !== 'tips' && <ShareReport kind={last.kind} signals={last.signals} band={last.band === 'looks_genuine' ? 'suspicious' : last.band} />}
+          {last && route.channel !== 'tips' && <ShareReport kind={last.kind} signals={last.signals} category={last.category as never} band={last.band === 'looks_genuine' ? 'suspicious' : last.band} />}
 
           <p className="text-sm text-slate-600">{t('report.disclaimer')}</p>
           <button className="underline" onClick={reset}>{t('report.restart')}</button>

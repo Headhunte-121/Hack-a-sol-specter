@@ -13,6 +13,7 @@ const DetectorPage = lazy(() => import('./detector/DetectorPage'))
 const ReportPage = lazy(() => import('./report/ReportPage'))
 const LearnPage = lazy(() => import('./learn/LearnPage'))
 const TrendsPage = lazy(() => import('./dashboard/TrendsPage'))
+const CallPage = lazy(() => import('./call/CallPage'))
 
 const ROUTES: Record<string, () => React.ReactElement> = {
   '/': () => <Home />,
@@ -21,6 +22,7 @@ const ROUTES: Record<string, () => React.ReactElement> = {
   '/report': () => <ReportPage />,
   '/learn': () => <LearnPage />,
   '/trends': () => <TrendsPage />,
+  '/call': () => <CallPage />,
 }
 
 export default function App() {

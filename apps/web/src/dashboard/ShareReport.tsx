@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { categoryFromSignals } from '../shared/categories'
+import { categoryFromSignals, type CategoryCode } from '../shared/categories'
 import { consentAsked, hasConsent, markConsentAsked, setConsent } from '../shell/consent'
 import { useLang } from '../shell/i18n'
 import { kvGet, kvSet } from '../shell/storage'
@@ -8,7 +8,7 @@ import { REGIONS } from './regionsData'
 import { queueReport } from './sync'
 
 /** prepareTrendReport + collectConsent: opt-in, off by default. Builds a fixed-field report and queues it for later sending. */
-export function ShareReport({ kind, signals, band }: { kind: 'message' | 'url' | 'call'; signals: string[]; band: string }) {
+export function ShareReport({ kind, signals, band, category }: { kind: 'message' | 'url' | 'call'; signals: string[]; band: string; category?: CategoryCode }) {
   const { t, lang } = useLang()
   const [consent, setConsentState] = useState(hasConsent())
   const [asked, setAsked] = useState(consentAsked())
@@ -35,7 +35,7 @@ export function ShareReport({ kind, signals, band }: { kind: 'message' | 'url' |
   const send = async () => {
     if (!region) return
     kvSet('region', region)
-    const p = buildReportPayload({ category: categoryFromSignals(signals), channel: channelFromKind(kind), region, band })
+    const p = buildReportPayload({ category: category ?? categoryFromSignals(signals), channel: channelFromKind(kind), region, band })
     if ((await queueReport(p)) === 'queued') setDone(true)
   }
 

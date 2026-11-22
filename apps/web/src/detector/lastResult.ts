@@ -9,6 +9,7 @@ export interface LastResult {
   signals: string[]
   phrases: string[]
   durationSec?: number
+  category?: string // set by the call detector (script -> category)
   at: number
 }
 export const saveLastResult = (r: LastResult) => kvSet('last_result', r)
