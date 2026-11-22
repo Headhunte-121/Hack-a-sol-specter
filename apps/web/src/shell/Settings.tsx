@@ -3,6 +3,7 @@ import { useLang } from './i18n'
 import { Layout, LanguageSwitch } from './Layout'
 import { Icon } from './ui'
 import { hasConsent, setConsent } from './consent'
+import { applyUpdate, usePwaState } from './pwa'
 import { clearQueue } from './queue'
 import { kvClearAll } from './storage'
 
@@ -19,8 +20,16 @@ export async function clearLocalData(): Promise<void> {
   }
 }
 
+/** appVersion: the build's fingerprint (the main script's file name changes with every new build), so a phone can be checked
+ *  against the live site. */
+export function appVersion(): string {
+  const src = (document.querySelector('script[type="module"][src*="/assets/index-"]') as HTMLScriptElement | null)?.src ?? ''
+  return src.match(/index-([\w-]+)\.js/)?.[1] ?? 'dev'
+}
+
 export function Settings() {
   const { t } = useLang()
+  const pwa = usePwaState()
   const [share, setShare] = useState(hasConsent())
   const [done, setDone] = useState(false)
   return (
@@ -55,6 +64,15 @@ export function Settings() {
           <Icon name="trash" size={24} color="#fff" />{t('settings.clear')}
         </button>
         {done && <p role="status" className="font-bold text-ok">{t('settings.cleared')}</p>}
+      </section>
+      <section className="card space-y-2" data-testid="app-version">
+        <p className="text-[16px] text-muted">{t('settings.version')}: <span className="font-mono">{appVersion()}</span></p>
+        {pwa.needRefresh && (
+          <>
+            <p className="font-bold">{t('update.ready')}</p>
+            <button className="btn btn-primary w-full" onClick={() => void applyUpdate()}>{t('update.refresh')}</button>
+          </>
+        )}
       </section>
     </Layout>
   )

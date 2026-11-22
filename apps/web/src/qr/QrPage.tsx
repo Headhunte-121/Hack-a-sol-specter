@@ -3,7 +3,7 @@ import type { BrandsFile } from '../detector/url'
 import { saveLastResult } from '../detector/lastResult'
 import { useLang } from '../shell/i18n'
 import { Layout } from '../shell/Layout'
-import { cameraErrorKey, openCamera } from './camera'
+import { cameraErrorKey, describeCameraError, openCamera } from './camera'
 import { decodeImageFile, decodeQr } from './decode'
 import { analyzeQr, type QrAnalysis } from './parse'
 
@@ -18,6 +18,7 @@ export default function QrPage() {
   const [scanning, setScanning] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [opening, setOpening] = useState(false)
+  const [errCode, setErrCode] = useState<string | null>(null)
   const video = useRef<HTMLVideoElement>(null)
   const stream = useRef<MediaStream | null>(null)
   const raf = useRef<number>(0)
@@ -44,7 +45,7 @@ export default function QrPage() {
     try {
       stream.current = await openCamera()
     } catch (e) {
-      setError(cameraErrorKey(e)); return // blocked, busy, missing or unsupported: each gets its own next step
+      setError(cameraErrorKey(e)); setErrCode(describeCameraError(e)); return // blocked, busy, missing or unsupported: each gets its own next step
     } finally {
       setOpening(false)
     }
@@ -104,6 +105,7 @@ export default function QrPage() {
       {error && (
         <div role="alert" className="flex flex-col gap-3 rounded-2xl border-2 border-bad-line bg-bad-bg p-3 text-bad">
           <p>{t(error)}</p>
+          {error.startsWith('qr.err.camera') && errCode && <p className="font-mono text-xs opacity-80" data-testid="qr-err-code">{t('qr.err.code')}: {errCode}</p>}
           {error.startsWith('qr.err.camera') && (
             // the phone's own camera app takes the picture, so this works even when the browser may not use the camera
             <label className="btn btn-primary cursor-pointer" data-testid="qr-take-photo">📷 {t('qr.take_photo')}
