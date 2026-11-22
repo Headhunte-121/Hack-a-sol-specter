@@ -1,7 +1,7 @@
 import { act, useState } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import { useBackStep, useInnerScreenOnReturn } from './backStep'
+import { closeThenGo, useBackStep, useInnerScreenOnReturn } from './backStep'
 
 ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
 
@@ -72,6 +72,23 @@ describe('useBackStep', () => {
     expect(history.state.innerScreen.data).toEqual({ answer: 'first' })
     await act(() => setAnswer('second'))
     expect(history.state.innerScreen.data).toEqual({ answer: 'second' })
+  })
+
+  it('closeThenGo leaves the inner screen for a new address without leaving a dead entry behind', async () => {
+    await mount(<Page />)
+    await act(() => api.open())
+    const p = popped()
+    const changed = new Promise<void>((r) => window.addEventListener('hashchange', () => r(), { once: true }))
+    await act(() => closeThenGo(api.back, '/learn?lesson=x'))
+    await act(() => p)
+    await act(() => changed)
+    expect(location.hash).toBe('#/learn?lesson=x')
+    expect(host.textContent).toBe('outer')
+    const back = popped()
+    history.back()
+    await back
+    expect(location.hash).toBe('#/message')
+    expect(history.state).toBe(null) // the base entry, not the closed inner screen's
   })
 
   it('on return to an inner-screen entry it cannot show, steps back past it', async () => {

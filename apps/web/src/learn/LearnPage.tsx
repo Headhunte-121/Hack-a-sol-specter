@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { categoryFromSignals, LESSON_FOR_CATEGORY } from '../shared/categories'
 import { setBusy } from '../shell/busy'
 import { useLang } from '../shell/i18n'
-import { useBackStep, useInnerScreenOnReturn } from '../shell/backStep'
+import { closeThenGo, useBackStep, useInnerScreenOnReturn } from '../shell/backStep'
 import { Layout } from '../shell/Layout'
 import { currentQuery, navigate } from '../shell/router'
 import { Banner, Icon } from '../shell/ui'
@@ -12,6 +12,15 @@ import { selectQuestions } from './quiz'
 import { checkAnswer, computeLiteracyScore, computeTopicScores, recommendNextLesson, type Answer } from './score'
 
 type View = { kind: 'home' } | { kind: 'lesson'; id: string } | { kind: 'quiz' } | { kind: 'result'; attempt: Attempt; previous: number | null }
+
+/** The screen the address asks for: a lesson (?lesson=<id>, or ?from=<signals> from a check result) or the lesson list. */
+function baseView(p: URLSearchParams): View {
+  const id = p.get('lesson')
+  const from = p.get('from')
+  if (id) return { kind: 'lesson', id }
+  if (from) return { kind: 'lesson', id: LESSON_FOR_CATEGORY[categoryFromSignals(from.split(',').filter(Boolean))] }
+  return { kind: 'home' }
+}
 
 function useHashParams() {
   const [q, setQ] = useState(currentQuery)
@@ -49,19 +58,17 @@ export default function LearnPage() {
 
   // deep links: ?lesson=<id> or ?from=<signal,signal> (from the detector result)
   useEffect(() => {
-    const id = params.get('lesson')
-    const from = params.get('from')
-    if (id) setView({ kind: 'lesson', id })
-    else if (from) setView({ kind: 'lesson', id: LESSON_FOR_CATEGORY[categoryFromSignals(from.split(',').filter(Boolean))] })
-    else setView((v) => (v.kind === 'lesson' ? { kind: 'home' } : v))
+    const b = baseView(params)
+    setView((v) => (b.kind === 'lesson' || v.kind === 'lesson' ? b : v))
   }, [params])
 
   const title = (l: Lesson) => pick(l.title, lang)
   const startQuiz = () => setView({ kind: 'quiz' })
   const isResult = view.kind === 'result'
-  // Phone Back leaves the quiz or score screen for the lesson list. A lesson has its own address, so Back from it is plain history.
+  // Phone Back leaves the quiz or score screen for where it was started (the lesson list or a lesson). A lesson has its own
+  // address, so Back from it is plain history.
   useInnerScreenOnReturn()
-  const back = useBackStep(view.kind === 'quiz' || isResult, () => setView({ kind: 'home' }))
+  const back = useBackStep(view.kind === 'quiz' || isResult, () => setView(baseView(params)))
   const onBack = view.kind === 'quiz' || isResult ? back : undefined
 
   return (
@@ -73,7 +80,7 @@ export default function LearnPage() {
         <LessonView lesson={pack.lessons.find((l) => l.id === view.id) ?? pack.lessons[0]} done={done.includes(view.id)} onDone={(id) => { markLessonComplete(id); setDone(doneLessons()) }} onQuiz={startQuiz} />
       )}
       {pack && view.kind === 'quiz' && <QuizView pack={pack} onFinish={(attempt, previous) => setView({ kind: 'result', attempt, previous })} onQuit={back} />}
-      {pack && view.kind === 'result' && <ResultView pack={pack} attempt={view.attempt} previous={view.previous} title={title} onRetry={startQuiz} />}
+      {pack && view.kind === 'result' && <ResultView pack={pack} attempt={view.attempt} previous={view.previous} title={title} onRetry={startQuiz} onLesson={(id) => closeThenGo(back, `/learn?lesson=${id}`)} />}
     </Layout>
   )
 }
@@ -182,7 +189,7 @@ function ScoreRing({ score }: { score: number }) {
   )
 }
 
-function ResultView({ pack, attempt, previous, title, onRetry }: { pack: ContentPack; attempt: Attempt; previous: number | null; title: (l: Lesson) => string; onRetry: () => void }) {
+function ResultView({ pack, attempt, previous, title, onRetry, onLesson }: { pack: ContentPack; attempt: Attempt; previous: number | null; title: (l: Lesson) => string; onRetry: () => void; onLesson: (id: string) => void }) {
   const { t } = useLang()
   const rec = recommendNextLesson(attempt.topics, attempt.score)
   const weakest = rec.kind === 'lesson' ? pack.lessons.find((l) => l.id === rec.topic) : null
@@ -211,7 +218,7 @@ function ResultView({ pack, attempt, previous, title, onRetry }: { pack: Content
 
       <div className="mt-auto flex flex-col gap-2.5 pt-2">
         {weakest ? (
-          <a className="btn btn-primary !min-h-[68px] !text-[22px]" href={`#/learn?lesson=${weakest.id}`}>{t('learn.score.next', { topic: title(weakest) })}</a>
+          <a className="btn btn-primary !min-h-[68px] !text-[22px]" href={`#/learn?lesson=${weakest.id}`} onClick={(e) => { e.preventDefault(); onLesson(weakest.id) }}>{t('learn.score.next', { topic: title(weakest) })}</a>
         ) : (
           <a className="btn btn-primary !min-h-[68px] !text-[22px]" href="#/message">{t('learn.score.try_checker')}</a>
         )}
