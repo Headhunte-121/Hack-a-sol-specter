@@ -13,11 +13,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 ENV PYTHONUNBUFFERED=1 \
     HF_HOME=/srv/hf-cache \
-    ASR_MODEL=small \
+    ASR_MODEL=tiny \
     ASR_DEVICE=cpu \
     ASR_CORS=*
 
-RUN python -c "from faster_whisper import WhisperModel; WhisperModel('small', device='cpu', compute_type='int8')" \
+RUN python -c "from faster_whisper import WhisperModel; WhisperModel('tiny', device='cpu', compute_type='int8')" \
  && chmod -R a+rwX /srv/hf-cache
 
 EXPOSE 8001
