@@ -33,3 +33,4 @@ dist/
 *.tsbuildinfo
 services/api/data/
 *.db
+services/asr/models/
