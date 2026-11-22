@@ -6,6 +6,7 @@ import { DEMO_MESSAGES } from './demo'
 import { handleFeedback, saveLastResult } from './lastResult'
 import { loadScorer, type Scorer } from './model'
 import type { BrandsFile } from './url'
+import { ShareReport } from '../dashboard/ShareReport'
 
 const BAND_STYLE = {
   likely_scam: { box: 'border-red-700 bg-red-50 text-red-950', icon: '⛔', bar: 'bg-red-700' },
@@ -141,6 +142,8 @@ export default function DetectorPage() {
             {result.band !== 'looks_genuine' && <a className="btn btn-danger" href="#/report?from=message">🚨 {t('action.report')}</a>}
             <a className="btn btn-secondary" href={`#/learn?from=${result.scamSignals.join(',')}`}>🎓 {t('detector.learn')}</a>
           </div>
+
+          <ShareReport kind={result.type} signals={result.scamSignals} band={result.band} />
 
           <div className="border-t border-current/30 pt-3">
             <p className="font-bold">{t('detector.feedback.q')}</p>
