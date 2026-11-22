@@ -66,7 +66,7 @@ def create_app(db_path: str | None = None, secret: str | None = None, min_count:
     now = now_fn or (lambda: datetime.now(timezone.utc))
     region_codes = {r[0] for r in REGIONS}
 
-    app = FastAPI(title="Specter anonymous reports API", version=VERSION)
+    app = FastAPI(title="Suraksha anonymous reports API", version=VERSION)
     app.state.db = db
     app.state.min_count = MIN
     app.add_middleware(CORSMiddleware, allow_origins=os.environ.get("API_CORS", "*").split(","), allow_methods=["GET", "POST"],

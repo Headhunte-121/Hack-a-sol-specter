@@ -77,7 +77,7 @@ def create_app(transcriber: Transcriber | None = None, rate_limit: int | None = 
     now = now_fn or time.time
     counts: dict[str, tuple[int, int]] = {}   # hashed client -> (hour, count), in memory only
     gate = asyncio.Semaphore(1)               # one transcription at a time on a small free host
-    app = FastAPI(title="Specter transcription service", version=VERSION)
+    app = FastAPI(title="Suraksha transcription service", version=VERSION)
     app.add_middleware(CORSMiddleware, allow_origins=os.environ.get("ASR_CORS", "*").split(","), allow_methods=["GET", "POST"], allow_headers=["Content-Type"], allow_credentials=False)
     app.state.created_files = []              # test hook: every temp file path ever made
 

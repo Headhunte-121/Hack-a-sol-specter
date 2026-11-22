@@ -1,4 +1,4 @@
-# Specter: Scam Shield
+# Suraksha
 
 An installable web app (PWA) that helps first-time digital payment users in Chhattisgarh spot scam messages and calls, report fraud through the right official channel, and learn payment safety in Hindi, Chhattisgarhi and English. Most of it works with no internet.
 

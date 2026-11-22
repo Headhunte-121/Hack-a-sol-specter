@@ -30,7 +30,7 @@ export function ShareReport({ kind, signals, band, category }: { kind: 'message'
       </section>
     )
   }
-  if (!consent) return <p className="text-sm text-slate-600">{t('share.off')} <a className="font-bold underline" href="#/settings">{t('settings.title')}</a></p>
+  if (!consent) return <p className="text-sm text-muted">{t('share.off')} <a className="font-bold underline" href="#/settings">{t('settings.title')}</a></p>
 
   const send = async () => {
     if (!region) return
@@ -42,13 +42,13 @@ export function ShareReport({ kind, signals, band, category }: { kind: 'message'
   return (
     <section className="card space-y-2" data-testid="share-report">
       <h3 className="font-bold">{t('share.title')}</h3>
-      <p className="text-xs text-slate-600">{t('share.contains')}</p>
+      <p className="text-xs text-muted">{t('share.contains')}</p>
       {done ? (
-        <p role="status" className="font-bold text-green-800">{t('share.queued')}</p>
+        <p role="status" className="font-bold text-ok">{t('share.queued')}</p>
       ) : (
         <>
           <label className="block text-sm font-bold" htmlFor="region">{t('share.region')}</label>
-          <select id="region" className="min-h-12 w-full rounded-lg border-2 border-slate-400 bg-white px-2" value={region} onChange={(e) => setRegion(e.target.value)}>
+          <select id="region" className="min-h-12 w-full rounded-lg border-2 border-line bg-white text-ink px-2" value={region} onChange={(e) => setRegion(e.target.value)}>
             <option value="">{t('share.choose')}</option>
             {REGIONS.map((r) => <option key={r.code} value={r.code}>{lang === 'en' ? r.en : r.hi}</option>)}
           </select>

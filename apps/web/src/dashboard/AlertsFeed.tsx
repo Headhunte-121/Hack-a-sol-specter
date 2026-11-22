@@ -30,12 +30,12 @@ export function AlertsFeed() {
   const mark = (id: number) => { const next = [...read, id]; setRead(next); kvSet('alerts.read', next) }
   return (
     <section className="space-y-2" aria-label={t('alerts.title')}>
-      <h2 className="flex items-center gap-2 font-bold">🔔 {t('alerts.title')} {unread > 0 && <span className="rounded-full bg-red-700 px-2 text-sm text-white">{t('alerts.new', { count: unread })}</span>}</h2>
+      <h2 className="flex items-center gap-2 font-bold">🔔 {t('alerts.title')} {unread > 0 && <span className="rounded-full bg-bad-line px-2 text-sm text-white">{t('alerts.new', { count: unread })}</span>}</h2>
       {alerts.slice(0, 2).map((a) => (
-        <article key={a.id} className={`card space-y-1 ${read.includes(a.id) ? '' : 'border-red-700'}`}>
+        <article key={a.id} className={`card space-y-1 ${read.includes(a.id) ? '' : 'border-bad-line'}`}>
           <h3 className="font-bold">{pick(a, 'title')}</h3>
           <p className="text-sm">{pick(a, 'summary')}</p>
-          <p className="text-xs text-slate-600">{t('alerts.source', { source: a.source_note })}</p>
+          <p className="text-xs text-muted">{t('alerts.source', { source: a.source_note })}</p>
           <div className="flex gap-2">
             <a className="btn btn-secondary min-h-11 flex-1" href={`#/learn?lesson=${LESSON_FOR_CATEGORY[a.scam_category] ?? 'what_to_do'}`}>{t('alerts.learn')}</a>
             {!read.includes(a.id) && <button className="btn btn-secondary min-h-11 flex-1" onClick={() => mark(a.id)}>{t('alerts.dismiss')}</button>}

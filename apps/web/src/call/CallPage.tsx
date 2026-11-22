@@ -15,9 +15,9 @@ type Mode = 'examples' | 'paste' | 'audio'
 type Analysed = { result: CallResult; segments: Segment[]; duration: number | null; label?: string }
 
 const LEVEL_STYLE = {
-  high: { box: 'border-red-700 bg-red-50 text-red-950', icon: '⛔' },
-  medium: { box: 'border-amber-600 bg-amber-50 text-amber-950', icon: '⚠️' },
-  low: { box: 'border-green-700 bg-green-50 text-green-950', icon: '✅' },
+  high: { box: 'border-bad-line bg-bad-bg text-bad', icon: '⛔' },
+  medium: { box: 'border-warn-line bg-warn-bg text-warn', icon: '⚠️' },
+  low: { box: 'border-ok-line bg-ok-bg text-ok', icon: '✅' },
 } as const
 
 export default function CallPage() {
@@ -101,7 +101,7 @@ export default function CallPage() {
     if (at < seg.text.length) parts.push(seg.text.slice(at))
     return (
       <p key={i} ref={(el) => { segRefs.current[i] = el }} className="rounded-lg bg-white p-2 leading-8">
-        {seg.start !== null && <span className="mr-2 font-mono text-xs text-slate-500">{fmtTime(seg.start)}</span>}{parts}
+        {seg.start !== null && <span className="mr-2 font-mono text-xs text-muted">{fmtTime(seg.start)}</span>}{parts}
       </p>
     )
   }
@@ -115,36 +115,36 @@ export default function CallPage() {
 
   return (
     <Layout title={t('call.title')}>
-      <p className="rounded-lg bg-slate-200 p-2 text-sm">ℹ️ {t('call.langnote')}</p>
+      <p className="rounded-lg bg-soft p-2 text-sm">ℹ️ {t('call.langnote')}</p>
       <div role="tablist" className="grid grid-cols-3 gap-1">
-        {tabs.map((m) => <button key={m} role="tab" aria-selected={mode === m} onClick={() => setMode(m)} className={`min-h-12 rounded-lg border-2 text-sm font-bold ${mode === m ? 'border-teal-800 bg-teal-700 text-white' : 'border-slate-400 bg-white'}`}>{t(`call.mode.${m}`)}</button>)}
+        {tabs.map((m) => <button key={m} role="tab" aria-selected={mode === m} onClick={() => setMode(m)} className={`min-h-12 rounded-2xl border-2 text-sm font-bold ${mode === m ? 'border-brand bg-brand text-white' : 'border-line bg-white text-ink'}`}>{t(`call.mode.${m}`)}</button>)}
       </div>
 
       {mode === 'examples' && (
         <section className="space-y-2">
-          <p className="text-sm text-slate-600">{t('call.examples.note')}</p>
+          <p className="text-sm text-muted">{t('call.examples.note')}</p>
           {demos.map((d) => <button key={d.id} className="card w-full text-left font-bold" onClick={() => run(d.segments, d.segments[d.segments.length - 1]?.end ?? null, d.title)}>🎧 {d.title}</button>)}
         </section>
       )}
 
       {mode === 'paste' && (
         <section className="space-y-2">
-          <textarea value={pasted} onChange={(e) => setPasted(e.target.value)} rows={6} maxLength={6000} placeholder={t('call.paste.placeholder')} className="w-full rounded-xl border-2 border-slate-400 bg-white p-3" aria-label={t('call.paste.placeholder')} />
+          <textarea value={pasted} onChange={(e) => setPasted(e.target.value)} rows={6} maxLength={6000} placeholder={t('call.paste.placeholder')} className="w-full rounded-2xl border-2 border-line bg-white text-ink p-3" aria-label={t('call.paste.placeholder')} />
           <button className="btn btn-primary w-full" disabled={!lex || !pasted.trim()} onClick={fromPaste}>🔍 {t('call.analyse')}</button>
         </section>
       )}
 
       {mode === 'audio' && (
         <section className="space-y-3">
-          <p className="rounded-lg border-2 border-amber-600 bg-amber-50 p-3 text-sm text-amber-950">🔒 {t('call.audio.warning')}</p>
+          <p className="rounded-2xl border-2 border-warn-line bg-warn-bg p-3 text-sm text-warn">🔒 {t('call.audio.warning')}</p>
           {!asrBase() ? <p className="card">{t('call.audio.nobackend')}</p> : (
             <>
               <label className="btn btn-secondary cursor-pointer">📁 {t('call.audio.pick')}
                 <input type="file" accept="audio/*,.mp3,.wav,.m4a,.ogg,.webm" className="sr-only" onChange={(e) => { const f = e.target.files?.[0]; if (f) void handleBlob(f); e.target.value = '' }} />
               </label>
               <button className={`btn w-full ${recording ? 'btn-danger' : 'btn-secondary'}`} onClick={toggleRecord}>{recording ? `⏹ ${t('call.audio.stop')}` : `🎙️ ${t('call.audio.record')}`}</button>
-              {recording && <p role="status" className="font-bold text-red-800">● {t('call.audio.recording')}</p>}
-              <p className="text-xs text-slate-600">{t('call.audio.limits')}</p>
+              {recording && <p role="status" className="font-bold text-bad">● {t('call.audio.recording')}</p>}
+              <p className="text-xs text-muted">{t('call.audio.limits')}</p>
             </>
           )}
           {status && (
@@ -154,7 +154,7 @@ export default function CallPage() {
       )}
 
       {error && (
-        <div role="alert" className="space-y-2 rounded-xl border-2 border-red-600 bg-red-50 p-3 text-red-900">
+        <div role="alert" className="space-y-2 rounded-2xl border-2 border-bad-line bg-bad-bg p-3 text-bad">
           <p>{t(error)}</p>
           {mode === 'audio' && <button className="underline" onClick={() => { setError(null); setMode('paste') }}>{t('call.try_paste')}</button>}
         </div>

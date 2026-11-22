@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useLang } from './i18n'
-import { Layout } from './Layout'
+import { Layout, LanguageSwitch } from './Layout'
+import { Icon } from './ui'
 import { hasConsent, setConsent } from './consent'
 import { clearQueue } from './queue'
 import { kvClearAll } from './storage'
@@ -24,8 +25,12 @@ export function Settings() {
   return (
     <Layout title={t('settings.title')}>
       <section className="card space-y-3">
-        <h2 className="font-bold">{t('privacy.consent.title')}</h2>
-        <p className="text-sm">{t('privacy.consent.body')}</p>
+        <h2 className="text-[20px] font-bold">{t('common.language')}</h2>
+        <LanguageSwitch />
+      </section>
+      <section className="card space-y-3">
+        <h2 className="text-[20px] font-bold">{t('privacy.consent.title')}</h2>
+        <p className="text-[17px] leading-snug text-muted">{t('privacy.consent.body')}</p>
         <div className="flex gap-2">
           <button className={`btn flex-1 ${share ? 'btn-primary' : 'btn-secondary'}`} aria-pressed={share} onClick={() => { setConsent(true); setShare(true) }}>
             {t('privacy.consent.on')}
@@ -37,7 +42,7 @@ export function Settings() {
       </section>
       <section className="card space-y-3">
         <button
-          className="btn btn-danger w-full"
+          className="btn btn-danger w-full !text-[19px]"
           onClick={async () => {
             if (window.confirm(t('settings.clear.confirm'))) {
               await clearLocalData()
@@ -46,9 +51,9 @@ export function Settings() {
             }
           }}
         >
-          🗑️ {t('settings.clear')}
+          <Icon name="trash" size={24} color="#fff" />{t('settings.clear')}
         </button>
-        {done && <p role="status" className="font-bold text-green-800">{t('settings.cleared')}</p>}
+        {done && <p role="status" className="font-bold text-ok">{t('settings.cleared')}</p>}
       </section>
     </Layout>
   )
