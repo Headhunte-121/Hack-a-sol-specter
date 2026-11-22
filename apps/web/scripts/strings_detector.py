@@ -1,8 +1,5 @@
 S = {
  # bands and confidence
- "band.likely_scam": ("Likely scam", "ठगी की संभावना ज़्यादा है", "ठगी होए के संभावना जादा हे"),
- "band.suspicious": ("Suspicious", "संदिग्ध", "संदिग्ध"),
- "band.looks_genuine": ("Looks genuine", "सही लगता है", "सही लगथे"),
  "band.spoken.likely_scam": ("Warning. This looks like a scam. Do not click anything and do not share any code.", "चेतावनी। यह ठगी लगती है। कुछ भी न खोलें और कोई कोड साझा न करें।", "चेतावनी। ए ठगी लगथे। कुछु झन खोलव अउ कोनो कोड साझा झन करव।"),
  "conf.high": ("Confidence: high", "भरोसा: ज़्यादा", "भरोसा: जादा"),
  "conf.medium": ("Confidence: medium", "भरोसा: मध्यम", "भरोसा: मध्यम"),
@@ -49,13 +46,11 @@ S = {
  "detector.title": ("Check a message or link", "संदेश या लिंक जाँचें", "संदेसा या लिंक जांचव"),
  "detector.placeholder": ("Paste the SMS, WhatsApp message or link here", "एसएमएस, व्हाट्सऐप संदेश या लिंक यहाँ चिपकाएँ", "एसएमएस, व्हाट्सऐप संदेसा या लिंक इहाँ चिपकावव"),
  "detector.check": ("Check", "जाँचें", "जांचव"),
- "detector.paste": ("Paste", "चिपकाएँ", "चिपकावव"),
  "detector.clear": ("Clear", "मिटाएँ", "मिटावव"),
  "detector.examples": ("Try an example", "एक उदाहरण आज़माएँ", "एक उदाहरण अजमावव"),
  "detector.loading": ("Loading the checker…", "जाँचक लोड हो रहा है…", "जांचक लोड होवत हे…"),
  "detector.error": ("Could not load the checker. Open the app once with internet.", "जाँचक लोड नहीं हो सका। ऐप को एक बार इंटरनेट से खोलें।", "जांचक लोड नइ हो सकिस। ऐप ला एक पईंत इंटरनेट ले खोलव।"),
  "detector.flagged": ("Words that raised the risk", "जिन शब्दों से खतरा बढ़ा", "जेन शब्द ले खतरा बाढ़िस"),
- "detector.why": ("Why this result", "यह नतीजा क्यों", "ए नतीजा काबर"),
  "detector.next": ("What to do", "अब क्या करें", "अब का करव"),
  "detector.learn": ("Learn about this scam", "इस ठगी के बारे में सीखें", "ए ठगी के बारे म सीखव"),
  "detector.feedback.q": ("Was this result right?", "क्या यह नतीजा सही था?", "का ए नतीजा सही रिहिस?"),
