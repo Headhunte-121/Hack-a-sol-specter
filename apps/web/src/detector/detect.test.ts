@@ -23,6 +23,10 @@ describe('saved demo set (acceptance: genuine bank debit alert and OTP are genui
       expect(r.reasons.length).toBeLessThanOrEqual(4)
     })
   }
+  it('does not falsely flag genuine Hinglish UPI payment alerts', () => {
+    const r = run('Aapke khate XX9012 se Rs 350.00 UPI ke dwara Zomato ko transfer kiye gaye hain. Ref No 409182736455. Agar aapne nahi kiya to turant bank helpline par call karein.')
+    expect(r.band).toBe('looks_genuine')
+  })
 })
 
 describe('input handling', () => {
@@ -77,6 +81,10 @@ describe('links', () => {
     for (const u of ['https://yonosbi-kyc.com', 'https://icicidirect-refund.in', 'https://amazonaws-login.xyz']) {
       expect(checkUrl(u, brands).flags.map((f) => f.id), u).toContain('lookalike_brand')
     }
+  })
+  it('classifies lookalike promo link as likely scam', () => {
+    const r = run('http://free-iphone-winner.example/otp')
+    expect(r.band).toBe('likely_scam')
   })
   it('combineBand: a high-risk link raises a band but never lowers one', () => {
     const hi = [{ host: 'x', flags: [], risk: 'high' as const }]

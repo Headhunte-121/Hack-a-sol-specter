@@ -10,6 +10,7 @@ Every dataset used, with its licence **as stated**. Where a licence is not state
 | ysangam Indian_Cyber_Scam_PhoneCall_Hinglish | https://huggingface.co/datasets/ysangam/Indian_Cyber_Scam_PhoneCall_Hinglish_Dataset | 2026-11-22 | 743 unique of 10k | Hinglish call text | not stated | training, call-lexicon ideas | **No** |
 | Team-written messages v1/v2 | `ai tuning/data/synthetic*.csv` | 2026-11-22 | ~2.5k | en / hi / hinglish | team-generated (templates) | training | Yes |
 | Team-written messages v3 | `data/team/messages_v3.csv` | 2026-11-22 | ~1k (about 500 after dedupe) | hi / hinglish | team-generated (templates) | training | Yes |
+| Real Hinglish alerts & scams v1 | `data/team/real_v1.csv` | 2026-11-23 | 8 rows | Hinglish | team-redacted (UPI debit alerts & traps) | training, tuning | Yes |
 | Challenge set v1 | `ai tuning/data/wild_big.csv` | 2026-11-22 | 160 | en / hi / hinglish | team-generated (templates) | final evaluation only, never trained on | Yes |
 
 ## Label harmonisation
