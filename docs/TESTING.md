@@ -1,12 +1,14 @@
 # Test plan
 
+The step-by-step scripts for a team of four, with exact inputs and expected results, are in [TEST_SCRIPTS.md](TEST_SCRIPTS.md). Log results in `test_results_template.csv`. The Hindi / Chhattisgarhi review worksheet is `cg_review.csv`.
+
 What has been checked automatically, what each person should check by hand, and what is still open. Mark results in the Status column.
 
 ## Automated tests
 
 | Suite | Command | Covers |
 |---|---|---|
-| Web (102 tests) | `cd apps/web && npx vitest run` | Python/TypeScript scorer parity (247 examples), detector bands and the saved demo set, link checks, reporting routes (one per routing row), quiz scoring and selection, report builder (no message text can enter), consent gate, call lexicon on 15 transcripts, ten QR codes |
+| Web (102 tests) | `cd apps/web && npx vitest run` | Python/TypeScript scorer parity (247 examples), detector bands and the saved demo set, link checks, reporting routes (one per routing row), quiz scoring and selection, report builder (no message text can enter), consent gate, call lexicon on 16 transcripts, ten QR codes |
 | Reports API (12) | `cd services/api && python -m pytest -q` | validation, idempotent batch sync (counted once), small-cell suppression, raw rows unreadable, rate limit, alerts, purge |
 | Transcription service (9) | `cd services/asr && python -m pytest -q` | size, type, length and silence limits, audio deleted after success and after failure, rate limit |
 | Content check | `cd apps/web && npm run check:content` | every UI string exists in Hindi and Chhattisgarhi, placeholders match |
