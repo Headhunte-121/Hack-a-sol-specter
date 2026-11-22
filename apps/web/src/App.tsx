@@ -10,12 +10,14 @@ import { useLang } from './shell/i18n'
 const Placeholder = lazy(() => import('./shell/Placeholder'))
 const DetectorPage = lazy(() => import('./detector/DetectorPage'))
 const ReportPage = lazy(() => import('./report/ReportPage'))
+const LearnPage = lazy(() => import('./learn/LearnPage'))
 
 const ROUTES: Record<string, () => React.ReactElement> = {
   '/': () => <Home />,
   '/settings': () => <Settings />,
   '/message': () => <DetectorPage />,
   '/report': () => <ReportPage />,
+  '/learn': () => <LearnPage />,
 }
 
 export default function App() {
