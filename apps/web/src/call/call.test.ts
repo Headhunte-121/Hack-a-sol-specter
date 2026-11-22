@@ -68,6 +68,26 @@ describe('transcript from the real transcription service', () => {
     expect(r.topScript).toBe('fake_kyc')
     expect(r.hits.some((h) => h.time === 8.2)).toBe(true)
   })
+  it('a spoken Hinglish fake-KYC call, as Whisper (small) actually wrote it in Devanagari with its misspellings, is flagged high', () => {
+    // exact service output for a "Namaste sir, main bank ke head office se bol raha hoon ..." clip, with the vocabulary hint
+    const segs: Segment[] = [
+      { start: 0.0, end: 5.0, text: 'नमस्टे स्वर, मेंबंक के हेड अफिस से बोल रहा हु' },
+      { start: 5.0, end: 11.0, text: 'आपका केवाईसी पंटिंग है, आपका अकाउंट आज बंद हो जेगा' },
+      { start: 11.0, end: 17.0, text: 'अभी तुरंत, अटीपी बाटे आईए, किसे को मड बतना' },
+    ]
+    const r = analyzeCall(segs, lex, scorer)
+    expect(r.level).toBe('high')
+    expect(r.topScript).toBe('fake_kyc')
+    expect(r.hits.some((h) => h.time === 11.0)).toBe(true) // the OTP demand, misheard as "अटीपी"
+  })
+  it('the same call before the vocabulary hint (worse spellings) is still not missed', () => {
+    const segs: Segment[] = [
+      { start: 0.0, end: 5.0, text: 'नमस्ते सर्ट, में बंक के हेड अफिस से बोल रहा हु' },
+      { start: 5.0, end: 11.0, text: 'आपका के वाय सी पंटिंग है, आपका अकाुन्ट आज बंद हो जेगा' },
+      { start: 11.0, end: 17.0, text: 'अभी तुरेंट अटी पी बाते अई ये, किसे को मड भतना' },
+    ]
+    expect(analyzeCall(segs, lex, scorer).level).not.toBe('low')
+  })
 })
 
 describe('normalisation and spelling tolerance', () => {

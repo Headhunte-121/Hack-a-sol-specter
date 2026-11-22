@@ -31,6 +31,19 @@ OK_EXT = re.compile(r"\.(mp3|wav|m4a|ogg|webm|aac|mp4)$", re.I)
 log = logging.getLogger("asr")
 
 
+# Vocabulary hints: Whisper spells scam words the standard way (केवाईसी, अकाउंट, ओटीपी) instead of guessing ("के वाय सी").
+PROMPTS = {
+    "hi": os.environ.get("ASR_PROMPT_HI", "बैंक, केवाईसी, ओटीपी, अकाउंट, ब्लॉक, तुरंत, पुलिस, सीबीआई, गिरफ्तार, पार्सल, कस्टम, लॉटरी, इनाम, यूपीआई, पिन, एनीडेस्क, बिजली बिल।"),
+    "en": os.environ.get("ASR_PROMPT_EN", "Bank, KYC, OTP, account, blocked, police, CBI, arrest, parcel, customs, lottery, UPI, PIN, AnyDesk, electricity bill."),
+}
+
+
+def pick_language(probs: dict[str, float]) -> str:
+    """Hindi or English only. Forcing Hindi on an English call produced junk; Hindi speech detected as Urdu would come out in
+    Urdu script, which the call rules cannot read, so Urdu counts as Hindi."""
+    return "hi" if probs.get("hi", 0.0) + probs.get("ur", 0.0) >= probs.get("en", 0.0) else "en"
+
+
 class Transcriber(Protocol):
     name: str
 
@@ -57,7 +70,11 @@ class WhisperTranscriber:
 
     def transcribe(self, audio: np.ndarray) -> list[dict[str, Any]]:
         # splitIntoSpeech + transcribeChunks: voice-activity detection skips silence; the library cuts long audio into 30 s windows.
-        segments, _ = self._load().transcribe(audio, language="hi", task="transcribe", vad_filter=True, beam_size=1, condition_on_previous_text=False)
+        model = self._load()
+        _, _, probs = model.detect_language(audio)
+        lang = pick_language(dict(probs))
+        segments, _ = model.transcribe(audio, language=lang, task="transcribe", vad_filter=True, beam_size=1, condition_on_previous_text=False,
+                                       initial_prompt=PROMPTS[lang])
         out = []
         for s in segments:
             if getattr(s, "no_speech_prob", 0) > 0.8 or getattr(s, "compression_ratio", 0) > 2.4:

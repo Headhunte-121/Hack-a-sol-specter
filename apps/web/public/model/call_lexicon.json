@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-22.1",
+  "version": "2026-11-23.1",
   "notes": "Scam call scripts as sequences of stages. Phrases are written naturally (Hindi script, Hinglish spelling, English) as 'phrase|weight'. A trailing * on the last word means prefix match. English loanwords written in Devanagari are mapped to Latin by call/normalize.ts, so write them in Latin here. A stage counts as heard when the weights of its hits add up to 2 or more; strong when 3 or more. A single word such as bank or police never triggers a warning alone. Built from: the team's acted scripts, the public Hinglish call-transcript dataset (licence unchecked, only ideas used), and typical warning signs in the public Sanchar Saathi advisories.",
   "common": {
     "urgency": [
@@ -17,7 +17,7 @@
       "id": "fake_kyc",
       "stages": {
         "authority": ["bank se bol*|2", "bank से बोल*|2", "bank manager|2", "bank officer|2", "customer care|2", "head office|2", "calling from bank|2", "bank ka|1", "bank|1", "toll free|1"],
-        "accusation": ["kyc|2", "kyc update|3", "kyc expire*|3", "kyc pending|3", "account block*|3", "account बंद|3", "खाता बंद|3", "khata band|3", "account suspend*|3", "card block*|3", "sim block*|3", "pan link|2", "pan not linked|3", "account freeze|3", "account band|3"],
+        "accusation": ["kyc|2", "kyc update|3", "kyc expire*|3", "kyc pending|3", "account block*|3", "account बंद|3", "account आज बंद|3", "खाता बंद|3", "खाता आज बंद|3", "बंद हो जाएगा|2", "band ho jayega|2", "khata band|3", "account suspend*|3", "card block*|3", "sim block*|3", "pan link|2", "pan not linked|3", "account freeze|3", "account band|3"],
         "demand": ["otp|3", "code bata*|3", "कोड बता*|3", "pin bata*|3", "पिन बता*|3", "card number|3", "cvv|3", "link par click|3", "link पर click|3", "app install|3", "anydesk|3", "apk|3", "download karo|2", "भेजो|1", "share karo|2", "otp share|3"]
       }
     },

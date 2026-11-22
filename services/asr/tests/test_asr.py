@@ -6,7 +6,7 @@ import numpy as np
 import pytest
 from fastapi.testclient import TestClient
 
-from app.main import MAX_BYTES, create_app, post_process
+from app.main import MAX_BYTES, PROMPTS, create_app, pick_language, post_process
 
 
 def wav_bytes(seconds: float, freq: float = 220.0, amp: float = 0.3, sr: int = 16000) -> bytes:
@@ -104,3 +104,11 @@ def test_rate_limit(tmp_path):
 
 def test_post_process():
     assert post_process("है है है ठीक ठीक है") == "है ठीक है"
+
+
+def test_pick_language_hindi_or_english_only():
+    assert pick_language({"hi": 0.49, "ur": 0.11, "en": 0.31}) == "hi"  # a Hinglish call
+    assert pick_language({"hi": 0.0, "en": 0.99}) == "en"               # an English call
+    assert pick_language({"ur": 0.6, "hi": 0.1, "en": 0.3}) == "hi"     # Hindi speech heard as Urdu is written as Hindi
+    assert pick_language({}) == "hi"
+    assert set(PROMPTS) == {"hi", "en"} and all(PROMPTS.values())
