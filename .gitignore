@@ -37,3 +37,6 @@ project_bundle.txt
 services/api/data/
 *.db
 services/asr/models/
+
+# real messages used for tuning: stay on the phone owner's PC, never committed
+data/real/

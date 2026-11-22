@@ -4,12 +4,12 @@ Drop CSV files here. Every `*.csv` in this folder is read by `ml/build_corpus.py
 
 | Column | Meaning |
 |---|---|
-| `text` | The message. Rewritten from a pattern; **no real numbers, names or account details**; never copied from a real person's message |
+| `text` | The message. **No real numbers, names or account details.** Either written from a pattern, or a real message from a team member's own phone, redacted as described in `../../ml/TUNING.md` |
 | `label` | `1` scam, `0` genuine (see `../LABELING.md`) |
 | `lang` | `english`, `hindi` or `hinglish` (optional; detected if empty) |
 | `group` | A template id: messages made from the same template share a group so they stay in one split (optional) |
 
-Example rows are in `TEMPLATE.csv`. After adding data: `cd ml && python build_corpus.py && python train.py && python evaluate.py && python parity.py`, then run the web tests.
+Example rows are in `TEMPLATE.csv`. After adding data: `cd ml && python build_corpus.py && python train.py && python evaluate.py && python parity.py`, then run the web tests. The full setup and tuning loop is in `../../ml/TUNING.md`.
 
 ## Independent challenge set
 
