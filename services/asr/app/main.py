@@ -90,6 +90,8 @@ def post_process(text: str) -> str:
 
 def create_app(transcriber: Transcriber | None = None, rate_limit: int | None = None, tmp_dir: str | None = None, now_fn: Callable[[], float] | None = None) -> FastAPI:
     tr = transcriber or WhisperTranscriber()
+    if os.environ.get("ASR_PRELOAD") == "1" and isinstance(tr, WhisperTranscriber):
+        tr._load()  # load the model before accepting requests, so the first caller does not wait for it
     LIMIT = int(rate_limit if rate_limit is not None else os.environ.get("ASR_RATE_LIMIT", 20))  # clips per client per hour
     now = now_fn or time.time
     counts: dict[str, tuple[int, int]] = {}   # hashed client -> (hour, count), in memory only
