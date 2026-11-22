@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 import en from '../i18n/en.json'
-import { cameraErrorKey, openCamera } from './camera'
+import { cameraErrorKey, describeCameraError, openCamera } from './camera'
 
 const err = (name: string) => Object.assign(new Error(name), { name })
 const stream = { id: 's' } as unknown as MediaStream
@@ -20,6 +20,14 @@ describe('camera errors get their own next step', () => {
     for (const k of ['qr.err.camera', 'qr.err.camera_dismissed', 'qr.err.camera_none', 'qr.err.camera_busy', 'qr.err.camera_unsupported', 'qr.err.camera_failed', 'qr.take_photo']) {
       expect((en as Record<string, string>)[k], k).toBeTruthy()
     }
+  })
+})
+
+describe('error code shown under the message', () => {
+  it('names the browser error, the site permission and the browser message', () => {
+    const e = Object.assign(err('NotAllowedError'), { message: 'Permission denied by system', permission: 'granted' })
+    expect(describeCameraError(e)).toBe('NotAllowedError · granted · Permission denied by system')
+    expect(describeCameraError(null)).toBe('unknown')
   })
 })
 

@@ -33,6 +33,7 @@ S = {
  "settings.clear": ("Delete all my data on this phone", "इस फ़ोन से मेरा सारा डेटा हटाएँ", "ए फोन ले मोर जम्मो डेटा हटावव"),
  "settings.clear.confirm": ("This removes history, quiz progress, queued reports and saved files. Continue?", "इससे इतिहास, क्विज़ की प्रगति, कतार की रिपोर्ट और सहेजी फ़ाइलें हट जाएँगी। जारी रखें?", "एकर ले इतिहास, क्विज़ के प्रगति, कतार के रिपोर्ट अउ सहेजे फाइल हट जाही। जारी राखव?"),
  "settings.cleared": ("All data on this phone was deleted.", "इस फ़ोन का सारा डेटा हटा दिया गया।", "ए फोन के जम्मो डेटा हटा दे गे।"),
+ "settings.version": ("App version", "ऐप संस्करण", "ऐप संस्करण"),
  "privacy.note": ("Messages you check never leave your phone.", "आपके जाँचे गए संदेश फ़ोन से बाहर नहीं जाते।", "तुंहर जांचे संदेसा फोन ले बाहिर नइ जाय।"),
  "privacy.consent.title": ("Share anonymous scam counts?", "गुमनाम ठगी की गिनती साझा करें?", "गुमनाम ठगी के गिनती साझा करव?"),
  "privacy.consent.body": ("If you agree, only the scam type, channel and your district are sent. Never your message, number, name or audio. You can turn this off any time.", "आप सहमत हों तो केवल ठगी का प्रकार, माध्यम और आपका ज़िला भेजा जाएगा। आपका संदेश, नंबर, नाम या ऑडियो कभी नहीं। आप इसे कभी भी बंद कर सकते हैं।", "तुमन सहमत होहू त सिरिफ ठगी के किसम, माध्यम अउ तुंहर जिला भेजे जाही। तुंहर संदेसा, नंबर, नाम या ऑडियो कभू नइ। तुमन एला कभू बंद कर सकथव।"),

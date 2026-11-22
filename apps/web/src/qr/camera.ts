@@ -17,6 +17,13 @@ export function cameraErrorKey(e: unknown): CameraErrorKey {
   return 'qr.err.camera_failed'
 }
 
+/** describeCameraError: a short code for the error box (browser error name, site permission, browser message), so a
+ *  screenshot from a phone says exactly what failed. No personal data: these are fixed browser texts. */
+export function describeCameraError(e: unknown): string {
+  const err = e as { name?: string; permission?: string; message?: string } | null
+  return [err?.name, err?.permission, err?.message].filter(Boolean).join(' · ').slice(0, 100) || 'unknown'
+}
+
 /** The site's camera permission as the browser reports it ('unknown' where the browser cannot say). */
 export async function cameraPermission(): Promise<Permission> {
   try {
