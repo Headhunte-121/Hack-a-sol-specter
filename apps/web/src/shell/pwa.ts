@@ -25,7 +25,8 @@ let updateSW: ((reload?: boolean) => Promise<void>) | null = null
 export async function checkOfflineReady(): Promise<OfflineState> {
   try {
     if (!('caches' in window)) return 'not_ready'
-    const hit = await caches.match('/model/model.json')
+    // The precache stores files that have a revision under "<url>?__WB_REVISION__=<hash>", so a bare-URL lookup never hits.
+    const hit = await caches.match('/model/model.json', { ignoreSearch: true })
     if (hit) return 'ready'
     const reg = await navigator.serviceWorker?.getRegistration()
     return reg?.installing || reg?.waiting || reg?.active ? 'partial' : 'not_ready'
