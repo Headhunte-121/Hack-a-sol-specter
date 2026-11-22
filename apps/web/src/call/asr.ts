@@ -1,7 +1,7 @@
 import type { Segment } from './analyze'
 
 // Client side of the transcription service. Only this module talks to it; everything else works with the transcript text.
-export const asrBase = (): string => ((import.meta.env?.VITE_ASR_BASE as string | undefined) ?? '').replace(/\/$/, '')
+export const asrBase = (): string => ((import.meta.env?.VITE_ASR_BASE as string | undefined) || 'https://hack-a-sol-specter.onrender.com').replace(/\/$/, '')
 export const LIMITS = { maxBytes: 5 * 1024 * 1024, maxSeconds: 180 }
 const OK_TYPES = ['audio/mpeg', 'audio/mp3', 'audio/wav', 'audio/x-wav', 'audio/wave', 'audio/webm', 'audio/ogg', 'audio/mp4', 'audio/aac', 'audio/x-m4a', 'audio/m4a', 'video/webm']
 const OK_EXT = /\.(mp3|wav|m4a|ogg|webm|aac|mp4)$/i
