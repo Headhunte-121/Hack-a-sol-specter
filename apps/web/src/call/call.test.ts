@@ -56,6 +56,20 @@ describe('stage rules', () => {
   })
 })
 
+describe('transcript from the real transcription service', () => {
+  it('a spoken fake-KYC clip transcribed by Whisper (tiny model) is flagged high with timestamps', () => {
+    const segs: Segment[] = [
+      { start: 0.0, end: 3.4, text: 'Hello sir, I am calling from the bank head office.' },
+      { start: 4.0, end: 7.6, text: 'Your KYC is pending and your account will be blocked today.' },
+      { start: 8.2, end: 10.4, text: 'Please share the OTP immediately.' },
+    ]
+    const r = analyzeCall(segs, lex, scorer)
+    expect(r.level).toBe('high')
+    expect(r.topScript).toBe('fake_kyc')
+    expect(r.hits.some((h) => h.time === 8.2)).toBe(true)
+  })
+})
+
 describe('normalisation and spelling tolerance', () => {
   it('maps Devanagari loanwords to Latin and unifies nasal marks and nukta', () => {
     expect(canonToken('बैंक')).toBe('bank')

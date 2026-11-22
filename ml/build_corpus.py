@@ -76,6 +76,8 @@ def load_team() -> pd.DataFrame:
         d = pd.read_csv(AI / f)
         rows.append(pd.DataFrame({"text": d.text, "label": d.label, "source": name, "group": name + ":" + d.template_id.astype(str)}))
     for f in sorted((ROOT / "data" / "team").glob("*.csv")):   # extra team-written messages: text,label,(lang),group
+        if f.stem.upper() == "TEMPLATE":
+            continue
         d = pd.read_csv(f)
         rows.append(pd.DataFrame({"text": d.text, "label": d.label, "source": "team_" + f.stem, "group": d.group if "group" in d else f.stem + ":" + d.index.astype(str)}))
     return pd.concat(rows, ignore_index=True)
@@ -110,6 +112,13 @@ def main():
 
     ch = pd.read_csv(AI / "wild_big.csv")
     ch["source"] = "challenge_v1"
+    extra = ROOT / "data" / "challenge_team.csv"      # independent challenge set written by one person; never trained on
+    if extra.exists():
+        e = pd.read_csv(extra)
+        e["source"] = "challenge_team"
+        if "lang" not in e:
+            e["lang"] = ""
+        ch = pd.concat([ch, e[["text", "label", "lang", "source"]]], ignore_index=True)
     ch["key"] = ch.text.map(key_of)
     df = df[~df.key.isin(set(ch.key))].reset_index(drop=True)  # challenge messages can never be trained on
     df["lang"] = df.text.map(detect_script)
