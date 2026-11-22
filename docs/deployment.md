@@ -26,11 +26,17 @@ On Render or a Hugging Face Space (Docker) set the same variables in the host se
 
 ## 3. Transcription service
 
-```bash
-cd services/asr
-docker build -t specter-asr .
-docker run -p 7860:7860 -e ASR_MODEL=small -e ASR_CORS=https://<web-host> specter-asr
-```
+**Hosted (free Hugging Face Space).** `deploy/hf-asr` holds everything the Space needs (a Dockerfile and the Space README); the Space builds the service from this repository's `main` branch and downloads Whisper "small" while it builds.
+
+1. Sign in at https://huggingface.co and open https://huggingface.co/new-space.
+2. Name it (for example `suraksha-asr`), choose **Docker** with the **Blank** template, hardware **CPU basic (free)**, visibility **Public**, then **Create Space**.
+3. In the Space, open **Files**, choose **Add file → Upload files**, upload `deploy/hf-asr/Dockerfile` and `deploy/hf-asr/README.md` (replacing the README the Space created), and commit.
+4. Wait until the Space shows **Running** (about 5 to 10 minutes for the first build). Its address is `https://<user>-<space-name>.hf.space`; opening `<address>/health` returns `{"status":"ok",...}`.
+5. In Vercel, add the environment variable `VITE_ASR_BASE` = that address (Production), then redeploy.
+
+The Space allows requests from the live site and from localhost only; change `ASR_CORS` in the Dockerfile if the site moves. Free Spaces sleep after about two days without use: open `/health` before a demo. After changing `services/asr`, use **Settings → Factory rebuild** in the Space.
+
+**Local (Docker).** `docker compose --profile asr up -d asr` runs it on port 8001.
 
 To use the Hindi fine-tuned model, run `python convert_model.py` once and point `ASR_MODEL` at the converted folder (see the service README). Free hosts sleep when idle, so the first request after a pause is slow; the app shows a "waking up" message and always offers the paste-text option.
 
