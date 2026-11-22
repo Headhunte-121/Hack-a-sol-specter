@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
 import en from '../i18n/en.json'
 import hi from '../i18n/hi.json'
 import cg from '../i18n/cg.json'
@@ -52,9 +52,10 @@ export function LangProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Lang>(getLanguage)
   const setLang = useCallback((l: Lang) => {
     kvSet('lang', l)
-    document.documentElement.lang = l === 'cg' ? 'hne' : l
     setLangState(l)
   }, [])
+  // keep the page's language attribute in step with the text from the first render, so screen readers use the right voice
+  useEffect(() => { document.documentElement.lang = lang === 'cg' ? 'hne' : lang }, [lang])
   const t = useCallback((key: string, values?: Record<string, string | number>) => translate(lang, key, values), [lang])
   const value = useMemo(() => ({ lang, setLang, t }), [lang, setLang, t])
   return <LangContext.Provider value={value}>{children}</LangContext.Provider>

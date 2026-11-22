@@ -136,8 +136,8 @@ export default function TrendsPage() {
           <div role="img" aria-label={t('trends.chart_trend')} className="h-72 rounded-xl bg-white p-2">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={weeklyPivot.data} margin={{ left: -20, right: 8 }}>
-                <CartesianGrid strokeDasharray="3 3" /><XAxis dataKey="week" tick={{ fontSize: 10 }} tickFormatter={(v: string) => v.slice(5)} /><YAxis tick={{ fontSize: 11 }} /><Tooltip /><Legend wrapperStyle={{ fontSize: 11 }} formatter={(v: string) => cat(v)} />
-                {weeklyPivot.cats.map((c, i) => <Line key={c} type="monotone" dataKey={c} stroke={COLORS[i % COLORS.length]} strokeWidth={2} dot={false} name={c} />)}
+                <CartesianGrid strokeDasharray="3 3" /><XAxis dataKey="week" tick={{ fontSize: 10 }} tickFormatter={(v: string) => v.slice(5)} /><YAxis tick={{ fontSize: 11 }} /><Tooltip /><Legend wrapperStyle={{ fontSize: 11 }} />
+                {weeklyPivot.cats.map((c, i) => <Line key={c} type="monotone" dataKey={c} stroke={COLORS[i % COLORS.length]} strokeWidth={2} dot={false} name={cat(c)} />)}
               </LineChart>
             </ResponsiveContainer>
           </div>

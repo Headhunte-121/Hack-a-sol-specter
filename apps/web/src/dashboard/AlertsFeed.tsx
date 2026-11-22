@@ -31,7 +31,7 @@ export function AlertsFeed() {
   return (
     <section className="space-y-2" aria-label={t('alerts.title')}>
       <h2 className="flex items-center gap-2 font-bold">🔔 {t('alerts.title')} {unread > 0 && <span className="rounded-full bg-bad-line px-2 text-sm text-white">{t('alerts.new', { count: unread })}</span>}</h2>
-      {alerts.slice(0, 2).map((a) => (
+      {[...alerts].sort((a, b) => Number(read.includes(a.id)) - Number(read.includes(b.id))).slice(0, 2).map((a) => ( // unread first, so a new alert is never hidden behind read ones
         <article key={a.id} className={`card space-y-1 ${read.includes(a.id) ? '' : 'border-bad-line'}`}>
           <h3 className="font-bold">{pick(a, 'title')}</h3>
           <p className="text-sm">{pick(a, 'summary')}</p>

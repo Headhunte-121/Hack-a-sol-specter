@@ -52,6 +52,17 @@ export function useBackStep(open: boolean, close: () => void, data?: Record<stri
   }
 }
 
+/** closeThenGo: leave an inner screen for another address on the same page (for example the score screen's "next lesson")
+ *  without leaving the inner screen's entry behind, so Back from the new address never lands on a dead entry. */
+export function closeThenGo(close: () => void, hashPath: string) {
+  if (entryNow()) {
+    window.addEventListener('popstate', () => { window.location.hash = hashPath }, { once: true })
+    close()
+  } else {
+    window.location.hash = hashPath
+  }
+}
+
 /** useInnerScreenOnReturn: call once per page. When the page opens on an inner-screen entry (Back from another page), either
  *  restore that screen from the saved data (`restore` returns true) or step back past the entry so Back is never a dead press. */
 export function useInnerScreenOnReturn(restore?: (data: Record<string, unknown> | undefined) => boolean) {

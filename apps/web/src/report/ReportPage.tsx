@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { ShareReport } from '../dashboard/ShareReport'
-import { loadLastResult } from '../detector/lastResult'
+import { recentLastResult } from '../detector/lastResult'
 import { useBackStep, useInnerScreenOnReturn } from '../shell/backStep'
 import { setBusy } from '../shell/busy'
 import { formatDate, useLang } from '../shell/i18n'
@@ -20,7 +20,7 @@ export default function ReportPage() {
   const [shared, setShared] = useState<boolean | null>(null)
   const [copied, setCopied] = useState(false)
   const [offlineNote, setOfflineNote] = useState(false)
-  const last = useMemo(() => loadLastResult(), [])
+  const last = useMemo(() => recentLastResult(), [])
 
   useEffect(() => {
     setBusy('report', outcome !== null) // an app update must never refresh the page mid-report
