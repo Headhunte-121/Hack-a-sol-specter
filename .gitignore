@@ -27,3 +27,7 @@ ai tuning/data/*.npy
 ai tuning/data/*.npz
 data/processed/
 ml/artifacts/
+
+node_modules/
+dist/
+*.tsbuildinfo
