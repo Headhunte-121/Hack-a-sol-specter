@@ -1,7 +1,5 @@
 # Test plan
 
-The step-by-step scripts for a team of four, with exact inputs and expected results, are in [TEST_SCRIPTS.md](TEST_SCRIPTS.md). Log results in `test_results_template.csv`. The Hindi / Chhattisgarhi review worksheet is `cg_review.csv`.
-
 What has been checked automatically, what each person should check by hand, and what is still open. Mark results in the Status column.
 
 ## Automated tests
