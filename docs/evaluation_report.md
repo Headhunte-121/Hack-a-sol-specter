@@ -25,9 +25,9 @@ Result bands (what the user would see):
 
 | band | scam messages | genuine messages |
 |---|---|---|
-| likely_scam | 1004 | 20 |
-| suspicious | 17 | 24 |
-| looks_genuine | 15 | 1970 |
+| likely_scam | 1004 | 21 |
+| suspicious | 12 | 22 |
+| looks_genuine | 20 | 1971 |
 
 Bias check, false-alarm rate on **genuine** messages:
 
@@ -47,9 +47,9 @@ Most confident mistakes:
 
 - (english, true=genuine, p=1.0) Solve d Case : A Man Was Found Murdered On  &lt;DECIMAL&gt; . &lt;#&gt;  AfterNoon. 1,His wife called Police. 2,Police questioned everyone. 
 - (english, true=scam, p=0.0) OTP: 482913 is your SBI OTP. Never share with anyone. If you did not request this, your account may be compromised - reply YES to block.
-- (english, true=scam, p=0.011) Hi ya babe x u 4goten bout me?' scammers getting smart..Though this is a regular vodafone no, if you respond you get further prem rate msg/s
-- (english, true=genuine, p=0.984) Passport Seva: Your passport application status is 'Under Review'. Estimated processing time: 7-10 working days. Track at passportindia.gov.
-- (english, true=scam, p=0.016) You have received a payment request of Rs 30,000 on Google Pay. Approve it to receive a cashback reward credited directly to your wallet. Ta
+- (english, true=scam, p=0.006) Hi ya babe x u 4goten bout me?' scammers getting smart..Though this is a regular vodafone no, if you respond you get further prem rate msg/s
+- (english, true=scam, p=0.013) You have received a payment request of Rs 30,000 on Google Pay. Approve it to receive a cashback reward credited directly to your wallet. Ta
+- (english, true=genuine, p=0.985) Passport Seva: Your passport application status is 'Under Review'. Estimated processing time: 7-10 working days. Track at passportindia.gov.
 
 Per source (P / R / F1): bolewara_uci: 0.944 / 0.924 / 0.934 (n=527); cloveai: 1.000 / 1.000 / 1.000 (n=1008); shade63: 0.996 / 0.966 / 0.981 (n=1254); team_messages_v3: 0.950 / 1.000 / 0.974 (n=34); team_syn1: 1.000 / 1.000 / 1.000 (n=59); team_syn2: 1.000 / 1.000 / 1.000 (n=75); ysangam_calls: 1.000 / 1.000 / 1.000 (n=93)
 
@@ -59,10 +59,10 @@ Per source (P / R / F1): bolewara_uci: 0.944 / 0.924 / 0.934 (n=527); cloveai: 1
 
 | | precision / recall / F1 | TN FP FN TP | false-alarm rate |
 |---|---|---|---|
-| **this model** | 0.923 / 0.900 / 0.911 | 74 6 8 72 | 0.075 |
+| **this model** | 0.911 / 0.900 / 0.906 | 73 7 8 72 | 0.087 |
 | keyword-only baseline | 1.000 / 0.125 / 0.222 | 80 0 70 10 | 0.000 |
 
-AUC-PR 0.981, AUC-ROC 0.980; calibration ECE 0.058.
+AUC-PR 0.983, AUC-ROC 0.981; calibration ECE 0.057.
 
 Per language (precision / recall / F1):
 
@@ -70,7 +70,7 @@ Per language (precision / recall / F1):
 |---|---|---|---|---|
 | english | 54 | 26 | 0.862 / 0.962 / 0.909 | 0.143 |
 | hindi | 52 | 26 | 0.955 / 0.808 / 0.875 | 0.038 |
-| hinglish | 54 | 28 | 0.963 / 0.929 / 0.945 | 0.038 |
+| hinglish | 54 | 28 | 0.929 / 0.929 / 0.929 | 0.077 |
 
 Result bands (what the user would see):
 
@@ -84,24 +84,24 @@ Bias check, false-alarm rate on **genuine** messages:
 
 | group | n | false-alarm rate |
 |---|---|---|
-| genuine bank alerts | 14 | 0.071 |
+| genuine bank alerts | 14 | 0.143 |
 | genuine otp messages | 11 | 0.091 |
 | genuine other | 58 | 0.069 |
 | language: english | 28 | 0.143 |
 | language: hindi | 26 | 0.038 |
-| language: hinglish | 26 | 0.038 |
+| language: hinglish | 26 | 0.077 |
 | length: short | 37 | 0.0 |
-| length: medium | 43 | 0.14 |
+| length: medium | 43 | 0.163 |
 
 Most confident mistakes:
 
-- (hindi, true=scam, p=0.011) गलती से आपके खाते में 5000 रुपये चले गए हैं, कृपया वापस भेज दें और मेरा कलेक्ट रिक्वेस्ट मंज़ूर करें।
+- (hindi, true=scam, p=0.01) गलती से आपके खाते में 5000 रुपये चले गए हैं, कृपया वापस भेज दें और मेरा कलेक्ट रिक्वेस्ट मंज़ूर करें।
 - (english, true=scam, p=0.011) Hello, I accidentally sent Rs 5000 to your UPI, please return it. Also kindly approve the collect request I sent.
-- (hinglish, true=genuine, p=0.965) Aapka Aadhaar update request mil gaya hai. URN se uidai.gov.in par status check karein.
-- (english, true=genuine, p=0.938) Your Uber ride with Suresh is arriving in 3 mins. Share OTP 4821 with the driver to start your trip.
-- (hindi, true=scam, p=0.062) आपका बिजली कनेक्शन आज रात कट जाएगा क्योंकि बिल अपडेट नहीं है। तुरंत अधिकारी को फोन करें।
+- (hinglish, true=genuine, p=0.952) Aapka Aadhaar update request mil gaya hai. URN se uidai.gov.in par status check karein.
+- (hinglish, true=scam, p=0.056) Bhai galti se tumhare UPI me 5000 chale gaye, please wapas bhej do aur meri collect request accept kar lo.
+- (hindi, true=scam, p=0.059) आपका बिजली कनेक्शन आज रात कट जाएगा क्योंकि बिल अपडेट नहीं है। तुरंत अधिकारी को फोन करें।
 
-Per source (P / R / F1): challenge_v1: 0.923 / 0.900 / 0.911 (n=160)
+Per source (P / R / F1): challenge_v1: 0.911 / 0.900 / 0.906 (n=160)
 
 ## How to read this
 
