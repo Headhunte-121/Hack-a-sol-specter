@@ -1,5 +1,5 @@
 """Merge UI strings into src/i18n/{en,hi,cg}.json.  Usage: python scripts/i18n_add.py <module.py>
-A module file defines S = {"key": ("English", "Hindi", "Chhattisgarhi"), ...}. Chhattisgarhi is a draft pending native review."""
+A module file defines S = {"key": ("English", "Hindi", "Chhattisgarhi"), ...}. Chhattisgarhi strings are working translations (see docs/TESTING.md)."""
 import json, runpy, sys
 from pathlib import Path
 base = Path(__file__).resolve().parent.parent / "src" / "i18n"

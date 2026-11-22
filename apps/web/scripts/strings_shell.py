@@ -44,5 +44,4 @@ S = {
  "privacy.consent.on": ("Share anonymous counts", "गुमनाम गिनती साझा करें", "गुमनाम गिनती साझा करव"),
  "privacy.consent.off": ("Do not share", "साझा न करें", "साझा झन करव"),
  "footer.disclaimer": ("No check is perfect. Never share your OTP or PIN with anyone.", "कोई भी जाँच पूरी तरह सही नहीं होती। अपना ओटीपी या पिन किसी से साझा न करें।", "कोनो जांच पूरा सही नइ होय। अपन ओटीपी या पिन कखरो ले साझा झन करव।"),
- "module.soon": ("This part is being built.", "यह हिस्सा बनाया जा रहा है।", "ए हिस्सा बनावत हे।"),
 }

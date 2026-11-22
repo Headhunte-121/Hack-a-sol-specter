@@ -26,7 +26,6 @@ S = {
  "learn.score.previous": ("Previous score: {score}", "पिछला स्कोर: {score}", "पिछला स्कोर: {score}"),
  "learn.score.try_checker": ("Well done! Now try the message checker.", "शाबाश! अब संदेश जाँचक आज़माएँ।", "शाबाश! अब संदेसा जांचक अजमावव।"),
  "learn.score.indicative": ("This score is a learning aid, not an official test. It stays on your phone.", "यह स्कोर सीखने में मदद के लिए है, कोई आधिकारिक परीक्षा नहीं। यह आपके फ़ोन में ही रहता है।", "ए स्कोर सीखे म मदद बर हे, कोनो आधिकारिक परीक्षा नोहय। ए तुंहर फोन म ही रइथे।"),
- "learn.draft_note": ("This Chhattisgarhi text is a draft and is being reviewed by a native speaker.", "यह छत्तीसगढ़ी पाठ एक मसौदा है और मूल वक्ता से जाँचा जा रहा है।", "ए छत्तीसगढ़ी पाठ एक मसौदा हे अउ मूल वक्ता ले जांचे जावत हे।"),
  "learn.loading": ("Loading lessons…", "पाठ लोड हो रहे हैं…", "पाठ लोड होवत हे…"),
  "learn.error": ("Could not load the lessons. Open the app once with internet.", "पाठ लोड नहीं हो सके। ऐप को एक बार इंटरनेट से खोलें।", "पाठ लोड नइ हो सकिस। ऐप ला एक पईंत इंटरनेट ले खोलव।"),
  "learn.topic_bars": ("Your score by topic", "विषय के अनुसार आपका स्कोर", "विषय के अनुसार तुंहर स्कोर"),
