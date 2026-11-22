@@ -97,7 +97,16 @@ def create_app(transcriber: Transcriber | None = None, rate_limit: int | None = 
     counts: dict[str, tuple[int, int]] = {}   # hashed client -> (hour, count), in memory only
     gate = asyncio.Semaphore(1)               # one transcription at a time on a small free host
     app = FastAPI(title="Suraksha transcription service", version=VERSION)
-    app.add_middleware(CORSMiddleware, allow_origins=os.environ.get("ASR_CORS", "*").split(","), allow_methods=["GET", "POST"], allow_headers=["Content-Type"], allow_credentials=False)
+    cors_origins = [o.strip() for o in os.environ.get("ASR_CORS", "*").split(",") if o.strip()]
+    if "*" in cors_origins:
+        cors_origins = ["*"]
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=cors_origins,
+        allow_methods=["*"],
+        allow_headers=["*"],
+        allow_credentials=False,
+    )
     app.state.created_files = []              # test hook: every temp file path ever made
 
     def check_rate(request: Request) -> None:

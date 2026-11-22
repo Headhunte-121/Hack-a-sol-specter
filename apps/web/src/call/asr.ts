@@ -42,7 +42,11 @@ export async function healthCheck(timeoutMs = 5000): Promise<{ ok: boolean; mode
   try {
     const ctl = new AbortController()
     const timer = setTimeout(() => ctl.abort(), timeoutMs)
-    const r = await fetch(`${base}/health`, { signal: ctl.signal, cache: 'no-store' })
+    const r = await fetch(`${base}/health`, {
+      signal: ctl.signal,
+      cache: 'no-store',
+      headers: { 'ngrok-skip-browser-warning': 'true' }
+    })
     clearTimeout(timer)
     if (!r.ok) return { ok: false }
     const j = (await r.json()) as { model?: string }
@@ -80,7 +84,12 @@ export async function uploadForTranscript(blob: Blob, opts: UploadOpts = {}): Pr
       const timer = setTimeout(() => ctl.abort(), 150000)
       opts.signal?.addEventListener('abort', () => ctl.abort())
       opts.onStatus?.('transcribing')
-      const r = await fetch(`${base}/transcribe`, { method: 'POST', body: form, signal: ctl.signal })
+      const r = await fetch(`${base}/transcribe`, {
+        method: 'POST',
+        body: form,
+        signal: ctl.signal,
+        headers: { 'ngrok-skip-browser-warning': 'true' }
+      })
       clearTimeout(timer)
       if (r.status === 413) throw new AsrError('too_big')
       if (r.status === 415) throw new AsrError('bad_type')
