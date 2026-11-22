@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { recentLastResult, saveLastResult } from '../detector/lastResult'
 import { categoryFromSignals } from '../shared/categories'
 import { buildEvidenceChecklist, chooseChannel } from './routing'
 import { buildReportSummary } from './summary'
@@ -54,6 +55,16 @@ describe('evidence checklist and summary', () => {
   })
   it('works with no detector result', () => {
     expect(buildReportSummary(null, (k) => k)).toContain('summary.note')
+  })
+  it('a report only uses a check from the past 24 hours, never an old unrelated one', () => {
+    const now = Date.parse('2026-11-23T10:00:00Z')
+    const base = { kind: 'message' as const, band: 'likely_scam' as const, script: 'english', signals: ['kyc_demand'], phrases: ['KYC'] }
+    saveLastResult({ ...base, at: now - 2 * 60 * 60 * 1000 })
+    expect(recentLastResult(now)?.phrases).toEqual(['KYC'])
+    saveLastResult({ ...base, at: now - 25 * 60 * 60 * 1000 })
+    expect(recentLastResult(now)).toBeNull()
+    saveLastResult({ ...base, at: now + 60_000 }) // a clock that jumped: not trusted
+    expect(recentLastResult(now)).toBeNull()
   })
 })
 
