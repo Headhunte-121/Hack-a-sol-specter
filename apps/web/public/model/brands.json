@@ -21,6 +21,10 @@
     { "name": "NPCI / UPI", "tokens": ["npci", "bhimupi"], "official": ["npci.org.in"] },
     { "name": "India Post", "tokens": ["indiapost"], "official": ["indiapost.gov.in"] },
     { "name": "EPFO", "tokens": ["epfo", "epfindia"], "official": ["epfindia.gov.in", "epfo.gov.in"] },
-    { "name": "Cyber crime portal", "tokens": ["cybercrime"], "official": ["cybercrime.gov.in"] }
+    { "name": "Cyber crime portal", "tokens": ["cybercrime"], "official": ["cybercrime.gov.in"] },
+    { "name": "Apple", "tokens": ["apple", "iphone", "icloud"], "official": ["apple.com", "icloud.com"] },
+    { "name": "WhatsApp", "tokens": ["whatsapp"], "official": ["whatsapp.com"] },
+    { "name": "Telegram", "tokens": ["telegram"], "official": ["telegram.org", "t.me"] },
+    { "name": "Netflix", "tokens": ["netflix"], "official": ["netflix.com"] }
   ]
 }

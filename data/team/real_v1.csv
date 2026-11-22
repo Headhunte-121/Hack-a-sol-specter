@@ -1,0 +1,9 @@
+text,label,lang,group
+"Aapke khate XX9012 se Rs 350.00 UPI ke dwara Zomato ko transfer kiye gaye hain. Ref No 409182736455. Agar aapne nahi kiya to turant bank helpline par call karein.",0,hinglish,upi-debit-alert-hinglish
+"Aapke account XX4821 se Rs 1,450.00 UPI dwara Swiggy ko transfer ho gaye hain. Ref No 789123456789. Agar aapne nahi kiya to bank helpline par sampark karein.",0,hinglish,upi-debit-alert-hinglish
+"Aapke bank khate XX3312 se Rs 500.00 PhonePe par transfer kiye gaye hain. Ref No 123456789012. Agar aapne nahi kiya to turant bank ko report karein.",0,hinglish,upi-debit-alert-hinglish
+"Aapke khate XX5541 se Rs 1,200.00 transfer hue hain. Ref No 987654321098. Agar aapne ye transaction nahi kiya to 1800-11-2211 par call karein.",0,hinglish,upi-debit-alert-hinglish
+"Aapke account se Rs 850.00 UPI ke madhyam se transfer kiye gaye hain. Ref No 556677889900. Sahayata ke liye official bank app dekhein.",0,hinglish,upi-debit-alert-hinglish
+"Aapke khate se Rs 2,500.00 katne wale hain. Rokne ke liye turant link par click karein aur UPI PIN dalein: http://upi-cancel-refund.example/pay",1,hinglish,upi-scam-trap-hinglish
+"Bank alert: Aapka UPI payment hold par hai. Turant Rs 350 transfer unlock karne ke liye link kholein: http://fake-upi-support.example/unlock",1,hinglish,upi-scam-trap-hinglish
+"Aapke khate se anadhikrit transfer hua hai. Paisa wapas lene ke liye abhi 90000-00009 par call karein aur OTP batayein.",1,hinglish,upi-scam-trap-hinglish

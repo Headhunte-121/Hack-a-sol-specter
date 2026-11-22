@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-22.1",
+  "version": "2026-11-23.1",
   "notes": "Interpretable scam signals. A signal fires when every group has at least one phrase hit and no 'none' phrase hits. Phrases are space-separated lowercase tokens; a trailing * on the last token means prefix match. Used as extra model features and as explanation text, never as the whole classifier.",
   "signals": [
     {
@@ -169,7 +169,11 @@
           "2 घंटे"
         ]
       ],
-      "none": []
+      "none": [
+        "agar aapne nahi",
+        "if not done by",
+        "if not you"
+      ]
     },
     {
       "id": "threat",
@@ -453,7 +457,12 @@
         "आधिकारिक",
         "pay on the official",
         "pay via",
-        "pay through"
+        "pay through",
+        "transfer kiye gaye",
+        "transfer ho gaye",
+        "transfer kiye",
+        "transfer hue",
+        "transferred"
       ]
     },
     {
@@ -588,7 +597,9 @@
           "संदर्भ संख्या",
           "official app se",
           "nahi the",
-          "नहीं थे"
+          "नहीं थे",
+          "agar aapne nahi",
+          "helpline par call"
         ]
       ],
       "none": []
@@ -649,7 +660,13 @@
           "credit hue",
           "shesh rashi",
           "शेष राशि",
-          "balance"
+          "balance",
+          "transfer kiye gaye",
+          "transfer ho gaye",
+          "transfer kiye",
+          "transfer hue",
+          "transfer kiya",
+          "transferred to"
         ]
       ],
       "none": []
