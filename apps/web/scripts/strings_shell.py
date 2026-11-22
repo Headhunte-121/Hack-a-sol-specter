@@ -1,5 +1,4 @@
 S = {
- "app.name": ("Specter: Scam Shield", "स्पेक्टर: ठगी से सुरक्षा", "स्पेक्टर: ठगी ले बचाव"),
  "home.tagline": ("Check messages, calls and QR codes. Works offline.", "संदेश, कॉल और क्यूआर जाँचें। बिना इंटरनेट भी चलता है।", "संदेसा, कॉल अउ क्यूआर जांचव। बिना इंटरनेट घलो चलथे।"),
  "tile.message": ("Check a Message", "संदेश जाँचें", "संदेसा जांचव"),
  "tile.call": ("Check a Call", "कॉल जाँचें", "कॉल जांचव"),

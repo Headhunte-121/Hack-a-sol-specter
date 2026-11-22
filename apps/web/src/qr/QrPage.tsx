@@ -6,7 +6,7 @@ import { Layout } from '../shell/Layout'
 import { decodeImageFile, decodeQr } from './decode'
 import { analyzeQr, type QrAnalysis } from './parse'
 
-const RISK_STYLE = { high: 'border-red-700 bg-red-50 text-red-950', medium: 'border-amber-600 bg-amber-50 text-amber-950', none: 'border-slate-500 bg-white text-slate-900' } as const
+const RISK_STYLE = { high: 'border-bad-line bg-bad-bg text-bad', medium: 'border-warn-line bg-warn-bg text-warn', none: 'border-line bg-white text-ink' } as const
 const RISK_ICON = { high: '⚠️', medium: '❓', none: 'ℹ️' } as const
 
 export default function QrPage() {
@@ -70,10 +70,10 @@ export default function QrPage() {
   return (
     <Layout title={t('qr.title')}>
       <p>{t('qr.intro')}</p>
-      {!secure && <p role="alert" className="rounded-lg bg-amber-50 p-2 text-amber-950">{t('qr.https_only')}</p>}
+      {!secure && <p role="alert" className="rounded-lg bg-warn-bg p-2 text-warn">{t('qr.https_only')}</p>}
 
       <label className="block text-sm font-bold">{t('qr.expected')}
-        <input value={expected} onChange={(e) => setExpected(e.target.value)} maxLength={60} className="mt-1 min-h-12 w-full rounded-lg border-2 border-slate-400 bg-white px-3 font-normal" />
+        <input value={expected} onChange={(e) => setExpected(e.target.value)} maxLength={60} className="mt-1 min-h-12 w-full rounded-2xl border-2 border-line bg-white text-ink px-3 font-normal" />
       </label>
 
       {scanning ? (
@@ -87,16 +87,16 @@ export default function QrPage() {
           <label className="btn btn-secondary cursor-pointer">🖼️ {t('qr.upload')}
             <input type="file" accept="image/*" className="sr-only" onChange={(e) => { const f = e.target.files?.[0]; if (f) void fromFile(f); e.target.value = '' }} />
           </label>
-          <p className="text-xs text-slate-600">{t('qr.camera_note')}</p>
+          <p className="text-xs text-muted">{t('qr.camera_note')}</p>
         </div>
       )}
 
-      {error && <p role="alert" className="rounded-xl border-2 border-red-600 bg-red-50 p-3 text-red-900">{t(error)}</p>}
+      {error && <p role="alert" className="rounded-2xl border-2 border-bad-line bg-bad-bg p-3 text-bad">{t(error)}</p>}
 
       {a && (
         <section aria-live="polite" className={`space-y-3 rounded-2xl border-4 p-4 ${RISK_STYLE[a.risk]}`} data-testid="qr-result" data-risk={a.risk}>
           <p className="text-xl font-bold"><span aria-hidden>{RISK_ICON[a.risk]}</span> {t(`qr.risk.${a.risk}`)}</p>
-          <div className="rounded-lg bg-white p-3 text-slate-900">
+          <div className="rounded-lg bg-white p-3 text-ink">
             <p className="text-sm font-bold">{t('qr.found')}: {t(`qr.kind.${a.kind}`)}</p>
             <p className="break-all font-mono text-sm">{a.raw /* rendered as plain text */}</p>
             {rows.filter(([, v]) => v).map(([k, v]) => <p key={k} className="text-sm"><strong>{t(k)}:</strong> {v}</p>)}

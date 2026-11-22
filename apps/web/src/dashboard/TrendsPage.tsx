@@ -66,13 +66,13 @@ export default function TrendsPage() {
   const Filters = (
     <div className="grid grid-cols-2 gap-2">
       <label className="text-sm font-bold">{t('trends.filter.region')}
-        <select className="mt-1 min-h-12 w-full rounded-lg border-2 border-slate-400 bg-white px-2 font-normal" value={region} onChange={(e) => setRegion(e.target.value)}>
+        <select className="mt-1 min-h-12 w-full rounded-2xl border-2 border-line bg-white text-ink px-2 font-normal" value={region} onChange={(e) => setRegion(e.target.value)}>
           <option value="">{t('trends.all')}</option>
           {REGIONS.map((r) => <option key={r.code} value={r.code}>{lang === 'en' ? r.en : r.hi}</option>)}
         </select>
       </label>
       <label className="text-sm font-bold">{t('trends.filter.channel')}
-        <select className="mt-1 min-h-12 w-full rounded-lg border-2 border-slate-400 bg-white px-2 font-normal" value={channel} onChange={(e) => setChannel(e.target.value)}>
+        <select className="mt-1 min-h-12 w-full rounded-2xl border-2 border-line bg-white text-ink px-2 font-normal" value={channel} onChange={(e) => setChannel(e.target.value)}>
           <option value="">{t('trends.all')}</option>
           {CHANNELS.map((c) => <option key={c} value={c}>{t(`trends.channel.${c}`)}</option>)}
         </select>
@@ -85,14 +85,14 @@ export default function TrendsPage() {
 
   return (
     <Layout title={t('trends.title')}>
-      {demo && <div role="note" className="rounded-xl border-2 border-amber-600 bg-amber-100 p-3 font-bold text-amber-950">⚠️ {t('trends.demo_banner')}</div>}
-      {state.cached && <p className="text-sm text-slate-600">📴 {t('trends.cached')}</p>}
-      {!apiBase() && !state.cached && <p role="alert" className="rounded-xl border-2 border-slate-500 bg-white p-3">{t('trends.no_backend')}</p>}
-      {state.error && apiBase() && <p role="alert" className="rounded-xl border-2 border-red-600 bg-red-50 p-3 text-red-900">{t('trends.error')}</p>}
+      {demo && <div role="note" className="rounded-2xl border-2 border-warn-line bg-warn-bg p-3 font-bold text-warn">⚠️ {t('trends.demo_banner')}</div>}
+      {state.cached && <p className="text-sm text-muted">📴 {t('trends.cached')}</p>}
+      {!apiBase() && !state.cached && <p role="alert" className="rounded-2xl border-2 border-line bg-white p-3">{t('trends.no_backend')}</p>}
+      {state.error && apiBase() && <p role="alert" className="rounded-2xl border-2 border-bad-line bg-bad-bg p-3 text-bad">{t('trends.error')}</p>}
 
       <div role="tablist" className="grid grid-cols-4 gap-1">
         {tabs.map((x) => (
-          <button key={x} role="tab" aria-selected={tab === x} onClick={() => setTab(x)} className={`min-h-12 rounded-lg border-2 px-1 text-sm font-bold ${tab === x ? 'border-teal-800 bg-teal-700 text-white' : 'border-slate-400 bg-white'}`}>
+          <button key={x} role="tab" aria-selected={tab === x} onClick={() => setTab(x)} className={`min-h-12 rounded-2xl border-2 px-1 text-sm font-bold ${tab === x ? 'border-brand bg-brand text-white' : 'border-line bg-white text-ink'}`}>
             {t(`trends.tab.${x}`)}
           </button>
         ))}
@@ -106,7 +106,7 @@ export default function TrendsPage() {
         <section className="space-y-3" data-testid="overview">
           <div className="card text-center">
             <p className="text-sm">{t('trends.this_week')}</p>
-            <p className="text-5xl font-bold text-teal-800">{overview.this_week_total}</p>
+            <p className="text-5xl font-bold text-brand">{overview.this_week_total}</p>
             <p className="text-sm">{overview.change_pct === null ? t('trends.change.none') : t('trends.change', { pct: `${overview.change_pct > 0 ? '+' : ''}${overview.change_pct}` })}</p>
           </div>
           <div className="card">
@@ -114,7 +114,7 @@ export default function TrendsPage() {
             <ol className="space-y-2">
               {overview.top3.map((r, i) => (
                 <li key={r.scam_category} className="flex items-center justify-between gap-2">
-                  <span><span className="mr-2 inline-grid size-7 place-items-center rounded-full bg-teal-700 text-white">{i + 1}</span>{cat(r.scam_category)}</span>
+                  <span><span className="mr-2 inline-grid size-7 place-items-center rounded-full bg-brand text-white">{i + 1}</span>{cat(r.scam_category)}</span>
                   <strong>{r.report_count}</strong>
                 </li>
               ))}
@@ -126,7 +126,7 @@ export default function TrendsPage() {
               <ul className="list-disc pl-5">{rising.rows.map((r) => <li key={r.scam_category}>{cat(r.scam_category)}: {r.last_week} → {r.this_week}</li>)}</ul>
             </div>
           )}
-          <p className="text-xs text-slate-600">{t('trends.suppressed', { n: (weekly?.suppressed_cells ?? 0) })}</p>
+          <p className="text-xs text-muted">{t('trends.suppressed', { n: (weekly?.suppressed_cells ?? 0) })}</p>
         </section>
       )}
 
@@ -163,7 +163,7 @@ export default function TrendsPage() {
             <table className="w-full text-sm"><thead><tr><th className="text-left">{t('trends.col.district')}</th><th>{t('trends.col.count')}</th></tr></thead>
               <tbody>{regionTotals.map((r) => <tr key={r.name}><td>{r.name}</td><td className="text-center">{r.n}</td></tr>)}</tbody></table>
           </details>
-          <p className="text-xs text-slate-600">{t('trends.suppressed', { n: byRegion?.suppressed_cells ?? 0 })}</p>
+          <p className="text-xs text-muted">{t('trends.suppressed', { n: byRegion?.suppressed_cells ?? 0 })}</p>
         </section>
       )}
 
