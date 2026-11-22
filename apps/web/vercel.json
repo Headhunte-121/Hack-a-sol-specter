@@ -8,5 +8,5 @@
       { "key": "Permissions-Policy", "value": "camera=(self), microphone=(self), geolocation=()" }
     ] }
   ],
-  "rewrites": [{ "source": "/((?!assets|icons|model|content|sw.js|workbox).*)", "destination": "/index.html" }]
+  "rewrites": [{ "source": "/((?!assets|icons|model|content|qr-tests|manifest.webmanifest|sw.js|workbox).*)", "destination": "/index.html" }]
 }
