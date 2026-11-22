@@ -31,3 +31,5 @@ ml/artifacts/
 node_modules/
 dist/
 *.tsbuildinfo
+services/api/data/
+*.db
