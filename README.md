@@ -54,6 +54,8 @@ Everything that can run on the phone does. Message text never leaves the phone. 
 
 ## Run it
 
+On Windows, double-click `start-all.bat`: it seeds labelled demo data, starts the reports API (port 8000), optionally the transcription service (8001), builds and serves the web app (http://localhost:4173) and opens the browser. `stop-all.bat` closes everything. Or run the pieces by hand:
+
 ```bash
 # web app
 cd apps/web
