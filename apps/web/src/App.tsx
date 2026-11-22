@@ -12,6 +12,8 @@ const ReportPage = lazy(() => import('./report/ReportPage'))
 const LearnPage = lazy(() => import('./learn/LearnPage'))
 const TrendsPage = lazy(() => import('./dashboard/TrendsPage'))
 const CallPage = lazy(() => import('./call/CallPage'))
+const QrPage = lazy(() => import('./qr/QrPage'))
+const DuringCallPage = lazy(() => import('./duringcall/DuringCallPage'))
 
 const ROUTES: Record<string, () => React.ReactElement> = {
   '/': () => <Home />,
@@ -21,6 +23,8 @@ const ROUTES: Record<string, () => React.ReactElement> = {
   '/learn': () => <LearnPage />,
   '/trends': () => <TrendsPage />,
   '/call': () => <CallPage />,
+  '/qr': () => <QrPage />,
+  '/during-call': () => <DuringCallPage />,
 }
 
 export default function App() {
