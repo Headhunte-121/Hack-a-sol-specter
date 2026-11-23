@@ -9,6 +9,7 @@
 | Dependency audit | `npm audit --omit=dev`: 0 vulnerabilities. `npm audit`: 4 moderate, all in build tooling (`vite-plugin-pwa` > `workbox-build` > `glob` > `minimatch`); no fix without a breaking upgrade. Python packages not audited (`pip-audit` not installed) | Production clean; dev tooling noted |
 | Consent defaults to off and switching it off stops all report traffic | `dashboard.test.ts`: with consent off nothing is queued and `fetch` is never called; the sync step discards a queue if consent is off | Pass (automated) |
 | The clear-data button removes what it claims | Removes local settings, queue and caches (`shell/Settings.tsx`) | Open: verify by hand |
+| The complaint helper keeps what the person types (amount, transaction number, the fraudster's number, their own words) on the device only, never sends it to our servers, and "Delete all my data" removes the draft | `ComplaintPage` has no network call (the report is copied or shared by the person); `ComplaintPage.test.tsx` checks the draft, the clear button and that the report screen passes on answers only, never message text | Pass (automated); repeat with the Network tab open |
 | Reports hold no free text, identifiers or precise time | Fixed four fields plus the hour; server rejects unknown fields; verified one end-to-end report row | Pass |
 | Small cells are hidden | API test with minimum 5; seeded data hides tiny districts | Pass (automated) |
 | Rate limiting and token rotation | Token hashed with a daily salt, per-hour limit; tests cover both | Pass (automated) |
