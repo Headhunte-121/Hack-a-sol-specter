@@ -1,15 +1,19 @@
 """Authoring source for lessons and quiz (three languages per string: English, Hindi, Chhattisgarhi).
 Run: python scripts/content_source.py   -> writes public/content/lessons.json and public/content/quiz.json
+The visual cards are in content_cards.py, the three newer lessons in content_lessons_v2.py and the newer questions in content_quiz_v2.py.
+A lesson declares its audio and captions automatically when public/audio/<id>.<lang>.m4a and <id>.<lang>.json exist (see docs/lesson_audio.md).
 Chhattisgarhi strings are working translations to be confirmed by a native speaker before release (see docs/TESTING.md).
 All example messages are made up; no real numbers, names or accounts."""
 import json
 from pathlib import Path
 
+from content_cards import CARDS
+from content_common import FALSE, L, Q, TRUE
+from content_lessons_v2 import NEW_LESSONS
+from content_quiz_v2 import QUIZ_V2
+
 OUT = Path(__file__).resolve().parent.parent / "public" / "content"
-
-
-def L(en, hi, cg):
-    return {"en": en, "hi": hi, "cg": cg}
+AUDIO = Path(__file__).resolve().parent.parent / "public" / "audio"
 
 
 # ------------------------------------------------------------------ lessons
@@ -79,12 +83,7 @@ LESSONS = [
          todo=L("Act fast: call 1930, then file on cybercrime.gov.in. Call your bank, block cards and UPI, keep all evidence, and tell someone you trust.", "तुरंत करें: 1930 पर कॉल करें, फिर cybercrime.gov.in पर शिकायत करें। बैंक को कॉल करें, कार्ड और यूपीआई बंद कराएँ, सारे सबूत रखें और किसी भरोसेमंद को बताएँ।", "तुरते करव: 1930 म कॉल करव, फेर cybercrime.gov.in म शिकायत करव। बैंक ला कॉल करव, कार्ड अउ यूपीआई बंद करावव, जम्मो सबूत राखव अउ कोनो भरोसा के आदमी ला बतावव।")),
 ]
 
-TRUE, FALSE = L("True", "सही", "सही"), L("False", "गलत", "गलत")
 SAFE, SCAM = L("Safe", "सुरक्षित", "सुरक्षित"), L("A scam", "ठगी", "ठगी")
-
-
-def Q(id, topic, diff, kind, q, opts, ans, exp):
-    return dict(id=id, topic=topic, difficulty=diff, type=kind, question=q, options=opts, answer=ans, explanation=exp)
 
 
 QUIZ = [
@@ -174,7 +173,37 @@ QUIZ = [
       L("Chakshu is for reporting suspected fraud calls and messages before any loss.", "नुकसान से पहले संदिग्ध ठगी वाले कॉल और संदेश की रिपोर्ट के लिए चक्षु है।", "नुकसान ले पहिली संदिग्ध ठगी वाले कॉल अउ संदेसा के रिपोर्ट बर चक्षु हे।")),
 ]
 
+# ------------------------------------------------------------------ assemble (schema v2)
+LESSON_ORDER = ["otp_pin_card", "atm_pin", "upi_pin", "fake_kyc", "digital_arrest", "courier_customs", "upi_qr", "links_apps", "safe_habits", "what_to_do"]
+MINUTES = {"otp_pin_card": 4, "fake_kyc": 3, "digital_arrest": 4, "courier_customs": 3, "upi_qr": 4, "links_apps": 4, "what_to_do": 4}
+LANGS = ("hi", "cg", "en")
+
+
+def declared(lesson_id, ext):
+    """Paths (relative to the site root) of the files that exist for this lesson, by language."""
+    return {lang: f"audio/{lesson_id}.{lang}.{ext}" for lang in LANGS if (AUDIO / f"{lesson_id}.{lang}.{ext}").exists()}
+
+
+def build_lesson(raw):
+    lesson_id = raw["id"]
+    out = dict(id=lesson_id, scripts=raw["scripts"], minutes=raw.get("minutes", MINUTES.get(lesson_id)), title=raw["title"])
+    out["cards"] = [dict(id=f"c{i}", **card) for i, card in enumerate(CARDS[lesson_id], 1)]
+    out.update(example=raw["example"], signs=raw["signs"], todo=raw["todo"])
+    audio, captions = declared(lesson_id, "m4a"), declared(lesson_id, "json")
+    if audio:
+        out["audio"] = audio
+    if captions:
+        out["captions"] = captions
+    return out
+
+
+by_id = {l["id"]: l for l in LESSONS + NEW_LESSONS}
+assert sorted(by_id) == sorted(LESSON_ORDER) and sorted(CARDS) == sorted(LESSON_ORDER), "every lesson needs an entry in LESSON_ORDER and CARDS"
+ALL_LESSONS = [build_lesson(by_id[i]) for i in LESSON_ORDER]
+ALL_QUIZ = QUIZ + QUIZ_V2
+VERSION = "2026-11-23.2"
+
 OUT.mkdir(parents=True, exist_ok=True)
-(OUT / "lessons.json").write_text(json.dumps({"version": "2026-11-22.1", "lessons": LESSONS}, ensure_ascii=False, indent=1), encoding="utf-8")
-(OUT / "quiz.json").write_text(json.dumps({"version": "2026-11-22.1", "questions": QUIZ}, ensure_ascii=False, indent=1), encoding="utf-8")
-print(f"{len(LESSONS)} lessons, {len(QUIZ)} questions")
+(OUT / "lessons.json").write_text(json.dumps({"version": VERSION, "schema": 2, "lessons": ALL_LESSONS}, ensure_ascii=False, indent=1), encoding="utf-8")
+(OUT / "quiz.json").write_text(json.dumps({"version": VERSION, "schema": 2, "questions": ALL_QUIZ}, ensure_ascii=False, indent=1), encoding="utf-8")
+print(f"{len(ALL_LESSONS)} lessons, {sum(len(l['cards']) for l in ALL_LESSONS)} cards, {len(ALL_QUIZ)} questions")

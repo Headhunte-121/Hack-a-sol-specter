@@ -23,5 +23,5 @@ export function categoryFromSignals(signals: string[]): CategoryCode {
 
 export const LESSON_FOR_CATEGORY: Record<CategoryCode, string> = {
   kyc_bank: 'fake_kyc', otp: 'otp_pin_card', digital_arrest: 'digital_arrest', courier_customs: 'courier_customs', lottery_prize: 'upi_qr',
-  loan_app: 'links_apps', investment_job: 'links_apps', phishing_link: 'links_apps', payment_request: 'upi_qr', fake_qr: 'upi_qr', other: 'what_to_do',
+  loan_app: 'safe_habits', investment_job: 'safe_habits', phishing_link: 'links_apps', payment_request: 'upi_pin', fake_qr: 'upi_qr', other: 'what_to_do',
 }

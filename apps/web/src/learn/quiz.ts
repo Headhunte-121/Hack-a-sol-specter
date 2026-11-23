@@ -20,6 +20,27 @@ function shuffle<T>(arr: T[], r: () => number): T[] {
   return a
 }
 
+/** How many questions a quiz session draws from the bank: at least one for each of the ten topics. */
+export const QUIZ_LENGTH = 15
+
+/** hashSeed: a number from a seed and a question id (FNV-1a), so each question gets its own stable shuffle. */
+export function hashSeed(seed: number, id: string): number {
+  let h = 0x811c9dc5 ^ (seed >>> 0)
+  for (let i = 0; i < id.length; i++) {
+    h ^= id.charCodeAt(i)
+    h = Math.imul(h, 0x01000193)
+  }
+  return h >>> 0
+}
+
+/** displayOrder: the order the options are SHOWN in, as indexes into question.options. True/false keeps its order. It only changes how the
+ *  options look: the answer, the explanation and the score always use the option's original index, so the same answers give the same score
+ *  whatever the seed. */
+export function displayOrder(q: Question, seed: number): number[] {
+  const identity = q.options.map((_, i) => i)
+  return q.type === 'tf' ? identity : shuffle(identity, rng(hashSeed(seed, q.id)))
+}
+
 /** selectQuestions: a balanced set across topics, mixed difficulty, no repeats until the bank is used up. */
 export function selectQuestions(bank: Question[], n: number, used: string[] = [], seed = Date.now()): { questions: Question[]; used: string[] } {
   const r = rng(seed)

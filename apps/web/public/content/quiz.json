@@ -1,5 +1,6 @@
 {
- "version": "2026-11-22.1",
+ "version": "2026-11-23.2",
+ "schema": 2,
  "questions": [
   {
    "id": "q_otp_1",
@@ -901,6 +902,1049 @@
     "en": "Chakshu is for reporting suspected fraud calls and messages before any loss.",
     "hi": "नुकसान से पहले संदिग्ध ठगी वाले कॉल और संदेश की रिपोर्ट के लिए चक्षु है।",
     "cg": "नुकसान ले पहिली संदिग्ध ठगी वाले कॉल अउ संदेसा के रिपोर्ट बर चक्षु हे।"
+   }
+  },
+  {
+   "id": "q_otp_5",
+   "topic": "otp_pin_card",
+   "difficulty": 1,
+   "type": "tf",
+   "question": {
+    "en": "If an OTP arrives for a payment you did not make, someone may be trying to use your card.",
+    "hi": "अगर ऐसे भुगतान का ओटीपी आए जो आपने नहीं किया, तो हो सकता है कोई आपका कार्ड इस्तेमाल करने की कोशिश कर रहा हो।",
+    "cg": "यदि अइसन भुगतान के ओटीपी आथे जउन तुमन नइ करे हव, त हो सकथे कोनो तुंहर कार्ड के उपयोग करे के कोसिस करत हे।"
+   },
+   "options": [
+    {
+     "en": "True",
+     "hi": "सही",
+     "cg": "सही"
+    },
+    {
+     "en": "False",
+     "hi": "गलत",
+     "cg": "गलत"
+    }
+   ],
+   "answer": 0,
+   "explanation": {
+    "en": "True. Do not share the code with anyone. Call your bank on the number printed on your card.",
+    "hi": "सही। कोड किसी को न बताएँ। कार्ड पर छपे नंबर पर बैंक को कॉल करें।",
+    "cg": "सही। कोड कखरो ला झन बतावव। कार्ड म छपे नंबर म बैंक ला कॉल करव।"
+   }
+  },
+  {
+   "id": "q_otp_6",
+   "topic": "otp_pin_card",
+   "difficulty": 2,
+   "type": "scenario",
+   "question": {
+    "en": "A caller knows your name and the last four digits of your card. He says he is from your bank and asks for the OTP \"to verify you\". What do you do?",
+    "hi": "कॉल करने वाला आपका नाम और कार्ड के आखिरी चार अंक जानता है। वह कहता है कि वह आपके बैंक से है और \"पहचान जाँचने के लिए\" ओटीपी माँगता है। आप क्या करेंगे?",
+    "cg": "कॉल करइया तुंहर नाम अउ कार्ड के आखिरी चार अंक जानथे। ओ कहिथे कि ओ तुंहर बैंक ले हे अउ \"पहिचान जांचे बर\" ओटीपी मांगथे। तुमन का करहू?"
+   },
+   "options": [
+    {
+     "en": "Give the OTP, because he knows my details",
+     "hi": "ओटीपी दे दें, क्योंकि वह मेरी जानकारी जानता है",
+     "cg": "ओटीपी दे देवव, काबर कि ओ मोर जानकारी जानथे"
+    },
+    {
+     "en": "Hang up and call the number printed on my card",
+     "hi": "कॉल काटकर कार्ड पर छपे नंबर पर कॉल करें",
+     "cg": "कॉल काट के कार्ड म छपे नंबर म कॉल करव"
+    },
+    {
+     "en": "Give half of the OTP and see what he says",
+     "hi": "आधा ओटीपी बताकर देखें कि वह क्या कहता है",
+     "cg": "आधा ओटीपी बता के देखव कि ओ का कहिथे"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "Scammers can gather names and card digits from many places, so knowing them proves nothing. No bank employee needs your OTP.",
+    "hi": "ठग कई जगह से नाम और कार्ड के अंक जुटा सकते हैं, इसलिए उनका जानना कुछ साबित नहीं करता। किसी बैंक कर्मचारी को आपके ओटीपी की ज़रूरत नहीं होती।",
+    "cg": "ठग कतको जगा ले नाम अउ कार्ड के अंक सकेल सकथे, एकरे सेती ओकर जानना कुछु साबित नइ करय। कोनो बैंक कर्मचारी ला तुंहर ओटीपी के जरूरत नइ होवय।"
+   }
+  },
+  {
+   "id": "q_kyc_5",
+   "topic": "fake_kyc",
+   "difficulty": 1,
+   "type": "tf",
+   "question": {
+    "en": "A message that threatens to block your account today is a warning sign of a scam.",
+    "hi": "आज ही खाता बंद करने की धमकी वाला संदेश ठगी की चेतावनी का संकेत है।",
+    "cg": "आजे खाता बंद करे के धमकी वाले संदेसा ठगी के चेतावनी के संकेत हे।"
+   },
+   "options": [
+    {
+     "en": "True",
+     "hi": "सही",
+     "cg": "सही"
+    },
+    {
+     "en": "False",
+     "hi": "गलत",
+     "cg": "गलत"
+    }
+   ],
+   "answer": 0,
+   "explanation": {
+    "en": "True. Fear and hurry are the scammer's tools. Check with your bank yourself, at the branch or in the official app.",
+    "hi": "सही। डर और जल्दी ठग के औज़ार हैं। बैंक से खुद पूछें, शाखा में या आधिकारिक ऐप में।",
+    "cg": "सही। डर अउ जल्दी ठग के औजार हे। बैंक ले खुद पूछव, शाखा म या आधिकारिक ऐप म।"
+   }
+  },
+  {
+   "id": "q_kyc_6",
+   "topic": "fake_kyc",
+   "difficulty": 3,
+   "type": "scenario",
+   "question": {
+    "en": "A message from your bank says your KYC is due and asks you to visit your branch with your documents. It has no link and no phone number. What is a sensible step?",
+    "hi": "आपके बैंक के नाम से संदेश आता है कि केवाईसी बाकी है और दस्तावेज़ लेकर शाखा आएँ। उसमें कोई लिंक या फ़ोन नंबर नहीं है। समझदारी का कदम क्या है?",
+    "cg": "तुंहर बैंक के नाम ले संदेसा आथे कि केवाईसी बाकी हे अउ कागज लेके शाखा आवव। ओमा कोनो लिंक या फोन नंबर नइ हे। समझदारी के कदम का हे?"
+   },
+   "options": [
+    {
+     "en": "Send photos of your documents by reply",
+     "hi": "जवाब में अपने दस्तावेज़ों की फ़ोटो भेजें",
+     "cg": "जवाब म अपन कागज के फोटो भेजव"
+    },
+    {
+     "en": "Visit the branch yourself, or call the number printed on your card first to check",
+     "hi": "खुद शाखा जाएँ, या पहले कार्ड पर छपे नंबर पर कॉल करके पूछें",
+     "cg": "खुद शाखा जावव, या पहिली कार्ड म छपे नंबर म कॉल करके पूछव"
+    },
+    {
+     "en": "Treat it as a scam and tell nobody",
+     "hi": "इसे ठगी मानकर किसी को न बताएँ",
+     "cg": "एला ठगी मान के कखरो ला झन बतावव"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "A request to visit your branch asks for no link, code or payment, but anyone can send an SMS, so confirm at the branch or on the number on your card. Never send documents or codes by reply.",
+    "hi": "शाखा आने का संदेश कोई लिंक, कोड या भुगतान नहीं माँगता, फिर भी एसएमएस कोई भी भेज सकता है। इसलिए शाखा में या कार्ड पर छपे नंबर पर पक्का करें। जवाब में दस्तावेज़ या कोड कभी न भेजें।",
+    "cg": "शाखा आए के संदेसा कोनो लिंक, कोड या भुगतान नइ मांगय, तभो एसएमएस कोनो घलो भेज सकथे। एकरे सेती शाखा म या कार्ड म छपे नंबर म पक्का करव। जवाब म कागज या कोड कभू झन भेजव।"
+   }
+  },
+  {
+   "id": "q_arr_5",
+   "topic": "digital_arrest",
+   "difficulty": 1,
+   "type": "tf",
+   "question": {
+    "en": "If a caller in a police uniform on a video call says you are under arrest, you must stay on the call.",
+    "hi": "वीडियो कॉल पर पुलिस की वर्दी वाला कहे कि आप गिरफ़्तार हैं, तो आपको कॉल पर बने रहना होगा।",
+    "cg": "वीडियो कॉल म पुलिस के वर्दी वाला कहय कि तुमन गिरफ्तार हव, त तुंहला कॉल म बने रहे ला परही।"
+   },
+   "options": [
+    {
+     "en": "True",
+     "hi": "सही",
+     "cg": "सही"
+    },
+    {
+     "en": "False",
+     "hi": "गलत",
+     "cg": "गलत"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "False. Police do not arrest anyone over a video call. Hang up and call 1930.",
+    "hi": "गलत। पुलिस वीडियो कॉल पर किसी को गिरफ़्तार नहीं करती। कॉल काटें और 1930 पर कॉल करें।",
+    "cg": "गलत। पुलिस वीडियो कॉल म कखरो ला गिरफ्तार नइ करय। कॉल काटव अउ 1930 म कॉल करव।"
+   }
+  },
+  {
+   "id": "q_arr_6",
+   "topic": "digital_arrest",
+   "difficulty": 2,
+   "type": "scenario",
+   "question": {
+    "en": "Your uncle is on a video call with a \"police officer\". He looks scared and says he has been told not to hang up or tell anyone. What do you do?",
+    "hi": "आपके चाचा एक \"पुलिस अधिकारी\" के साथ वीडियो कॉल पर हैं। वे डरे हुए हैं और कहते हैं कि उन्हें कॉल न काटने और किसी को न बताने को कहा गया है। आप क्या करेंगे?",
+    "cg": "तुंहर कका एक \"पुलिस अधिकारी\" के संग वीडियो कॉल म हे। ओ डरे हे अउ कहिथे कि ओला कॉल झन काटे अउ कखरो ला झन बताए बर कहे गे हे। तुमन का करहू?"
+   },
+   "options": [
+    {
+     "en": "Wait quietly until the call ends",
+     "hi": "चुपचाप कॉल खत्म होने का इंतज़ार करें",
+     "cg": "चुपचाप कॉल खतम होए के इंतजार करव"
+    },
+    {
+     "en": "Stay calm, help him end the call, and call 1930 together",
+     "hi": "शांत रहें, उन्हें कॉल काटने में मदद करें और साथ में 1930 पर कॉल करें",
+     "cg": "शांत रहव, ओला कॉल काटे म मदद करव अउ संग म 1930 म कॉल करव"
+    },
+    {
+     "en": "Help him move the money so it ends quickly",
+     "hi": "पैसे भेजने में उनकी मदद करें ताकि जल्दी खत्म हो",
+     "cg": "पइसा भेजे म ओकर मदद करव ताकि जल्दी खतम होवय"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "\"Do not hang up, do not tell anyone\" is the scammer's way of keeping him alone. Being there and ending the call breaks the trick.",
+    "hi": "\"कॉल न काटें, किसी को न बताएँ\" ठग का तरीका है ताकि वे अकेले रहें। साथ रहना और कॉल काटना इस चाल को तोड़ देता है।",
+    "cg": "\"कॉल झन काटव, कखरो ला झन बतावव\" ठग के तरीका हे ताकि ओ अकेला रहय। संग म रहना अउ कॉल काटना ए चाल ला टोर देथे।"
+   }
+  },
+  {
+   "id": "q_cou_5",
+   "topic": "courier_customs",
+   "difficulty": 1,
+   "type": "tf",
+   "question": {
+    "en": "If an SMS uses a real courier company's name, the link in it must be genuine.",
+    "hi": "अगर एसएमएस में किसी असली कूरियर कंपनी का नाम हो, तो उसका लिंक असली ही होगा।",
+    "cg": "यदि एसएमएस म कोनो असली कूरियर कंपनी के नाम होय, त ओकर लिंक असली च होही।"
+   },
+   "options": [
+    {
+     "en": "True",
+     "hi": "सही",
+     "cg": "सही"
+    },
+    {
+     "en": "False",
+     "hi": "गलत",
+     "cg": "गलत"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "False. Anyone can type a company's name in a message. Track parcels in the courier's own app or website.",
+    "hi": "गलत। संदेश में कंपनी का नाम कोई भी लिख सकता है। पार्सल कूरियर के अपने ऐप या वेबसाइट पर देखें।",
+    "cg": "गलत। संदेसा म कंपनी के नाम कोनो घलो लिख सकथे। पार्सल कूरियर के अपन ऐप या वेबसाइट म देखव।"
+   }
+  },
+  {
+   "id": "q_cou_6",
+   "topic": "courier_customs",
+   "difficulty": 2,
+   "type": "scenario",
+   "question": {
+    "en": "You tapped a parcel-fee link and typed your card number, but stopped before entering any OTP. What is the best next step?",
+    "hi": "आपने पार्सल-फ़ीस वाले लिंक पर टैप किया और कार्ड नंबर डाल दिया, लेकिन ओटीपी डालने से पहले रुक गए। अब सबसे अच्छा कदम क्या है?",
+    "cg": "तुमन पार्सल-फीस वाले लिंक म टैप करे अउ कार्ड नंबर डार देव, फेर ओटीपी डारे के पहिली रुक गेव। अब सबले बढ़िया कदम का हे?"
+   },
+   "options": [
+    {
+     "en": "Do nothing, because no OTP was entered",
+     "hi": "कुछ न करें, क्योंकि ओटीपी नहीं डाला",
+     "cg": "कुछु झन करव, काबर कि ओटीपी नइ डारे हव"
+    },
+    {
+     "en": "Call your bank on the number on your card, block the card, and call 1930",
+     "hi": "कार्ड पर छपे नंबर पर बैंक को कॉल करें, कार्ड बंद करवाएँ और 1930 पर कॉल करें",
+     "cg": "कार्ड म छपे नंबर म बैंक ला कॉल करव, कार्ड बंद करावव अउ 1930 म कॉल करव"
+    },
+    {
+     "en": "Wait a few days to see if money goes",
+     "hi": "कुछ दिन देखें कि पैसे जाते हैं या नहीं",
+     "cg": "कुछ दिन देखव कि पइसा जाथे कि नइ"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "Your card number is now with someone else. Block the card early. There is no blame: this trick catches many people.",
+    "hi": "आपका कार्ड नंबर अब किसी और के पास है। कार्ड जल्दी बंद करवाएँ। इसमें आपकी गलती नहीं: यह चाल कई लोगों को फँसाती है।",
+    "cg": "तुंहर कार्ड नंबर अब कोनो अउ तीर हे। कार्ड जल्दी बंद करावव। एमा तुंहर गलती नइ: ए चाल कतको मनखे ला फँसाथे।"
+   }
+  },
+  {
+   "id": "q_upi_5",
+   "topic": "upi_qr",
+   "difficulty": 1,
+   "type": "tf",
+   "question": {
+    "en": "If a stranger sends you a QR code and says \"scan this to receive money\", you will receive money.",
+    "hi": "अगर कोई अजनबी क्यूआर भेजकर कहे \"पैसे पाने के लिए स्कैन करें\", तो आपको पैसे मिल जाएँगे।",
+    "cg": "यदि कोनो अजनबी क्यूआर भेज के कहय \"पइसा पाए बर स्कैन करव\", त तुंहला पइसा मिल जाही।"
+   },
+   "options": [
+    {
+     "en": "True",
+     "hi": "सही",
+     "cg": "सही"
+    },
+    {
+     "en": "False",
+     "hi": "गलत",
+     "cg": "गलत"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "False. Scanning is for paying. You never scan anything to receive money.",
+    "hi": "गलत। स्कैन भुगतान करने के लिए होता है। पैसे पाने के लिए कुछ स्कैन नहीं करना पड़ता।",
+    "cg": "गलत। स्कैन भुगतान करे बर होथे। पइसा पाए बर कुछु स्कैन नइ करे ला परय।"
+   }
+  },
+  {
+   "id": "q_upi_6",
+   "topic": "upi_qr",
+   "difficulty": 2,
+   "type": "mcq",
+   "question": {
+    "en": "An SMS says you won Rs 25,000 in a lucky draw you never entered. To claim it you must pay a small \"tax\" by UPI. What does this tell you?",
+    "hi": "एक एसएमएस कहता है कि आपने ₹25,000 का ऐसा लकी ड्रा जीता है जिसमें आपने हिस्सा ही नहीं लिया। इसे पाने के लिए यूपीआई से थोड़ा \"टैक्स\" भरना है। यह किस बात का संकेत है?",
+    "cg": "एक एसएमएस कहिथे कि तुमन ₹25,000 के अइसन लकी ड्रा जीते हव जेमा तुमन हिस्सा ही नइ ले हव। एला पाए बर यूपीआई ले थोरकुन \"टैक्स\" भरे ला हे। ए का के संकेत हे?"
+   },
+   "options": [
+    {
+     "en": "It is genuine, because taxes are normal",
+     "hi": "यह असली है, क्योंकि टैक्स लगना आम बात है",
+     "cg": "ए असली हे, काबर कि टैक्स लगना आम बात हे"
+    },
+    {
+     "en": "It is a scam: a prize you did not enter for, which asks for money first",
+     "hi": "यह ठगी है: ऐसा इनाम जिसमें आपने हिस्सा नहीं लिया और जो पहले पैसे माँगता है",
+     "cg": "ए ठगी हे: अइसन इनाम जेमा तुमन हिस्सा नइ ले हव अउ जउन पहिली पइसा मांगथे"
+    },
+    {
+     "en": "Pay half now and half later",
+     "hi": "आधा अभी और आधा बाद में भरें",
+     "cg": "आधा अभी अउ आधा बाद म भरव"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "You cannot win a draw you did not enter. Asking you to pay first is the trick.",
+    "hi": "जिस ड्रा में आपने हिस्सा नहीं लिया, उसे आप जीत नहीं सकते। पहले पैसे माँगना ही चाल है।",
+    "cg": "जउन ड्रा म तुमन हिस्सा नइ ले हव, ओला जीत नइ सकव। पहिली पइसा मांगना ही चाल हे।"
+   }
+  },
+  {
+   "id": "q_lnk_5",
+   "topic": "links_apps",
+   "difficulty": 1,
+   "type": "tf",
+   "question": {
+    "en": "A job that asks you to pay a registration fee before you start is a common scam pattern.",
+    "hi": "जो नौकरी शुरू करने से पहले रजिस्ट्रेशन फ़ीस माँगे, वह ठगी का आम तरीका है।",
+    "cg": "जउन नौकरी सुरु करे के पहिली रजिस्ट्रेशन फीस मांगथे, ओ ठगी के आम तरीका हे।"
+   },
+   "options": [
+    {
+     "en": "True",
+     "hi": "सही",
+     "cg": "सही"
+    },
+    {
+     "en": "False",
+     "hi": "गलत",
+     "cg": "गलत"
+    }
+   ],
+   "answer": 0,
+   "explanation": {
+    "en": "True. Check the company yourself and be careful before you pay anything for a job.",
+    "hi": "सही। कंपनी की जानकारी खुद जाँचें और नौकरी के लिए कुछ भी भरने से पहले सावधान रहें।",
+    "cg": "सही। कंपनी के जानकारी खुद जांचव अउ नौकरी बर कुछु भरे के पहिली सावधान रहव।"
+   }
+  },
+  {
+   "id": "q_lnk_6",
+   "topic": "links_apps",
+   "difficulty": 2,
+   "type": "scenario",
+   "question": {
+    "en": "A loan app asks to read your contacts and photos before it gives you a loan. What do you do?",
+    "hi": "एक लोन ऐप लोन देने से पहले आपके संपर्क और फ़ोटो पढ़ने की अनुमति माँगता है। आप क्या करेंगे?",
+    "cg": "एक लोन ऐप लोन देहे के पहिली तुंहर संपर्क अउ फोटो पढ़े के अनुमति मांगथे। तुमन का करहू?"
+   },
+   "options": [
+    {
+     "en": "Allow it, it is only a formality",
+     "hi": "अनुमति दे दें, यह बस औपचारिकता है",
+     "cg": "अनुमति दे देवव, ए बस औपचारिकता हे"
+    },
+    {
+     "en": "Do not install it; ask a bank or a lender you can visit",
+     "hi": "इसे इंस्टॉल न करें; बैंक या किसी ऐसे ऋणदाता से पूछें जिससे आप मिल सकें",
+     "cg": "एला इंस्टॉल झन करव; बैंक या अइसन ऋणदाता ले पूछव जेकर ले तुमन मिल सकव"
+    },
+    {
+     "en": "Allow only the contacts",
+     "hi": "सिर्फ़ संपर्कों की अनुमति दें",
+     "cg": "सिरिफ संपर्क के अनुमति देवव"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "Access to your contacts and photos can be used to pressure you. It is wiser to borrow from a bank or a lender you can visit.",
+    "hi": "आपके संपर्कों और फ़ोटो तक पहुँच का इस्तेमाल आप पर दबाव बनाने में हो सकता है। बैंक या ऐसे ऋणदाता से लेना बेहतर है जिससे आप मिल सकें।",
+    "cg": "तुंहर संपर्क अउ फोटो तक पहुँच के उपयोग तुंहर ऊपर दबाव बनाए म हो सकथे। बैंक या अइसन ऋणदाता ले लेना बढ़िया हे जेकर ले तुमन मिल सकव।"
+   }
+  },
+  {
+   "id": "q_do_5",
+   "topic": "what_to_do",
+   "difficulty": 2,
+   "type": "scenario",
+   "question": {
+    "en": "A fake request took Rs 3,000 from your account after you entered your PIN, and you feel embarrassed. What is the best first step?",
+    "hi": "नकली रिक्वेस्ट पर पिन डालने के बाद आपके खाते से ₹3,000 चले गए और आपको शर्म आ रही है। सबसे अच्छा पहला कदम क्या है?",
+    "cg": "नकली रिक्वेस्ट म पिन डारे के बाद तुंहर खाता ले ₹3,000 चल दिस अउ तुंहला शरम आवत हे। सबले बढ़िया पहिली कदम का हे?"
+   },
+   "options": [
+    {
+     "en": "Call 1930 and your bank now",
+     "hi": "अभी 1930 और अपने बैंक को कॉल करें",
+     "cg": "अभी 1930 अउ अपन बैंक ला कॉल करव"
+    },
+    {
+     "en": "Wait a few days and tell nobody",
+     "hi": "कुछ दिन रुकें और किसी को न बताएँ",
+     "cg": "कुछ दिन रुकव अउ कखरो ला झन बतावव"
+    },
+    {
+     "en": "Message the scammer to ask for the money back",
+     "hi": "ठग को संदेश भेजकर पैसे वापस माँगें",
+     "cg": "ठग ला संदेसा भेज के पइसा वापस मांगव"
+    }
+   ],
+   "answer": 0,
+   "explanation": {
+    "en": "Speed matters and shame should not stop you. Call 1930 and your bank, then file on cybercrime.gov.in and keep your evidence.",
+    "hi": "जल्दी करना ज़रूरी है और शर्म आपको रोके नहीं। 1930 और बैंक को कॉल करें, फिर cybercrime.gov.in पर शिकायत करें और सबूत रखें।",
+    "cg": "जल्दी करना जरूरी हे अउ शरम तुंहला रोके झन। 1930 अउ बैंक ला कॉल करव, फेर cybercrime.gov.in म शिकायत करव अउ सबूत राखव।"
+   }
+  },
+  {
+   "id": "q_do_6",
+   "topic": "what_to_do",
+   "difficulty": 1,
+   "type": "tf",
+   "question": {
+    "en": "Only careless people get cheated by scammers.",
+    "hi": "ठगों के जाल में सिर्फ़ लापरवाह लोग ही फँसते हैं।",
+    "cg": "ठग के जाल म सिरिफ लापरवाह मनखे च फँसथे।"
+   },
+   "options": [
+    {
+     "en": "True",
+     "hi": "सही",
+     "cg": "सही"
+    },
+    {
+     "en": "False",
+     "hi": "गलत",
+     "cg": "गलत"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "False. Scammers target everyone: careful, clever and young people too. It is never your fault, and telling someone helps.",
+    "hi": "गलत। ठग हर किसी को निशाना बनाते हैं: सावधान, समझदार और नौजवान को भी। यह आपकी गलती नहीं, और किसी को बताने से मदद मिलती है।",
+    "cg": "गलत। ठग हर कखरो ला निशाना बनाथे: सावधान, समझदार अउ जवान ला घलो। ए तुंहर गलती नोहय, अउ कखरो ला बताए ले मदद मिलथे।"
+   }
+  },
+  {
+   "id": "q_atm_1",
+   "topic": "atm_pin",
+   "difficulty": 1,
+   "type": "tf",
+   "question": {
+    "en": "It is fine to tell your ATM PIN to a bank employee who phones you.",
+    "hi": "फ़ोन करने वाले बैंक कर्मचारी को अपना एटीएम पिन बताना ठीक है।",
+    "cg": "फोन करइया बैंक कर्मचारी ला अपन एटीएम पिन बताना ठीक हे।"
+   },
+   "options": [
+    {
+     "en": "True",
+     "hi": "सही",
+     "cg": "सही"
+    },
+    {
+     "en": "False",
+     "hi": "गलत",
+     "cg": "गलत"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "False. No real bank employee will ever ask for your PIN, on a call or in person.",
+    "hi": "गलत। कोई असली बैंक कर्मचारी कभी आपका पिन नहीं माँगता, न कॉल पर, न सामने।",
+    "cg": "गलत। कोनो असली बैंक कर्मचारी कभू तुंहर पिन नइ मांगय, न कॉल म, न आगू म।"
+   }
+  },
+  {
+   "id": "q_atm_2",
+   "topic": "atm_pin",
+   "difficulty": 1,
+   "type": "mcq",
+   "question": {
+    "en": "Where should your ATM PIN be kept?",
+    "hi": "आपका एटीएम पिन कहाँ रहना चाहिए?",
+    "cg": "तुंहर एटीएम पिन कहाँ रहना चाही?"
+   },
+   "options": [
+    {
+     "en": "Written on the back of the card",
+     "hi": "कार्ड के पीछे लिखा हुआ",
+     "cg": "कार्ड के पाछू लिखे"
+    },
+    {
+     "en": "Only in your memory",
+     "hi": "सिर्फ़ आपकी याददाश्त में",
+     "cg": "सिरिफ तुंहर सुरता म"
+    },
+    {
+     "en": "In a phone note called PIN",
+     "hi": "फ़ोन में \"पिन\" नाम के नोट में",
+     "cg": "फोन म \"पिन\" नाम के नोट म"
+    },
+    {
+     "en": "On a paper kept in your wallet",
+     "hi": "बटुए में रखी पर्ची पर",
+     "cg": "बटुआ म राखे पर्ची म"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "A PIN that is written down can be found along with the card. Keep it in your memory only.",
+    "hi": "लिखा हुआ पिन कार्ड के साथ मिल सकता है। इसे सिर्फ़ याद रखें।",
+    "cg": "लिखे पिन कार्ड के संग मिल सकथे। एला सिरिफ सुरता म राखव।"
+   }
+  },
+  {
+   "id": "q_atm_3",
+   "topic": "atm_pin",
+   "difficulty": 2,
+   "type": "scenario",
+   "question": {
+    "en": "Your card is stuck in an ATM. A stranger says: \"Give me your PIN and I will get it out.\" What do you do?",
+    "hi": "आपका कार्ड एटीएम में फँस गया है। एक अजनबी कहता है: \"अपना पिन दीजिए, मैं निकाल देता हूँ।\" आप क्या करेंगे?",
+    "cg": "तुंहर कार्ड एटीएम म फँस गे हे। एक अजनबी कहिथे: \"अपन पिन देवव, मैं निकाल देथंव।\" तुमन का करहू?"
+   },
+   "options": [
+    {
+     "en": "Give the PIN, he is only helping",
+     "hi": "पिन दे दें, वह बस मदद कर रहा है",
+     "cg": "पिन दे देवव, ओ बस मदद करत हे"
+    },
+    {
+     "en": "Do not share it; press Cancel and call your bank on the number on your card",
+     "hi": "पिन न बताएँ; कैंसल दबाएँ और कार्ड पर छपे नंबर पर बैंक को कॉल करें",
+     "cg": "पिन झन बतावव; कैंसल दबावव अउ कार्ड म छपे नंबर म बैंक ला कॉल करव"
+    },
+    {
+     "en": "Let him type it while you look away",
+     "hi": "उसे पिन डालने दें और आप दूसरी ओर देखें",
+     "cg": "ओला पिन डारन देवव अउ तुमन दूसर कोती देखव"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "A stranger who offers help at an ATM may be after your PIN or your card. Your bank can help you with a stuck card.",
+    "hi": "एटीएम पर मदद का प्रस्ताव देने वाला अजनबी आपका पिन या कार्ड चाहता हो सकता है। फँसे कार्ड में आपका बैंक मदद कर सकता है।",
+    "cg": "एटीएम म मदद के प्रस्ताव देवइया अजनबी तुंहर पिन या कार्ड चाहत हो सकथे। फँसे कार्ड म तुंहर बैंक मदद कर सकथे।"
+   }
+  },
+  {
+   "id": "q_atm_4",
+   "topic": "atm_pin",
+   "difficulty": 2,
+   "type": "mcq",
+   "question": {
+    "en": "While you type your PIN at an ATM, which habit helps?",
+    "hi": "एटीएम पर पिन डालते समय कौन-सी आदत मदद करती है?",
+    "cg": "एटीएम म पिन डारत समय कोन आदत मदद करथे?"
+   },
+   "options": [
+    {
+     "en": "Cover the keypad with your other hand",
+     "hi": "दूसरे हाथ से कीपैड को ढकना",
+     "cg": "दूसर हाथ ले कीपैड ला ढांकना"
+    },
+    {
+     "en": "Say the PIN softly so you do not forget it",
+     "hi": "पिन धीरे से बोलना ताकि भूलें नहीं",
+     "cg": "पिन ला धीरे ले बोलना ताकि भुलावव झन"
+    },
+    {
+     "en": "Let the person behind you stand close",
+     "hi": "पीछे खड़े व्यक्ति को पास खड़ा होने देना",
+     "cg": "पाछू खड़े मनखे ला तीर म खड़ा होए बर देना"
+    }
+   ],
+   "answer": 0,
+   "explanation": {
+    "en": "Cover the keypad every time. Someone may be watching, or a hidden camera may be recording.",
+    "hi": "हर बार कीपैड को ढकें। कोई देख रहा हो सकता है, या कोई छिपा कैमरा रिकॉर्ड कर रहा हो सकता है।",
+    "cg": "हर बार कीपैड ला ढांकव। कोनो देखत हो सकथे, या कोनो लुकाए कैमरा रिकॉर्ड करत हो सकथे।"
+   }
+  },
+  {
+   "id": "q_atm_5",
+   "topic": "atm_pin",
+   "difficulty": 2,
+   "type": "mcq",
+   "question": {
+    "en": "You notice the card slot of an ATM looks loose, as if something was added on. What do you do?",
+    "hi": "आपको दिखता है कि एटीएम की कार्ड वाली जगह ढीली है, जैसे ऊपर से कुछ लगाया गया हो। आप क्या करेंगे?",
+    "cg": "तुंहला दिखथे कि एटीएम के कार्ड वाले जगा ढिल्ला हे, जइसे ऊपर ले कुछु लगाए गे होय। तुमन का करहू?"
+   },
+   "options": [
+    {
+     "en": "Use it quickly",
+     "hi": "जल्दी से इस्तेमाल कर लें",
+     "cg": "जल्दी ले उपयोग कर लेवव"
+    },
+    {
+     "en": "Do not use that machine; tell the bank on the number on your card",
+     "hi": "उस मशीन का इस्तेमाल न करें; कार्ड पर छपे नंबर पर बैंक को बताएँ",
+     "cg": "ओ मशीन के उपयोग झन करव; कार्ड म छपे नंबर म बैंक ला बतावव"
+    },
+    {
+     "en": "Pull the part off and keep it",
+     "hi": "वह हिस्सा खींचकर निकाल लें और रख लें",
+     "cg": "ओ हिस्सा ला खींच के निकाल लेवव अउ राख लेवव"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "A part added to the card slot or keypad can copy card details. Use another machine and tell your bank.",
+    "hi": "कार्ड की जगह या कीपैड पर लगाया गया हिस्सा कार्ड की जानकारी की नकल कर सकता है। दूसरी मशीन इस्तेमाल करें और बैंक को बताएँ।",
+    "cg": "कार्ड के जगा या कीपैड म लगाए हिस्सा कार्ड के जानकारी के नकल कर सकथे। दूसर मशीन के उपयोग करव अउ बैंक ला बतावव।"
+   }
+  },
+  {
+   "id": "q_atm_6",
+   "topic": "atm_pin",
+   "difficulty": 3,
+   "type": "scenario",
+   "question": {
+    "en": "You told your ATM PIN to a caller, but no money has left your account yet. What is the best step?",
+    "hi": "आपने किसी कॉल करने वाले को एटीएम पिन बता दिया, पर अभी खाते से पैसे नहीं गए। सबसे अच्छा कदम क्या है?",
+    "cg": "तुमन कोनो कॉल करइया ला एटीएम पिन बता देव, फेर अभी खाता ले पइसा नइ गे हे। सबले बढ़िया कदम का हे?"
+   },
+   "options": [
+    {
+     "en": "Wait and watch your balance",
+     "hi": "रुकें और अपना बैलेंस देखते रहें",
+     "cg": "रुकव अउ अपन बैलेंस देखत रहव"
+    },
+    {
+     "en": "Change the PIN and tell your bank now; call 1930 if money is missing",
+     "hi": "अभी पिन बदलें और बैंक को बताएँ; पैसे कम हों तो 1930 पर कॉल करें",
+     "cg": "अभी पिन बदलव अउ बैंक ला बतावव; पइसा कम होवय त 1930 म कॉल करव"
+    },
+    {
+     "en": "Delete the call record",
+     "hi": "कॉल का रिकॉर्ड मिटा दें",
+     "cg": "कॉल के रिकॉर्ड मिटा देवव"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "Acting before any loss is the best time. Change the PIN, tell the bank, and keep the call details.",
+    "hi": "नुकसान से पहले कदम उठाना सबसे अच्छा समय है। पिन बदलें, बैंक को बताएँ और कॉल की जानकारी रखें।",
+    "cg": "नुकसान के पहिली कदम उठाना सबले बढ़िया समय हे। पिन बदलव, बैंक ला बतावव अउ कॉल के जानकारी राखव।"
+   }
+  },
+  {
+   "id": "q_pin_1",
+   "topic": "upi_pin",
+   "difficulty": 1,
+   "type": "tf",
+   "question": {
+    "en": "If a request in your UPI app says \"refund\", entering your PIN on it will bring money into your account.",
+    "hi": "अगर आपके यूपीआई ऐप में किसी रिक्वेस्ट पर \"रिफ़ंड\" लिखा है, तो उस पर पिन डालने से पैसे आपके खाते में आ जाएँगे।",
+    "cg": "यदि तुंहर यूपीआई ऐप म कोनो रिक्वेस्ट म \"रिफंड\" लिखे हे, त ओमा पिन डारे ले पइसा तुंहर खाता म आ जाही।"
+   },
+   "options": [
+    {
+     "en": "True",
+     "hi": "सही",
+     "cg": "सही"
+    },
+    {
+     "en": "False",
+     "hi": "गलत",
+     "cg": "गलत"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "False. Entering your PIN on a request approves a payment out of your account, whatever the note says.",
+    "hi": "गलत। रिक्वेस्ट पर पिन डालने से आपके खाते से भुगतान मंज़ूर होता है, चाहे उस पर कुछ भी लिखा हो।",
+    "cg": "गलत। रिक्वेस्ट म पिन डारे ले तुंहर खाता ले भुगतान मंजूर होथे, चाहे ओमा कुछु लिखे होय।"
+   }
+  },
+  {
+   "id": "q_pin_2",
+   "topic": "upi_pin",
+   "difficulty": 1,
+   "type": "mcq",
+   "question": {
+    "en": "When is it right to enter your UPI PIN?",
+    "hi": "यूपीआई पिन कब डालना सही है?",
+    "cg": "यूपीआई पिन कब डारना सही हे?"
+   },
+   "options": [
+    {
+     "en": "When you are paying someone you know and the name and amount are right",
+     "hi": "जब आप किसी जान-पहचान वाले को भुगतान कर रहे हों और नाम और रकम सही हों",
+     "cg": "जब तुमन कोनो जान-पहिचान वाले ला भुगतान करत हव अउ नाम अउ रकम सही हे"
+    },
+    {
+     "en": "To receive a refund",
+     "hi": "रिफ़ंड पाने के लिए",
+     "cg": "रिफंड पाए बर"
+    },
+    {
+     "en": "On a website that asks for it to verify you",
+     "hi": "ऐसी वेबसाइट पर जो पहचान जाँचने के लिए पिन माँगे",
+     "cg": "अइसन वेबसाइट म जउन पहिचान जांचे बर पिन मांगय"
+    },
+    {
+     "en": "When a caller from customer care asks",
+     "hi": "जब कस्टमर केयर वाला कॉल करके माँगे",
+     "cg": "जब कस्टमर केयर वाला कॉल करके मांगय"
+    }
+   ],
+   "answer": 0,
+   "explanation": {
+    "en": "The PIN is only for approving your own payments, inside your own UPI app.",
+    "hi": "पिन सिर्फ़ आपके अपने भुगतान मंज़ूर करने के लिए है, आपके अपने यूपीआई ऐप में।",
+    "cg": "पिन सिरिफ तुंहर अपन भुगतान मंजूर करे बर हे, तुंहर अपन यूपीआई ऐप म।"
+   }
+  },
+  {
+   "id": "q_pin_3",
+   "topic": "upi_pin",
+   "difficulty": 2,
+   "type": "scenario",
+   "question": {
+    "en": "A \"customer care\" caller says: \"Open your UPI app, tap the request I sent and enter your PIN to get your refund.\" What do you do?",
+    "hi": "\"कस्टमर केयर\" वाला कॉल पर कहता है: \"अपना यूपीआई ऐप खोलें, मेरा भेजा रिक्वेस्ट टैप करें और रिफ़ंड पाने के लिए पिन डालें।\" आप क्या करेंगे?",
+    "cg": "\"कस्टमर केयर\" वाला कॉल म कहिथे: \"अपन यूपीआई ऐप खोलव, मोर भेजे रिक्वेस्ट ला टैप करव अउ रिफंड पाए बर पिन डारव।\" तुमन का करहू?"
+   },
+   "options": [
+    {
+     "en": "Do it, then check the balance",
+     "hi": "ऐसा करें, फिर बैलेंस देखें",
+     "cg": "अइसन करव, फेर बैलेंस देखव"
+    },
+    {
+     "en": "Decline the request and hang up",
+     "hi": "रिक्वेस्ट को मना करें और कॉल काट दें",
+     "cg": "रिक्वेस्ट ला मना करव अउ कॉल काट दव"
+    },
+    {
+     "en": "Ask him to send the refund first, then enter the PIN",
+     "hi": "उससे कहें कि पहले रिफ़ंड भेजे, फिर पिन डालेंगे",
+     "cg": "ओला कहव कि पहिली रिफंड भेजय, फेर पिन डारबो"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "A request asks you to pay. Money coming in to you needs no PIN.",
+    "hi": "रिक्वेस्ट आपसे भुगतान माँगता है। आपके खाते में पैसे आने के लिए पिन की ज़रूरत नहीं होती।",
+    "cg": "रिक्वेस्ट तुंहर ले भुगतान मांगथे। तुंहर खाता म पइसा आए बर पिन के जरूरत नइ होवय।"
+   }
+  },
+  {
+   "id": "q_pin_4",
+   "topic": "upi_pin",
+   "difficulty": 2,
+   "type": "mcq",
+   "question": {
+    "en": "Your UPI app asks for your PIN. What should you check first?",
+    "hi": "आपका यूपीआई ऐप पिन माँग रहा है। सबसे पहले क्या देखें?",
+    "cg": "तुंहर यूपीआई ऐप पिन मांगत हे। सबले पहिली का देखव?"
+   },
+   "options": [
+    {
+     "en": "Who is being paid and how much",
+     "hi": "किसे और कितना भुगतान हो रहा है",
+     "cg": "कोन ला अउ कतका भुगतान होवत हे"
+    },
+    {
+     "en": "The colour of the screen",
+     "hi": "स्क्रीन का रंग",
+     "cg": "स्क्रीन के रंग"
+    },
+    {
+     "en": "How many people use the app",
+     "hi": "कितने लोग ऐप इस्तेमाल करते हैं",
+     "cg": "कतका मनखे ऐप के उपयोग करथे"
+    }
+   ],
+   "answer": 0,
+   "explanation": {
+    "en": "If the name or the amount is not what you expected, stop and do not enter the PIN.",
+    "hi": "अगर नाम या रकम आपकी उम्मीद के अनुसार नहीं है, तो रुकें और पिन न डालें।",
+    "cg": "यदि नाम या रकम तुंहर उम्मीद के अनुसार नइ हे, त रुकव अउ पिन झन डारव।"
+   }
+  },
+  {
+   "id": "q_pin_5",
+   "topic": "upi_pin",
+   "difficulty": 3,
+   "type": "mcq",
+   "question": {
+    "en": "A website you reached from an SMS link shows a form: \"Enter your UPI PIN to verify your account.\" What does this tell you?",
+    "hi": "एसएमएस के लिंक से खुली एक वेबसाइट में फ़ॉर्म है: \"खाता जाँचने के लिए अपना यूपीआई पिन डालें।\" यह किस बात का संकेत है?",
+    "cg": "एसएमएस के लिंक ले खुले एक वेबसाइट म फॉर्म हे: \"खाता जांचे बर अपन यूपीआई पिन डारव।\" ए का के संकेत हे?"
+   },
+   "options": [
+    {
+     "en": "It is a normal check",
+     "hi": "यह एक सामान्य जाँच है",
+     "cg": "ए एक सामान्य जांच हे"
+    },
+    {
+     "en": "It is a trick: the PIN is only for your own UPI app when you pay",
+     "hi": "यह चाल है: पिन सिर्फ़ आपके अपने यूपीआई ऐप में भुगतान के समय डाला जाता है",
+     "cg": "ए चाल हे: पिन सिरिफ तुंहर अपन यूपीआई ऐप म भुगतान के समय डारे जाथे"
+    },
+    {
+     "en": "It is fine if you type it only once",
+     "hi": "सिर्फ़ एक बार डालें तो ठीक है",
+     "cg": "सिरिफ एक पईंत डारव त ठीक हे"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "No website or form needs your UPI PIN. Close it and do not type anything.",
+    "hi": "किसी वेबसाइट या फ़ॉर्म को आपके यूपीआई पिन की ज़रूरत नहीं होती। उसे बंद करें और कुछ न डालें।",
+    "cg": "कोनो वेबसाइट या फॉर्म ला तुंहर यूपीआई पिन के जरूरत नइ होवय। ओला बंद करव अउ कुछु झन डारव।"
+   }
+  },
+  {
+   "id": "q_pin_6",
+   "topic": "upi_pin",
+   "difficulty": 2,
+   "type": "tf",
+   "question": {
+    "en": "Using the same number for your UPI PIN and your ATM PIN is a good idea because it is easy to remember.",
+    "hi": "यूपीआई पिन और एटीएम पिन के लिए एक ही नंबर रखना अच्छा है, क्योंकि याद रखना आसान है।",
+    "cg": "यूपीआई पिन अउ एटीएम पिन बर एके नंबर राखना बढ़िया हे, काबर कि सुरता राखना आसान हे।"
+   },
+   "options": [
+    {
+     "en": "True",
+     "hi": "सही",
+     "cg": "सही"
+    },
+    {
+     "en": "False",
+     "hi": "गलत",
+     "cg": "गलत"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "False. If someone learns one, they can try it on the other. Use different numbers that only you know.",
+    "hi": "गलत। अगर कोई एक पिन जान ले, तो वह दूसरे पर आज़मा सकता है। अलग-अलग नंबर रखें जो सिर्फ़ आप जानते हों।",
+    "cg": "गलत। यदि कोनो एक पिन जान लेवय, त ओ दूसर म अजमा सकथे। अलग-अलग नंबर राखव जउन सिरिफ तुमन जानथव।"
+   }
+  },
+  {
+   "id": "q_hab_1",
+   "topic": "safe_habits",
+   "difficulty": 1,
+   "type": "tf",
+   "question": {
+    "en": "A caller who says \"do not tell your family\" is giving you a warning sign.",
+    "hi": "जो कॉल करने वाला कहे \"परिवार को न बताएँ\", वह आपको चेतावनी का संकेत दे रहा है।",
+    "cg": "जउन कॉल करइया कहिथे \"परिवार ला झन बतावव\", ओ तुंहला चेतावनी के संकेत देवत हे।"
+   },
+   "options": [
+    {
+     "en": "True",
+     "hi": "सही",
+     "cg": "सही"
+    },
+    {
+     "en": "False",
+     "hi": "गलत",
+     "cg": "गलत"
+    }
+   ],
+   "answer": 0,
+   "explanation": {
+    "en": "True. Scammers want you alone. Telling someone you trust breaks the trick.",
+    "hi": "सही। ठग चाहते हैं कि आप अकेले रहें। किसी भरोसेमंद को बताने से चाल टूट जाती है।",
+    "cg": "सही। ठग चाहथे कि तुमन अकेला रहव। कोनो भरोसा के आदमी ला बताए ले चाल टूट जाथे।"
+   }
+  },
+  {
+   "id": "q_hab_2",
+   "topic": "safe_habits",
+   "difficulty": 1,
+   "type": "mcq",
+   "question": {
+    "en": "A call frightens you and asks for quick action. What is the best first step?",
+    "hi": "एक कॉल आपको डराता है और जल्दी कुछ करने को कहता है। सबसे अच्छा पहला कदम क्या है?",
+    "cg": "एक कॉल तुंहला डराथे अउ जल्दी कुछु करे बर कहिथे। सबले बढ़िया पहिली कदम का हे?"
+   },
+   "options": [
+    {
+     "en": "Do what the caller says, quickly",
+     "hi": "कॉल करने वाले के कहे अनुसार जल्दी करें",
+     "cg": "कॉल करइया के कहे अनुसार जल्दी करव"
+    },
+    {
+     "en": "End the call and talk to someone you trust",
+     "hi": "कॉल रोकें और किसी भरोसेमंद से बात करें",
+     "cg": "कॉल रोकव अउ कोनो भरोसा के आदमी ले गोठियावव"
+    },
+    {
+     "en": "Give your details to prove who you are",
+     "hi": "अपनी पहचान साबित करने के लिए जानकारी दें",
+     "cg": "अपन पहिचान साबित करे बर जानकारी देवव"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "Pausing breaks the pressure. A real matter will still be there after you ask someone.",
+    "hi": "रुकने से दबाव टूट जाता है। असली मामला किसी से पूछने के बाद भी रहेगा।",
+    "cg": "रुके ले दबाव टूट जाथे। असली मामला कोनो ले पूछे के बाद घलो रइही।"
+   }
+  },
+  {
+   "id": "q_hab_3",
+   "topic": "safe_habits",
+   "difficulty": 2,
+   "type": "scenario",
+   "question": {
+    "en": "A caller says your SIM will stop working today unless you share the code that comes by SMS. What do you do?",
+    "hi": "कॉल करने वाला कहता है कि जब तक आप एसएमएस से आया कोड नहीं बताएँगे, आपका सिम आज बंद हो जाएगा। आप क्या करेंगे?",
+    "cg": "कॉल करइया कहिथे कि जब तक तुमन एसएमएस ले आए कोड नइ बतावव, तुंहर सिम आज बंद हो जाही। तुमन का करहू?"
+   },
+   "options": [
+    {
+     "en": "Share the code to keep the SIM working",
+     "hi": "सिम चालू रखने के लिए कोड बता दें",
+     "cg": "सिम चालू राखे बर कोड बता देवव"
+    },
+    {
+     "en": "Hang up and contact your mobile company on its official number or at its shop",
+     "hi": "कॉल काटें और मोबाइल कंपनी के आधिकारिक नंबर पर या उसकी दुकान में पूछें",
+     "cg": "कॉल काटव अउ मोबाइल कंपनी के आधिकारिक नंबर म या ओकर दुकान म पूछव"
+    },
+    {
+     "en": "Ask him to call again later",
+     "hi": "उससे कहें कि बाद में फिर कॉल करे",
+     "cg": "ओला कहव कि बाद म फेर कॉल करय"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "The code that comes by SMS can be used on your accounts. Check with your mobile company yourself.",
+    "hi": "एसएमएस से आया कोड आपके खातों पर इस्तेमाल हो सकता है। मोबाइल कंपनी से खुद पूछें।",
+    "cg": "एसएमएस ले आए कोड तुंहर खाता म उपयोग हो सकथे। मोबाइल कंपनी ले खुद पूछव।"
+   }
+  },
+  {
+   "id": "q_hab_4",
+   "topic": "safe_habits",
+   "difficulty": 2,
+   "type": "mcq",
+   "question": {
+    "en": "An investment group promises \"sure 30% a month\" and shows photos of members' profits. What is the best step?",
+    "hi": "एक निवेश ग्रुप \"हर महीने पक्का 30%\" का वादा करता है और सदस्यों के मुनाफ़े की फ़ोटो दिखाता है। सबसे अच्छा कदम क्या है?",
+    "cg": "एक निवेश ग्रुप \"हर महीना पक्का 30%\" के वादा करथे अउ सदस्य के मुनाफा के फोटो देखाथे। सबले बढ़िया कदम का हे?"
+   },
+   "options": [
+    {
+     "en": "Invest a small amount to test it",
+     "hi": "परखने के लिए थोड़ा पैसा लगाएँ",
+     "cg": "परखे बर थोरकुन पइसा लगावव"
+    },
+    {
+     "en": "Do not invest; ask a bank officer or a family member who knows about money",
+     "hi": "पैसा न लगाएँ; बैंक अधिकारी या पैसों की समझ वाले किसी परिजन से पूछें",
+     "cg": "पइसा झन लगावव; बैंक अधिकारी या पइसा के समझ वाले कोनो परिजन ले पूछव"
+    },
+    {
+     "en": "Invest if the other members seem happy",
+     "hi": "अगर दूसरे सदस्य खुश दिखें तो लगाएँ",
+     "cg": "यदि दूसर सदस्य खुश दिखय त लगावव"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "Sure and very high returns are a warning sign, and photos of profits can be made up. Ask someone you trust before you pay.",
+    "hi": "पक्का और बहुत ज़्यादा मुनाफ़ा चेतावनी है, और मुनाफ़े की फ़ोटो बनाई जा सकती हैं। पैसे देने से पहले किसी भरोसेमंद से पूछें।",
+    "cg": "पक्का अउ बहुत जादा मुनाफा चेतावनी हे, अउ मुनाफा के फोटो बनाए जा सकथे। पइसा देहे के पहिली कोनो भरोसा के आदमी ले पूछव।"
+   }
+  },
+  {
+   "id": "q_hab_5",
+   "topic": "safe_habits",
+   "difficulty": 3,
+   "type": "scenario",
+   "question": {
+    "en": "A neighbour shows you an SMS that says he must pay a fine today or be arrested. He is scared. What do you do?",
+    "hi": "एक पड़ोसी आपको एसएमएस दिखाते हैं कि आज जुर्माना नहीं भरा तो गिरफ़्तारी होगी। वे डरे हुए हैं। आप क्या करेंगे?",
+    "cg": "एक परोसी तुंहला एसएमएस देखाथे कि आज जुर्माना नइ भरे त गिरफ्तारी होही। ओ डरे हे। तुमन का करहू?"
+   },
+   "options": [
+    {
+     "en": "Help him pay quickly so the trouble ends",
+     "hi": "जल्दी भुगतान करने में उनकी मदद करें ताकि परेशानी खत्म हो",
+     "cg": "जल्दी भुगतान करे म ओकर मदद करव ताकि परेशानी खतम होवय"
+    },
+    {
+     "en": "Stay calm, tell him not to pay, and call 1930 with him",
+     "hi": "शांत रहें, उन्हें भुगतान न करने को कहें और उनके साथ 1930 पर कॉल करें",
+     "cg": "शांत रहव, ओला भुगतान झन करे बर कहव अउ ओकर संग 1930 म कॉल करव"
+    },
+    {
+     "en": "Forward the message to all your contacts",
+     "hi": "संदेश अपने सभी संपर्कों को फ़ॉरवर्ड करें",
+     "cg": "संदेसा अपन जम्मो संपर्क ला फॉरवर्ड करव"
+    }
+   ],
+   "answer": 1,
+   "explanation": {
+    "en": "A threat of arrest with a deadline, sent by SMS, is a scam sign. Staying calm with him and calling 1930 together stops him from acting in fear.",
+    "hi": "एसएमएस से समय-सीमा के साथ गिरफ़्तारी की धमकी ठगी का संकेत है। शांत रहकर उनके साथ 1930 पर कॉल करने से वे डर में कुछ नहीं करेंगे।",
+    "cg": "एसएमएस ले समय-सीमा के संग गिरफ्तारी के धमकी ठगी के संकेत हे। शांत रहके ओकर संग 1930 म कॉल करे ले ओ डर म कुछु नइ करही।"
+   }
+  },
+  {
+   "id": "q_hab_6",
+   "topic": "safe_habits",
+   "difficulty": 1,
+   "type": "mcq",
+   "question": {
+    "en": "Which number do you call to check on a message from your bank?",
+    "hi": "बैंक के संदेश की जाँच के लिए आप किस नंबर पर कॉल करें?",
+    "cg": "बैंक के संदेसा के जांच बर तुमन कोन नंबर म कॉल करव?"
+   },
+   "options": [
+    {
+     "en": "The number printed on your card or on the bank's official website",
+     "hi": "कार्ड पर छपा या बैंक की आधिकारिक वेबसाइट पर दिया नंबर",
+     "cg": "कार्ड म छपे या बैंक के आधिकारिक वेबसाइट म दे नंबर"
+    },
+    {
+     "en": "The number written in the message",
+     "hi": "संदेश में लिखा नंबर",
+     "cg": "संदेसा म लिखे नंबर"
+    },
+    {
+     "en": "The number the caller gives you",
+     "hi": "कॉल करने वाले का बताया नंबर",
+     "cg": "कॉल करइया के बताए नंबर"
+    }
+   ],
+   "answer": 0,
+   "explanation": {
+    "en": "A number you find yourself is not controlled by the sender of the message.",
+    "hi": "जो नंबर आप खुद ढूँढते हैं, उस पर संदेश भेजने वाले का नियंत्रण नहीं होता।",
+    "cg": "जउन नंबर तुमन खुद खोजथव, ओमा संदेसा भेजइया के नियंत्रण नइ होवय।"
    }
   }
  ]

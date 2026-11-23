@@ -15,9 +15,14 @@ The score is a **learning aid, not a validated test**. It is deterministic (same
 | Courier, customs and parcel scams | 10 |
 | Fake links, apps and remote access | 10 |
 | What to do if it happens | 10 |
+| ATM PIN and your card | 10 |
+| Your UPI PIN | 10 |
+| Everyday habits that protect you | 10 |
 
 4. **Levels:** below 40 Beginner, 40 to 69 Aware, 70 and above Confident.
 5. **Next step:** the lesson of the weakest topic (ties go to the heavier topic); a score of 85 or more suggests the message checker.
 
-A session draws 12 of the 28 questions, balanced across the 7 topics, with no repeats until the bank is used up.
+A session draws 15 of the 60 questions, balanced across the 10 topics (every topic appears at least once), with no repeats until the bank is used up. Each topic has at least six questions, mixing multiple choice, true/false and short scenarios.
+
+The order of the options on screen is shuffled with a seed, and true/false keeps its order. The shuffle only changes how the options look: every answer is scored by the option's original position, so the same answers always give the same score, whatever order the options were shown in (`displayOrder` in `quiz.ts`, tested in `learn.test.ts`).
 Code: `apps/web/src/learn/score.ts`; tests: `apps/web/src/learn/learn.test.ts`.

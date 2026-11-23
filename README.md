@@ -15,7 +15,7 @@ A first-time smartphone payments user in a rural or semi-urban household, comfor
 | Check a message | Paste an SMS, WhatsApp text or link. Verdict (likely scam / suspicious / looks genuine), highlighted words, plain-language reasons, next steps. English, Hindi, Hinglish. | Yes |
 | Check a call | Transcript analysis for fake KYC, digital arrest, fake courier/customs, electricity and lottery scripts, with the phrases heard and when. Paste text, example calls, or upload / record audio. | Paste and examples: yes. Audio to text: needs internet |
 | Report a scam | Two questions, then 1930 helpline, cybercrime.gov.in or Chakshu (Sanchar Saathi), an evidence checklist and a copyable summary. | Yes (opening a portal needs internet) |
-| Learn and quiz | 7 short lessons, 28 questions, a Digital Financial Literacy Score and the weakest topic to study next. Hindi, Chhattisgarhi, English. | Yes |
+| Learn and quiz | 10 short lessons as swipeable cards, with audio from the lesson recordings or the phone's own voice, 60 questions, a Digital Financial Literacy Score and the weakest topic to study next. Hindi, Chhattisgarhi, English. | Yes |
 | Scam trends | Anonymous, opt-in counts by district and scam type, charts with table alternatives, new-scam alerts. | Last saved copy |
 | Check a QR | Reads a QR code, shows the UPI payee and amount, flags risky structure. Never says a code is "safe". | Yes |
 | On a call right now? | One-tap card with what to do while a suspicious caller is on the line. | Yes |
