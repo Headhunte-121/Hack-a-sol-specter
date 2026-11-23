@@ -230,6 +230,10 @@ def create_app(db_path: str | None = None, secret: str | None = None, min_count:
         res = db.purge_expired(rl_before, raw_before)
         return {"ok": True, "status": "purged", **res}
 
+    @app.get("/")
+    def root():
+        return {"status": "ok", "service": "suraksha-api", "version": VERSION}
+
     @app.get("/health")
     def health():
         return {"status": "ok", "version": VERSION, "time": now().strftime("%Y-%m-%dT%H:%M:%SZ")}

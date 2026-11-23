@@ -3,14 +3,9 @@
   "rewrites": [
     {
       "source": "/(.*)",
-      "destination": "main.py"
+      "destination": "/api/index.py"
     }
   ],
-  "functions": {
-    "main.py": {
-      "excludeFiles": "{tests/**,.pytest_cache/**,**/__pycache__/**,data/**,*.db}"
-    }
-  },
   "crons": [
     {
       "path": "/internal/purge",

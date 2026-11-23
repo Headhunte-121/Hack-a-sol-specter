@@ -52,6 +52,7 @@ def post(c, body, token=TOKEN):
 def test_health(clock, db_target):
     _, c = make(clock, db_target=db_target)
     assert c.get("/health").json()["status"] == "ok"
+    assert c.get("/").json()["status"] == "ok"
 
 
 def test_report_validation_and_no_free_text(clock, db_target):
