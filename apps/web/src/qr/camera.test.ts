@@ -71,3 +71,38 @@ describe('openCamera', () => {
     await expect(openCamera(undefined, deps('unknown'))).rejects.toMatchObject({ name: 'NotSupportedError' })
   })
 })
+
+describe('standalone detection and permission watching', () => {
+  it('knows when the app was opened from the home screen', async () => {
+    const { isStandalone } = await import('./camera')
+    const real = window.matchMedia
+    window.matchMedia = ((q: string) => ({ matches: q.includes('standalone') })) as unknown as typeof window.matchMedia
+    expect(isStandalone()).toBe(true)
+    window.matchMedia = (() => ({ matches: false })) as unknown as typeof window.matchMedia
+    expect(isStandalone()).toBe(false)
+    window.matchMedia = real
+  })
+  it('reports the permission now and again when it changes, and stops when told to', async () => {
+    const { watchCameraPermission } = await import('./camera')
+    const status = Object.assign(new EventTarget(), { state: 'denied' as PermissionState })
+    Object.defineProperty(navigator, 'permissions', { value: { query: vi.fn(async () => status) }, configurable: true })
+    const seen: string[] = []
+    const stop = watchCameraPermission((p) => seen.push(p))
+    await new Promise((r) => setTimeout(r, 0))
+    status.state = 'granted'
+    status.dispatchEvent(new Event('change'))
+    expect(seen).toEqual(['denied', 'granted'])
+    stop()
+    status.state = 'denied'
+    status.dispatchEvent(new Event('change'))
+    expect(seen).toEqual(['denied', 'granted'])
+  })
+  it('says unknown where the browser cannot tell', async () => {
+    const { watchCameraPermission } = await import('./camera')
+    Object.defineProperty(navigator, 'permissions', { value: undefined, configurable: true })
+    const seen: string[] = []
+    watchCameraPermission((p) => seen.push(p))
+    await new Promise((r) => setTimeout(r, 0))
+    expect(seen).toEqual(['unknown'])
+  })
+})
