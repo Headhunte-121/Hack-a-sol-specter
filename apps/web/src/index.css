@@ -27,7 +27,8 @@
   --color-demo: #3f2380;
 }
 
-html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+html { font-size: 16px; -webkit-text-size-adjust: 100%;
+ }
 body { margin: 0; background: var(--color-surface); color: var(--color-ink); font-family: var(--font-sans); font-size: 20px; line-height: 1.5; min-height: 100vh; }
 button, a, select, textarea, input { font: inherit; }
 a { text-decoration: none; }
