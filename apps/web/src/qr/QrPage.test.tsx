@@ -50,7 +50,7 @@ describe('the QR page asks first and explains a switched-off camera', () => {
   it('when the camera is already off, says so up front and offers the steps', async () => {
     await mount('denied')
     expect(q('camera-ask')).toBeNull()
-    expect(q('camera-off-note')?.textContent).toContain(en['qr.cam.off_note'])
+    expect(q('camera-off-note')?.textContent).toContain(en['qr.cam.use_photo'])
     await act(async () => { (q('camera-off-note')!.querySelector('button') as HTMLElement).click() })
     expect(q('camera-help')?.getAttribute('data-kind')).toBe('denied')
     expect(q('camera-help')?.getAttribute('data-mode')).toBe('browser')
@@ -94,8 +94,25 @@ describe('the QR page asks first and explains a switched-off camera', () => {
     await act(async () => { await Promise.resolve() })
     expect(q('camera-help')?.getAttribute('data-kind')).toBe('denied')
     expect(q('qr-err-code')?.textContent).toContain('NotAllowedError · denied')
-    expect(q('qr-take-photo')).toBeTruthy()
+    expect(q('qr-photo-main')).toBeTruthy() // the photo option is always on the page and needs no permission
     expect(q('camera-recheck')).toBeTruthy()
+    expect((q('camera-steps') as HTMLDetailsElement).open).toBe(false) // the settings steps stay out of the way until asked for
+  })
+
+  it('the first choice is a photo taken by the camera app; live scanning comes last and is not the main button', async () => {
+    await mount('prompt')
+    const photo = q('qr-photo-main') as HTMLElement
+    const live = q('qr-scan-live') as HTMLElement
+    expect(photo.className).toContain('btn-primary')
+    expect(live.className).toContain('btn-secondary')
+    expect(photo.querySelector('input')?.getAttribute('capture')).toBe('environment')
+    expect(photo.compareDocumentPosition(live) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+  })
+
+  it('opens the settings steps only when the person asks for them', async () => {
+    await mount('denied')
+    await act(async () => { (q('camera-off-note')!.querySelector('button') as HTMLElement).click() })
+    expect((q('camera-steps') as HTMLDetailsElement).open).toBe(true)
   })
 
   it('a question that was closed without an answer asks the person to tap Scan and choose Allow', async () => {
