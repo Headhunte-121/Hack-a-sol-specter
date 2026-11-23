@@ -1,18 +1,21 @@
 import { useState } from 'react'
-import { useLang } from './i18n'
-import { Layout, LanguageSwitch } from './Layout'
-import { Icon } from './ui'
+import { DemoModeCard } from '../ui/shared/DemoModeCard'
 import { hasConsent, setConsent } from './consent'
+import { useLang } from './i18n'
+import { LanguageSwitch, Layout } from './Layout'
 import { applyUpdate, usePwaState } from './pwa'
 import { clearQueue } from './queue'
 import { kvClearAll } from './storage'
+import { Icon } from './ui'
 
-/** clearLocalData: remove history, progress, queued reports and saved copies, after confirmation. The app's own files
- *  (the offline copy of the app, model and lessons) hold no user data and are kept, so the app still opens without internet. */
 export async function clearLocalData(): Promise<void> {
   kvClearAll()
   await clearQueue().catch(() => {})
-  try { sessionStorage.clear() } catch { /* ignore */ }
+  try {
+    sessionStorage.clear()
+  } catch {
+    /* ignore */
+  }
   try {
     for (const k of await caches.keys()) if (!k.startsWith('workbox-precache')) await caches.delete(k)
   } catch {
@@ -20,10 +23,9 @@ export async function clearLocalData(): Promise<void> {
   }
 }
 
-/** appVersion: the build's fingerprint (the main script's file name changes with every new build), so a phone can be checked
- *  against the live site. */
 export function appVersion(): string {
-  const src = (document.querySelector('script[type="module"][src*="/assets/index-"]') as HTMLScriptElement | null)?.src ?? ''
+  const src =
+    (document.querySelector('script[type="module"][src*="/assets/index-"]') as HTMLScriptElement | null)?.src ?? ''
   return src.match(/index-([\w-]+)\.js/)?.[1] ?? 'dev'
 }
 
@@ -32,27 +34,46 @@ export function Settings() {
   const pwa = usePwaState()
   const [share, setShare] = useState(hasConsent())
   const [done, setDone] = useState(false)
+
   return (
     <Layout title={t('settings.title')}>
-      <section className="card space-y-3">
-        <h2 className="text-[20px] font-bold">{t('common.language')}</h2>
+      <section className="card space-y-2.5">
+        <h2 className="text-[15.5px] font-bold text-slate-900">{t('common.language')}</h2>
         <LanguageSwitch />
       </section>
-      <section className="card space-y-3">
-        <h2 className="text-[20px] font-bold">{t('privacy.consent.title')}</h2>
-        <p className="text-[17px] leading-snug text-muted">{t('privacy.consent.body')}</p>
-        <div className="flex gap-2">
-          <button className={`btn flex-1 ${share ? 'btn-primary' : 'btn-secondary'}`} aria-pressed={share} onClick={() => { setConsent(true); setShare(true) }}>
+
+      <DemoModeCard />
+
+      <section className="card space-y-2.5">
+        <h2 className="text-[15.5px] font-bold text-slate-900">{t('privacy.consent.title')}</h2>
+        <p className="text-[13px] leading-relaxed text-slate-600">{t('privacy.consent.body')}</p>
+        <div className="grid grid-cols-1 gap-2 pt-0.5 sm:grid-cols-2">
+          <button
+            className={`btn min-h-10.5! text-[13.5px]! ${share ? 'btn-primary' : 'btn-secondary'}`}
+            aria-pressed={share}
+            onClick={() => {
+              setConsent(true)
+              setShare(true)
+            }}
+          >
             {t('privacy.consent.on')}
           </button>
-          <button className={`btn flex-1 ${!share ? 'btn-primary' : 'btn-secondary'}`} aria-pressed={!share} onClick={() => { setConsent(false); setShare(false) }}>
+          <button
+            className={`btn min-h-10.5! text-[13.5px]! ${!share ? 'btn-primary' : 'btn-secondary'}`}
+            aria-pressed={!share}
+            onClick={() => {
+              setConsent(false)
+              setShare(false)
+            }}
+          >
             {t('privacy.consent.off')}
           </button>
         </div>
       </section>
-      <section className="card space-y-3">
+
+      <section className="card space-y-2.5">
         <button
-          className="btn btn-danger w-full !text-[19px]"
+          className="btn btn-danger min-h-10.5! w-full text-[13.5px]!"
           onClick={async () => {
             if (window.confirm(t('settings.clear.confirm'))) {
               await clearLocalData()
@@ -61,16 +82,26 @@ export function Settings() {
             }
           }}
         >
-          <Icon name="trash" size={24} color="#fff" />{t('settings.clear')}
+          <Icon name="trash" size={16} color="#fff" />
+          {t('settings.clear')}
         </button>
-        {done && <p role="status" className="font-bold text-ok">{t('settings.cleared')}</p>}
+        {done && (
+          <p role="status" className="text-[13px] font-bold text-ok">
+            {t('settings.cleared')}
+          </p>
+        )}
       </section>
+
       <section className="card space-y-2" data-testid="app-version">
-        <p className="text-[16px] text-muted">{t('settings.version')}: <span className="font-mono">{appVersion()}</span></p>
+        <p className="text-[13px] text-slate-500">
+          {t('settings.version')}: <span className="font-mono">{appVersion()}</span>
+        </p>
         {pwa.needRefresh && (
           <>
-            <p className="font-bold">{t('update.ready')}</p>
-            <button className="btn btn-primary w-full" onClick={() => void applyUpdate()}>{t('update.refresh')}</button>
+            <p className="text-[13.5px] font-bold">{t('update.ready')}</p>
+            <button className="btn btn-primary min-h-10.5! w-full text-[13.5px]!" onClick={() => void applyUpdate()}>
+              {t('update.refresh')}
+            </button>
           </>
         )}
       </section>
