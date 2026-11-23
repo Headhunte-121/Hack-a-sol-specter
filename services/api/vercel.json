@@ -1,0 +1,20 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "app/main.py"
+    }
+  ],
+  "functions": {
+    "app/main.py": {
+      "excludeFiles": "{tests/**,.pytest_cache/**,**/__pycache__/**,data/**,*.db}"
+    }
+  },
+  "crons": [
+    {
+      "path": "/internal/purge",
+      "schedule": "0 3 * * *"
+    }
+  ]
+}
