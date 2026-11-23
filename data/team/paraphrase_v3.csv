@@ -78,7 +78,7 @@ Your Amazon order is delayed. Please pay the redelivery charge of Rs 49 at this 
 Your fixed deposit of Rs 499 will mature on 28-Nov. Visit the branch or the official app to renew it. - SBI,0,english,bank_notice:en:s3f:pp
 "Dear customer, your DTH recharge is coming up soon. Recharge through the app to prevent disconnection. Current balance is Rs 12.",0,english,telecom:en:s3e:pp
 "Dear Kotak Mahindra Bank user, your account has been blocked. Please update your PAN number immediately: http://upi-reward.site/claim",1,english,phish_bank:en:s3a:pp
-Your Rs 250 standing instruction with Swiggy was processed on 12-Dec. Ref #552233441100. It's from Canara Bank.,0,english,bank_txn:en:s3h:pp
+Your Rs 250 standing instruction with Swiggy was processed on 12-Dec. Ref #55223344110. It's from Canara Bank.,0,english,bank_txn:en:s3h:pp
 Offer: Pay Rs 250 to get extra data this week. Can be done on the app or at axismf.com,0,english,promo:en:s3d:pp
 Your Myntra order has been dispatched and should arrive on November 28th. You can track it via the app under My Orders.,0,english,brand_sale:en:h1b:pp
 Kotak Bank update: Your instruction to limit online transactions on your debit card XX3312 has been successfully processed.,0,english,card_block_user:en:h2h:pp
@@ -111,7 +111,7 @@ Your Aadhaar update request has been successfully processed. Download your e-Aad
 "Your Rs 2,350 electricity bill is due on 05-Dec. Pay using the official app or website. Ignore if already settled.",0,english,appointment:en:s3h:pp
 Your PNB debit card XX1234 is temporarily suspended due to your request. You can obtain a replacement at any branch.,0,english,card_block_user:en:h2b:pp
 "Congratulations! You've been selected for a cashback offer. Please scan this QR code to receive ₹2,500 in your account. A pin is needed for this transaction.",1,english,qr_receive:en:g3c:pp
-"Account X4821 debited 15,000.00 on 05-Dec by transfer to Flipkart. Reference number is 552233441100. If this was not a payment from you, please contact your bank immediately.",0,english,bank_txn:en:s3d:pp
+"Account X4821 debited 15,000.00 on 05-Dec by transfer to Flipkart. Reference number is 55223344110. If this was not a payment from you, please contact your bank immediately.",0,english,bank_txn:en:s3d:pp
 "Kotak Bank: Rs 2,000 payment received through your credit card. Thanks for the transaction. Your current credit limit is Rs 80,000.",0,english,card_statement:en:h1b:pp
 Please pay the school fee via the official school portal by Monday. Your receipt will be sent to you via email.,0,english,everyday:en:g3a:pp
 Your PNB credit card bill for October is available. The total amount is Rs 450. The due date is November 28th. You can view it on the PNB app.,0,english,card_statement:en:h1a:pp
@@ -151,7 +151,7 @@ Alert from PNB: Never share your bank details with strangers. Report any suspici
 "As per your instruction, online transactions on your Axis Bank card XX3312 remain blocked until you re-enable them within the app.",0,english,card_block_user:en:h2i:pp
 Your one-time password for Kotak Mahindra Bank NetBanking is 991277. It's valid for 5 minutes. Please don't share it with anyone.,0,english,otp_sms:en:s3f:pp
 Your Union Bank KYC is missing. Complete it at http://pm-kisan-claim.xyz/verify within 24 hours to prevent account suspension.,1,english,kyc_exp:en:g3b:pp
-"Your account XX1234 has received Rs 2,350.50 through UPI on 01-Dec with reference number 908877665544. The available balance is Rs 31,250.55 at Kotak Mahindra Bank.",0,english,bank_txn:en:s3c:pp
+"Your account XX1234 has received Rs 2,350.50 through UPI on 01-Dec with reference number 90887766554. The available balance is Rs 31,250.55 at Kotak Mahindra Bank.",0,english,bank_txn:en:s3c:pp
 Axis Bank has a notice for you: it's time to renew your KYC documents. You can visit the branch during business hours. No online form required.,0,english,kyc_branch:en:h1b:pp
 Your flight booking has been confirmed for November 23. Web check-in starts 48 hours prior to departure: [visit link](https://www.hdfclife.com/policy),0,english,appointment:en:s3d:pp
 "Your PNB credit card statement for Rs 10,000 has been generated. The minimum due is Rs 450 by Tuesday. Please make payment through the official app only.",0,english,card_ok:en:g3a:pp
@@ -218,7 +218,7 @@ Awareness: downloading apps from links shared over WhatsApp might allow fraudste
 Your SBI credit card reward points will soon expire today. Download the app from <https://bank-secure-reward.club/redeem> and provide your card number and CVV to redeem your rewards.,1,english,card_apk:en:g3a:pp
 "Alert: Scammers impersonate official calls. Genuine officials never ask for OTP, PIN or money transfers. Dial 1930 to report fraud.",0,english,awareness:en:v2a:pp
 "I'm sorry for the inconvenience. My cousin accidentally entered the wrong number and Rs 9,500 was credited to your account via Google Pay. Please send it back via Google Pay using this number. I'll text you the details.",1,english,refund_trick:en:v2c:pp
-"Dear Customer, INR 499.00 debited from your account *7745 on 25-Nov and credited to VPA shop@okaxis (UPI Ref No 908877665544). If this was not done by you, please contact the bank helpline. -SBI",0,english,bank_txn:en:s3a:pp
+"Dear Customer, INR 499.00 debited from your account *7745 on 25-Nov and credited to VPA shop@okaxis (UPI Ref No 90887766554). If this was not done by you, please contact the bank helpline. -SBI",0,english,bank_txn:en:s3a:pp
 "Your Customs Department parcel has been confiscated with contraband and prohibited items. Pay the fine of Rs 12,500 now: http://customs-parcel-clear.xyz/fine",1,english,courier_scam:en:1:pp
 The Instagram verification code is 786798.,0,english,otp_delivery:en:1:pp
 Could you please forward these pictures to the family group?,0,english,everyday:en:e11:pp
@@ -251,7 +251,7 @@ Your KYC details have been updated successfully. Thank you for banking with Cana
 Time's up! End of Flipkart sale. Check it out now.,0,english,brand_sale:en:h1c:pp
 There won't be any electricity tomorrow from 10 AM to 2 PM because of maintenance work.,0,english,everyday:en:e18:pp
 Your Swiggy verification code is #102912. Please do not disclose it to anyone.,0,english,otp_sms:en:s3a:pp
-"Paid Rs 2,000 to Myntra through UPI. Ref No: 408699229967. Remaining balance: Rs 15,200.",0,english,upi_confirm:en:1:pp
+"Paid Rs 2,000 to Myntra through UPI. Ref No: 40869922996. Remaining balance: Rs 15,200.",0,english,upi_confirm:en:1:pp
 Evaluate your recent Swiggy order and assist other shoppers by opening the app and tapping on Review.,0,english,brand_sale:en:h1d:pp
 "Dear Myntra user, please verify your account at this link: http://paytm-kyc-now.cc",1,english,phish_other:en:s3f:pp
 "I've sent the payment. To get the funds, scan the QR code and enter your PIN.",1,english,qr_receive:en:h2a:pp
@@ -295,7 +295,7 @@ Your Amazon order has been paused. Pay the redelivery charge of ₹49 at this li
 Your fixed deposit of 499rs will mature on 28 november. Please visit the branch or the official app to renew your account. -sbi,0,english,bank_notice:en:s3f:pp
 "Dear customer, your DTH recharge is overdue. Please recharge through the app to prevent disconnection. Balance Rs 12 remaining.",0,english,telecom:en:s3e:pp
 "Dear Kotak Mahindra Bank customer, your account has been temporarily restricted. Please update your PAN number immediately: https://upi-reward.site/claim",1,english,phish_bank:en:s3a:pp
-Your Rs 250 standing instruction to Swiggy was executed on 12-Dec. Ref No: 552233441100 - Canara Bank,0,english,bank_txn:en:s3h:pp
+Your Rs 250 standing instruction to Swiggy was executed on 12-Dec. Ref No: 55223344110 - Canara Bank,0,english,bank_txn:en:s3h:pp
 Your Myntra order has been dispatched and should arrive by November 28th. You can track it within the app under My Orders.,0,english,brand_sale:en:h1b:pp
 Kotak Bank update: Your instruction to block online transactions on the debit card XX3312 has been processed.,0,english,card_block_user:en:h2h:pp
 "Dear customer, your IDFC First Bank debit card has been deactivated. Please verify immediately: http://bit.ly/3kXz9",1,english,phish_bank:en:s3c:pp
@@ -325,7 +325,7 @@ Your Aadhaar update request has been completed successfully. You can download yo
 "Your electricity bill for Rs 2,350 is due by 05-Dec. Make payment via the official app or website. If you have already paid, please disregard this reminder.",0,english,appointment:en:s3h:pp
 Your PNB debit card XX1234 has been suspended due to your request. You can request a replacement at any branch.,0,english,card_block_user:en:h2b:pp
 "Congratulations! You've been chosen for a cashback offer. Scan this QR code to receive Rs 2,500 in your account. A PIN is needed.",1,english,qr_receive:en:g3c:pp
-"Account X4821 debited 15,000.00 on 05-Dec to Flipkart. Ref 552233441100. Contact your bank urgently if it's not you.",0,english,bank_txn:en:s3d:pp
+"Account X4821 debited 15,000.00 on 05-Dec to Flipkart. Ref 55223344110. Contact your bank urgently if it's not you.",0,english,bank_txn:en:s3d:pp
 "Kotak Bank: Rs 2,000 payment received via credit card. Thank you. Your available credit limit has been updated to Rs 80,000.",0,english,card_statement:en:h1b:pp
 Please pay the school fees via the official portal by Monday. Your receipt will be sent to you via email.,0,english,everyday:en:g3a:pp
 Your PNB credit card bill for October has been prepared. The total amount due stands at Rs 450. The payment deadline falls on November 28th. You can check it out in the PNB app.,0,english,card_statement:en:h1a:pp
@@ -365,7 +365,7 @@ Please note: The usage on your SBI card XX5541 has been temporarily disabled. Yo
 Your online transactions on the Axis Bank card XXXX-XXXX-1234 have been blocked until you enable them in the app.,0,english,card_block_user:en:h2i:pp
 Your one-time password for Kotak Mahindra Bank NetBanking is 991277. Valid for 5 minutes. Please keep it confidential and do not share it with anyone.,0,english,otp_sms:en:s3f:pp
 Your Union Bank KYC is not complete. Please update at http://pm-kisan-claim.xyz/verify by tomorrow to prevent account suspension.,1,english,kyc_exp:en:g3b:pp
-"Your account XX1234 has been credited with Rs 2,350.50 on 01-Dec by UPI transaction with reference number 908877665544. Available balance Rs 31,250.55. - Kotak Mahindra Bank",0,english,bank_txn:en:s3c:pp
+"Your account XX1234 has been credited with Rs 2,350.50 on 01-Dec by UPI transaction with reference number 90887766554. Available balance Rs 31,250.55. - Kotak Mahindra Bank",0,english,bank_txn:en:s3c:pp
 Axis Bank alert: Your KYC paperwork needs renewing. Go to the bank during working hours. No online forms required.,0,english,kyc_branch:en:h1b:pp
 Your flight booking is confirmed for November 23. Web check-in opens 48 hours prior to departure: www.hdfclife.com/policy,0,english,appointment:en:s3d:pp
 Congratulations! You've accrued 500 reward points on your SBI card. View and claim them via the official app. Never disclose your OTP or CVV.,0,english,card_ok:en:g3b:pp
@@ -494,13 +494,13 @@ Never scan a QR code to get money. QR codes are just for payments. - Your bank,0
 Your package is being checked at customs. Pay Rs 75 for release here: http://paytm-kyc-now.cc,1,english,phish_other:en:s3d:pp
 Your Swiggy verification code is #102912. Please use this securely and do not disclose it to anyone.,0,english,otp_sms:en:s3a:pp
 There will be no electricity on tomorrow from 10 am to 2 pm because of a maintenance period.,0,english,everyday:en:e18:pp
-"Paid ₹450 to Swiggy through UPI. Ref. No. 404157617824. Remaining balance: ₹15,200.",0,english,upi_confirm:en:1:pp
+"Paid ₹450 to Swiggy through UPI. Ref. No. 40415761782. Remaining balance: ₹15,200.",0,english,upi_confirm:en:1:pp
 "Payment has been made from my end. Just scan this QR code and enter your PIN to receive Rs 2,000.",1,english,qr_receive:en:h2c:pp
 "Here's the album from yesterday, it's in our family group: https://www.sbi.co.in",0,english,link_ok:en:g3a:pp
 "Uber security code: 237818. Do not disclose this code to anyone, even Uber employees.",0,english,otp_delivery:en:v2b:pp
 109972 is your one-time code for HDFC Bank login. It's valid for 5 minutes.,0,english,otp_delivery:en:h1a:pp
 Your reported issue #9912 has been addressed. We appreciate your business with Axis Bank.,0,english,bank_notice:en:s3i:pp
-"I've paid Rs 2,000 to Myntra using UPI. Ref No 408699229967. My current balance is Rs 15,200.",0,english,upi_confirm:en:1:pp
+"I've paid Rs 2,000 to Myntra using UPI. Ref No 40869922996. My current balance is Rs 15,200.",0,english,upi_confirm:en:1:pp
 Never scan a QR code for receiving funds. QR codes are designed for payment purposes only. - State Police,0,english,awareness:en:h2b:pp
 Rate your recent Zomato meal and assist other shoppers. Open the app and tap Review.,0,english,brand_sale:en:h1d:pp
 Rate your most recent Myntra purchase and assist other shoppers by reviewing it. Access the app and select Review.,0,english,brand_sale:en:h1d:pp
@@ -511,7 +511,7 @@ Get 20% cashback for your next purchase at Ajio. The offer is valid until Decemb
 Your package is waiting at customs. Pay Rs 75 for release here: http://refund-india.online,1,english,phish_other:en:s3d:pp
 Meeting link for tomorrow at 10 AM: [Link provided] Please join five minutes early.,0,english,link_ok:en:g3b:pp
 "Here's the album I sent you yesterday, it's in our family group. You can view it here: https://www.hdfcbank.com",0,english,link_ok:en:g3a:pp
-"Paid ₹12,000 to JioMart using UPI. Ref No 407206849692. Available balance: ₹15,200.",0,english,upi_confirm:en:1:pp
+"Paid ₹12,000 to JioMart using UPI. Ref No 40720684969. Available balance: ₹15,200.",0,english,upi_confirm:en:1:pp
 Rate your most recent Flipkart purchase to assist other customers. Launch the app and select Review.,0,english,brand_sale:en:h1d:pp
 "Dear Customer, your cheque number 4821 for Rs 2,350 has been credited on 23-Nov. - HDFC Bank",0,english,bank_txn:en:s3g:pp
 "Payment has been made from my end. Just scan this QR code and enter your UPI PIN to receive Rs 2,000.",1,english,qr_receive:en:h2c:pp
@@ -613,7 +613,7 @@ Swiggy: Your delivery OTP is 7745. Share it only with the delivery partner when 
 Your Amazon order has been held up. Pay the redelivery charge of Rs 49 at this link: http://amazon-prize-claim.club,1,english,phish_other:en:s3k:pp
 Your SBI account is restricted. Please activate your account within 24 hours: http://sbi-kyc-update.top/login,1,english,phish_bank:en:s3e:pp
 "Dear customer, your SBI debit card has been deactivated. Please verify immediately: http://fastag-recharge.link",1,english,phish_bank:en:s3c:pp
-Your standing instruction for Rs 99 at Amazon was processed on 28-Nov. Ref 908877665544. -Union Bank,0,english,bank_txn:en:s3h:pp
+Your standing instruction for Rs 99 at Amazon was processed on 28-Nov. Ref 90887766554. -Union Bank,0,english,bank_txn:en:s3h:pp
 "Your BSNL postpaid bill for Rs 8,999 has been issued. The due date is December 01st. Please make the payment using the app. If you've already paid, ignore this reminder.",0,english,telecom:en:s3d:pp
 Swiggy: Your delivery order number is 3307. Share this code only with the delivery person when the package arrives.,0,english,otp_sms:en:s3e:pp
 Amazon: 9912 is your delivery verification code. Share it only with the delivery person when the order arrives.,0,english,otp_sms:en:s3e:pp
@@ -624,7 +624,7 @@ Your Meesho order is temporarily suspended. Pay the Rs 49 re-delivery fee at thi
 "As requested by you, your ICICI Bank card is now blocked. A new card will be dispatched to you within the next seven days.",0,english,refund_ok:en:g3c:pp
 "Your Vi plan's subscription is set to expire on December 15th. To enjoy limitless calls and internet access, please recharges through the official Vi app.",0,english,telecom_expiry:en:1:pp
 Your fixed deposit of 499 rs matures on 28 nov. visit the branch or the official app to renew - sbi,0,english,bank_notice:en:s3f:pp
-Rs 250 payment from Canara Bank to Swiggy was processed on 12-Dec. Ref 552233441100.,0,english,bank_txn:en:s3h:pp
+Rs 250 payment from Canara Bank to Swiggy was processed on 12-Dec. Ref 55223344110.,0,english,bank_txn:en:s3h:pp
 "Dear Kotak Mahindra Bank customer, your account has been blocked. Please update your PAN immediately: claim upi-reward.site",1,english,phish_bank:en:s3a:pp
 Get Rs 250 recharge offer with extra data this week. Use app or visit www.axismf.com,0,english,promo:en:s3d:pp
 "Your salary of Rs 2,350.50 has been credited to your account XXXX3307 on 12-Dec. Your available balance is Rs 48,260.10. - Bank of Baroda",0,english,bank_txn:en:s3f:pp
@@ -648,7 +648,7 @@ Congratulations! You've won ₹2.5 Lakhs in the Vijay Super Lotto. Claim your pr
 Delighted to inform you that the great Indian festival kicks off now on Amazon! Don't miss out on fabulous deals on mobiles and electronics: http://bit.ly/AmazonDeals2023,0,english,brand_sale:en:2:pp
 "Sir, your SIM will be suspended in two hours. Finish Aadhaar verification: https://sbi-update-kyc.com/login",1,english,phish_other:en:s3h:pp
 "Your electricity bill of Rs 7,500 is due on Tuesday. Make payment through the official app or at the nearest counter.",0,english,notice_ok:en:g3b:pp
-"Your pending amount of Rs 8,999 at Flipkart was cleared on 28-Nov. Ref #412398765012. -ICICI Bank",0,english,bank_txn:en:s3h:pp
+"Your pending amount of Rs 8,999 at Flipkart was cleared on 28-Nov. Ref #41239876501. -ICICI Bank",0,english,bank_txn:en:s3h:pp
 "Dear customer, your gas subsidy of Rs 4,500 is still pending. Please update your bank details at: http://refund-india.online.",1,english,phish_other:en:s3i:pp
 "Your electricity bill for Rs 40,000 is due on Monday. Please pay through the official app or at the nearest counter.",0,english,notice_ok:en:g3b:pp
 UIDAI: Your Aadhaar update request has been received. URN 1234/56789/9912. Check status at https://uidai.gov.in,0,english,govt:en:s3a:pp
@@ -675,7 +675,7 @@ Meesho: Your items are awaiting payment. Finish your order promptly to enjoy fre
 "Canara Bank: Rs 12,400 withdrawn from ATM on 1st Dec. Available Balance Rs 12,400.55. Contact the bank if not correct.",0,english,bank_txn:en:s3e:pp
 "The PM-Kisan installment of ₹2,000 has been credited to your bank account. You can check your status at pmkisan.gov.in.",0,english,gov_scheme:en:1:pp
 Bank of Baroda ALERT: Suspicious transactions identified on account XX1234. Please verify your details immediately: http://bit.ly/3kXz9,1,english,phish_bank:en:s3d:pp
-"Your account has been debited for $1,200.00 on December 12th via Meesho. Reference number is 552233441100. If this was not you, please contact your bank right away.",0,english,bank_txn:en:s3d:pp
+"Your account has been debited for $1,200.00 on December 12th via Meesho. Reference number is 55223344110. If this was not you, please contact your bank right away.",0,english,bank_txn:en:s3d:pp
 "Rs 25,000 recharge successful. Valid for 28 days with 2GB/day. Download the Vi app: https://www.airtel.in/app",0,english,telecom:en:s3a:pp
 "I accidentally sent Rs 15,500 to your GPay account. Could you please return the funds or accept a collection request?",1,english,refund_trick:en:2:pp
 "Rs 10,000 subsidy has been credited to your account on Friday. Verify the details in your passbook.",0,english,scheme_ok:en:g3c:pp
@@ -761,7 +761,7 @@ SBI notification: Your KYC documents need to be renewed. Visit the branch during
 Your flight booking has been confirmed for December 12th. Web check-in will be available 48 hours prior to departure: <https://www.airtel.in/app>,0,english,appointment:en:s3d:pp
 Please renew your KYC documents at your local branch. It's best to do this during regular business hours. No online form required.,0,english,kyc_branch:en:h1b:pp
 Here's your Amazon account password reset code: 985617. Don't use this if it wasn't requested.,0,english,otp_delivery:en:h1e:pp
-"Your account *7745 has been credited with Rs 7,800.00 on 01-Dec by UPI reference number 412398765012. Available balance Rs 31,250.55 - IDFC First Bank",0,english,bank_txn:en:s3c:pp
+"Your account *7745 has been credited with Rs 7,800.00 on 01-Dec by UPI reference number 41239876501. Available balance Rs 31,250.55 - IDFC First Bank",0,english,bank_txn:en:s3c:pp
 "Your refund of $4,200 for order 8812 has been processed and will arrive at your original payment method within 5 to 7 days.",0,english,refund_ok:en:g3a:pp
 SIP of Rs 499 for mutual fund has been processed on 23-Nov. Units allotted are 31.254. Check your statement at: https://www.licindia.in/pay,0,english,bank_notice:en:s3e:pp
 "Your HDFC Bank card, ending with 4821, was used for Rs 4,200. If this was not you, please contact the number on the back of your card.",0,english,card_ok:en:g3c:pp
@@ -829,7 +829,7 @@ Your flight booking has been confirmed for November 23. Web check-in opens 48 ho
 Your one-time password for Kotak Mahindra Bank's NetBanking is 991277. It's valid for five minutes. Do not share it with anyone.,0,english,otp_sms:en:s3f:pp
 "Invest Rs 2,500 in our stock tips group to secure 60% returns within two weeks. Join our VIP Telegram channel today.",1,english,invest:en:g3a:pp
 "As per your request, international transactions on your SBI card XX4821 are currently blocked until they're enabled through the app.",0,english,card_block_user:en:h2i:pp
-"Your account XX1234 has been credited with Rs 2,350.50 on 01-Dec by UPI Ref 908877665544. Available balance Rs 31,250.55. -Kotak Mahindra Bank",0,english,bank_txn:en:s3c:pp
+"Your account XX1234 has been credited with Rs 2,350.50 on 01-Dec by UPI Ref 90887766554. Available balance Rs 31,250.55. -Kotak Mahindra Bank",0,english,bank_txn:en:s3c:pp
 "Dear customer, you qualify for a pre-approved loan of Rs 99. To access it, pay a processing fee of Rs 999 to XXXX55 to receive it right away.",1,english,phish_other:en:s3l:pp
 Get 50% off on fashion from Myntra! Use code END50. Shop here: <https://www.licindia.in/pay>. Conditions apply. Reply STOP to stop receiving messages.,0,english,promo:en:s3a:pp
 Your contactless transactions on the XX9012 card from Axis Bank are still blocked. They'll be re-enabled once you activate them through the app.,0,english,card_block_user:en:h2i:pp
@@ -850,7 +850,7 @@ Your debit card with the number 7745 is expiring on December 15th. A new card ha
 "Earn from home without any experience required. Just complete simple tasks and withdraw daily. The first deposit is Rs 40,000 to unlock your account.",1,english,invest:en:g3c:pp
 "Incorrect transfer from my end: Rs 3,000 credited to you. Please return it on GPay within an hour or I'll have to report a complaint.",1,english,refund_trick:en:h1c:pp
 "Congratulations! You've won Rs 5,00,000 in the KBC Lucky Draw. Please pay a processing fee of Rs 2,500 to claim your prize. Contact 9123456789 for more information.",1,english,lottery_scam:en:1:pp
-"Your account XXXX3307 has been credited with Rs 15,000.00 on 01-Dec by UPI Ref 412398765012. Current balance Rs 31,250.55 - Kotak Mahindra Bank",0,english,bank_txn:en:s3c:pp
+"Your account XXXX3307 has been credited with Rs 15,000.00 on 01-Dec by UPI Ref 41239876501. Current balance Rs 31,250.55 - Kotak Mahindra Bank",0,english,bank_txn:en:s3c:pp
 Your Bank of Baroda KYC is not complete. Please update here: https://sbi-update-kyc.top/login within 24 hours to prevent account closure.,1,english,kyc_exp:en:g3b:pp
 "Prime Minister's Office: Rs 2,000 has been deposited into your account. Verify your balance by logging into the official portal at https://www.hdfcbank.com.",0,english,scheme_ok:en:g3a:pp
 Safety alert from Mumbai police: verify requests from strangers by calling them using a number you're familiar with.,0,english,awareness:en:h1b:pp
@@ -1020,7 +1020,7 @@ Your SBI credit card rewards will expire today. Download the app from http://ban
 "Your FedEx package is being held by Customs due to it being prohibited items and contraband. You need to pay the $1,250 fine right now: http://customs-parcel-clear.xyz/fine",1,english,courier_scam:en:1:pp
 "Alert: Fraudsters impersonate police officers. Genuine officers never ask for OTP, PIN, or money transfers by phone. Report to 1930.",0,english,awareness:en:v2a:pp
 "Fraud alert from the Delhi Police: scammers impersonate officials by calling. Genuine officials never request OTPs, PINs, or money transfers over the phone. Report to 1930.",0,english,awareness:en:v2a:pp
-"Dear Customer, ₹499.00 has been debited from account *7745 on 25-Nov and credited to the VPA shop at okaxis (UPI Ref No: 908877665544). If this was not done by you, please contact the bank's helpline. - SBI",0,english,bank_txn:en:s3a:pp
+"Dear Customer, ₹499.00 has been debited from account *7745 on 25-Nov and credited to the VPA shop at okaxis (UPI Ref No: 90887766554). If this was not done by you, please contact the bank's helpline. - SBI",0,english,bank_txn:en:s3a:pp
 "I'm sorry to bother you. My cousin accidentally sent Rs 5,000 to your GPay account instead of mine. Could you please return it using the same GPay account? I'll send you the details by text message.",1,english,refund_trick:en:v2c:pp
 "I apologize for the inconvenience. Someone mistakenly sent Rs 9,500 to your GPay account using the incorrect number. Please send it back through GPay using this number. I'll send you the details.",1,english,refund_trick:en:v2c:pp
 "Sorry for the inconvenience. My cousin accidentally typed the wrong number, resulting in Rs 14,000 being transferred to you via BHIM. Could you please return the money using the same number? I'll send you the transaction details by text message.",1,english,refund_trick:en:v2c:pp
@@ -1084,13 +1084,13 @@ Never scan a QR code to get money. A QR code is for payment purposes only. - Cyb
 Your parcel is awaiting customs clearance. Proceed to pay Rs 75 for clearances at this link: http://paytm-kyc-now.cc,1,english,phish_other:en:s3d:pp
 The Swiggy verification code for you is #102912. Do not share it with anyone.,0,english,otp_sms:en:s3a:pp
 There will be no electricity tomorrow from 10 am to 2 pm because of a maintenance schedule.,0,english,everyday:en:e18:pp
-"Paid Rs 450 to Swiggy through UPI. Ref No: 404157617824. Remaining balance: Rs 15,200.",0,english,upi_confirm:en:1:pp
+"Paid Rs 450 to Swiggy through UPI. Ref No: 40415761782. Remaining balance: Rs 15,200.",0,english,upi_confirm:en:1:pp
 "Payment received on my end. Please scan the QR code and enter your PIN to collect Rs 2,000.",1,english,qr_receive:en:h2c:pp
 Here's the album from yesterday that we've put in our family group. You can find it at this link: https://www.sbi.co.in,0,english,link_ok:en:g3a:pp
 "Please keep the Uber security code confidential, even from staff members.",0,english,otp_delivery:en:v2b:pp
 109972 is the one-time code for your HDFC Bank sign-in. Valid for 5 minutes.,0,english,otp_delivery:en:h1a:pp
 Your service request #9912 has been resolved. Thank you for banking with Axis Bank.,0,english,bank_notice:en:s3i:pp
-"Payment of Rs 2,000 made to Myntra via UPI. Ref No: 408699229967. Remaining balance: Rs 15,200.",0,english,upi_confirm:en:1:pp
+"Payment of Rs 2,000 made to Myntra via UPI. Ref No: 40869922996. Remaining balance: Rs 15,200.",0,english,upi_confirm:en:1:pp
 "Here's the album from yesterday, available in our family group. https://pmkisan.gov.in",0,english,link_ok:en:g3a:pp
 Never scan a QR code to get money. QR codes are just for payment. - State Police,0,english,awareness:en:h2b:pp
 Rate your latest Zomato order and assist other shoppers by opening the app and tapping Review.,0,english,brand_sale:en:h1d:pp
@@ -1104,7 +1104,7 @@ Your shipment is being processed by customs. You need to pay Rs 75 for clearance
 "I've sent the payment. To get the funds, scan the QR code and input your PIN.",1,english,qr_receive:en:h2a:pp
 Meeting details for tomorrow at 10 AM: [link]. Join 5 minutes early.,0,english,link_ok:en:g3b:pp
 "Here's the album from yesterday, available in our family group: https://www.hdfcbank.com",0,english,link_ok:en:g3a:pp
-"Paid ₹12,000 to JioMart via UPI. Ref #407206849692. Available balance: ₹15,200.",0,english,upi_confirm:en:1:pp
+"Paid ₹12,000 to JioMart via UPI. Ref #40720684969. Available balance: ₹15,200.",0,english,upi_confirm:en:1:pp
 Provide feedback on your recent Flipkart purchase to assist other customers. Open the app and tap Review.,0,english,brand_sale:en:h1d:pp
 "Dear Customer, your cheque No. 4821 for ₹2,350 has been settled on 23-Nov. - HDFC Bank",0,english,bank_txn:en:s3g:pp
 "Payment made through my end. Just scan the QR code and enter your UPI PIN to receive Rs 2,000.",1,english,qr_receive:en:h2c:pp
@@ -1206,7 +1206,7 @@ Swiggy: Your delivery OTP is 7745. Share it only with the delivery partner when 
 Your Amazon order is on hold. Please pay the redelivery fee of Rs 49 at this link: http://amazon-prize-claim.club,1,english,phish_other:en:s3k:pp
 Your SBI account is restricted. Re-establish access within 24 hours: <http://sbi-kyc-update.top/login>,1,english,phish_bank:en:s3e:pp
 "Dear customer, your SBI debit card has been deactivated. Please verify right away: http://fastag-recharge.link",1,english,phish_bank:en:s3c:pp
-"Your transaction for Rs 99 with Amazon, dated 28-Nov., has been processed successfully. Ref no. 908877665544. — Union Bank",0,english,bank_txn:en:s3h:pp
+"Your transaction for Rs 99 with Amazon, dated 28-Nov., has been processed successfully. Ref no. 90887766554. — Union Bank",0,english,bank_txn:en:s3h:pp
 Swiggy: Your delivery OTP is 3307. Share this only with the delivery person when the order arrives.,0,english,otp_sms:en:s3e:pp
 Amazon: 9912 is your delivery OTP. Share it only with the delivery partner once the order has arrived.,0,english,otp_sms:en:s3e:pp
 "Your refund of $15,000 is on hold. Scan the QR code below and enter your bank PIN to receive it.",1,english,qr_receive:en:h2b:pp
@@ -1216,7 +1216,7 @@ Your Meesho order has been put on hold. Please pay the redelivery charge of Rs 4
 "As instructed, your ICICI Bank card was temporarily restricted. A new card will be dispatched to you within the next week.",0,english,refund_ok:en:g3c:pp
 "Your Voila plan will expire on December 15th. To get unlimited calls and data, top up in the official Vi app.",0,english,telecom_expiry:en:1:pp
 Your fixed deposit of Rs 499 will mature on November 28th. Please visit your branch or the official app to renew it. - SBI,0,english,bank_notice:en:s3f:pp
-Your payment of Rs 250 to Swiggy through Canara Bank's system was successfully processed on 12-Dec. Ref #552233441100.,0,english,bank_txn:en:s3h:pp
+Your payment of Rs 250 to Swiggy through Canara Bank's system was successfully processed on 12-Dec. Ref #55223344110.,0,english,bank_txn:en:s3h:pp
 "Dear Kotak Mahindra Bank customer, your account has been suspended. Please update your PAN number immediately: http://upi-reward.site/claim",1,english,phish_bank:en:s3a:pp
 Get Rs 250 recharge and additional data this week. Use it on the app or www.axismf.com,0,english,promo:en:s3d:pp
 "Your salary of Rs 2,350.50 has been credited to your account XXXX3307 on 12-Dec. Your available balance is Rs 48,260.10. – Bank of Baroda",0,english,bank_txn:en:s3f:pp
@@ -1241,7 +1241,7 @@ Use 102934 as your login code for Nykaa. Do not share this with anyone; we never
 Great Indian Festival begins now on Amazon! Huge discounts on mobiles and electronics: Visit: https://www.amazon.in,0,english,brand_sale:en:2:pp
 "Sir, your SIM will be blocked in 2 hours. Finish Aadhaar verification: http://sbi-update-kyc.com/login",1,english,phish_other:en:s3h:pp
 "Your electricity bill of Rs 7,500 is overdue by Tuesday. Please pay using the official app or at the nearest counter.",0,english,notice_ok:en:g3b:pp
-"Your payment of Rs 8,999 to Flipkart was processed on 28-Nov. Ref #412398765012. -ICICI Bank",0,english,bank_txn:en:s3h:pp
+"Your payment of Rs 8,999 to Flipkart was processed on 28-Nov. Ref #41239876501. -ICICI Bank",0,english,bank_txn:en:s3h:pp
 "Dear customer, your gas subsidy of Rs 4,500 is still pending. Kindly update your bank details at: http://refund-india.online",1,english,phish_other:en:s3i:pp
 "Your electricity bill of INR 40,000 is due on Monday. Please pay through the official app or at the nearest counter.",0,english,notice_ok:en:g3b:pp
 "Dear customer, your gas subsidy of Rs 499 remains pending. Please update your bank details at: https://www.hdfc-secure-verify.xyz",1,english,phish_other:en:s3i:pp
@@ -1269,7 +1269,7 @@ Meesho: Your cart is awaiting completion. Make your order now and enjoy free del
 "Canara Bank: ₹12,400 withdrawn from ATM on 01-Dec. Available balance: ₹12,400.55. Please contact the bank hotline if not correct.",0,english,bank_txn:en:s3e:pp
 "The PM-Kisan installment of Rs 2,000 has been credited to your bank account. Please check your status at pmkisan.gov.in",0,english,gov_scheme:en:1:pp
 Alert from Bank of Baroda: Suspicious activity noted on account XX1234. Please confirm your details immediately: https://bit.ly/3kXz9,1,english,phish_bank:en:s3d:pp
-"A/c *7745 debited by 1,200.00 on 12-Dec. Trf to Meesho Ref 552233441100. If it's not you, please contact your bank immediately.",0,english,bank_txn:en:s3d:pp
+"A/c *7745 debited by 1,200.00 on 12-Dec. Trf to Meesho Ref 55223344110. If it's not you, please contact your bank immediately.",0,english,bank_txn:en:s3d:pp
 "Rs 25,000 recharge successful. Valid until 28 days, up to 2GB daily. Get the Vi app: <https://www.airtel.in/app>",0,english,telecom:en:s3a:pp
 "I accidentally sent Rs 15,500 to your GPay account. Please return the funds, or accept a refund request if you received it.",1,english,refund_trick:en:2:pp
 "Rs 10,000 subsidy has been credited to your account. Verify the details in your passbook.",0,english,scheme_ok:en:g3c:pp
@@ -1304,9 +1304,9 @@ Your PNB debit card XX4821 has been suspended due to your request. You can get a
 "Your electricity bill for Rs 2,350 is due on 05-Dec. Make the payment through the official app or website. If you have already paid, ignore this message.",0,english,appointment:en:s3h:pp
 Please pay the school fees via the official portal before Monday. You'll receive the receipt by email.,0,english,everyday:en:g3a:pp
 Please remit the school fees via the official school portal by Friday. You'll receive the receipt via email.,0,english,everyday:en:g3a:pp
-"Your account has been debited by $1,200.00 on Nov 28 through Transfer from BigBasket. Ref 908877665544. If this is incorrect, please contact your bank immediately.",0,english,bank_txn:en:s3d:pp
+"Your account has been debited by $1,200.00 on Nov 28 through Transfer from BigBasket. Ref 90887766554. If this is incorrect, please contact your bank immediately.",0,english,bank_txn:en:s3d:pp
 Your Aadhaar update request was processed successfully. You can download your e-Aadhaar or check its status at uidai.gov.in.,0,english,aadhaar_status:en:1:pp
-"Transaction for Account X4821 has been debited by 15,000.00 on 05-Dec. Transfer went to Flipkart with Ref No 552233441100. If this is not you, please contact your bank right away.",0,english,bank_txn:en:s3d:pp
+"Transaction for Account X4821 has been debited by 15,000.00 on 05-Dec. Transfer went to Flipkart with Ref No 55223344110. If this is not you, please contact your bank right away.",0,english,bank_txn:en:s3d:pp
 "Your PNB credit card statement for October is now available. The total due is Rs 450, with the payment deadline set for November 28th. You can access it through the PNB app.",0,english,card_statement:en:h1a:pp
 "Rs 8,500 crop insurance claim under Fasal Bima Yojana has been credited to your account. View details at pmfby.gov.in",0,english,gov_scheme:en:2:pp
 Please transfer the school fee via the official school portal before Tuesday. Your receipt will be sent to you by email.,0,english,everyday:en:g3a:pp
@@ -1357,7 +1357,7 @@ SBI notice: your KYC documents need renewal. Visit the branch during working hou
 "Jio: Rs 25,000 recharge complete. Valid for 28 days, 2GB daily. Download the Jio app: https://www.makemytrip.com/trip",0,english,telecom:en:s3a:pp
 Your flight booking has been confirmed for December 12th. Web check-in will be available 48 hours before departure: https://www.airtel.in/app,0,english,appointment:en:s3d:pp
 Please renew your KYC documents at your local branch during business hours. No online form required.,0,english,kyc_branch:en:h1b:pp
-"Your account *7745 has been credited with Rs 7,800.00 on 01-Dec. The reference is 412398765012. Your available balance stands at Rs 31,250.55. -IDFC First Bank",0,english,bank_txn:en:s3c:pp
+"Your account *7745 has been credited with Rs 7,800.00 on 01-Dec. The reference is 41239876501. Your available balance stands at Rs 31,250.55. -IDFC First Bank",0,english,bank_txn:en:s3c:pp
 "Your refund of $4,200 for order 8812 has been processed and will be credited to your original payment method within 5 to 7 business days.",0,english,refund_ok:en:g3a:pp
 The mutual fund SIP of Rs 499 was processed on 23-Nov. The units allotted are 31.254. You can find the statement at: https://www.licindia.in/pay,0,english,bank_notice:en:s3e:pp
 "Your HDFC Bank card with the last four digits ending 4821 was used for Rs 4,200. If this transaction was not done by you, please contact the number on the back of your card.",0,english,card_ok:en:g3c:pp
@@ -1426,7 +1426,7 @@ Your flight reservation has been approved for 23-Nov. Online check-in starts 48 
 Your one-time password for Kotak Mahindra Bank's online banking is 991277. It's valid for five minutes and must not be shared with anyone.,0,english,otp_sms:en:s3f:pp
 "Invest Rs 2,500 in our stock tips group and secure 60% returns in two weeks by joining the VIP Telegram channel.",1,english,invest:en:g3a:pp
 "As per your request, international transactions on your SBI card XX4821 are still restricted until they are enabled in the app.",0,english,card_block_user:en:h2i:pp
-"Your account XX1234 has been credited with ₹2,350.50 on 01-Dec. The transaction reference is 908877665544. Current account balance stands at ₹31,250.55. - Kotak Mahindra Bank",0,english,bank_txn:en:s3c:pp
+"Your account XX1234 has been credited with ₹2,350.50 on 01-Dec. The transaction reference is 90887766554. Current account balance stands at ₹31,250.55. - Kotak Mahindra Bank",0,english,bank_txn:en:s3c:pp
 "Dear customer, you qualify for a pre-approved loan worth Rs 99. To receive it immediately, please remit Rs 999 as a processing fee to 70XXXXXX55.",1,english,phish_other:en:s3l:pp
 Get 50% off fashion from Myntra! Use code END50. Shop here: https://www.licindia.in/pay. Terms and conditions apply. Text STOP to cancel.,0,english,promo:en:s3a:pp
 The contactless payment function on your Axis Bank card XX9012 has been temporarily disabled until you activate it within the app.,0,english,card_block_user:en:h2i:pp
@@ -1446,7 +1446,7 @@ Your debit card with the last four digits ending 7745 is about to expire on Dece
 "Earn from home, no prior experience required. Perform simple tasks each day. Initial deposit of ₹40,000 unlocks your account.",1,english,invest:en:g3c:pp
 "There was an issue with my side; Rs 3,000 has been credited to your account. Please return it within the hour via GPay, or I may have to lodge a complaint.",1,english,refund_trick:en:h1c:pp
 "Congrats! You've won Rs 5,00,000 in the KBC Lucky Draw. Pay Rs 2,500 for processing to claim your prize. Call 9123456789.",1,english,lottery_scam:en:1:pp
-"Your account XXXX3307 has been credited with Rs 15,000.00 on 01-Dec. UPI reference: 412398765012. Available balance Rs 31,250.55. - Kotak Mahindra Bank",0,english,bank_txn:en:s3c:pp
+"Your account XXXX3307 has been credited with Rs 15,000.00 on 01-Dec. UPI reference: 41239876501. Available balance Rs 31,250.55. - Kotak Mahindra Bank",0,english,bank_txn:en:s3c:pp
 Your Bank of Baroda KYC is not complete. Please update at http://sbi-update-kyc.top/login within 24 hours to prevent account suspension.,1,english,kyc_exp:en:g3b:pp
 "Prime Minister's Kisan Shakti Pilak 2,000 has been credited to your bank account. Check your status only on the official portal https://www.hdfcbank.com.",0,english,scheme_ok:en:g3a:pp
 Safety alert from Mumbai police: verify any payment requests from strangers by calling them on a number you're familiar with.,0,english,awareness:en:h1b:pp
@@ -1678,13 +1678,13 @@ Never scan a QR code to receive money. It's only meant for payments. - Your bank
 Your shipment has been detained by customs. Please pay Rs 75 for its release from here: http://paytm-kyc-now.cc,1,english,phish_other:en:s3d:pp
 Your Swiggy verification code is #102912. Please do not share it with others.,0,english,otp_sms:en:s3a:pp
 There won't be any power for you from 10 AM to 2 PM tomorrow because of the repairs.,0,english,everyday:en:e18:pp
-"Paid ₹450 to Swiggy via UPI. Reference number: 404157617824. Remaining balance: ₹15,200.",0,english,upi_confirm:en:1:pp
+"Paid ₹450 to Swiggy via UPI. Reference number: 40415761782. Remaining balance: ₹15,200.",0,english,upi_confirm:en:1:pp
 "Payment done through my side. Just scan this QR code and enter your PIN to receive Rs 2,000.",1,english,qr_receive:en:h2c:pp
 "Here's the album from yesterday, shared within our family group. Access it here: https://www.sbi.co.in",0,english,link_ok:en:g3a:pp
 "Please keep your Uber security code, 237818, confidential. Do not share it with anyone, especially not Uber employees.",0,english,otp_delivery:en:v2b:pp
 The one-time code for signing into your HDFC Bank account is 109972. It's valid for 5 minutes.,0,english,otp_delivery:en:h1a:pp
 Your service issue 9912 has been resolved. Thank you for banking with Axis Bank.,0,english,bank_notice:en:s3i:pp
-"Amount paid: ₹2,000 to Myntra via UPI. Reference number: 408699229967. Remaining balance: ₹15,200.",0,english,upi_confirm:en:1:pp
+"Amount paid: ₹2,000 to Myntra via UPI. Reference number: 40869922996. Remaining balance: ₹15,200.",0,english,upi_confirm:en:1:pp
 "Here's the album from yesterday, available in our family group: https://pmkisan.gov.in",0,english,link_ok:en:g3a:pp
 Never scan a QR code for receiving funds. It's only meant for payment purposes. - State Police,0,english,awareness:en:h2b:pp
 Rate your latest Zomato dining experience and assist other customers. Initiate the app and select Review.,0,english,brand_sale:en:h1d:pp
@@ -1698,7 +1698,7 @@ Get 20% cashback for your next purchase from Ajio. Offers until December 15th. T
 "I've sent the funds. To claim the money, scan the QR code and enter your pin.",1,english,qr_receive:en:h2a:pp
 Meeting link for tomorrow at 10 AM: https://uidai.gov.in. Please arrive five minutes early.,0,english,link_ok:en:g3b:pp
 Here's the album from yesterday that we put in our family group: www.hdfcbank.com,0,english,link_ok:en:g3a:pp
-"Paid ₹12,000 to JioMart via UPI. Ref No 407206849692. Remaining balance: ₹15,200.",0,english,upi_confirm:en:1:pp
+"Paid ₹12,000 to JioMart via UPI. Ref No 40720684969. Remaining balance: ₹15,200.",0,english,upi_confirm:en:1:pp
 Rate your recent Flipkart purchase and assist other shoppers by opening the app and tapping Review.,0,english,brand_sale:en:h1d:pp
 "Dear Customer, your cheque number 4821 for Rs 2,350 has been cleared on 23-Nov - HDFC Bank",0,english,bank_txn:en:s3g:pp
 "Payment made from mine, scan this QR code and enter your UPI PIN to receive Rs 2,000.",1,english,qr_receive:en:h2c:pp
@@ -1802,7 +1802,7 @@ Swiggy: 7745 is your delivery OTP. Share it with the delivery partner immediatel
 Your Amazon order is on hold. Please pay the redelivery fee of Rs 49 at this address: http://amazon-prize-claim.club,1,english,phish_other:en:s3k:pp
 Your SBI account has limitations. Reclaim access by logging into this link within 24 hours: https://sbi-kyc-update.top/login,1,english,phish_bank:en:s3e:pp
 "Dear customer, your SBICard has been deactivated. Please verify this right away: https://www.fastagrecharge.com/",1,english,phish_bank:en:s3c:pp
-Your standing instruction of $99 to Amazon was processed on November 28th. Ref #908877665544. - Union Bank,0,english,bank_txn:en:s3h:pp
+Your standing instruction of $99 to Amazon was processed on November 28th. Ref #90887766554. - Union Bank,0,english,bank_txn:en:s3h:pp
 "Your BSNL postpaid bill for Rs 8,999 is ready. Payment due by December 1st. Make the payment through the app. Ignore if you've already made it.",0,english,telecom:en:s3d:pp
 Swiggy: Your delivery OTP is 3307. Share it immediately with the delivery partner upon receiving your order.,0,english,otp_sms:en:s3e:pp
 Amazon: Your delivery OTP is 9912. Share it only with the delivery partner once the order arrives.,0,english,otp_sms:en:s3e:pp
@@ -1813,7 +1813,7 @@ Your Meesho order is pending. Please remit the redelivery charge of Rs 49 at thi
 "As instructed, your ICICI Bank card has been restricted. A fresh card will be dispatched within 7 days.",0,english,refund_ok:en:g3c:pp
 "Your Vi plan will expire on December 15th. To enjoy free calls and data, top up in the official Vi app.",0,english,telecom_expiry:en:1:pp
 Your fixed deposit of Rs 499 will mature on Nov 28th. Please visit the bank branch or the official app to renew. - SBI,0,english,bank_notice:en:s3f:pp
-Your standing instruction of ₹250 to Swiggy was processed on 12-Dec. Ref No: 552233441100. From Canara Bank.,0,english,bank_txn:en:s3h:pp
+Your standing instruction of ₹250 to Swiggy was processed on 12-Dec. Ref No: 55223344110. From Canara Bank.,0,english,bank_txn:en:s3h:pp
 RS 250 recharge offers extra data this week. Use the app or www.axismf.com,0,english,promo:en:s3d:pp
 "Rs 2,350.50 salary credited to your account XXXX3307 on 12-Dec. Available balance Rs 48,260.10. - Bank of Baroda",0,english,bank_txn:en:s3f:pp
 "As per your request, your Canara Bank card has been temporarily suspended. A replacement card will be dispatched to you within 7 days.",0,english,refund_ok:en:g3c:pp
@@ -1836,7 +1836,7 @@ Your SBI KYC is lacking. Please update via <http://bit.ly/3kXz9> within 24 hours
 Fantastic Indian festival kicking off now on Amazon! Upcoming discounts on smartphones and gadgets: https://www.amazon.in,0,english,brand_sale:en:2:pp
 "Sir, your SIM will be disabled in two hours. Please complete the Aadhaar verification: <http://sbi-update-kyc.com/login>",1,english,phish_other:en:s3h:pp
 "Your electricity bill of Rs 7,500 is due on Tuesday. Make the payment through the official app or at the nearest counter.",0,english,notice_ok:en:g3b:pp
-"Your standing order for ₹8,999 to Flipkart was processed on 28-Nov. Reference number is 412398765012. It has been credited to your account with ICICI Bank.",0,english,bank_txn:en:s3h:pp
+"Your standing order for ₹8,999 to Flipkart was processed on 28-Nov. Reference number is 41239876501. It has been credited to your account with ICICI Bank.",0,english,bank_txn:en:s3h:pp
 "Dear customer, your gas subsidy of Rs 4,500 is still pending. Please update your bank details at this link: http://refund-india.online",1,english,phish_other:en:s3i:pp
 "Your electricity bill of Rs 40,000 is due on Monday. Pay using the official app or at the nearest counter.",0,english,notice_ok:en:g3b:pp
 UIDAI: Your Aadhaar update request has been reviewed. UIN 1234/56789/9912. Check status here: https://uidai.gov.in,0,english,govt:en:s3a:pp
@@ -1863,7 +1863,7 @@ Meesho: Your shopping cart is ready. Please complete your purchase and enjoy fre
 "Canara Bank: Rs 12,400 withdrawn at ATM on 01-Dec. Available balance Rs 12,400.55. Call the bank helpline if it's not your account.",0,english,bank_txn:en:s3e:pp
 "The PM-Kisan installment of Rs 2,000 has been deposited into your bank account. You can verify the status at pmkisan.gov.in.",0,english,gov_scheme:en:1:pp
 Alert: Unusual transactions on your account 1234 at Bank of Baroda. Please verify your information immediately: http://bit.ly/3kXz9,1,english,phish_bank:en:s3d:pp
-"A/c *7745 debited by $1200 on 12-Dec to Meesho Ref 552233441100. If this is not you, please call your bank immediately.",0,english,bank_txn:en:s3d:pp
+"A/c *7745 debited by $1200 on 12-Dec to Meesho Ref 55223344110. If this is not you, please call your bank immediately.",0,english,bank_txn:en:s3d:pp
 "Rs 25,000 recharge done successfully. Valid for 28 days, 2 GB daily. Download the Vi app: https://www.airtel.in/app",0,english,telecom:en:s3a:pp
 "Could you please return Rs 15,500 that I mistakenly transferred to your GPay account? If you can't, I'll need to collect it from you.",1,english,refund_trick:en:2:pp
 "Rs. 10,000 subsidy has been credited to your account on Friday. Please check your passbook for details.",0,english,scheme_ok:en:g3c:pp
@@ -1948,7 +1948,7 @@ SBI notification: your KYC documents are set to renew soon. You need to visit th
 Your flight booking has been confirmed for December 12th. Web check-in starts 48 hours before the departure. Check it out at: https://www.airtel.in/app,0,english,appointment:en:s3d:pp
 PNB notification: your KYC documents are due for renewal. Proceed to the branch during business hours. No need to use an online form.,0,english,kyc_branch:en:h1b:pp
 Here's your Amazon account password reset code: 985617. Ignore this message if you didn't request a reset.,0,english,otp_delivery:en:h1e:pp
-"Your account *7745 has been credited with ₹7,800.00 on 01-Dec by UPI Ref 412398765012. Current balance stands at ₹31,250.55. -IDFC First Bank",0,english,bank_txn:en:s3c:pp
+"Your account *7745 has been credited with ₹7,800.00 on 01-Dec by UPI Ref 41239876501. Current balance stands at ₹31,250.55. -IDFC First Bank",0,english,bank_txn:en:s3c:pp
 "Your refund of $4,200 for order 8812 has been processed and will arrive in your original payment method within 5 to 7 days.",0,english,refund_ok:en:g3a:pp
 SIP for mutual funds of Rs 499 has been processed on 23-Nov. Units allotted are 31.254. Please check the statement at https://www.licindia.in/pay,0,english,bank_notice:en:s3e:pp
 "Your HDFC Bank card with the number ending in 4821 was used for Rs 4,200. If this wasn't you, please contact the number on the back of your card.",0,english,card_ok:en:g3c:pp
@@ -2014,7 +2014,7 @@ Your package is suspended because of a wrong address. Pay Rs 750 for redelivery 
 Your one-time password for Kotak Mahindra Bank's NetBanking is 991277. It's valid for 5 minutes. Do not share it with anyone.,0,english,otp_sms:en:s3f:pp
 "Invest Rs 2,500 in our stock tips group to secure 60% returns in two weeks. Join the VIP Telegram channel now.",1,english,invest:en:g3a:pp
 "Per your command, transactions on your SBI card XX4821 are still blocked until you activate them within the app.",0,english,card_block_user:en:h2i:pp
-"Your account XX1234 has been credited with ₹2,350.50 on 01-Dec by UPI transaction ref. 908877665544. Available balance ₹31,250.55. - Kotak Mahindra Bank",0,english,bank_txn:en:s3c:pp
+"Your account XX1234 has been credited with ₹2,350.50 on 01-Dec by UPI transaction ref. 90887766554. Available balance ₹31,250.55. - Kotak Mahindra Bank",0,english,bank_txn:en:s3c:pp
 "Dear customer, you qualify for a pre-approved loan of Rs 99. Pay Rs 999 processing fee to 70XXXXXX55 to receive it today.",1,english,phish_other:en:s3l:pp
 Get 50% off on fashion from Myntra! Use code END50. Shop here: https://www.myntra.com. Terms and Conditions apply. Say STOP to unsubscribe.,0,english,promo:en:s3a:pp
 "Based on your instruction, your contactless payments on the XX9012 card from Axis Bank are still blocked until you enable them within the app.",0,english,card_block_user:en:h2i:pp
@@ -2035,7 +2035,7 @@ Your bank card number 7745 will be inactive by 15-Dec. You have received a new c
 "Earn online with no prior experience. Complete straightforward assignments daily. First deposit Rs 40,000 to get your account set up.",1,english,invest:en:g3c:pp
 "Wrong money transfer from me: Rs 3,000 credited to your account. Return it via GPay within the hour or I'll have to report this as fraud.",1,english,refund_trick:en:h1c:pp
 "Congratulations! You've been selected for winning Rs 5 Lakhs in the KBC Lucky Draw. To claim your prize, please pay a processing fee of Rs 2,500. For more details, call 9123456789.",1,english,lottery_scam:en:1:pp
-"Your account XXXX3307 has received Rs 15,000.00 via UPI on Dec 1st, with Ref 412398765012. Current balance stands at Rs 31,250.55. - Kotak Mahindra Bank",0,english,bank_txn:en:s3c:pp
+"Your account XXXX3307 has received Rs 15,000.00 via UPI on Dec 1st, with Ref 41239876501. Current balance stands at Rs 31,250.55. - Kotak Mahindra Bank",0,english,bank_txn:en:s3c:pp
 Your Bank of Baroda KYC is missing. Update your details at http://sbi-update-kyc.top/login by tomorrow to prevent account closure.,1,english,kyc_exp:en:g3b:pp
 "PM Kisan: Rs 2,000 has been deposited into your account. Verify your transaction status on the official portal: https://www.hdfcbank.com",0,english,scheme_ok:en:g3a:pp
 Safety advice from Mumbai police: Verify any payment request by calling the individual using a number you trust.,0,english,awareness:en:h1b:pp
@@ -2209,10 +2209,10 @@ Your SBI credit card reward points are expiring today. Download the app from thi
 "Your FedEx shipment, carrying contraband and banned goods, has been detained by Customs. Immediate payment of the $12,500 fine is required: https://www.customs-parcel-clear.xyz/fine",1,english,courier_scam:en:1:pp
 "Fraud alert from State Police: scammers impersonate officials during calls. Genuine officials never ask for OTPs, PINs, or money transfers over the phone. Call 1930 to report.",0,english,awareness:en:v2a:pp
 "Fraud alert from Delhi Police: scammers impersonate officials on calls. Genuine officials never ask for OTP, PIN, or money transfers over the phone. Report fraud via 1930.",0,english,awareness:en:v2a:pp
-"Dear Customer, ₹499.00 has been debited from account *7745 on 25-Nov and credited to your VPA shop at okaxis (UPI Ref No 908877665544). If it's not your transaction, please contact the bank hotline. - SBI",0,english,bank_txn:en:s3a:pp
+"Dear Customer, ₹499.00 has been debited from account *7745 on 25-Nov and credited to your VPA shop at okaxis (UPI Ref No 90887766554). If it's not your transaction, please contact the bank hotline. - SBI",0,english,bank_txn:en:s3a:pp
 "I apologize for any inconvenience. A mistake was made by my cousin, resulting in an incorrect transaction of ₹5,000 on your GPay account. Please make the refund using the same number. I'll send you the details via text later.",1,english,refund_trick:en:v2c:pp
 "I apologize for the inconvenience. The wrong amount of Rs 9,500 went to your GPay account instead. Could you please send it back using GPay with this number? I'll send you the transaction details.",1,english,refund_trick:en:v2c:pp
 "I'm sorry to bother you. My cousin accidentally typed the wrong number and Rs 14,000 went to your BHIM account. Could you please send it back using this number? I'll text you the details.",1,english,refund_trick:en:v2c:pp
 "Your customs package has been confiscated due to contraband and prohibited items. Clearance fee of ₹5,000 required immediately: [customs-duty-clear.top/fine]",1,english,courier_scam:en:1:pp
-"Dear customer, INR 7,800.00 has been debited from your account *7745 on 05-Dec and credited to VPA shop@okaxis (UPI Ref No 908877665544). If it was not done by you, please contact the bank's helpline. -Axis Bank",0,english,bank_txn:en:s3a:pp
+"Dear customer, INR 7,800.00 has been debited from your account *7745 on 05-Dec and credited to VPA shop@okaxis (UPI Ref No 90887766554). If it was not done by you, please contact the bank's helpline. -Axis Bank",0,english,bank_txn:en:s3a:pp
 "Your customs package was seized by customs due to contraband and prohibited items. Please pay the clearance fine of ₹8,200 immediately: http://customs-parcel-clear.xyz/fine",1,english,courier_scam:en:1:pp

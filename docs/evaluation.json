@@ -1,135 +1,377 @@
 {
-  "model_version": "2026-11-23.3",
-  "model_bytes": 344038,
+  "model_version": "2026-11-24.1",
+  "model_bytes": 1589581,
   "thresholds": {
-    "suspicious": 0.19,
-    "scam": 0.35
+    "suspicious": 0.18,
+    "scam": 0.54
+  },
+  "meta": {
+    "C": 10,
+    "min_df": 3,
+    "keep": 60000,
+    "n_train": 19448,
+    "n_aug": 713,
+    "n_val": 4087,
+    "seed": 7,
+    "gen_share": 0.2,
+    "source_cap": 0.3,
+    "family_n": 40,
+    "cuts": {
+      "slice_rows": 44065,
+      "suspicious_recall": 0.9801,
+      "scam_precision": 0.9813,
+      "policy": "scam cut: lowest with precision >= 0.97, suspicious cut: highest with recall >= 0.97, 95% lower bounds over families, realistic validation rows + out-of-family training rows; scam cut 0.5 if unreachable; band >= 0.15"
+    }
+  },
+  "hashes": {
+    "model.json": "673fbcab6d213c750ee16aad5ed820d89d9811d3c1f6ba1e1c335a32e351073d",
+    "signals.json": "a983ff8a46a682be4115ed56d835040a3aaa6c4ec00093a5364f5165303aa076",
+    "domains.json": "ba6074524034d2e2a3775e335c960bbb3803d857c76e12a387c143c5b331d9d5",
+    "frozen_evaluation_files": {
+      "blind_v1.csv": "5fbb0cdde47b26eab3e768aabe1c1fbcb09864744a4ddd6996325591ce730718",
+      "eval_in.json": "ae26312ea707495b7e5853d49232c3314dde1544407b3a1a191de372a468a493",
+      "eval_otp_in.json": "b07a2180daa75ca364790a38ce70935c29fa2ad8e42fadc889f0da669d3f46d8",
+      "eval_evasion_in.json": "0250ec948b52e947e92bd06f13c5696b722a4c0f34387dc3896850e40ae231f4",
+      "voice/cvm_in.json": "f55a8ffcf4d0ae7673a2aee6aacd80d21d2df093586f3c09e11820bb7a839bb9",
+      "voice/cvm_in_asr.json": "6bcac8e180fc48e6aff228acd874c6c391dc4903a778ae027a134eeb588ef0ca",
+      "voice_hi/cvm_in_orig.json": "766cf6e4719341717fee6e9888468af720e76180a0841f836a8ef2a814597909",
+      "voice_hi/cvm_in_asr.json": "648ebba7cf2a8149617141eec8a0a2ad896ac2b110d243bf4bcc17513b4d0eb7",
+      "ai tuning/data/wild_big.csv": "712c8fc632548ea6314588316c385fc20afcfc0d6651c49f026bf8ffc4fd4837"
+    }
   },
   "test": {
     "name": "test (group-aware split)",
     "overall@0.5": {
-      "n": 202,
-      "scam": 61,
-      "accuracy": 1.0,
-      "precision": 1.0,
-      "recall": 1.0,
-      "f1": 1.0,
-      "tn": 141,
-      "fp": 0,
-      "fn": 0,
-      "tp": 61,
-      "false_alarm_rate": 0.0,
-      "auc_pr": 1.0,
-      "auc_roc": 1.0
+      "n": 3699,
+      "scam": 1439,
+      "accuracy": 0.9818869964855367,
+      "precision": 0.9942363112391931,
+      "recall": 0.9589993050729674,
+      "f1": 0.9762999646268129,
+      "tn": 2252,
+      "fp": 8,
+      "fn": 59,
+      "tp": 1380,
+      "false_alarm_rate": 0.0035398230088495575,
+      "auc_pr": 0.9976687040561916,
+      "auc_roc": 0.9979379731499873
     },
     "flag@suspicious_cut": {
-      "n": 202,
-      "scam": 61,
-      "accuracy": 1.0,
-      "precision": 1.0,
-      "recall": 1.0,
-      "f1": 1.0,
-      "tn": 141,
-      "fp": 0,
-      "fn": 0,
-      "tp": 61,
-      "false_alarm_rate": 0.0,
-      "auc_pr": 1.0,
-      "auc_roc": 1.0
+      "n": 3699,
+      "scam": 1439,
+      "accuracy": 0.9905379832387131,
+      "precision": 0.9868238557558946,
+      "recall": 0.9888811674774148,
+      "f1": 0.9878514404720583,
+      "tn": 2241,
+      "fp": 19,
+      "fn": 16,
+      "tp": 1423,
+      "false_alarm_rate": 0.008407079646017699,
+      "auc_pr": 0.9976687040561916,
+      "auc_roc": 0.9979379731499873
     },
     "bands": {
       "likely_scam": {
-        "scam": 61,
-        "genuine": 0
+        "scam": 1332,
+        "genuine": 8
       },
       "suspicious": {
-        "scam": 0,
-        "genuine": 0
+        "scam": 91,
+        "genuine": 11
       },
       "looks_genuine": {
-        "scam": 0,
-        "genuine": 141
+        "scam": 16,
+        "genuine": 2241
       }
     },
     "keyword_baseline": {
-      "n": 202,
-      "scam": 61,
-      "accuracy": 0.8217821782178217,
-      "precision": 1.0,
-      "recall": 0.4098360655737705,
-      "f1": 0.5813953488372093,
-      "tn": 141,
-      "fp": 0,
-      "fn": 36,
-      "tp": 25,
-      "false_alarm_rate": 0.0
+      "n": 3699,
+      "scam": 1439,
+      "accuracy": 0.6347661530143281,
+      "precision": 0.7365591397849462,
+      "recall": 0.09520500347463516,
+      "f1": 0.1686153846153846,
+      "tn": 2211,
+      "fp": 49,
+      "fn": 1302,
+      "tp": 137,
+      "false_alarm_rate": 0.02168141592920354
     },
+    "ci95@0.5": {
+      "precision": [
+        0.9873,
+        0.9992
+      ],
+      "recall": [
+        0.9304,
+        0.9858
+      ],
+      "f1": [
+        0.962,
+        0.9897
+      ],
+      "false_alarm_rate": [
+        0.0005,
+        0.0078
+      ],
+      "families": 1399,
+      "resamples": 1000
+    },
+    "ci95@suspicious_cut": {
+      "precision": [
+        0.9729,
+        0.9957
+      ],
+      "recall": [
+        0.9814,
+        0.9946
+      ],
+      "f1": [
+        0.9797,
+        0.9935
+      ],
+      "false_alarm_rate": [
+        0.0029,
+        0.0171
+      ],
+      "families": 1399,
+      "resamples": 1000
+    },
+    "curve": [
+      {
+        "cut": 0.05,
+        "precision": 0.9668918918918918,
+        "recall": 0.9944405837387075,
+        "f1": 0.9804727646454265,
+        "false_alarm_rate": 0.02168141592920354,
+        "flag_rate": 0.4001081373344147
+      },
+      {
+        "cut": 0.1,
+        "precision": 0.9800824175824175,
+        "recall": 0.9916608756080612,
+        "f1": 0.9858376511226252,
+        "false_alarm_rate": 0.012831858407079646,
+        "flag_rate": 0.3936198972695323
+      },
+      {
+        "cut": 0.15,
+        "precision": 0.9854570637119113,
+        "recall": 0.9888811674774148,
+        "f1": 0.9871661463753035,
+        "false_alarm_rate": 0.009292035398230088,
+        "flag_rate": 0.3903757772370911
+      },
+      {
+        "cut": 0.2,
+        "precision": 0.9875,
+        "recall": 0.9881862404447533,
+        "f1": 0.9878430010420285,
+        "false_alarm_rate": 0.007964601769911504,
+        "flag_rate": 0.38929440389294406
+      },
+      {
+        "cut": 0.25,
+        "precision": 0.9881862404447533,
+        "recall": 0.9881862404447533,
+        "f1": 0.9881862404447533,
+        "false_alarm_rate": 0.00752212389380531,
+        "flag_rate": 0.38902406055690725
+      },
+      {
+        "cut": 0.3,
+        "precision": 0.9902506963788301,
+        "recall": 0.9881862404447533,
+        "f1": 0.9892173913043478,
+        "false_alarm_rate": 0.006194690265486726,
+        "flag_rate": 0.38821303054879697
+      },
+      {
+        "cut": 0.4,
+        "precision": 0.993006993006993,
+        "recall": 0.9867963863794301,
+        "f1": 0.9898919484140816,
+        "false_alarm_rate": 0.004424778761061947,
+        "flag_rate": 0.38659097053257635
+      },
+      {
+        "cut": 0.5,
+        "precision": 0.9942363112391931,
+        "recall": 0.9589993050729674,
+        "f1": 0.9762999646268129,
+        "false_alarm_rate": 0.0035398230088495575,
+        "flag_rate": 0.37523655041903214
+      },
+      {
+        "cut": 0.6,
+        "precision": 0.9944,
+        "recall": 0.8637943015983321,
+        "f1": 0.924507251766456,
+        "false_alarm_rate": 0.003097345132743363,
+        "flag_rate": 0.33792917004595835
+      },
+      {
+        "cut": 0.7,
+        "precision": 0.9940677966101695,
+        "recall": 0.8151494093120223,
+        "f1": 0.8957617411225659,
+        "false_alarm_rate": 0.003097345132743363,
+        "flag_rate": 0.3190051365233847
+      },
+      {
+        "cut": 0.8,
+        "precision": 0.9965665236051502,
+        "recall": 0.8068102849200834,
+        "f1": 0.8917050691244239,
+        "false_alarm_rate": 0.0017699115044247787,
+        "flag_rate": 0.3149499864828332
+      },
+      {
+        "cut": 0.9,
+        "precision": 0.9982532751091703,
+        "recall": 0.7943015983321752,
+        "f1": 0.8846749226006192,
+        "false_alarm_rate": 0.0008849557522123894,
+        "flag_rate": 0.30954311976209786
+      },
+      {
+        "cut": 0.95,
+        "precision": 1.0,
+        "recall": 0.7852675469075747,
+        "f1": 0.8797197353055664,
+        "false_alarm_rate": 0.0,
+        "flag_rate": 0.30548796972154635
+      }
+    ],
     "per_language": {
       "english": {
-        "n": 85,
-        "scam": 18,
-        "accuracy": 1.0,
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1": 1.0,
-        "tn": 67,
-        "fp": 0,
-        "fn": 0,
-        "tp": 18,
-        "false_alarm_rate": 0.0,
-        "auc_pr": 1.0,
-        "auc_roc": 1.0
+        "n": 3388,
+        "scam": 1277,
+        "accuracy": 0.9802243211334121,
+        "precision": 0.9934747145187602,
+        "recall": 0.9537979639780736,
+        "f1": 0.9732321214542549,
+        "tn": 2103,
+        "fp": 8,
+        "fn": 59,
+        "tp": 1218,
+        "false_alarm_rate": 0.0037896731406916154,
+        "auc_pr": 0.9971263936290922,
+        "auc_roc": 0.9975895364067918,
+        "flag_recall": 0.9874706342991386,
+        "flag_false_alarm": 0.009000473709142587
       },
       "hindi": {
-        "n": 68,
-        "scam": 28,
+        "n": 94,
+        "scam": 32,
         "accuracy": 1.0,
         "precision": 1.0,
         "recall": 1.0,
         "f1": 1.0,
-        "tn": 40,
+        "tn": 62,
         "fp": 0,
         "fn": 0,
-        "tp": 28,
+        "tp": 32,
         "false_alarm_rate": 0.0,
         "auc_pr": 1.0,
-        "auc_roc": 1.0
+        "auc_roc": 1.0,
+        "flag_recall": 1.0,
+        "flag_false_alarm": 0.0
       },
       "hinglish": {
-        "n": 49,
-        "scam": 15,
+        "n": 217,
+        "scam": 130,
         "accuracy": 1.0,
         "precision": 1.0,
         "recall": 1.0,
         "f1": 1.0,
-        "tn": 34,
+        "tn": 87,
         "fp": 0,
         "fn": 0,
-        "tp": 15,
+        "tp": 130,
         "false_alarm_rate": 0.0,
         "auc_pr": 1.0,
-        "auc_roc": 1.0
+        "auc_roc": 1.0,
+        "flag_recall": 1.0,
+        "flag_false_alarm": 0.0
       }
     },
     "per_source": {
-      "team_messages_v3": {
-        "n": 39,
-        "scam": 24,
+      "bolewara_uci": {
+        "n": 526,
+        "scam": 91,
+        "accuracy": 0.9600760456273765,
+        "precision": 0.9861111111111112,
+        "recall": 0.7802197802197802,
+        "f1": 0.8711656441717791,
+        "tn": 434,
+        "fp": 1,
+        "fn": 20,
+        "tp": 71,
+        "false_alarm_rate": 0.0022988505747126436,
+        "auc_pr": 0.9453151280916491,
+        "auc_roc": 0.9679171403309333
+      },
+      "cloveai": {
+        "n": 1196,
+        "scam": 271,
+        "accuracy": 0.9749163879598662,
+        "precision": 0.9958847736625515,
+        "recall": 0.8929889298892989,
+        "f1": 0.9416342412451362,
+        "tn": 924,
+        "fp": 1,
+        "fn": 29,
+        "tp": 242,
+        "false_alarm_rate": 0.001081081081081081,
+        "auc_pr": 0.9944465519292555,
+        "auc_roc": 0.9991542834347262
+      },
+      "shade63": {
+        "n": 1237,
+        "scam": 796,
+        "accuracy": 0.9911075181891673,
+        "precision": 0.9987293519695044,
+        "recall": 0.9874371859296482,
+        "f1": 0.9930511686670878,
+        "tn": 440,
+        "fp": 1,
+        "fn": 10,
+        "tp": 786,
+        "false_alarm_rate": 0.0022675736961451248,
+        "auc_pr": 0.9999238934444867,
+        "auc_roc": 0.9998661105983432
+      },
+      "team_everyday_v3": {
+        "n": 18,
+        "scam": 0,
         "accuracy": 1.0,
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1": 1.0,
-        "tn": 15,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tn": 18,
         "fp": 0,
         "fn": 0,
-        "tp": 24,
-        "false_alarm_rate": 0.0,
-        "auc_pr": 0.9999999999999998,
-        "auc_roc": 1.0
+        "tp": 0,
+        "false_alarm_rate": 0.0
       },
-      "team_scam_gap_v1": {
-        "n": 10,
-        "scam": 10,
+      "team_gap_v3_genuine": {
+        "n": 21,
+        "scam": 0,
+        "accuracy": 1.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tn": 21,
+        "fp": 0,
+        "fn": 0,
+        "tp": 0,
+        "false_alarm_rate": 0.0
+      },
+      "team_gap_v3_scam": {
+        "n": 17,
+        "scam": 17,
         "accuracy": 1.0,
         "precision": 1.0,
         "recall": 1.0,
@@ -137,166 +379,343 @@
         "tn": 0,
         "fp": 0,
         "fn": 0,
-        "tp": 10,
+        "tp": 17,
         "false_alarm_rate": 0.0
       },
-      "team_syn1": {
-        "n": 42,
-        "scam": 15,
+      "team_messages_v3": {
+        "n": 41,
+        "scam": 21,
         "accuracy": 1.0,
         "precision": 1.0,
         "recall": 1.0,
         "f1": 1.0,
-        "tn": 27,
+        "tn": 20,
         "fp": 0,
         "fn": 0,
-        "tp": 15,
+        "tp": 21,
         "false_alarm_rate": 0.0,
         "auc_pr": 1.0,
         "auc_roc": 1.0
       },
-      "team_syn2": {
-        "n": 78,
-        "scam": 12,
+      "team_paraphrase_v3": {
+        "n": 323,
+        "scam": 103,
+        "accuracy": 0.9845201238390093,
+        "precision": 0.9537037037037037,
+        "recall": 1.0,
+        "f1": 0.976303317535545,
+        "tn": 215,
+        "fp": 5,
+        "fn": 0,
+        "tp": 103,
+        "false_alarm_rate": 0.022727272727272728,
+        "auc_pr": 0.9996210773383777,
+        "auc_roc": 0.9998234774933804
+      },
+      "team_scam_gap_v1": {
+        "n": 1,
+        "scam": 1,
         "accuracy": 1.0,
         "precision": 1.0,
         "recall": 1.0,
         "f1": 1.0,
-        "tn": 66,
+        "tn": 0,
         "fp": 0,
         "fn": 0,
-        "tp": 12,
-        "false_alarm_rate": 0.0,
-        "auc_pr": 1.0,
-        "auc_roc": 1.0
+        "tp": 1,
+        "false_alarm_rate": 0.0
       },
-      "team_trap_genuine_v1": {
-        "n": 33,
+      "team_sms_v3_genuine": {
+        "n": 22,
         "scam": 0,
         "accuracy": 1.0,
         "precision": 0.0,
         "recall": 0.0,
         "f1": 0.0,
-        "tn": 33,
+        "tn": 22,
         "fp": 0,
         "fn": 0,
         "tp": 0,
         "false_alarm_rate": 0.0
+      },
+      "team_sms_v3_scam": {
+        "n": 9,
+        "scam": 9,
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tn": 0,
+        "fp": 0,
+        "fn": 0,
+        "tp": 9,
+        "false_alarm_rate": 0.0
+      },
+      "team_syn1": {
+        "n": 64,
+        "scam": 22,
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tn": 42,
+        "fp": 0,
+        "fn": 0,
+        "tp": 22,
+        "false_alarm_rate": 0.0,
+        "auc_pr": 1.0,
+        "auc_roc": 1.0
+      },
+      "team_syn2": {
+        "n": 77,
+        "scam": 13,
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tn": 64,
+        "fp": 0,
+        "fn": 0,
+        "tp": 13,
+        "false_alarm_rate": 0.0,
+        "auc_pr": 0.9999999999999998,
+        "auc_roc": 1.0
+      },
+      "team_trap_genuine_v1": {
+        "n": 36,
+        "scam": 0,
+        "accuracy": 1.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tn": 36,
+        "fp": 0,
+        "fn": 0,
+        "tp": 0,
+        "false_alarm_rate": 0.0
+      },
+      "ysangam_calls": {
+        "n": 111,
+        "scam": 95,
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tn": 16,
+        "fp": 0,
+        "fn": 0,
+        "tp": 95,
+        "false_alarm_rate": 0.0,
+        "auc_pr": 1.0000000000000002,
+        "auc_roc": 1.0
       }
     },
     "calibration": {
-      "ece": 0.007534021236993423,
+      "ece": 0.032212756299666925,
       "bins": [
         {
           "bin": "0.0-0.1",
-          "n": 141,
-          "mean_p": 0.002859778986732977,
+          "n": 2243,
+          "mean_p": 0.0020279477116995374,
+          "frac_scam": 0.005349977708426215
+        },
+        {
+          "bin": "0.1-0.2",
+          "n": 16,
+          "mean_p": 0.13385980114539248,
+          "frac_scam": 0.3125
+        },
+        {
+          "bin": "0.2-0.3",
+          "n": 4,
+          "mean_p": 0.26655725242031475,
           "frac_scam": 0.0
         },
         {
-          "bin": "0.7-0.8",
-          "n": 1,
-          "mean_p": 0.7918048195134053,
+          "bin": "0.3-0.4",
+          "n": 6,
+          "mean_p": 0.33913950006788746,
+          "frac_scam": 0.3333333333333333
+        },
+        {
+          "bin": "0.4-0.5",
+          "n": 42,
+          "mean_p": 0.47000987408722483,
+          "frac_scam": 0.9523809523809523
+        },
+        {
+          "bin": "0.5-0.6",
+          "n": 138,
+          "mean_p": 0.5556802468752157,
+          "frac_scam": 0.9927536231884058
+        },
+        {
+          "bin": "0.6-0.7",
+          "n": 70,
+          "mean_p": 0.6391671060056572,
           "frac_scam": 1.0
+        },
+        {
+          "bin": "0.7-0.8",
+          "n": 15,
+          "mean_p": 0.7428684121348128,
+          "frac_scam": 0.8
         },
         {
           "bin": "0.8-0.9",
-          "n": 1,
-          "mean_p": 0.8058470542915452,
-          "frac_scam": 1.0
+          "n": 20,
+          "mean_p": 0.8709403959047238,
+          "frac_scam": 0.9
         },
         {
           "bin": "0.9-1.0",
-          "n": 59,
-          "mean_p": 0.9878594012449445,
-          "frac_scam": 1.0
+          "n": 1145,
+          "mean_p": 0.9978408878785995,
+          "frac_scam": 0.9982532751091703
         }
       ]
     },
     "bias": {
       "genuine_bank_alerts": {
-        "n": 54,
-        "false_alarm_rate": 0.0
+        "n": 782,
+        "false_alarm_rate": 0.0025575447570332483
       },
       "genuine_otp_messages": {
-        "n": 9,
-        "false_alarm_rate": 0.0
-      },
-      "genuine_other": {
         "n": 81,
         "false_alarm_rate": 0.0
       },
+      "genuine_other": {
+        "n": 1464,
+        "false_alarm_rate": 0.004098360655737705
+      },
       "by_language": {
         "english": {
-          "n": 67,
-          "false_alarm_rate": 0.0
+          "n": 2111,
+          "false_alarm_rate": 0.0037896731406916154
         },
         "hindi": {
-          "n": 40,
+          "n": 62,
           "false_alarm_rate": 0.0
         },
         "hinglish": {
-          "n": 34,
+          "n": 87,
           "false_alarm_rate": 0.0
         }
       },
       "by_length": {
         "short": {
-          "n": 37,
-          "false_alarm_rate": 0.0
+          "n": 791,
+          "false_alarm_rate": 0.0012642225031605564
         },
         "medium": {
-          "n": 104,
+          "n": 1456,
+          "false_alarm_rate": 0.004807692307692308
+        },
+        "long": {
+          "n": 13,
           "false_alarm_rate": 0.0
         }
       }
     },
-    "confident_mistakes": [],
-    "ms_per_message_python": 1.199528722479792
+    "confident_mistakes": [
+      {
+        "text": "OTP: 482913 is your SBI OTP. Never share with anyone. If you did not request this, your account may be compromised - reply YES to block.",
+        "label": 1,
+        "p": 0.0,
+        "lang": "english"
+      },
+      {
+        "text": "For sale - arsenal dartboard. Good condition but no doubles or trebles!",
+        "label": 1,
+        "p": 0.0,
+        "lang": "english"
+      },
+      {
+        "text": "Would you like to see my XXX pics they are so hot they were nearly banned in the uk!",
+        "label": 1,
+        "p": 0.002,
+        "lang": "english"
+      },
+      {
+        "text": "Missed call alert. These numbers called but left no message. 07008009200",
+        "label": 1,
+        "p": 0.004,
+        "lang": "english"
+      },
+      {
+        "text": "Money i have won wining number 946 wot do i do next",
+        "label": 1,
+        "p": 0.025,
+        "lang": "english"
+      }
+    ],
+    "ms_per_message_python": 2.459088735691307,
+    "family_table": {
+      "genuine_families": 76,
+      "families_with_a_warning": 2,
+      "messages": 443,
+      "messages_flagged": 9,
+      "worst": [
+        {
+          "group": "govt:en:s3b:pp",
+          "source": "team_paraphrase_v3",
+          "n": 9,
+          "flagged": 8,
+          "likely_scam": 4
+        },
+        {
+          "group": "card_block_user:en:2:pp",
+          "source": "team_paraphrase_v3",
+          "n": 3,
+          "flagged": 1,
+          "likely_scam": 1
+        }
+      ]
+    }
   },
   "challenge": {
     "name": "challenge (hand-written, never trained on)",
     "overall@0.5": {
       "n": 160,
       "scam": 80,
-      "accuracy": 0.8875,
-      "precision": 0.984375,
-      "recall": 0.7875,
-      "f1": 0.875,
-      "tn": 79,
-      "fp": 1,
-      "fn": 17,
-      "tp": 63,
-      "false_alarm_rate": 0.0125,
-      "auc_pr": 0.9840737439989189,
-      "auc_roc": 0.98390625
+      "accuracy": 0.98125,
+      "precision": 1.0,
+      "recall": 0.9625,
+      "f1": 0.9808917197452229,
+      "tn": 80,
+      "fp": 0,
+      "fn": 3,
+      "tp": 77,
+      "false_alarm_rate": 0.0,
+      "auc_pr": 0.9969655011475219,
+      "auc_roc": 0.99671875
     },
     "flag@suspicious_cut": {
       "n": 160,
       "scam": 80,
-      "accuracy": 0.9125,
-      "precision": 0.9583333333333334,
-      "recall": 0.8625,
-      "f1": 0.9078947368421053,
+      "accuracy": 0.9625,
+      "precision": 0.9625,
+      "recall": 0.9625,
+      "f1": 0.9625,
       "tn": 77,
       "fp": 3,
-      "fn": 11,
-      "tp": 69,
+      "fn": 3,
+      "tp": 77,
       "false_alarm_rate": 0.0375,
-      "auc_pr": 0.9840737439989189,
-      "auc_roc": 0.98390625
+      "auc_pr": 0.9969655011475219,
+      "auc_roc": 0.99671875
     },
     "bands": {
       "likely_scam": {
-        "scam": 65,
-        "genuine": 1
+        "scam": 75,
+        "genuine": 0
       },
       "suspicious": {
-        "scam": 4,
-        "genuine": 2
+        "scam": 2,
+        "genuine": 3
       },
       "looks_genuine": {
-        "scam": 11,
+        "scam": 3,
         "genuine": 77
       }
     },
@@ -313,131 +732,265 @@
       "tp": 10,
       "false_alarm_rate": 0.0
     },
+    "ci95@0.5": {
+      "precision": [
+        1.0,
+        1.0
+      ],
+      "recall": [
+        0.9167,
+        1.0
+      ],
+      "f1": [
+        0.9565,
+        1.0
+      ],
+      "false_alarm_rate": [
+        0.0,
+        0.0
+      ],
+      "families": 160,
+      "resamples": 1000
+    },
+    "ci95@suspicious_cut": {
+      "precision": [
+        0.9167,
+        1.0
+      ],
+      "recall": [
+        0.9167,
+        1.0
+      ],
+      "f1": [
+        0.9317,
+        0.9875
+      ],
+      "false_alarm_rate": [
+        0.0,
+        0.0845
+      ],
+      "families": 160,
+      "resamples": 1000
+    },
+    "curve": [
+      {
+        "cut": 0.05,
+        "precision": 0.9285714285714286,
+        "recall": 0.975,
+        "f1": 0.9512195121951219,
+        "false_alarm_rate": 0.075,
+        "flag_rate": 0.525
+      },
+      {
+        "cut": 0.1,
+        "precision": 0.9397590361445783,
+        "recall": 0.975,
+        "f1": 0.9570552147239264,
+        "false_alarm_rate": 0.0625,
+        "flag_rate": 0.51875
+      },
+      {
+        "cut": 0.15,
+        "precision": 0.9506172839506173,
+        "recall": 0.9625,
+        "f1": 0.9565217391304348,
+        "false_alarm_rate": 0.05,
+        "flag_rate": 0.50625
+      },
+      {
+        "cut": 0.2,
+        "precision": 0.9871794871794872,
+        "recall": 0.9625,
+        "f1": 0.9746835443037974,
+        "false_alarm_rate": 0.0125,
+        "flag_rate": 0.4875
+      },
+      {
+        "cut": 0.25,
+        "precision": 0.9871794871794872,
+        "recall": 0.9625,
+        "f1": 0.9746835443037974,
+        "false_alarm_rate": 0.0125,
+        "flag_rate": 0.4875
+      },
+      {
+        "cut": 0.3,
+        "precision": 1.0,
+        "recall": 0.9625,
+        "f1": 0.9808917197452229,
+        "false_alarm_rate": 0.0,
+        "flag_rate": 0.48125
+      },
+      {
+        "cut": 0.4,
+        "precision": 1.0,
+        "recall": 0.9625,
+        "f1": 0.9808917197452229,
+        "false_alarm_rate": 0.0,
+        "flag_rate": 0.48125
+      },
+      {
+        "cut": 0.5,
+        "precision": 1.0,
+        "recall": 0.9625,
+        "f1": 0.9808917197452229,
+        "false_alarm_rate": 0.0,
+        "flag_rate": 0.48125
+      },
+      {
+        "cut": 0.6,
+        "precision": 1.0,
+        "recall": 0.9375,
+        "f1": 0.967741935483871,
+        "false_alarm_rate": 0.0,
+        "flag_rate": 0.46875
+      },
+      {
+        "cut": 0.7,
+        "precision": 1.0,
+        "recall": 0.9375,
+        "f1": 0.967741935483871,
+        "false_alarm_rate": 0.0,
+        "flag_rate": 0.46875
+      },
+      {
+        "cut": 0.8,
+        "precision": 1.0,
+        "recall": 0.925,
+        "f1": 0.961038961038961,
+        "false_alarm_rate": 0.0,
+        "flag_rate": 0.4625
+      },
+      {
+        "cut": 0.9,
+        "precision": 1.0,
+        "recall": 0.9,
+        "f1": 0.9473684210526315,
+        "false_alarm_rate": 0.0,
+        "flag_rate": 0.45
+      },
+      {
+        "cut": 0.95,
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1": 0.9333333333333333,
+        "false_alarm_rate": 0.0,
+        "flag_rate": 0.4375
+      }
+    ],
     "per_language": {
       "english": {
         "n": 54,
         "scam": 26,
-        "accuracy": 0.8888888888888888,
-        "precision": 0.9545454545454546,
-        "recall": 0.8076923076923077,
-        "f1": 0.875,
-        "tn": 27,
-        "fp": 1,
-        "fn": 5,
-        "tp": 21,
-        "false_alarm_rate": 0.03571428571428571,
-        "auc_pr": 0.9826037801112762,
-        "auc_roc": 0.9835164835164836
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tn": 28,
+        "fp": 0,
+        "fn": 0,
+        "tp": 26,
+        "false_alarm_rate": 0.0,
+        "auc_pr": 0.9999999999999998,
+        "auc_roc": 1.0,
+        "flag_recall": 1.0,
+        "flag_false_alarm": 0.03571428571428571
       },
       "hindi": {
         "n": 52,
         "scam": 26,
-        "accuracy": 0.8653846153846154,
+        "accuracy": 0.9615384615384616,
         "precision": 1.0,
-        "recall": 0.7307692307692307,
-        "f1": 0.8444444444444444,
+        "recall": 0.9230769230769231,
+        "f1": 0.96,
         "tn": 26,
         "fp": 0,
-        "fn": 7,
-        "tp": 19,
+        "fn": 2,
+        "tp": 24,
         "false_alarm_rate": 0.0,
-        "auc_pr": 0.977573131277684,
-        "auc_roc": 0.9763313609467457
+        "auc_pr": 0.9985754985754984,
+        "auc_roc": 0.9985207100591716,
+        "flag_recall": 0.9230769230769231,
+        "flag_false_alarm": 0.0
       },
       "hinglish": {
         "n": 54,
         "scam": 28,
-        "accuracy": 0.9074074074074074,
+        "accuracy": 0.9814814814814815,
         "precision": 1.0,
-        "recall": 0.8214285714285714,
-        "f1": 0.9019607843137255,
+        "recall": 0.9642857142857143,
+        "f1": 0.9818181818181818,
         "tn": 26,
         "fp": 0,
-        "fn": 5,
-        "tp": 23,
+        "fn": 1,
+        "tp": 27,
         "false_alarm_rate": 0.0,
-        "auc_pr": 0.9939455172750102,
-        "auc_roc": 0.9931318681318682
+        "auc_pr": 0.9976190476190476,
+        "auc_roc": 0.9972527472527473,
+        "flag_recall": 0.9642857142857143,
+        "flag_false_alarm": 0.07692307692307693
       }
     },
     "per_source": {
       "challenge_v1": {
         "n": 160,
         "scam": 80,
-        "accuracy": 0.8875,
-        "precision": 0.984375,
-        "recall": 0.7875,
-        "f1": 0.875,
-        "tn": 79,
-        "fp": 1,
-        "fn": 17,
-        "tp": 63,
-        "false_alarm_rate": 0.0125,
-        "auc_pr": 0.9840737439989189,
-        "auc_roc": 0.98390625
+        "accuracy": 0.98125,
+        "precision": 1.0,
+        "recall": 0.9625,
+        "f1": 0.9808917197452229,
+        "tn": 80,
+        "fp": 0,
+        "fn": 3,
+        "tp": 77,
+        "false_alarm_rate": 0.0,
+        "auc_pr": 0.9969655011475219,
+        "auc_roc": 0.99671875
       }
     },
     "calibration": {
-      "ece": 0.10400907858621353,
+      "ece": 0.026544547072333755,
       "bins": [
         {
           "bin": "0.0-0.1",
-          "n": 81,
-          "mean_p": 0.009247574526392233,
-          "frac_scam": 0.08641975308641975
+          "n": 77,
+          "mean_p": 0.0032843829816508146,
+          "frac_scam": 0.025974025974025976
         },
         {
           "bin": "0.1-0.2",
-          "n": 7,
-          "mean_p": 0.14562012917879139,
-          "frac_scam": 0.5714285714285714
+          "n": 5,
+          "mean_p": 0.16078375255906388,
+          "frac_scam": 0.2
         },
         {
           "bin": "0.2-0.3",
-          "n": 4,
-          "mean_p": 0.24304428410727247,
-          "frac_scam": 1.0
-        },
-        {
-          "bin": "0.3-0.4",
-          "n": 2,
-          "mean_p": 0.3407125625091747,
+          "n": 1,
+          "mean_p": 0.2872266946290553,
           "frac_scam": 0.0
-        },
-        {
-          "bin": "0.4-0.5",
-          "n": 2,
-          "mean_p": 0.43545598304745325,
-          "frac_scam": 1.0
         },
         {
           "bin": "0.5-0.6",
           "n": 2,
-          "mean_p": 0.5804223505053117,
-          "frac_scam": 1.0
-        },
-        {
-          "bin": "0.6-0.7",
-          "n": 1,
-          "mean_p": 0.6514890004426641,
+          "mean_p": 0.5337518927855633,
           "frac_scam": 1.0
         },
         {
           "bin": "0.7-0.8",
           "n": 1,
-          "mean_p": 0.7508578114247281,
+          "mean_p": 0.7123831272673194,
           "frac_scam": 1.0
         },
         {
           "bin": "0.8-0.9",
-          "n": 4,
-          "mean_p": 0.8862744290292673,
-          "frac_scam": 0.75
+          "n": 2,
+          "mean_p": 0.8636404071913816,
+          "frac_scam": 1.0
         },
         {
           "bin": "0.9-1.0",
-          "n": 56,
-          "mean_p": 0.989471343054463,
+          "n": 72,
+          "mean_p": 0.9927238219923891,
           "frac_scam": 1.0
         }
       ]
@@ -449,7 +1002,7 @@
       },
       "genuine_otp_messages": {
         "n": 11,
-        "false_alarm_rate": 0.09090909090909091
+        "false_alarm_rate": 0.0
       },
       "genuine_other": {
         "n": 58,
@@ -458,7 +1011,7 @@
       "by_language": {
         "english": {
           "n": 28,
-          "false_alarm_rate": 0.03571428571428571
+          "false_alarm_rate": 0.0
         },
         "hindi": {
           "n": 26,
@@ -476,57 +1029,116 @@
         },
         "medium": {
           "n": 43,
-          "false_alarm_rate": 0.023255813953488372
+          "false_alarm_rate": 0.0
         }
       }
     },
     "confident_mistakes": [
       {
-        "text": "निवेश करें 10,000 और 7 दिन में पाएं 50,000, गारंटीड रिटर्न। हमारे वीआईपी स्टॉक ग्रुप से जुड़ें।",
+        "text": "आपकी पीएम किसान की किस्त रुकी हुई है। बैंक विवरण यहाँ अपडेट करें।",
         "label": 1,
-        "p": 0.012,
+        "p": 0.009,
         "lang": "hindi"
-      },
-      {
-        "text": "आपके क्रेडिट कार्ड के 5000 रिवॉर्ड पॉइंट आज समाप्त हो रहे हैं। एपीके डाउनलोड करके रिडीम करें।",
-        "label": 1,
-        "p": 0.013,
-        "lang": "hindi"
-      },
-      {
-        "text": "Scan this QR to receive Rs 8,000 payment from our company for your resume selection.",
-        "label": 1,
-        "p": 0.027,
-        "lang": "english"
-      },
-      {
-        "text": "Hello, I accidentally sent Rs 5000 to your UPI, please return it. Also kindly approve the collect request I sent.",
-        "label": 1,
-        "p": 0.043,
-        "lang": "english"
       },
       {
         "text": "Aapki PM Kisan ki kist ruki hui hai. Bank details yahan update karo.",
         "label": 1,
-        "p": 0.06,
+        "p": 0.036,
         "lang": "hinglish"
+      },
+      {
+        "text": "फ्लिपकार्ट की ओर से 2000 रुपये का गिफ्ट वाउचर। अभी क्लेम करें। सीमित समय का ऑफर।",
+        "label": 1,
+        "p": 0.115,
+        "lang": "hindi"
       }
     ],
-    "ms_per_message_python": 1.1593073606491089
+    "ms_per_message_python": 2.098463475704193
   },
-  "status_note": "Added by the model-retrain review on 2026-11-23. These numbers describe the shipped model 2026-11-23.3. (1) The 'thresholds' field above was printed in error: model.json holds suspicious 0.1 and scam 0.35; the band counts below were computed with the printed 0.19 / 0.35. (2) This model was trained on 1184 rows, so the 'test' split numbers say nothing. (3) Evaluation messages leaked into its generated training data (see data/DATA.md). The corrected retrain candidate 2026-11-23.4 was evaluated and rejected: see docs/retrain_2026-11-23.4_candidate_report.md.",
-  "hashes": {
-    "model.json": "1becd172b7e6bdc028d951c53093e7713e3b5159f9b25e3e07be9b738f6d09bf",
-    "frozen_evaluation_files": {
-      "blind_v1.csv": "5fbb0cdde47b26eab3e768aabe1c1fbcb09864744a4ddd6996325591ce730718",
-      "eval_in.json": "ae26312ea707495b7e5853d49232c3314dde1544407b3a1a191de372a468a493",
-      "eval_otp_in.json": "b07a2180daa75ca364790a38ce70935c29fa2ad8e42fadc889f0da669d3f46d8",
-      "eval_evasion_in.json": "0250ec948b52e947e92bd06f13c5696b722a4c0f34387dc3896850e40ae231f4",
-      "voice/cvm_in.json": "f55a8ffcf4d0ae7673a2aee6aacd80d21d2df093586f3c09e11820bb7a839bb9",
-      "voice/cvm_in_asr.json": "6bcac8e180fc48e6aff228acd874c6c391dc4903a778ae027a134eeb588ef0ca",
-      "voice_hi/cvm_in_orig.json": "766cf6e4719341717fee6e9888468af720e76180a0841f836a8ef2a814597909",
-      "voice_hi/cvm_in_asr.json": "648ebba7cf2a8149617141eec8a0a2ad896ac2b110d243bf4bcc17513b4d0eb7",
-      "ai tuning/data/wild_big.csv": "712c8fc632548ea6314588316c385fc20afcfc0d6651c49f026bf8ffc4fd4837"
+  "frozen": {
+    "probe_eval_in": {
+      "scams": 399,
+      "caught": 387,
+      "caught_ci95": [
+        0.9482,
+        0.9827
+      ],
+      "genuine": 381,
+      "flagged": 16,
+      "flagged_ci95": [
+        0.026,
+        0.0671
+      ],
+      "auc_roc": 0.9923
+    },
+    "otp": {
+      "scams": 0,
+      "caught": 0,
+      "caught_ci95": null,
+      "genuine": 18,
+      "flagged": 0,
+      "flagged_ci95": [
+        0.0,
+        0.1759
+      ],
+      "auc_roc": null
+    },
+    "clips_asr_40": {
+      "scams": 22,
+      "caught": 15,
+      "caught_ci95": [
+        0.4732,
+        0.8364
+      ],
+      "genuine": 18,
+      "flagged": 0,
+      "flagged_ci95": [
+        0.0,
+        0.1759
+      ],
+      "auc_roc": 0.9949
+    },
+    "clips_hi_24": {
+      "scams": 12,
+      "caught": 12,
+      "caught_ci95": [
+        0.7575,
+        1.0
+      ],
+      "genuine": 12,
+      "flagged": 0,
+      "flagged_ci95": [
+        0.0,
+        0.2425
+      ],
+      "auc_roc": 1.0
+    },
+    "evasion_274": {
+      "scams": 274,
+      "caught": 274,
+      "caught_ci95": [
+        0.9862,
+        1.0
+      ],
+      "genuine": 0,
+      "flagged": 0,
+      "flagged_ci95": null,
+      "auc_roc": null
+    },
+    "blind_v1": {
+      "scams": 75,
+      "caught": 75,
+      "caught_ci95": [
+        0.9513,
+        1.0
+      ],
+      "genuine": 75,
+      "flagged": 1,
+      "flagged_ci95": [
+        0.0024,
+        0.0717
+      ],
+      "auc_roc": 0.9988
     }
   }
 }

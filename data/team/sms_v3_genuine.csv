@@ -1,16 +1,16 @@
 text,label,lang,group
-"Dear Customer, INR 499.00 debited from A/c *7745 on 25-Nov and credited to VPA shop@okaxis (UPI Ref No 908877665544). If not done by you, call the bank helpline. -SBI",0,english,bank_txn:en:s3a
-"Dear Customer, INR 7,800.00 debited from A/c *7745 on 28-Nov and credited to VPA shop@okaxis (UPI Ref No 317246859003). If not done by you, call the bank helpline. -Union Bank",0,english,bank_txn:en:s3a
-"Dear Customer, INR 7,800.00 debited from A/c *7745 on 05-Dec and credited to VPA shop@okaxis (UPI Ref No 908877665544). If not done by you, call the bank helpline. -Axis Bank",0,english,bank_txn:en:s3a
+"Dear Customer, INR 499.00 debited from A/c *7745 on 25-Nov and credited to VPA shop@okaxis (UPI Ref No 90887766554). If not done by you, call the bank helpline. -SBI",0,english,bank_txn:en:s3a
+"Dear Customer, INR 7,800.00 debited from A/c *7745 on 28-Nov and credited to VPA shop@okaxis (UPI Ref No 31724685900). If not done by you, call the bank helpline. -Union Bank",0,english,bank_txn:en:s3a
+"Dear Customer, INR 7,800.00 debited from A/c *7745 on 05-Dec and credited to VPA shop@okaxis (UPI Ref No 90887766554). If not done by you, call the bank helpline. -Axis Bank",0,english,bank_txn:en:s3a
 "Rs.2,350.50 spent on IDFC First Bank Card x4321 at Zomato on 01-Dec. Avl Lmt Rs.45,000. Not you? Call the number on the back of your card.",0,english,bank_txn:en:s3b
 "Rs.15,000.00 spent on Bank of Baroda Card x4321 at Amazon on 01-Dec. Avl Lmt Rs.45,000. Not you? Call the number on the back of your card.",0,english,bank_txn:en:s3b
 "Rs.2,350.50 spent on Kotak Mahindra Bank Card x4321 at Meesho on 05-Dec. Avl Lmt Rs.45,000. Not you? Call the number on the back of your card.",0,english,bank_txn:en:s3b
-"Your A/c XX1234 is credited with Rs 2,350.50 on 01-Dec by UPI Ref 908877665544. Avl Bal Rs 31,250.55. -Kotak Mahindra Bank",0,english,bank_txn:en:s3c
-"Your A/c XXXX3307 is credited with Rs 15,000.00 on 01-Dec by UPI Ref 412398765012. Avl Bal Rs 31,250.55. -Kotak Mahindra Bank",0,english,bank_txn:en:s3c
-"Your A/c *7745 is credited with Rs 7,800.00 on 01-Dec by UPI Ref 412398765012. Avl Bal Rs 31,250.55. -IDFC First Bank",0,english,bank_txn:en:s3c
-"A/c X4821 debited by 15,000.00 on 05-Dec trf to Flipkart Ref 552233441100. Not you? Call your bank immediately.",0,english,bank_txn:en:s3d
-"A/c *7745 debited by 1,200.00 on 12-Dec trf to Meesho Ref 552233441100. Not you? Call your bank immediately.",0,english,bank_txn:en:s3d
-"A/c *7745 debited by 1,200.00 on 28-Nov trf to BigBasket Ref 908877665544. Not you? Call your bank immediately.",0,english,bank_txn:en:s3d
+"Your A/c XX1234 is credited with Rs 2,350.50 on 01-Dec by UPI Ref 90887766554. Avl Bal Rs 31,250.55. -Kotak Mahindra Bank",0,english,bank_txn:en:s3c
+"Your A/c XXXX3307 is credited with Rs 15,000.00 on 01-Dec by UPI Ref 41239876501. Avl Bal Rs 31,250.55. -Kotak Mahindra Bank",0,english,bank_txn:en:s3c
+"Your A/c *7745 is credited with Rs 7,800.00 on 01-Dec by UPI Ref 41239876501. Avl Bal Rs 31,250.55. -IDFC First Bank",0,english,bank_txn:en:s3c
+"A/c X4821 debited by 15,000.00 on 05-Dec trf to Flipkart Ref 55223344110. Not you? Call your bank immediately.",0,english,bank_txn:en:s3d
+"A/c *7745 debited by 1,200.00 on 12-Dec trf to Meesho Ref 55223344110. Not you? Call your bank immediately.",0,english,bank_txn:en:s3d
+"A/c *7745 debited by 1,200.00 on 28-Nov trf to BigBasket Ref 90887766554. Not you? Call your bank immediately.",0,english,bank_txn:en:s3d
 "Canara Bank: Rs 12,400 withdrawn at ATM on 01-Dec. Avl Bal Rs 12,400.55. If not you call the bank helpline.",0,english,bank_txn:en:s3e
 "IDFC First Bank: Rs 12,400 withdrawn at ATM on 12-Dec. Avl Bal Rs 12,400.55. If not you call the bank helpline.",0,english,bank_txn:en:s3e
 "Canara Bank: Rs 4,500 withdrawn at ATM on 15-Dec. Avl Bal Rs 12,400.55. If not you call the bank helpline.",0,english,bank_txn:en:s3e
@@ -20,9 +20,9 @@ text,label,lang,group
 "Dear Customer, your cheque no 1029 for Rs 8,999 has been cleared on 05-Dec. -Bank of Baroda",0,english,bank_txn:en:s3g
 "Dear Customer, your cheque no 4821 for Rs 2,350 has been cleared on 23-Nov. -HDFC Bank",0,english,bank_txn:en:s3g
 "Dear Customer, your cheque no 9912 for Rs 4,500 has been cleared on 01-Dec. -Canara Bank",0,english,bank_txn:en:s3g
-Your standing instruction of Rs 250 to Swiggy was executed on 12-Dec. Ref 552233441100. -Canara Bank,0,english,bank_txn:en:s3h
-"Your standing instruction of Rs 8,999 to Flipkart was executed on 28-Nov. Ref 412398765012. -ICICI Bank",0,english,bank_txn:en:s3h
-Your standing instruction of Rs 99 to Amazon was executed on 28-Nov. Ref 908877665544. -Union Bank,0,english,bank_txn:en:s3h
+Your standing instruction of Rs 250 to Swiggy was executed on 12-Dec. Ref 55223344110. -Canara Bank,0,english,bank_txn:en:s3h
+"Your standing instruction of Rs 8,999 to Flipkart was executed on 28-Nov. Ref 41239876501. -ICICI Bank",0,english,bank_txn:en:s3h
+Your standing instruction of Rs 99 to Amazon was executed on 28-Nov. Ref 90887766554. -Union Bank,0,english,bank_txn:en:s3h
 "Dear Customer, your EMI of Rs 2,350 for loan A/c 4821 is due on 25-Nov. Please ensure sufficient balance. -Canara Bank",0,english,bank_notice:en:s3a
 "Dear Customer, your EMI of Rs 1,200 for loan A/c 3307 is due on 12-Dec. Please ensure sufficient balance. -Union Bank",0,english,bank_notice:en:s3a
 "Dear Customer, your EMI of Rs 250 for loan A/c 3307 is due on 15-Dec. Please ensure sufficient balance. -Union Bank",0,english,bank_notice:en:s3a

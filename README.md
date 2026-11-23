@@ -80,23 +80,25 @@ Point the app at the services with `VITE_API_BASE=http://localhost:8000` and `VI
 
 ## Evaluation
 
-The message model (`2026-11-23.3`) is a regularised logistic regression on character and word n-grams plus 25 interpretable warning signals, calibrated, 0.34 MB, scored by TypeScript on the phone. A parity test checks 247 saved examples against the Python scorer (identical tokens and signals, probabilities within 1e-6). The warning bands start at a calibrated probability of 0.10 (suspicious) and 0.35 (likely scam).
+The message model (`2026-11-24.1`) is a regularised logistic regression on character and word n-grams plus 26 interpretable warning signals, calibrated, 1.6 MB, scored by TypeScript on the phone. A parity test checks 247 saved examples against the Python scorer (identical tokens and signals, probabilities within 1e-6). The warning bands start at a calibrated probability of 0.18 (suspicious, shown amber) and 0.54 (likely scam, shown red); red is kept for messages the model is sure about, so an app that notifies the user should notify on red and only list amber. What changed since `2026-11-23.3` (which was trained on 1,184 messages by mistake) and what is not yet measured is in [docs/model_2026-11-24.1.md](docs/model_2026-11-24.1.md).
 
-**Read these numbers with care (review of 23 Nov 2026).** This model was trained on 1,184 messages, not the roughly 16,700 it should have used (its work folder did not contain the git-ignored public datasets), and some evaluation messages leaked into its generated training data, so its results on the blind and probe sets are flattering. Its scores on its own "test split" (202 messages) say nothing and are no longer quoted. A corrected retrain (`2026-11-23.4`: full data, a leak guard, capped weight for the generated data, two hard-negative rounds) was evaluated and did **not** meet the acceptance rules, so it was not shipped: it recovered the challenge-set recall (0.887, F1 0.934) but missed too many independently written scams at its chosen cut (probe set 377 of 399, spoken-clip texts 15 of 22, adversarial rewrites 117 of 274). The full comparison is in [docs/retrain_2026-11-23.4_candidate_report.md](docs/retrain_2026-11-23.4_candidate_report.md).
-
-| Set (shipped model) | Messages | Result | Keyword-only baseline F1 |
+| Set | Messages | `2026-11-23.3` (earlier) | `2026-11-24.1` (this model) |
 |---|---|---|---|
-| Hand-written challenge set (never trained on) | 160 | precision / recall / F1 (scam, p ≥ 0.5) 0.984 / 0.787 / 0.875; 1 of 80 genuine flagged | 0.222 |
-| Probe set written by others | 780 | scams caught 387 of 399; genuine flagged 25 of 381 (flattered by the leak) | |
-| Spoken-clip texts as speech-to-text heard them | 40 | scams caught 19 of 22; genuine flagged 0 of 18 | |
-| Adversarial rewrites of scams | 274 | caught 120 | |
+| Probe set written by others, never trained on | 780 | scams caught 387 of 399; genuine flagged 25 of 381 (flattered by a leak) | scams caught 387 of 399; genuine flagged 16 of 381 |
+| `blind_v1`, clean since the leak guard | 150 | 75 of 75 caught; 1 of 75 flagged (flattered by the leak) | 75 of 75 caught; 1 of 75 flagged |
+| Genuine OTP / verification messages | 18 | 0 flagged | 0 flagged |
+| Spoken-clip texts as speech-to-text heard them | 40 | scams caught 19 of 22; genuine flagged 0 of 18 | scams caught **15 of 22**; genuine flagged 0 of 18 |
+| Hindi / Hinglish spoken-clip texts | 24 | 12 of 12 caught; 1 of 12 flagged | 12 of 12 caught; 0 of 12 flagged |
+| Adversarial rewrites of scams (all scams) | 274 | caught 120 | caught 274 (the new text cleaning undoes most of the tricks; recall only, no false-alarm information) |
+| Hand-written challenge set, p >= 0.5 | 160 | precision / recall / F1 0.984 / 0.787 / 0.875 | 1.000 / 0.963 / 0.981 (**no longer independent**, see below) |
+| Group-aware test split (templated, optimistic) | 3,699 | not comparable (202 messages) | 0.994 / 0.959 / 0.976 at p >= 0.5; 0.987 / 0.989 / 0.988 at the app's warning cut |
 
-The challenge set is hand-written but small (160 messages, wide uncertainty) and was inspected during development; the sets written by other people are the more honest numbers. Per-language results, bias checks and calibration are in [docs/evaluation_report.md](docs/evaluation_report.md) (read its status note first).
+"Caught" means shown as suspicious or likely scam; "flagged" is the same for genuine messages. The keyword-only baseline scores F1 0.222 on the challenge set. **Read these numbers with care.** The challenge set was written by the model's authors and inspected during development, and its confident misses were visible when the `2026-11-24.1` signals and data were written, so its 0.963 is no longer an independent test; the probe, blind and clip sets were written by other people and never trained on, and are the more honest numbers. The spoken-clip result is four scams lower than the earlier model on a small set (22 scams, a wide interval); this number comes from the message model alone, and the call screen also applies its call-script rules. The frozen evaluation sets have been scored four times in total (three for earlier candidates, once for this model with the owner's approval). Development sets used to build the model are in `ml/dev` and are not independent tests. Per-language results, bias checks and calibration are in [docs/evaluation_report.md](docs/evaluation_report.md).
 
 ## Limitations
 
-- The shipped model was trained on far less data than intended and its probe and blind-set results are flattered by leaked rows (see the Evaluation section). Test-split scores on the public datasets are optimistic anyway because that data is templated English. The challenge set was written by the model's authors, so it is not fully blind.
-- Hindi (Devanagari) training data is small; Hindi recall on the challenge set is 0.73.
+- Test-split scores on the public datasets are optimistic because that data is templated English. The challenge set was written by the model's authors and is no longer independent (see the Evaluation section). Scammers who disguise their wording can still get through: the development rewrite set catches 94% of rewritten scams, not all of them.
+- Hindi (Devanagari) training data is small (about 900 corpus rows, all team-written); Hindi recall on the challenge set is 0.92 on 26 scams, a wide interval.
 - Call analysis supports Hindi and Hinglish only. There is no speech recognition for Chhattisgarhi, and audio transcription needs a connection.
 - Live detection during a call is not possible in a web app: phone systems do not let browsers hear a call in progress. The "On a call right now?" card is the substitute.
 - Scammers change wording; the model reflects its training data only. No check is perfect, and the app never calls anything "safe".
