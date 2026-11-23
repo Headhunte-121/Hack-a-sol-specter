@@ -121,8 +121,10 @@ def create_app(db_path: str | None = None, secret: str | None = None, min_count:
 
     WEEK = "date(date, '-6 days', 'weekday 1')"
 
-    def filters(region: str | None, category: str | None, channel: str | None, start: str, end: str):
+    def filters(region: str | None, category: str | None, channel: str | None, start: str, end: str, demo: bool = True):
         where, params = ["date >= ?", "date <= ?"], [start, end]
+        if not demo:
+            where.append("source <> 'seed'")  # production view: only reports that came from the app, never the labelled demo rows
         for col, val in (("region_code", region), ("scam_category", category), ("channel", channel)):
             if val:
                 where.append(f"{col} = ?")
@@ -164,9 +166,9 @@ def create_app(db_path: str | None = None, secret: str | None = None, min_count:
     # ------------------------------------------------------------------ read endpoints (aggregates only)
     @app.get("/trends")
     def trends(group: str = Query("week", pattern="^(week|region)$"), region: str | None = None, category: str | None = None, channel: str | None = None,
-               frm: str | None = Query(None, alias="from"), to: str | None = None):
+               frm: str | None = Query(None, alias="from"), to: str | None = None, demo: bool = True):
         start, end = date_range(frm, to)
-        where, params = filters(region, category, channel, start, end)
+        where, params = filters(region, category, channel, start, end, demo)
         if group == "week":
             rows = db.query(f"SELECT {WEEK} AS week_start, scam_category, SUM(report_count) AS report_count FROM daily_aggregates WHERE {where} GROUP BY week_start, scam_category ORDER BY week_start", params)
         else:
@@ -174,33 +176,33 @@ def create_app(db_path: str | None = None, secret: str | None = None, min_count:
         shown = [r for r in rows if r["report_count"] >= MIN]  # applySuppression
         return {"group": group, "min_count": MIN, "suppressed_cells": len(rows) - len(shown), "includes_seed": includes_seed(where, params), "rows": shown}
 
-    def window_counts(region: str | None, days_ago_start: int, days_ago_end: int) -> dict[str, int]:
+    def window_counts(region: str | None, days_ago_start: int, days_ago_end: int, demo: bool = True) -> dict[str, int]:
         end = (now() - timedelta(days=days_ago_end)).strftime("%Y-%m-%d")
         start = (now() - timedelta(days=days_ago_start)).strftime("%Y-%m-%d")
-        where, params = filters(region, None, None, start, end)
+        where, params = filters(region, None, None, start, end, demo)
         return {r["scam_category"]: r["n"] for r in db.query(f"SELECT scam_category, SUM(report_count) AS n FROM daily_aggregates WHERE {where} GROUP BY scam_category", params)}
 
     @app.get("/trends/top")
-    def top(region: str | None = None, days: int = Query(7, ge=1, le=60)):
-        counts = window_counts(region, days - 1, 0)
+    def top(region: str | None = None, days: int = Query(7, ge=1, le=60), demo: bool = True):
+        counts = window_counts(region, days - 1, 0, demo)
         ranked = sorted(((c, n) for c, n in counts.items() if n >= MIN), key=lambda x: -x[1])
         return {"days": days, "min_count": MIN, "rows": [{"scam_category": c, "report_count": n} for c, n in ranked]}
 
     @app.get("/trends/overview")
-    def overview(region: str | None = None):
-        cur, prev = window_counts(region, 6, 0), window_counts(region, 13, 7)
+    def overview(region: str | None = None, demo: bool = True):
+        cur, prev = window_counts(region, 6, 0, demo), window_counts(region, 13, 7, demo)
         cur = {c: n for c, n in cur.items() if n >= MIN}
         prev = {c: n for c, n in prev.items() if n >= MIN}
         total, ptotal = sum(cur.values()), sum(prev.values())
         change = None if ptotal == 0 else round((total - ptotal) / ptotal * 100, 1)
-        where, params = filters(region, None, None, (now() - timedelta(days=13)).strftime("%Y-%m-%d"), now().strftime("%Y-%m-%d"))
+        where, params = filters(region, None, None, (now() - timedelta(days=13)).strftime("%Y-%m-%d"), now().strftime("%Y-%m-%d"), demo)
         return {"this_week_total": total, "last_week_total": ptotal, "change_pct": change, "min_count": MIN,
                 "top3": [{"scam_category": c, "report_count": n} for c, n in sorted(cur.items(), key=lambda x: -x[1])[:3]], "includes_seed": includes_seed(where, params)}
 
     @app.get("/trends/rising")
-    def rising():
+    def rising(demo: bool = True):
         """suggestFromReports: categories whose weekly count rises sharply, as a prompt for a human to write an alert."""
-        cur, prev = window_counts(None, 6, 0), window_counts(None, 13, 7)
+        cur, prev = window_counts(None, 6, 0, demo), window_counts(None, 13, 7, demo)
         rows = [{"scam_category": c, "this_week": n, "last_week": prev.get(c, 0)} for c, n in cur.items() if n >= MIN and n >= 2 * max(1, prev.get(c, 0))]
         return {"rows": sorted(rows, key=lambda r: -r["this_week"])}
 

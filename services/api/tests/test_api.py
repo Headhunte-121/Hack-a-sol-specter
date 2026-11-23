@@ -119,6 +119,34 @@ def test_seeded_demo_data_is_labelled_and_suppression_applies(clock):
     assert isinstance(rising, set)
 
 
+def test_demo_off_returns_only_real_reports_and_never_unlabelled_demo_numbers(clock):
+    app, c = make(clock, min_count=5)
+    seed_demo_data(app.state.db, now=NOW)
+    real = [{**GOOD, "client_batch_id": f"real-0000{i}"} for i in range(6)]
+    assert c.post("/reports/batch", json={"reports": real}, headers={"X-Client-Token": TOKEN}).status_code == 200
+
+    with_demo = c.get("/trends/overview").json()  # the default is unchanged
+    assert with_demo["includes_seed"] is True and with_demo["this_week_total"] > 6
+
+    ov = c.get("/trends/overview", params={"demo": 0}).json()
+    assert ov["includes_seed"] is False
+    assert ov["this_week_total"] == 6 and ov["top3"] == [{"scam_category": "kyc_bank", "report_count": 6}]
+
+    t = c.get("/trends", params={"group": "region", "demo": "false"}).json()
+    assert t["includes_seed"] is False
+    assert [(r["region_code"], r["scam_category"], r["report_count"]) for r in t["rows"]] == [("raipur", "kyc_bank", 6)]
+    assert c.get("/trends/top", params={"demo": 0}).json()["rows"] == [{"scam_category": "kyc_bank", "report_count": 6}]
+    assert c.get("/trends/rising", params={"demo": 0}).json()["rows"] == [{"scam_category": "kyc_bank", "this_week": 6, "last_week": 0}]  # from the real six only
+
+
+def test_demo_off_with_no_real_reports_shows_nothing(clock):
+    app, c = make(clock, min_count=5)
+    seed_demo_data(app.state.db, now=NOW)
+    ov = c.get("/trends/overview", params={"demo": 0}).json()
+    assert ov["includes_seed"] is False and ov["this_week_total"] == 0 and ov["top3"] == []
+    assert c.get("/trends", params={"demo": 0}).json()["rows"] == []
+
+
 def test_purge_removes_old_raw_rows_and_rate_logs_but_keeps_aggregates(clock):
     app, c = make(clock, min_count=1)
     post(c, GOOD)
