@@ -1,4 +1,5 @@
 import type { ComponentProps } from 'react'
+import { useLang } from '../../shell/i18n'
 import { Icon } from '../../shell/ui'
 
 type IconName = ComponentProps<typeof Icon>['name']
@@ -31,6 +32,7 @@ export function ServiceCard({
   tone = 'blue',
   highlight = false,
 }: ServiceCardProps) {
+  const { t } = useLang()
   const href = to.startsWith('#') ? to : `#${to.startsWith('/') ? to : `/${to}`}`
   const style = TONE_STYLES[tone]
 
@@ -48,8 +50,8 @@ export function ServiceCard({
           <Icon name={icon} size={22} />
         </span>
         {highlight && (
-          <span className="rounded-full bg-[#1B3B73]/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-[#1B3B73]">
-            Quick
+          <span className="rounded-full bg-[#1B3B73]/10 px-2 py-0.5 text-[10px] font-bold tracking-wide text-[#1B3B73]">
+            {t('home.quick_badge')}
           </span>
         )}
       </div>

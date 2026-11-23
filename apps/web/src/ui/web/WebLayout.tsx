@@ -3,6 +3,7 @@ import { useLang } from '../../shell/i18n'
 import type { LayoutProps } from '../../shell/Layout'
 import { useOnlineStatus } from '../../shell/online'
 import { Icon } from '../../shell/ui'
+import { goBack } from '../shared/goBack'
 import { LangPill } from '../shared/LanguageSwitch'
 import { useHashRoute } from '../shared/useViewport'
 
@@ -15,7 +16,7 @@ export function WebLayout({ children, back = true, onBack, title, lead, backTo =
   const showBack = back || Boolean(onBack)
 
   const navItems: { href: string; icon: IconName; label: string }[] = [
-    { href: '#/', icon: 'shield', label: 'Dashboard' },
+    { href: '#/', icon: 'shield', label: t('nav.home') },
     { href: '#/message', icon: 'message', label: t('tile.message') },
     { href: '#/call', icon: 'phone', label: t('tile.call') },
     { href: '#/qr', icon: 'qr', label: t('tile.qr') },
@@ -38,7 +39,7 @@ export function WebLayout({ children, back = true, onBack, title, lead, backTo =
             </span>
             <div>
               <div className="text-[18px] font-extrabold leading-none text-[#1B3B73]">Suraksha</div>
-              <div className="mt-0.5 text-[11px] font-semibold text-slate-500">Offline Cyber Shield</div>
+              <div className="mt-0.5 text-[11px] font-semibold text-slate-500">{t('web.tagline')}</div>
             </div>
           </a>
 
@@ -47,7 +48,7 @@ export function WebLayout({ children, back = true, onBack, title, lead, backTo =
               <a
                 key={item.href}
                 href={item.href}
-                className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-[14px] font-semibold transition-colors ${
+                className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-[14px]! font-semibold! transition-colors ${
                   isActive(item.href)
                     ? 'bg-[#1B3B73] text-white shadow-xs'
                     : 'text-slate-700 hover:bg-slate-100'
@@ -63,20 +64,20 @@ export function WebLayout({ children, back = true, onBack, title, lead, backTo =
         <div className="space-y-2 border-t border-slate-100 pt-4">
           <a
             href="#/during-call"
-            className="flex items-center justify-between rounded-xl bg-red-600 px-3.5 py-2.5 text-[13px] font-bold text-white shadow-xs transition-colors hover:bg-red-700"
+            className="flex items-center justify-between rounded-xl bg-red-600 px-3.5 py-2.5 text-[13px]! font-bold! text-white shadow-xs transition-colors hover:bg-red-700"
           >
             <span className="flex items-center gap-2">
               <Icon name="warn" size={16} color="#fff" />
-              SOS Call Help
+              {t('web.sos_help')}
             </span>
-            <span className="rounded-full bg-white/20 px-2 py-0.5 text-[11px]">SOS</span>
+            <span className="rounded-full bg-white/20 px-2 py-0.5 text-[11px]">{t('nav.sos')}</span>
           </a>
 
           <a
             href="tel:1930"
-            className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-[13px] font-bold text-ink hover:border-[#1B3B73]"
+            className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-[13px]! font-bold! text-ink hover:border-[#1B3B73]"
           >
-            <span>Cyber Helpline</span>
+            <span>{t('web.helpline')}</span>
             <span className="rounded-md bg-[#1B3B73] px-2 py-0.5 text-[12px] text-white">1930</span>
           </a>
         </div>
@@ -85,24 +86,17 @@ export function WebLayout({ children, back = true, onBack, title, lead, backTo =
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-slate-200 bg-white/90 px-8 backdrop-blur-md">
           <div className="flex items-center gap-3">
-            {showBack &&
-              (onBack ? (
-                <button
-                  type="button"
-                  onClick={onBack}
-                  className="inline-flex cursor-pointer items-center gap-1 rounded-lg border border-slate-200 px-2.5 py-1 text-[13px] font-semibold text-slate-600 hover:bg-slate-50"
-                >
-                  ‹ Back
-                </button>
-              ) : (
-                <a
-                  href={backTo}
-                  className="inline-flex items-center gap-1 rounded-lg border border-slate-200 px-2.5 py-1 text-[13px] font-semibold text-slate-600 hover:bg-slate-50"
-                >
-                  ‹ Back
-                </a>
-              ))}
-            <h2 className="text-[18px] font-bold text-ink">{title ?? 'Overview'}</h2>
+            {showBack && (
+              <button
+                type="button"
+                onClick={() => goBack(onBack, backTo)}
+                className="inline-flex cursor-pointer items-center gap-1 rounded-lg border border-slate-200 px-2.5 py-1 text-[13px]! font-semibold! text-slate-600 hover:bg-slate-50"
+              >
+                <Icon name="back" size={16} stroke={2.5} />
+                {t('common.back')}
+              </button>
+            )}
+            <h2 className="text-[18px] font-bold text-ink">{title ?? t('nav.home')}</h2>
           </div>
 
           <div className="flex items-center gap-2.5">

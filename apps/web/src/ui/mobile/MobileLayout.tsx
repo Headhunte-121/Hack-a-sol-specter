@@ -2,6 +2,7 @@ import { useLang } from '../../shell/i18n'
 import type { LayoutProps } from '../../shell/Layout'
 import { useOnlineStatus } from '../../shell/online'
 import { Icon } from '../../shell/ui'
+import { goBack } from '../shared/goBack'
 import { LangPill } from '../shared/LanguageSwitch'
 import { BottomNav } from './BottomNav'
 
@@ -16,24 +17,14 @@ export function MobileLayout({ children, back = true, onBack, title, lead, backT
         <div className="mx-auto flex h-14 max-w-lg items-center justify-between gap-2 px-4">
           <div className="flex min-w-0 items-center gap-2.5">
             {showBack ? (
-              onBack ? (
-                <button
-                  type="button"
-                  onClick={onBack}
-                  aria-label="Back"
-                  className="flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-full bg-white/10 text-lg font-bold text-white active:bg-white/20"
-                >
-                  ‹
-                </button>
-              ) : (
-                <a
-                  href={backTo}
-                  aria-label="Back"
-                  className="flex size-9 shrink-0 items-center justify-center rounded-full bg-white/10 text-lg font-bold text-white active:bg-white/20"
-                >
-                  ‹
-                </a>
-              )
+              <button
+                type="button"
+                onClick={() => goBack(onBack, backTo)}
+                aria-label={t('common.back')}
+                className="flex size-9 shrink-0 cursor-pointer items-center justify-center rounded-full bg-white/10 text-white active:bg-white/20"
+              >
+                <Icon name="back" size={20} stroke={2.5} color="#fff" />
+              </button>
             ) : (
               <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-white/15">
                 <Icon name="shield" size={18} color="#fff" />

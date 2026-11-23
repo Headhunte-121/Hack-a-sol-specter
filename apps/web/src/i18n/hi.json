@@ -162,6 +162,9 @@
   "home.lang_button": "भाषा: {name}",
   "home.more": "और विकल्प",
   "home.offline_ok": "बिना इंटरनेट भी चलता है",
+  "home.quick_badge": "जल्दी",
+  "home.quick_services": "त्वरित सेवाएँ",
+  "home.search_hint": "संदेश, एसएमएस या लिंक जाँचें",
   "home.tagline": "संदेश, कॉल और क्यूआर जाँचें। बिना इंटरनेट भी चलता है।",
   "install.benefit": "एक टैप में खोलने के लिए इंस्टॉल करें, इंटरनेट के बिना भी।",
   "install.button": "ऐप इंस्टॉल करें",
@@ -200,6 +203,11 @@
   "learn.todo": "क्या करें",
   "learn.topic_bars": "विषय के अनुसार आपका स्कोर",
   "learn.weakest_tag": "सबसे कमज़ोर",
+  "nav.check": "जाँचें",
+  "nav.home": "होम",
+  "nav.learn": "सीखें",
+  "nav.settings": "सेटिंग",
+  "nav.sos": "एसओएस",
   "privacy.consent.body": "आप सहमत हों तो केवल ठगी का प्रकार, माध्यम और आपका ज़िला भेजा जाएगा। आपका संदेश, नंबर, नाम या ऑडियो कभी नहीं। आप इसे कभी भी बंद कर सकते हैं।",
   "privacy.consent.off": "साझा न करें",
   "privacy.consent.on": "गुमनाम गिनती साझा करें",
@@ -410,5 +418,10 @@
   "trends.view_table": "तालिका के रूप में देखें",
   "update.later": "बाद में",
   "update.ready": "नया संस्करण तैयार है।",
-  "update.refresh": "अभी रीफ़्रेश करें"
+  "update.refresh": "अभी रीफ़्रेश करें",
+  "web.emergency": "आपातकालीन मदद और चेतावनी",
+  "web.helpline": "साइबर हेल्पलाइन",
+  "web.modules": "सुरक्षा के साधन",
+  "web.sos_help": "कॉल पर मदद",
+  "web.tagline": "बिना इंटरनेट साइबर सुरक्षा"
 }

@@ -34,7 +34,7 @@ export function HomeWeb(props: HomeViewProps) {
 
           <a
             href="#/message"
-            className="inline-flex shrink-0 items-center gap-2 rounded-2xl bg-white px-5 py-3.5 text-[15px] font-bold text-[#1B3B73] shadow-sm transition hover:bg-blue-50"
+            className="inline-flex shrink-0 items-center gap-2 rounded-2xl bg-white px-5 py-3.5 text-[15px]! font-bold! text-[#1B3B73] shadow-sm transition hover:bg-blue-50"
           >
             <Icon name="search" size={18} />
             {t('tile.message')}
@@ -46,7 +46,7 @@ export function HomeWeb(props: HomeViewProps) {
 
       <div className="grid grid-cols-12 gap-6">
         <div className="col-span-8 space-y-4">
-          <h2 className="text-[13px] font-bold uppercase tracking-wider text-slate-500">Protection Modules</h2>
+          <h2 className="text-[13px] font-bold tracking-wider text-slate-500">{t('web.modules')}</h2>
           <nav aria-label="modules" className="grid grid-cols-3 gap-4">
             <ServiceCard to="/message" icon="message" title={t('tile.message')} sub={t('tile.message.sub')} tone="blue" highlight />
             <ServiceCard to="/call" icon="phone" title={t('tile.call')} sub={t('tile.call.sub')} tone="indigo" />
@@ -58,7 +58,7 @@ export function HomeWeb(props: HomeViewProps) {
         </div>
 
         <div className="col-span-4 space-y-4">
-          <h2 className="text-[13px] font-bold uppercase tracking-wider text-slate-500">Emergency & Alerts</h2>
+          <h2 className="text-[13px] font-bold tracking-wider text-slate-500">{t('web.emergency')}</h2>
 
           <a
             href="#/during-call"
@@ -73,7 +73,7 @@ export function HomeWeb(props: HomeViewProps) {
                 <div className="text-[13px] text-bad/80">{t('home.duringcall.sub')}</div>
               </div>
             </div>
-            <span className="rounded-full bg-bad-line px-3 py-1 text-[12px] font-extrabold text-white">SOS</span>
+            <span className="rounded-full bg-bad-line px-3 py-1 text-[12px] font-extrabold text-white">{t('nav.sos')}</span>
           </a>
 
           <AlertsFeed />

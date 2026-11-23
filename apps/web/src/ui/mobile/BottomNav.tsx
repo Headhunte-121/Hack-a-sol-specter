@@ -10,7 +10,7 @@ export function BottomNav() {
     path === '#/' ? hash === '' || hash === '#' || hash === '#/' : hash.startsWith(path)
 
   const linkCls = (path: string) =>
-    `flex flex-col items-center justify-center gap-0.5 py-1.5 text-[11px] font-semibold transition-colors ${
+    `flex flex-col items-center justify-center gap-0.5 py-1.5 text-[11px]! font-semibold! leading-tight transition-colors ${
       isActive(path) ? 'text-[#1B3B73]' : 'text-slate-500'
     }`
 
@@ -22,29 +22,29 @@ export function BottomNav() {
       <div className="mx-auto grid max-w-lg grid-cols-5 items-end px-2 pt-1 pb-1.5">
         <a href="#/" className={linkCls('#/')}>
           <Icon name="shield" size={20} />
-          <span>Home</span>
+          <span>{t('nav.home')}</span>
         </a>
 
         <a href="#/message" className={linkCls('#/message')}>
           <Icon name="message" size={20} />
-          <span>Check</span>
+          <span>{t('nav.check')}</span>
         </a>
 
         <a href="#/during-call" className="-mt-6 flex flex-col items-center" aria-label={t('home.duringcall.title')}>
           <span className="flex size-14 items-center justify-center rounded-full border-4 border-white bg-red-600 text-[13px] font-extrabold tracking-wide text-white shadow-lg active:scale-95">
-            SOS
+            <Icon name="warn" size={26} color="#fff" />
           </span>
-          <span className="mt-0.5 text-[11px] font-bold text-red-600">SOS</span>
+          <span className="mt-0.5 text-[11px] font-bold text-red-600">{t('nav.sos')}</span>
         </a>
 
         <a href="#/learn" className={linkCls('#/learn')}>
           <Icon name="book" size={20} />
-          <span>Learn</span>
+          <span>{t('nav.learn')}</span>
         </a>
 
         <a href="#/settings" className={linkCls('#/settings')}>
           <Icon name="gear" size={20} />
-          <span>{t('settings.title')}</span>
+          <span>{t('nav.settings')}</span>
         </a>
       </div>
     </nav>

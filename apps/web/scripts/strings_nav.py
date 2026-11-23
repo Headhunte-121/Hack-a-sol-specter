@@ -1,0 +1,15 @@
+S = {
+ "nav.home": ("Home", "होम", "होम"),
+ "nav.check": ("Check", "जाँचें", "जांचव"),
+ "nav.learn": ("Learn", "सीखें", "सीखव"),
+ "nav.settings": ("Settings", "सेटिंग", "सेटिंग"),
+ "nav.sos": ("SOS", "एसओएस", "एसओएस"),
+ "home.quick_services": ("Quick services", "त्वरित सेवाएँ", "तुरंत सेवा"),
+ "home.quick_badge": ("Quick", "जल्दी", "जल्दी"),
+ "home.search_hint": ("Check a message, SMS or link", "संदेश, एसएमएस या लिंक जाँचें", "संदेस, एसएमएस या लिंक जांचव"),
+ "web.tagline": ("Offline cyber shield", "बिना इंटरनेट साइबर सुरक्षा", "बिना इंटरनेट साइबर सुरक्षा"),
+ "web.sos_help": ("Help on a call", "कॉल पर मदद", "कॉल म मदद"),
+ "web.helpline": ("Cyber helpline", "साइबर हेल्पलाइन", "साइबर हेल्पलाइन"),
+ "web.modules": ("Protection tools", "सुरक्षा के साधन", "सुरक्षा के साधन"),
+ "web.emergency": ("Emergency and alerts", "आपातकालीन मदद और चेतावनी", "आपातकालीन मदद अउ चेतावनी"),
+}

@@ -162,6 +162,9 @@
   "home.lang_button": "Language: {name}",
   "home.more": "More",
   "home.offline_ok": "Works without internet",
+  "home.quick_badge": "Quick",
+  "home.quick_services": "Quick services",
+  "home.search_hint": "Check a message, SMS or link",
   "home.tagline": "Check messages, calls and QR codes. Works offline.",
   "install.benefit": "Install for one-tap access, even without internet.",
   "install.button": "Install app",
@@ -200,6 +203,11 @@
   "learn.todo": "What to do",
   "learn.topic_bars": "Your score by topic",
   "learn.weakest_tag": "weakest",
+  "nav.check": "Check",
+  "nav.home": "Home",
+  "nav.learn": "Learn",
+  "nav.settings": "Settings",
+  "nav.sos": "SOS",
   "privacy.consent.body": "If you agree, only the scam type, channel and your district are sent. Never your message, number, name or audio. You can turn this off any time.",
   "privacy.consent.off": "Do not share",
   "privacy.consent.on": "Share anonymous counts",
@@ -410,5 +418,10 @@
   "trends.view_table": "View as a table",
   "update.later": "Later",
   "update.ready": "A new version is ready.",
-  "update.refresh": "Refresh now"
+  "update.refresh": "Refresh now",
+  "web.emergency": "Emergency and alerts",
+  "web.helpline": "Cyber helpline",
+  "web.modules": "Protection tools",
+  "web.sos_help": "Help on a call",
+  "web.tagline": "Offline cyber shield"
 }
