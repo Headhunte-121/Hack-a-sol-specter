@@ -80,6 +80,11 @@ function FilePlayer({ source, onLine }: { source: Extract<AudioSource, { kind: '
   const [captions, setCaptions] = useState<Captions | null>(null)
   const [announce, setAnnounce] = useState('')
   const prev = useRef(state)
+  const mounted = useRef(true)
+
+  const safeDispatch: typeof dispatch = (action) => {
+    if (mounted.current) dispatch(action)
+  }
 
   // Use the downloaded copy when there is one (it plays with no internet), otherwise the normal address.
   useEffect(() => {
@@ -118,21 +123,27 @@ function FilePlayer({ source, onLine }: { source: Extract<AudioSource, { kind: '
   useEffect(() => {
     const key = announcementKey(prev.current, state)
     prev.current = state
-    if (key) setAnnounce(t(key, { rate: state.rate }))
+    if (key && mounted.current) setAnnounce(t(key, { rate: state.rate }))
   }, [state, t])
-  useEffect(() => () => audio.current?.pause(), [])
+  useEffect(() => {
+    mounted.current = true
+    return () => {
+      mounted.current = false
+      audio.current?.pause()
+    }
+  }, [])
 
   const toggle = () => {
     const el = audio.current
     if (!el) return
     if (el.paused || el.ended) {
-      dispatch({ type: 'play' })
-      el.play().catch(() => dispatch({ type: 'error' }))
+      safeDispatch({ type: 'play' })
+      el.play().catch(() => safeDispatch({ type: 'error' }))
     } else el.pause()
   }
   const seek = (time: number) => {
     if (audio.current) audio.current.currentTime = time
-    dispatch({ type: 'seek', time })
+    safeDispatch({ type: 'seek', time })
   }
   const active = captions ? activeSegment(captions.segments, state.time) : -1
   const playing = state.status === 'playing' || state.status === 'loading'
@@ -145,14 +156,14 @@ function FilePlayer({ source, onLine }: { source: Extract<AudioSource, { kind: '
         src={src?.src}
         preload={src?.fromCache ? 'metadata' : 'none'}
         onLoadedMetadata={(e) => {
-          dispatch({ type: 'loaded', duration: e.currentTarget.duration })
+          safeDispatch({ type: 'loaded', duration: e.currentTarget.duration })
           e.currentTarget.playbackRate = state.rate
         }}
-        onTimeUpdate={(e) => dispatch({ type: 'time', time: e.currentTarget.currentTime })}
-        onPlay={() => dispatch({ type: 'play' })}
-        onPause={() => dispatch({ type: 'pause' })}
-        onEnded={() => dispatch({ type: 'ended' })}
-        onError={() => dispatch({ type: 'error' })}
+        onTimeUpdate={(e) => safeDispatch({ type: 'time', time: e.currentTarget.currentTime })}
+        onPlay={() => safeDispatch({ type: 'play' })}
+        onPause={() => safeDispatch({ type: 'pause' })}
+        onEnded={() => safeDispatch({ type: 'ended' })}
+        onError={() => safeDispatch({ type: 'error' })}
       />
 
       {/* Primary Control Row: Play Pill + Inline Speed Controls */}
@@ -167,7 +178,7 @@ function FilePlayer({ source, onLine }: { source: Extract<AudioSource, { kind: '
           <span>{playing ? t('learn.audio.pause') : t('learn.audio.play')}</span>
         </button>
 
-        <RateButtons rate={state.rate} onRate={(r) => dispatch({ type: 'rate', rate: asRate(r) })} />
+        <RateButtons rate={state.rate} onRate={(r) => safeDispatch({ type: 'rate', rate: asRate(r) })} />
       </div>
 
       {/* Sleek Scrubber Row */}
@@ -196,7 +207,6 @@ function FilePlayer({ source, onLine }: { source: Extract<AudioSource, { kind: '
           {formatClock(state.duration)}
         </span>
       </div>
-
       {state.status === 'error' && <Banner tone="warn">{t('learn.audio.error')}</Banner>}
 
       {captions && (

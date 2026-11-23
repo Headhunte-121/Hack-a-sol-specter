@@ -19,6 +19,10 @@ interface QuizSurpriseProps {
   onOpenMysteryChest: (reward: 'fiftyFifty' | 'clue' | 'shield') => void
   lang: Lang
   isMuted?: boolean
+  chestModalOpen?: boolean
+  onToggleChestModal?: (open: boolean) => void
+  isFiftyFiftyDisabled?: boolean
+  isFinalQuestion?: boolean
 }
 
 export function QuizSurprise({
@@ -30,9 +34,19 @@ export function QuizSurprise({
   onOpenMysteryChest,
   lang,
   isMuted = false,
+  chestModalOpen: controlledChestModalOpen,
+  onToggleChestModal,
+  isFiftyFiftyDisabled = false,
+  isFinalQuestion = false,
 }: QuizSurpriseProps) {
-  const [chestModalOpen, setChestModalOpen] = useState(false)
+  const [internalChestModalOpen, setInternalChestModalOpen] = useState(false)
   const [unlockedReward, setUnlockedReward] = useState<'fiftyFifty' | 'clue' | 'shield' | null>(null)
+
+  const isModalOpen = controlledChestModalOpen !== undefined ? controlledChestModalOpen : internalChestModalOpen
+  const setModalOpen = (open: boolean) => {
+    if (onToggleChestModal) onToggleChestModal(open)
+    setInternalChestModalOpen(open)
+  }
 
   const handleOpenChest = () => {
     playQuizSound('mystery', isMuted)
@@ -43,7 +57,7 @@ export function QuizSurprise({
   }
 
   const closeChestModal = () => {
-    setChestModalOpen(false)
+    setModalOpen(false)
     setUnlockedReward(null)
   }
 
@@ -81,7 +95,7 @@ export function QuizSurprise({
         {hasMysteryChest && (
           <button
             type="button"
-            onClick={() => setChestModalOpen(true)}
+            onClick={() => setModalOpen(true)}
             className="flex items-center gap-1.5 rounded-xl bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 px-3 py-1.5 text-[14px] font-black text-amber-950 shadow-md animate-bounce hover:brightness-105"
           >
             <Gift size={18} className="text-amber-950" />
@@ -93,13 +107,13 @@ export function QuizSurprise({
         <button
           type="button"
           onClick={onUseFiftyFifty}
-          disabled={lifelines.fiftyFiftyAvailable <= 0}
+          disabled={lifelines.fiftyFiftyAvailable <= 0 || isFiftyFiftyDisabled}
           className={`flex items-center gap-1 rounded-xl px-2.5 py-1 text-[13px] font-bold transition-all border ${
-            lifelines.fiftyFiftyAvailable > 0
+            lifelines.fiftyFiftyAvailable > 0 && !isFiftyFiftyDisabled
               ? 'bg-white border-brand text-brand hover:bg-blue-50 shadow-xs'
               : 'bg-transparent border-line text-muted/50 cursor-not-allowed opacity-60'
           }`}
-          title="Eliminate 2 wrong answers"
+          title={isFiftyFiftyDisabled ? 'Already 50:50 options' : 'Eliminate 2 wrong answers'}
         >
           <Scissors size={15} />
           <span>50:50</span>
@@ -133,7 +147,7 @@ export function QuizSurprise({
       </div>
 
       {/* Mystery Gift Reveal Modal */}
-      {chestModalOpen && (
+      {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs">
           <div className="relative w-full max-w-sm rounded-3xl border-2 border-amber-300 bg-white p-6 text-center shadow-2xl">
             <button
@@ -202,7 +216,9 @@ export function QuizSurprise({
                   onClick={closeChestModal}
                   className="btn btn-primary w-full !min-h-[50px] !text-[17px]"
                 >
-                  {lang === 'hi' ? 'उपयोग करने चलें' : lang === 'cg' ? 'उपयोग करे बर चलव' : 'Continue Quiz'}
+                  {isFinalQuestion
+                    ? (lang === 'hi' ? 'परिणाम देखें' : lang === 'cg' ? 'नतीजा देखव' : 'View Results')
+                    : (lang === 'hi' ? 'उपयोग करने चलें' : lang === 'cg' ? 'उपयोग करे बर चलव' : 'Continue Quiz')}
                 </button>
               </div>
             )}

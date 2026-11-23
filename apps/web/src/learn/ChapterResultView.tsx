@@ -3,7 +3,6 @@ import { Award, CheckCircle, ChevronRight, Flame, RotateCcw, Sparkles, Star, Tro
 import { useLang } from '../shell/i18n'
 import { CHAPTERS, type Chapter } from './chapters'
 import { pick, type ContentPack } from './content'
-import { Chapter5Artwork } from './PaintedArtwork'
 import type { ChapterAttempt } from './progress'
 import { QuizConfetti } from './QuizConfetti'
 import { playQuizSound } from './quizAudio'
@@ -51,8 +50,8 @@ export function ChapterResultView({
         {/* Large Painted Family Banner Image */}
         <div className="overflow-hidden rounded-2xl mb-4 max-h-44 border border-white/25 shadow-xl">
           <img
-            src="images/quiz/chapter_5_banner.jpg"
-            alt="Chapter Completion Hero"
+            src={`images/quiz/chapter_${chapter.number}_banner.jpg`}
+            alt={`Chapter ${chapter.number} Completion Banner`}
             className="w-full h-full object-cover"
           />
         </div>

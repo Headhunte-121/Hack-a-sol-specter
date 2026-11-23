@@ -558,6 +558,7 @@ function QuizView({
   const [showClue, setShowClue] = useState(false)
   const [eliminatedOptions, setEliminatedOptions] = useState<number[]>([])
   const [hasMysteryChest, setHasMysteryChest] = useState(false)
+  const [chestModalOpen, setChestModalOpen] = useState(false)
   const [lifelines, setLifelines] = useState<LifelineState>({
     fiftyFiftyAvailable: 1,
     clueAvailable: 1,
@@ -568,6 +569,19 @@ function QuizView({
     setBusy('quiz', true)
     return () => setBusy('quiz', false)
   }, [])
+
+  if (!session || session.length === 0 || !session[i] || !orders[i]) {
+    return (
+      <section className="card flex flex-col items-center justify-center p-8 text-center gap-4" data-testid="quiz">
+        <p className="text-[17px] text-muted">
+          {lang === 'hi' ? 'कोई प्रश्न उपलब्ध नहीं है।' : lang === 'cg' ? 'कोनो सवाल नइये।' : 'No questions available.'}
+        </p>
+        <button type="button" className="btn btn-secondary" onClick={onQuit}>
+          {t('learn.quiz.quit')}
+        </button>
+      </section>
+    )
+  }
 
   const q: Question = session[i]
   const res = chosen === null ? null : checkAnswer(q, chosen)
@@ -605,11 +619,14 @@ function QuizView({
 
   // 50:50 Lifeline handler
   const handleUseFiftyFifty = () => {
-    if (lifelines.fiftyFiftyAvailable <= 0 || eliminatedOptions.length > 0 || chosen !== null) return
-    const wrongOptions = q.options.map((_, idx) => idx).filter((idx) => idx !== q.answer)
+    if (lifelines.fiftyFiftyAvailable <= 0 || eliminatedOptions.length > 0 || chosen !== null || q.options.length <= 2) return
+    const wrongOptions = q.options
+      .map((_, idx) => idx)
+      .filter((idx) => idx !== q.answer)
 
-    // Pick 2 wrong options to eliminate if available
-    const toEliminate = wrongOptions.slice(0, 2)
+    // Eliminate wrong options leaving at least 2 options for a true 50:50 choice
+    const countToEliminate = Math.min(2, Math.max(1, q.options.length - 2))
+    const toEliminate = wrongOptions.slice(0, countToEliminate)
     setEliminatedOptions(toEliminate)
     setLifelines((prev) => ({ ...prev, fiftyFiftyAvailable: prev.fiftyFiftyAvailable - 1 }))
     playQuizSound('lifeline', isMuted)
@@ -635,18 +652,7 @@ function QuizView({
     }
   }
 
-  const next = () => {
-    if (i + 1 < session.length) {
-      setI(i + 1)
-      setChosen(null)
-      setConfettiActive(false)
-      setShowVideoScenario(false)
-      setShowClue(false)
-      setEliminatedOptions([])
-      return
-    }
-
-    // Finished
+  const finishQuiz = () => {
     if (chapter && onFinishChapter) {
       const correctCount = answers.filter((a) => a.correct).length
       const score = Math.round((correctCount / session.length) * 100)
@@ -673,6 +679,27 @@ function QuizView({
       storeAttemptHistory(attempt)
       onFinish(attempt, prev)
     }
+  }
+
+  const next = () => {
+    if (i + 1 < session.length) {
+      setI(i + 1)
+      setChosen(null)
+      setConfettiActive(false)
+      setShowVideoScenario(false)
+      setShowClue(false)
+      setEliminatedOptions([])
+      return
+    }
+
+    // If an earned mystery chest hasn't been opened on the final question, pop it open before finishing!
+    if (hasMysteryChest) {
+      setChestModalOpen(true)
+      return
+    }
+
+    // Finished
+    finishQuiz()
   }
 
   const letters = ['A', 'B', 'C', 'D']
@@ -744,6 +771,10 @@ function QuizView({
         onOpenMysteryChest={handleOpenMysteryChest}
         lang={lang}
         isMuted={isMuted}
+        chestModalOpen={chestModalOpen}
+        onToggleChestModal={setChestModalOpen}
+        isFiftyFiftyDisabled={lifelines.fiftyFiftyAvailable <= 0 || q.options.length <= 2 || eliminatedOptions.length > 0 || chosen !== null}
+        isFinalQuestion={i + 1 >= session.length}
       />
 
       {/* Clue Reveal Box */}

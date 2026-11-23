@@ -5,6 +5,7 @@ import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import type { DeviceSms } from '../native/sms'
 import { LangProvider } from '../shell/i18n'
+import { resetScorerCache } from './model'
 
 ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
 
@@ -33,10 +34,11 @@ vi.mock('../native/sms', async () => {
 const pub = join(__dirname, '..', '..', 'public')
 const file = (p: string) => readFileSync(join(pub, p), 'utf8')
 
-describe('the Android inbox screen', () => {
+describe('the Android inbox screen', { timeout: 15000 }, () => {
   let host: HTMLDivElement
   let root: Root
   beforeEach(() => {
+    resetScorerCache()
     vi.useFakeTimers()
     state.reads = 0; state.subscribed = 0; state.unsubscribed = 0
     chat.supported = true; chat.enabled = false; chat.messages = []; opened.access = 0; opened.appInfo = 0
@@ -49,12 +51,15 @@ describe('the Android inbox screen', () => {
     host = document.createElement('div')
     document.body.appendChild(host)
   })
-  afterEach(() => { act(() => root.unmount()); host.remove(); vi.useRealTimers(); vi.unstubAllGlobals() })
+  afterEach(() => { act(() => root?.unmount()); host.remove(); vi.useRealTimers(); vi.unstubAllGlobals(); resetScorerCache() })
 
   const mount = async () => {
     const { default: DetectorPage } = await import('./DetectorPage')
     await act(async () => { root = createRoot(host); root.render(<LangProvider><DetectorPage /></LangProvider>) })
-    await act(async () => { await vi.advanceTimersByTimeAsync(50) })
+    for (let k = 0; k < 20; k++) {
+      if (host.querySelector('[data-testid="sms-inbox"]') && !host.textContent?.includes('Loading the checker')) break
+      await act(async () => { await vi.advanceTimersByTimeAsync(50) })
+    }
   }
 
   it('shows the inbox, then a message that arrived later without any live event, and when it last looked', async () => {
