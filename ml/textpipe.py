@@ -2,16 +2,20 @@
 
 The TypeScript implementation in apps/web/src/detector mirrors this file exactly; `parity.py` proves it.
 Rules of the game (keep both sides identical):
-  - normalise: lowercase ASCII, Devanagari digits -> ASCII digits, collapse spaces and 3+ repeated letters
+  - normalise: Unicode NFKC per character (fancy fonts, full-width letters), Cyrillic look-alike letters -> Latin, chandrabindu -> anusvara,
+    lowercase ASCII, Devanagari digits -> ASCII digits, collapse spaces and 3+ repeated letters, join spelled-out letters ("O T P" -> "otp")
   - mask: links / phone numbers / amounts / long digit runs become placeholder tokens
-  - tokens: runs of [a-z0-9] and Devanagari (U+0900-0963, U+0966-097F); everything else separates tokens
-  - features: char n-grams inside words (with space padding), word unigrams and bigrams, signal flags
+  - tokens: runs of [a-z0-9] and Devanagari (U+0900-0963, U+0966-097F); everything else separates tokens; a token that mixes letters and digits
+    ("bl0ck", "0tp") is un-leeted only when the result is a word of canon.json's leet_vocab
+  - features: char n-grams inside words (with space padding), word unigrams and bigrams, one shadow feature "x:<latin>" for every Devanagari
+    loanword in canon.json (so ओटीपी and otp share evidence), signal flags
 """
 from __future__ import annotations
 
 import json
 import math
 import re
+import unicodedata
 from pathlib import Path
 
 HERE = Path(__file__).parent
@@ -40,6 +44,24 @@ NUKTA_MAP = {
     "\u095f": "\u092f",  # य़ -> य
 }
 
+# canon.json is shared with apps/web/src/detector/canon.json (kept identical by parity.test.ts): Devanagari loanwords -> Latin canon, and the
+# words a leetspeak token ("bl0ck") may be turned back into.
+with open(HERE / "canon.json", encoding="utf-8") as _cf:
+    _canon_data = json.load(_cf)
+CANON: dict[str, str] = {k.replace("\u093c", "").replace("\u0901", "\u0902"): v for k, v in _canon_data["canon"].items()}
+CANON_LATIN = frozenset(CANON.values())
+LEET_VOCAB = frozenset(_canon_data["leet_vocab"])
+LEET_MAP = {"0": "o", "1": "il", "3": "e", "4": "a", "5": "s"}
+
+# Cyrillic letters that look like Latin ones (used to dodge word lists): folded to the Latin letter
+CYRILLIC_FOLD = {
+    "\u0430": "a", "\u0435": "e", "\u043e": "o", "\u0440": "p", "\u0441": "c", "\u0445": "x", "\u0443": "y", "\u0456": "i", "\u0455": "s", "\u0458": "j",
+    "\u0410": "a", "\u0412": "b", "\u0415": "e", "\u041a": "k", "\u041c": "m", "\u041d": "h", "\u041e": "o", "\u0420": "p", "\u0421": "c", "\u0422": "t",
+    "\u0425": "x", "\u0423": "y", "\u0406": "i",
+}
+# "O T P", "O.T.P", "o-t-p", "K Y C": three or more single letters joined by one space, dot, dash or underscore
+JOIN_RE = re.compile(r"(?<![a-z0-9@/._-])(?:[a-z][ ._-]){2,}[a-z](?![a-z0-9])")
+
 URL_RE = re.compile(
     r"(?:https?://|www\.)[^ ]+"
     r"|(?<![a-z0-9@.-])[a-z0-9][a-z0-9-]*(?:\.[a-z0-9-]+)*\.(?:com|in|net|org|co|io|me|xyz|top|info|help|cc|win|club|online|site|link|app|ly|gl|gov|edu|apk)(?:/[^ ]*)?(?![a-z0-9])"
@@ -47,9 +69,9 @@ URL_RE = re.compile(
 PHONE_RE = re.compile(r"(?<![0-9])(?:\+?91[- ]?)?[6-9][0-9]{4}[ -]?[0-9]{5}(?![0-9])")
 AMOUNT_RE = re.compile(
     r"(?<![a-z])(?:₹|rs\.?|inr|रु\.?|रुपये|रुपए|rupees?) ?[0-9][0-9,]*(?:\.[0-9]+)?"
-    r"|[0-9][0-9,]*(?:\.[0-9]+)? ?(?:₹|rs|inr|rupees?|रुपये|रुपए|lakhs?|लाख|crore|करोड़|करोड)(?![a-z])"
+    r"|[0-9][0-9,]*(?:\.[0-9]+)? ?(?:₹|rs|inr|rupees?|(?:rupaye|rupaiye|rupiye|rupiya|rupaiya|rupaya|rupya|rupay)|रुपये|रुपए|रुपया|रुपयों|lakhs?|लाख|crore|करोड़|करोड)(?![a-z])"
 )
-NUMBER_RE = re.compile(r"[0-9]{4,}")
+NUMBER_RE = re.compile(r"[0-9]{1,3}(?:,[0-9]{2,3})+|[0-9]{4,}")  # 10,000 and 25,00,000 are one number, not "10" and "000"
 TRAIL = ".,;:!?)]}\"'"
 
 
@@ -57,31 +79,72 @@ def normalize_text(raw: str) -> tuple[str, list[int]]:
     """Return clean text and, for every clean char, the index of the original char it came from."""
     out: list[str] = []
     idx: list[int] = []
-    for i, ch in enumerate(raw):
-        o = ord(ch)
-        if ch in NUKTA_MAP:
-            ch = NUKTA_MAP[ch]
-            o = ord(ch)
-        elif ch == "\u093c":
-            continue
-        if 0x966 <= o <= 0x96F:
-            ch = chr(48 + o - 0x966)
-        elif 65 <= o <= 90:
-            ch = chr(o + 32)
-        elif ch in "​‌‍﻿":
-            continue
-        elif ch in " \t\n\r ":
-            ch = " "
-        if ch == " ":
-            if not out or out[-1] == " ":
+    for i, ch0 in enumerate(raw):
+        for ch in unicodedata.normalize("NFKC", ch0):  # per character, so every output char still maps to input char i
+            if ch in NUKTA_MAP:
+                ch = NUKTA_MAP[ch]
+            elif ch == "\u093c":
                 continue
-        elif "a" <= ch <= "z" and len(out) >= 2 and out[-1] == ch and out[-2] == ch:
-            continue  # collapse 3+ repeated letters to 2
-        out.append(ch)
-        idx.append(i)
+            elif ch == "\u0901":
+                ch = "\u0902"  # chandrabindu -> anusvara
+            ch = CYRILLIC_FOLD.get(ch, ch)
+            o = ord(ch)
+            if 0x966 <= o <= 0x96F:
+                ch = chr(48 + o - 0x966)
+            elif 65 <= o <= 90:
+                ch = chr(o + 32)
+            elif ch in "\u200b\u200c\u200d\ufeff":
+                continue
+            elif ch in " \t\n\r\u00a0":
+                ch = " "
+            if ch == " ":
+                if not out or out[-1] == " ":
+                    continue
+            elif "a" <= ch <= "z" and len(out) >= 2 and out[-1] == ch and out[-2] == ch:
+                continue  # collapse 3+ repeated letters to 2
+            out.append(ch)
+            idx.append(i)
     if out and out[-1] == " ":
         out.pop(); idx.pop()
+    # join letters that were spelled out one by one ("o t p" -> "otp"), keeping the span of the original letters
+    text = "".join(out)
+    if JOIN_RE.search(text):
+        keep = [True] * len(out)
+        for m in JOIN_RE.finditer(text):
+            for k in range(m.start(), m.end()):
+                if not ("a" <= out[k] <= "z"):
+                    keep[k] = False
+        out = [c for c, k in zip(out, keep) if k]
+        idx = [x for x, k in zip(idx, keep) if k]
     return "".join(out), idx
+
+
+def unleet(w: str) -> str:
+    """"bl0ck" -> "block", "0tp" -> "otp": only for a token that mixes ASCII letters and digits, is at least 3 long and becomes a word of LEET_VOCAB."""
+    if len(w) < 3 or not w.isascii() or not any("a" <= c <= "z" for c in w) or not any("0" <= c <= "9" for c in w):
+        return w
+    digits = [k for k, c in enumerate(w) if c in LEET_MAP]
+    if not digits or len(digits) > 4:
+        return w
+    cands = [""]
+    last = 0
+    for k in digits:
+        opts = LEET_MAP[w[k]]
+        cands = [c + w[last:k] + o for c in cands for o in opts]
+        last = k + 1
+    for c in cands:
+        cand = c + w[last:]
+        if cand in LEET_VOCAB:
+            return cand
+    return w
+
+
+def shadow(w: str) -> str | None:
+    """The canonical Latin form of a word that has one (Devanagari loanword, or the Latin word itself), else None."""
+    c = CANON.get(w)
+    if c is not None:
+        return c
+    return w if w in CANON_LATIN else None
 
 
 def _link_token(url: str) -> str:
@@ -137,7 +200,7 @@ def tokenize(raw: str) -> list[dict]:
     def flush():
         nonlocal cur, cstart, cend
         if cur:
-            tokens.append({"t": "".join(cur), "s": cstart, "e": cend})
+            tokens.append({"t": unleet("".join(cur)), "s": cstart, "e": cend})
         cur, cstart, cend = [], -1, -1
 
     i, n, k = 0, len(s), 0
@@ -220,6 +283,10 @@ def text_features(words: list[str], ngram_range=(2, 5)) -> dict[str, int]:
                 f[k] = f.get(k, 0) + 1
         k = "w:" + w
         f[k] = f.get(k, 0) + 1
+        sh = None if w in ENTITY_TOKENS else shadow(w)
+        if sh is not None:
+            k = "x:" + sh
+            f[k] = f.get(k, 0) + 1
     for a, b in zip(words, words[1:]):
         k = "b:" + a + " " + b
         f[k] = f.get(k, 0) + 1
