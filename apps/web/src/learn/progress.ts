@@ -20,3 +20,25 @@ export const attemptHistory = (): Attempt[] => kvGet<Attempt[]>('quiz.history', 
 export function storeAttemptHistory(a: Attempt) {
   kvSet('quiz.history', [...attemptHistory(), a].slice(-20))
 }
+
+export interface ChapterAttempt {
+  at: number
+  chapterId: string
+  score: number
+  correctCount: number
+  totalQuestions: number
+  stars: number
+  bestStreak: number
+}
+
+export const chapterAttempts = (): Record<string, ChapterAttempt> =>
+  kvGet<Record<string, ChapterAttempt>>('quiz.chapter_attempts', {})
+
+export function saveChapterAttempt(a: ChapterAttempt) {
+  const current = chapterAttempts()
+  const prev = current[a.chapterId]
+  if (!prev || a.score >= prev.score) {
+    kvSet('quiz.chapter_attempts', { ...current, [a.chapterId]: a })
+  }
+}
+
