@@ -12,7 +12,7 @@ export function MobileLayout({ children, back = true, onBack, title, lead, backT
 
   return (
     <div className="min-h-dvh bg-[#F3F6FA] text-slate-900">
-      <header className="sticky top-0 z-30 bg-[#163264] text-white">
+      <header className="sticky top-0 z-30 bg-[#163264] text-white pt-[env(safe-area-inset-top,0px)]">
         <div className="mx-auto flex h-14 max-w-lg items-center justify-between gap-2 px-4">
           <div className="flex min-w-0 items-center gap-2.5">
             {showBack ? (

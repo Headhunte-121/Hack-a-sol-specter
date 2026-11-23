@@ -45,7 +45,9 @@ public class ChatNotificationListener extends NotificationListenerService {
         "com.google.android.apps.messaging",
         "com.samsung.android.messaging",
         "com.android.mms",
-        "com.android.messaging"
+        "com.android.messaging",
+        "com.whatsapp",
+        "com.whatsapp.w4b"
     ));
 
     @Override
@@ -72,6 +74,9 @@ public class ChatNotificationListener extends NotificationListenerService {
             if (n == null) return;
             if ((n.flags & (Notification.FLAG_GROUP_SUMMARY | Notification.FLAG_ONGOING_EVENT)) != 0) return;
 
+            String pkg = sbn.getPackageName();
+            String via = pkg != null && pkg.startsWith("com.whatsapp") ? "whatsapp" : "chat";
+
             JSONArray fresh = new JSONArray();
             NotificationCompat.MessagingStyle style = NotificationCompat.MessagingStyle.extractMessagingStyleFromNotification(n);
             if (style != null) {
@@ -82,7 +87,7 @@ public class ChatNotificationListener extends NotificationListenerService {
                     if (from == null) continue; // a message the user sent has no sender person
                     CharSequence name = from.getName();
                     String sender = name != null && name.length() > 0 ? name.toString() : (conversation != null ? conversation.toString() : "");
-                    fresh.put(entry(sender, m.getText(), m.getTimestamp() > 0 ? m.getTimestamp() : sbn.getPostTime()));
+                    fresh.put(entry(sender, m.getText(), m.getTimestamp() > 0 ? m.getTimestamp() : sbn.getPostTime(), via));
                 }
             } else if (Notification.CATEGORY_MESSAGE.equals(n.category)) {
                 Bundle extras = n.extras;
@@ -90,26 +95,39 @@ public class ChatNotificationListener extends NotificationListenerService {
                 CharSequence title = extras.getCharSequence(Notification.EXTRA_TITLE);
                 CharSequence text = extras.getCharSequence(Notification.EXTRA_BIG_TEXT);
                 if (text == null || text.length() == 0) text = extras.getCharSequence(Notification.EXTRA_TEXT);
-                fresh.put(entry(title != null ? title.toString() : "", text, sbn.getPostTime()));
+                fresh.put(entry(title != null ? title.toString() : "", text, sbn.getPostTime(), via));
             }
-            if (fresh.length() > 0) store(ctx, fresh);
+            if (fresh.length() > 0) {
+                store(ctx, fresh);
+                for (int i = 0; i < fresh.length(); i++) {
+                    JSONObject item = fresh.optJSONObject(i);
+                    if (item != null) {
+                        SmsReaderPlugin.deliverLiveChat(
+                            item.optString("sender"),
+                            item.optString("body"),
+                            item.optLong("date"),
+                            item.optString("via", "chat")
+                        );
+                    }
+                }
+            }
         } catch (Exception ignored) {
             // a malformed notification must never crash the listener
         }
     }
 
-    private static JSONObject entry(String sender, CharSequence text, long date) {
+    private static JSONObject entry(String sender, CharSequence text, long date, String via) {
         try {
             if (text == null) return null;
             String body = text.toString().trim();
             if (body.isEmpty()) return null;
             if (body.length() > MAX_BODY) body = body.substring(0, MAX_BODY);
             JSONObject o = new JSONObject();
-            o.put("id", "chat-" + Integer.toHexString((sender + "|" + body).hashCode()));
+            o.put("id", via + "-" + Integer.toHexString((sender + "|" + body).hashCode()));
             o.put("sender", sender);
             o.put("body", body);
             o.put("date", date);
-            o.put("via", "chat");
+            o.put("via", via);
             return o;
         } catch (Exception e) {
             return null;

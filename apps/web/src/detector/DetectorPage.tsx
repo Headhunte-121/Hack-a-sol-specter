@@ -350,7 +350,7 @@ export default function DetectorPage() {
                       className={`card w-full space-y-1.5 text-left transition hover:border-brand ${bad ? 'border-bad-line!' : warn ? 'border-warn-line!' : ''}`}
                     >
                       <div className="flex items-center justify-between gap-2">
-                        <span className="truncate font-bold text-ink">{item.sender || 'SMS'}{item.via === 'chat' && <span className="ml-2 rounded-full border border-brand px-1.5 py-0.5 text-[11px] font-bold text-brand" data-testid="chat-badge">{t('sms.chat.badge')}</span>}<span className="ml-2 text-xs font-normal text-muted">{item.date ? formatDateTime(item.date, lang) : ''}</span></span>
+                        <span className="truncate font-bold text-ink">{item.sender || 'SMS'}{item.via === 'chat' && <span className="ml-2 rounded-full border border-brand px-1.5 py-0.5 text-[11px] font-bold text-brand" data-testid="chat-badge">{t('sms.chat.badge')}</span>}{item.via === 'whatsapp' && <span className="ml-2 rounded-full border border-emerald-600 bg-emerald-50 px-1.5 py-0.5 text-[11px] font-bold text-emerald-700" data-testid="whatsapp-badge">{t('sms.whatsapp.badge')}</span>}<span className="ml-2 text-xs font-normal text-muted">{item.date ? formatDateTime(item.date, lang) : ''}</span></span>
                         <span className={`shrink-0 rounded-full border px-2.5 py-0.5 text-xs font-bold ${pill}`}>
                           {t(`band.${item.result.band}`)}
                         </span>

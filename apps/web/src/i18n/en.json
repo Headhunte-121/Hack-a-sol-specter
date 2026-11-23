@@ -643,6 +643,7 @@
   "sms.chat.allow": "Allow checking Chat messages",
   "sms.chat.appinfo": "Open App info",
   "sms.chat.badge": "Chat",
+  "sms.whatsapp.badge": "WhatsApp",
   "sms.chat.on": "Chat messages are checked as they arrive (those received before you allowed it cannot be read).",
   "sms.chat.restricted": "If the switch is greyed out: tap Open App info, then the three-dot menu, choose Allow restricted settings, and try again.",
   "sms.chat.title": "Chat messages are not SMS",

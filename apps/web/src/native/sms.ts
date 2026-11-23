@@ -5,8 +5,8 @@ export interface DeviceSms {
   sender: string
   body: string
   date: number
-  /** 'chat' = read from the messaging app's notification (an RCS "Chat" message, which is not an SMS); absent = a real SMS */
-  via?: 'chat'
+  /** 'chat' = RCS "Chat" message; 'whatsapp' = WhatsApp message; absent = standard SMS */
+  via?: 'chat' | 'whatsapp'
 }
 
 interface SmsReaderPlugin {
