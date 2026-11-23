@@ -8,7 +8,7 @@ export interface BrandsFile {
   version: string
   brands: Brand[]
 }
-export type UrlFlagId = 'shortener' | 'ip_host' | 'userinfo' | 'many_subdomains' | 'punycode' | 'lookalike_brand' | 'suspicious_tld' | 'plain_http_sensitive'
+export type UrlFlagId = 'shortener' | 'ip_host' | 'userinfo' | 'many_subdomains' | 'punycode' | 'lookalike_brand' | 'suspicious_tld' | 'plain_http_sensitive' | 'credential_wording' | 'many_hyphens'
 export interface UrlFlag {
   id: UrlFlagId
   severity: 'high' | 'medium'
@@ -21,7 +21,15 @@ export interface UrlResult {
 }
 
 const SHORTENERS = ['bit.ly', 'tinyurl.com', 'rb.gy', 'cutt.ly', 't.co', 'goo.gl', 'is.gd', 'tiny.cc', 'shorturl.at', 'wa.me']
-const BAD_TLDS = ['top', 'xyz', 'cc', 'win', 'info', 'help', 'club', 'click', 'online', 'site', 'link', 'icu', 'buzz', 'tk', 'ml', 'cf']
+// endings often used for throwaway sites, plus the reserved endings that are not real websites at all (invalid, test, example, local)
+const BAD_TLDS = ['top', 'xyz', 'cc', 'win', 'info', 'help', 'club', 'click', 'online', 'site', 'link', 'icu', 'buzz', 'tk', 'ml', 'cf',
+  'invalid', 'test', 'example', 'localhost', 'local', 'vip', 'cfd', 'sbs', 'monster', 'quest', 'cam', 'zip', 'mov', 'gq', 'ga', 'pw', 'rest', 'fit']
+// Sites where a sign-in page is normal: government, very well known services, and the bank/brand list in brands.json.
+const GOV_SUFFIXES = ['gov.in', 'nic.in']
+const WELL_KNOWN = ['google.com', 'microsoft.com', 'live.com', 'apple.com', 'amazon.in', 'amazon.com', 'facebook.com', 'instagram.com', 'whatsapp.com', 'github.com', 'linkedin.com', 'youtube.com', 'paypal.com', 'irctc.co.in']
+const HOST_WORDS = /login|log-in|signin|sign-in|verify|verification|kyc|secure|security|account|update|refund|reward|claim|wallet|otp|password|auth/
+const PATH_WORDS = /login|log-in|signin|sign-in|verify|verification|kyc|otp|password/
+const onDomain = (host: string, d: string) => host === d || host.endsWith('.' + d)
 const SENSITIVE = /login|log-in|verify|kyc|pay|update|secure|bank|otp|refund|claim|reward/
 const SECOND_LEVEL = new Set(['co', 'gov', 'org', 'net', 'ac', 'edu', 'nic', 'res', 'bank'])
 
@@ -85,6 +93,12 @@ export function checkUrl(input: string, brands: BrandsFile): UrlResult {
     }
   }
   if (explicitHttp && SENSITIVE.test(rest + ' ' + host)) flags.push({ id: 'plain_http_sensitive', severity: 'medium' })
+
+  // A made-up address that talks about sign-in, verification or account security is the usual look of a fake page. It is only a
+  // warning to check the address: genuine government, brand and well-known sites are exempt, and nothing here says a site is safe.
+  const recognised = GOV_SUFFIXES.some((d) => onDomain(host, d)) || WELL_KNOWN.some((d) => onDomain(host, d)) || brands.brands.some((b) => b.official.some((o) => onDomain(host, o)))
+  if (!recognised && (HOST_WORDS.test(host) || PATH_WORDS.test(rest))) flags.push({ id: 'credential_wording', severity: 'medium' })
+  if (!recognised && (label.match(/-/g) ?? []).length >= 2) flags.push({ id: 'many_hyphens', severity: 'medium' })
 
   const high = flags.some((f) => f.severity === 'high')
   const meds = flags.filter((f) => f.severity === 'medium').length

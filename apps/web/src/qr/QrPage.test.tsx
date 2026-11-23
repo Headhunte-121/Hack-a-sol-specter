@@ -63,7 +63,8 @@ describe('the QR page asks first and explains a switched-off camera', () => {
     await act(async () => { (q('camera-off-note')!.querySelector('button') as HTMLElement).click() })
     expect(q('camera-help')?.getAttribute('data-mode')).toBe('app')
     expect(q('camera-help')?.textContent).toContain(en['qr.cam.app.1'])
-    expect(q('camera-help')?.textContent).not.toContain(en['qr.cam.web.1'])
+    expect(q('camera-help')?.textContent).toContain(en['qr.cam.app.4'])
+    expect(q('camera-help')?.textContent).toContain('Delete data & reset permissions')
     expect(q('camera-reinstall')?.textContent).toBe(en['qr.cam.reinstall']) // deleting and reinstalling the app does not clear Chrome's choice
     expect(q('qr-env')?.textContent).toContain('home-screen app')
   })

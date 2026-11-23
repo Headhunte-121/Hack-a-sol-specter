@@ -30,7 +30,7 @@ export function CameraHelp({ kind, standalone, code, onRetry, onFile }: {
   // From the home screen the address bar is missing, so offer to open the same app in a Chrome tab, where the lock shows the camera setting.
   const android = typeof navigator !== 'undefined' && /Android/i.test(navigator.userAgent)
   const chromeUrl = typeof location !== 'undefined' ? `intent://${location.host}/#Intent;scheme=https;package=com.android.chrome;end` : '#'
-  const steps = standalone ? ['qr.cam.app.1', 'qr.cam.app.2', 'qr.cam.app.3'] : ['qr.cam.web.1', 'qr.cam.web.2', 'qr.cam.web.3']
+  const steps = standalone ? ['qr.cam.app.1', 'qr.cam.app.2', 'qr.cam.app.3', 'qr.cam.app.4'] : ['qr.cam.web.1', 'qr.cam.web.2', 'qr.cam.web.3']
   return (
     <div role="status" className="flex flex-col gap-3 rounded-2xl border-2 border-warn-line bg-warn-bg p-3 text-warn" data-testid="camera-help" data-kind="denied" data-mode={standalone ? 'app' : 'browser'}>
       <p className="font-bold">{t('qr.err.camera')}</p>
