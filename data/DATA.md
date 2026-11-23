@@ -8,11 +8,11 @@ Every dataset used, with its licence **as stated**. Where a licence is not state
 | CloveAI india-spam-sms | https://huggingface.co/datasets/CloveAI/india-spam-sms | 2026-11-22 | ~5k of 20k | English, Indian style | not stated (README empty) | training, per-source eval | **No** |
 | bolewara hinglish-scam-text-dataset | https://huggingface.co/datasets/bolewara/hinglish-scam-text-dataset | 2026-11-22 | ~3.5k | English (UCI SMS Spam) + a few dozen Hinglish | not stated; UCI part has its own terms | training | **No** |
 | ysangam Indian_Cyber_Scam_PhoneCall_Hinglish | https://huggingface.co/datasets/ysangam/Indian_Cyber_Scam_PhoneCall_Hinglish_Dataset | 2026-11-22 | 743 unique of 10k | Hinglish call text | not stated | training, call-lexicon ideas | **No** |
-| Team-written messages v1/v2 | `ai tuning/data/synthetic*.csv` | 2026-11-22 | ~2.5k | en / hi / hinglish | team-generated (templates) | training | Yes |
+| Team-written messages v1/v2 | `ai tuning/data/synthetic*.csv` | 2026-11-22 | ~2.5k (30 rows that matched evaluation texts were removed on 2026-11-23) | en / hi / hinglish | team-generated (templates) | training | Yes |
 | Team-written messages v3 | `data/team/messages_v3.csv` | 2026-11-22 | ~1k (about 500 after dedupe) | hi / hinglish | team-generated (templates) | training | Yes |
 | Real Hinglish alerts & scams v1 | `data/team/real_v1.csv` | 2026-11-23 | 8 rows | Hinglish | team-redacted (UPI debit alerts & traps) | training, tuning | Yes |
-| Team trap-genuine mitigation v1 | `data/team/trap_genuine_v1.csv` | 2026-11-23 | 376 rows | en / hi / hinglish | project's own (team-generated) | training, trap mitigation | Yes |
-| Team scam-gap coverage v1 | `data/team/scam_gap_v1.csv` | 2026-11-23 | 220 rows | en / hi / hinglish | project's own (team-generated) | training, gap mitigation | Yes |
+| Team trap-genuine mitigation v1 | `data/team/trap_genuine_v1.csv` | 2026-11-23 | 1,023 rows (785 after dedupe) | en / hi / hinglish | project's own (team-generated) | training (at most 15% of the weighted mass), trap mitigation | Yes |
+| Team scam-gap coverage v1 | `data/team/scam_gap_v1.csv` | 2026-11-23 | 325 rows (117 after dedupe) | en / hi / hinglish | project's own (team-generated) | training (together with the file above at most 15% of the weighted mass), gap mitigation | Yes |
 | Challenge set v1 | `ai tuning/data/wild_big.csv` | 2026-11-22 | 160 | en / hi / hinglish | team-generated (templates) | final evaluation only, never trained on | Yes |
 
 ## Label harmonisation
@@ -22,7 +22,19 @@ Every dataset used, with its licence **as stated**. Where a licence is not state
 
 ## Splitting
 
-`ml/build_corpus.py`: exact and near-duplicate removal on a masked-token key (links, numbers, amounts replaced by placeholders), group id = template id (team data) or first six masked tokens (public data), then a group-aware 70/15/15 split stratified by (source, label), seed 20261122. The script asserts that no group appears in two splits. The challenge set is removed from the corpus before splitting. File hashes are written to `data/processed/split_meta.json`.
+`ml/build_corpus.py`: exact and near-duplicate removal on a masked-token key (links, numbers, amounts replaced by placeholders), group id = template id (team data) or first six masked tokens (public data), then a group-aware 70/15/15 split stratified by (source, label), seed 20261122; each stratum has its own seeded shuffle, and the generated hard-negative groups (one group per sentence structure) are also stratified by message family so that every family keeps about 70% of its structures in training. The script asserts that no group appears in two splits. Every frozen evaluation text (challenge sets and the blind, probe, OTP, clip and evasion sets) is removed from the corpus before splitting, under the three rules of `ml/leak_check.py`. File hashes are written to `data/processed/split_meta.json`.
+
+## Data note: evaluation texts were found in the training data (23 Nov 2026) and the guard
+
+**What happened.** Model `2026-11-23.3` was trained after an earlier session generated `data/team/trap_genuine_v1.csv` and `data/team/scam_gap_v1.csv`. A review found messages in those files that, once numbers, amounts and links are masked, equal messages in the frozen evaluation sets (the blind set, the probe set, the OTP set, the adversarial rewrites and the spoken-clip texts). The same review found that retraining had used 1,184 rows instead of about 16,700, because the git-ignored datasets were missing from its git worktree. The published "0% false alarms, 100% recall on the blind set" was therefore not a fair test.
+
+**How it was found.** Every frozen text and every training row is reduced to its masked tokens (`ml/textpipe.py`) and compared under three rules: equal masked text; equal first six plus last four masked tokens; token-set similarity of 0.85 or more (`ml/leak_check.py`).
+
+**What was found.** `trap_genuine_v1.csv` 24 rows (6 exact, 18 similar), `scam_gap_v1.csv` 13 rows (all exact), `ai tuning/data/synthetic.csv` 30 rows (5 same signature, 25 similar). After de-duplication on masked text, 24 rows of the training corpus were affected. Nothing in the public datasets matched.
+
+**What was done.** The rows were removed from the three CSVs (`leak_check.py --drop`). `ml/gen_team_data.py` now filters every generated row against the frozen texts before writing and refuses to run when they are not available. `ml/build_corpus.py` removes every frozen text from the corpus and stops (exit status 2) when fewer than 15,000 external rows load, a source folder is missing or `wild_big.csv` is missing; `ml/train.py` refuses to train on a corpus that still matches. Twelve template families that had lost all their variants were refilled with new sentence structures, written without looking at any evaluation text. The frozen texts are only ever read to filter or to score.
+
+**What this does not fix.** The generated hard-negative families were written in a session that had seen failures on some evaluation sets. The guard removes exact and near copies, but the probe and blind results may still be somewhat flattering; treat the challenge set and the other sets written by other people as the more honest numbers, and expect real traffic to be harder.
 
 ## Known issues
 
