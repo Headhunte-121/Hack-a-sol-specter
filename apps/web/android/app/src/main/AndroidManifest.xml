@@ -52,6 +52,17 @@
 
         </activity>
 
+        <!-- Chat (RCS) messages: read from the messaging app's notifications once the user allows "Notification access". Only the system can bind to it. -->
+        <service
+            android:name=".ChatNotificationListener"
+            android:label="@string/app_name"
+            android:exported="true"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"

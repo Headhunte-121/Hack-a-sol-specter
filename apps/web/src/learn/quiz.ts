@@ -22,6 +22,7 @@ function shuffle<T>(arr: T[], r: () => number): T[] {
 
 /** How many questions a quiz session draws from the bank: at least one for each of the ten topics. */
 export const QUIZ_LENGTH = 15
+export { CHAPTERS, CHAPTER_QUESTIONS_COUNT, selectChapterQuestions, type Chapter } from './chapters'
 
 /** hashSeed: a number from a seed and a question id (FNV-1a), so each question gets its own stable shuffle. */
 export function hashSeed(seed: number, id: string): number {

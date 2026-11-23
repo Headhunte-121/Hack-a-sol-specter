@@ -1,0 +1,157 @@
+text,label,lang,group
+"Dear Customer, You have a missed call from 99999 12345 The last missed call was at 10:15 AM on 23-Nov-2026 Thankyou, Team BSNL.",0,english,telecom:en:t3a
+"Dear Customer, You have a missed call from +91 98765 43210 The last missed call was at 10:15 AM on 16-Nov-2026 Thankyou, Team BSNL.",0,english,telecom:en:t3a
+"Dear Customer, You have a missed call from 9123456789 The last missed call was at 07:58 PM on 22-Nov-2026 Thankyou, Team BSNL.",0,english,telecom:en:t3a
+"Dear Customer, You have a missed call from 8000012345 The last missed call was at 11:20 PM on 23-Nov-2026 Thankyou, Team Airtel.",0,english,telecom:en:t3a
+Missed call alert: you have a missed call from +91 98765 43210 at 10:15 AM. -Airtel,0,english,telecom:en:t3b
+Missed call alert: you have a missed call from 8000012345 at 07:58 PM. -BSNL,0,english,telecom:en:t3b
+Missed call alert: you have a missed call from +91 70000 54321 at 12:05 PM. -Airtel,0,english,telecom:en:t3b
+Missed call alert: you have a missed call from 99999 12345 at 10:15 AM. -Vi,0,english,telecom:en:t3b
+You have 3 missed calls from +91 70000 54321. Last missed call at 6:40 PM. -BSNL,0,english,telecom:en:t3c
+You have 4 missed calls from 9876543210. Last missed call at 11:20 PM. -Jio,0,english,telecom:en:t3c
+You have 4 missed calls from 8000012345. Last missed call at 12:05 PM. -Jio,0,english,telecom:en:t3c
+You have 4 missed calls from 9876543210. Last missed call at 12:05 PM. -Airtel,0,english,telecom:en:t3c
+Jio: You missed a call from 8000012345 on 22-Nov-2026 at 11:20 PM.,0,english,telecom:en:t3d
+BSNL: You missed a call from +91 70000 54321 on 23-Nov-2026 at 07:58 PM.,0,english,telecom:en:t3d
+Vi: You missed a call from 9876543210 on 22-Nov-2026 at 6:40 PM.,0,english,telecom:en:t3d
+Airtel: You missed a call from 99999 12345 on 22-Nov-2026 at 11:20 PM.,0,english,telecom:en:t3d
+Missed call from 99999 12345 at 07:58 PM on 23-Nov-2026. Call back or send a message. -Vi,0,english,telecom:en:t3e
+Missed call from +91 98765 43210 at 12:05 PM on 23-Nov-2026. Call back or send a message. -Airtel,0,english,telecom:en:t3e
+Missed call from 99999 12345 at 6:40 PM on 21-Nov-2026. Call back or send a message. -Vi,0,english,telecom:en:t3e
+Missed call from +91 98765 43210 at 09:30 AM on 23-Nov-2026. Call back or send a message. -Airtel,0,english,telecom:en:t3e
+This is a BSNL call alert. 8000012345 tried to reach you at 11:20 PM.,0,english,telecom:en:t3f
+This is a Jio call alert. 9123456789 tried to reach you at 12:05 PM.,0,english,telecom:en:t3f
+This is a Jio call alert. 99999 12345 tried to reach you at 6:40 PM.,0,english,telecom:en:t3f
+This is a Jio call alert. 9876543210 tried to reach you at 6:40 PM.,0,english,telecom:en:t3f
+Missed voice call from +91 70000 54321 at 09:30 AM.,0,english,telecom:en:t3g
+Missed voice call from +91 70000 54321 at 11:20 PM.,0,english,telecom:en:t3g
+Missed voice call from 99999 12345 at 07:58 PM.,0,english,telecom:en:t3g
+Missed voice call from 99999 12345 at 09:30 AM.,0,english,telecom:en:t3g
+You have a new missed call from +91 98765 43210. Time 07:58 PM. Dial 121 to know more. -Airtel,0,english,telecom:en:t3h
+You have a new missed call from 9123456789. Time 6:40 PM. Dial 121 to know more. -Vi,0,english,telecom:en:t3h
+You have a new missed call from 8000012345. Time 09:30 AM. Dial 121 to know more. -Vi,0,english,telecom:en:t3h
+You have a new missed call from 9123456789. Time 6:40 PM. Dial 121 to know more. -BSNL,0,english,telecom:en:t3h
+"Dear Customer, 3 calls from 9876543210 were missed while your phone was switched off. Last call at 11:20 PM. Thank you, Team Jio.",0,english,telecom:en:t3i
+"Dear Customer, 4 calls from +91 98765 43210 were missed while your phone was switched off. Last call at 12:05 PM. Thank you, Team BSNL.",0,english,telecom:en:t3i
+"Dear Customer, 2 calls from 8000012345 were missed while your phone was switched off. Last call at 10:15 AM. Thank you, Team Airtel.",0,english,telecom:en:t3i
+"Dear Customer, 4 calls from 9876543210 were missed while your phone was switched off. Last call at 11:20 PM. Thank you, Team BSNL.",0,english,telecom:en:t3i
+Your friend Priya (8000012345) tried calling you at 11:20 PM but could not connect. -Airtel Call Alert,0,english,telecom:en:t3j
+Your friend Priya (+91 90000 11223) tried calling you at 11:20 PM but could not connect. -BSNL Call Alert,0,english,telecom:en:t3j
+Your friend Ramesh (9123456789) tried calling you at 10:15 AM but could not connect. -Jio Call Alert,0,english,telecom:en:t3j
+Your friend Suresh (99999 12345) tried calling you at 10:15 AM but could not connect. -Airtel Call Alert,0,english,telecom:en:t3j
+"Dear Customer, aapko +91 70000 54321 se ek missed call mila hai. Samay 07:58 PM. -BSNL",0,hinglish,telecom:hi:t3a
+"Dear Customer, aapko +91 98765 43210 se ek missed call mila hai. Samay 12:05 PM. -Airtel",0,hinglish,telecom:hi:t3a
+"Dear Customer, aapko 99999 12345 se ek missed call mila hai. Samay 12:05 PM. -Airtel",0,hinglish,telecom:hi:t3a
+"Dear Customer, aapko 99999 12345 se ek missed call mila hai. Samay 09:30 AM. -Airtel",0,hinglish,telecom:hi:t3a
+"BSNL Alert: 99999 12345 ne aapko 10:15 AM par call kiya tha, aapne call nahi uthaya.",0,hinglish,telecom:hi:t3b
+"BSNL Alert: 9123456789 ne aapko 12:05 PM par call kiya tha, aapne call nahi uthaya.",0,hinglish,telecom:hi:t3b
+"BSNL Alert: 8000012345 ne aapko 12:05 PM par call kiya tha, aapne call nahi uthaya.",0,hinglish,telecom:hi:t3b
+"Vi Alert: +91 90000 11223 ne aapko 10:15 AM par call kiya tha, aapne call nahi uthaya.",0,hinglish,telecom:hi:t3b
+Aapke phone par 4 missed call aaye hain +91 70000 54321 se. Aakhri call 11:20 PM par. -Jio,0,hinglish,telecom:hi:t3c
+Aapke phone par 4 missed call aaye hain +91 98765 43210 se. Aakhri call 09:30 AM par. -Jio,0,hinglish,telecom:hi:t3c
+Aapke phone par 4 missed call aaye hain +91 90000 11223 se. Aakhri call 07:58 PM par. -Jio,0,hinglish,telecom:hi:t3c
+Aapke phone par 2 missed call aaye hain +91 70000 54321 se. Aakhri call 6:40 PM par. -BSNL,0,hinglish,telecom:hi:t3c
+Priya ne aapko 12:05 PM par call kiya tha. Number 9123456789. Wapas call kar lena.,0,hinglish,telecom:hi:t3d
+Priya ne aapko 09:30 AM par call kiya tha. Number 9876543210. Wapas call kar lena.,0,hinglish,telecom:hi:t3d
+Anita ne aapko 6:40 PM par call kiya tha. Number 99999 12345. Wapas call kar lena.,0,hinglish,telecom:hi:t3d
+Ramesh ne aapko 6:40 PM par call kiya tha. Number +91 90000 11223. Wapas call kar lena.,0,hinglish,telecom:hi:t3d
+आपके नंबर पर +91 98765 43210 से एक मिस्ड कॉल आई थी। समय 09:30 AM। -Jio,0,hindi,telecom:hi:t3a
+आपके नंबर पर 99999 12345 से एक मिस्ड कॉल आई थी। समय 11:20 PM। -Airtel,0,hindi,telecom:hi:t3a
+आपके नंबर पर +91 70000 54321 से एक मिस्ड कॉल आई थी। समय 09:30 AM। -Vi,0,hindi,telecom:hi:t3a
+आपके नंबर पर +91 90000 11223 से एक मिस्ड कॉल आई थी। समय 09:30 AM। -Vi,0,hindi,telecom:hi:t3a
+"प्रिय ग्राहक, आपको 8000012345 से 2 मिस्ड कॉल मिली हैं। अंतिम कॉल 12:05 PM पर। धन्यवाद, टीम BSNL।",0,hindi,telecom:hi:t3b
+"प्रिय ग्राहक, आपको 99999 12345 से 3 मिस्ड कॉल मिली हैं। अंतिम कॉल 09:30 AM पर। धन्यवाद, टीम BSNL।",0,hindi,telecom:hi:t3b
+"प्रिय ग्राहक, आपको +91 70000 54321 से 2 मिस्ड कॉल मिली हैं। अंतिम कॉल 09:30 AM पर। धन्यवाद, टीम Jio।",0,hindi,telecom:hi:t3b
+"प्रिय ग्राहक, आपको +91 90000 11223 से 3 मिस्ड कॉल मिली हैं। अंतिम कॉल 6:40 PM पर। धन्यवाद, टीम BSNL।",0,hindi,telecom:hi:t3b
+Ramesh ने आपको 07:58 PM पर फोन किया था। नंबर +91 70000 54321। जब खाली हों तो वापस कॉल कर लीजिए।,0,hindi,telecom:hi:t3c
+Anita ने आपको 6:40 PM पर फोन किया था। नंबर +91 98765 43210। जब खाली हों तो वापस कॉल कर लीजिए।,0,hindi,telecom:hi:t3c
+Suresh ने आपको 6:40 PM पर फोन किया था। नंबर +91 70000 54321। जब खाली हों तो वापस कॉल कर लीजिए।,0,hindi,telecom:hi:t3c
+Suresh ने आपको 11:20 PM पर फोन किया था। नंबर 8000012345। जब खाली हों तो वापस कॉल कर लीजिए।,0,hindi,telecom:hi:t3c
+"Hi, I tried calling you but you did not pick up. Call me back on +91 90000 11223 when you are free.",0,english,telecom:en:t3a
+"Hi, I tried calling you but you did not pick up. Call me back on +91 98765 43210 when you are free.",0,english,telecom:en:t3a
+"Hi, I tried calling you but you did not pick up. Call me back on 9123456789 when you are free.",0,english,telecom:en:t3a
+"Hi, I tried calling you but you did not pick up. Call me back on 9876543210 when you are free.",0,english,telecom:en:t3a
+Please call me when you reach. I am on +91 98765 43210.,0,english,telecom:en:t3b
+Please call me when you reach. I am on +91 70000 54321.,0,english,telecom:en:t3b
+Please call me when you reach. I am on 8000012345.,0,english,telecom:en:t3b
+Please call me when you reach. I am on 9876543210.,0,english,telecom:en:t3b
+"Call Priya on 9876543210 if you need the keys, he is home after 12:05 PM.",0,english,telecom:en:t3c
+"Call Suresh on 8000012345 if you need the keys, he is home after 09:30 AM.",0,english,telecom:en:t3c
+"Call Priya on 9876543210 if you need the keys, he is home after 09:30 AM.",0,english,telecom:en:t3c
+"Call Priya on 9123456789 if you need the keys, he is home after 12:05 PM.",0,english,telecom:en:t3c
+"I will call you at 07:58 PM. If you cannot talk, message me on 99999 12345.",0,english,telecom:en:t3d
+"I will call you at 11:20 PM. If you cannot talk, message me on 99999 12345.",0,english,telecom:en:t3d
+"I will call you at 12:05 PM. If you cannot talk, message me on +91 70000 54321.",0,english,telecom:en:t3d
+"I will call you at 09:30 AM. If you cannot talk, message me on 9876543210.",0,english,telecom:en:t3d
+Missed your call. Call me on +91 70000 54321 when you see this.,0,english,telecom:en:t3e
+Missed your call. Call me on 8000012345 when you see this.,0,english,telecom:en:t3e
+Missed your call. Call me on +91 98765 43210 when you see this.,0,english,telecom:en:t3e
+Missed your call. Call me on +91 90000 11223 when you see this.,0,english,telecom:en:t3e
+"Maine call kiya tha, aapne uthaya nahi. 8000012345 par wapas call kar lena.",0,hinglish,telecom:hi:t3a
+"Maine call kiya tha, aapne uthaya nahi. +91 90000 11223 par wapas call kar lena.",0,hinglish,telecom:hi:t3a
+"Maine call kiya tha, aapne uthaya nahi. 9876543210 par wapas call kar lena.",0,hinglish,telecom:hi:t3a
+"Maine call kiya tha, aapne uthaya nahi. 9123456789 par wapas call kar lena.",0,hinglish,telecom:hi:t3a
+"Ghar pahunch kar mujhe call karna, main +91 90000 11223 par hoon.",0,hinglish,telecom:hi:t3b
+"Ghar pahunch kar mujhe call karna, main +91 98765 43210 par hoon.",0,hinglish,telecom:hi:t3b
+"Ghar pahunch kar mujhe call karna, main 99999 12345 par hoon.",0,hinglish,telecom:hi:t3b
+"Ghar pahunch kar mujhe call karna, main 9876543210 par hoon.",0,hinglish,telecom:hi:t3b
+"Suresh ko +91 98765 43210 par call kar lo, wo 6:40 PM ke baad ghar par hai.",0,hinglish,telecom:hi:t3c
+"Priya ko +91 70000 54321 par call kar lo, wo 12:05 PM ke baad ghar par hai.",0,hinglish,telecom:hi:t3c
+"Anita ko +91 98765 43210 par call kar lo, wo 09:30 AM ke baad ghar par hai.",0,hinglish,telecom:hi:t3c
+"Ramesh ko +91 70000 54321 par call kar lo, wo 07:58 PM ke baad ghar par hai.",0,hinglish,telecom:hi:t3c
+"मैंने फोन किया था, आपने नहीं उठाया। जब खाली हों तो +91 98765 43210 पर बात कर लीजिए।",0,hindi,telecom:hi:t3a
+"मैंने फोन किया था, आपने नहीं उठाया। जब खाली हों तो 9876543210 पर बात कर लीजिए।",0,hindi,telecom:hi:t3a
+"मैंने फोन किया था, आपने नहीं उठाया। जब खाली हों तो 9123456789 पर बात कर लीजिए।",0,hindi,telecom:hi:t3a
+"मैंने फोन किया था, आपने नहीं उठाया। जब खाली हों तो 99999 12345 पर बात कर लीजिए।",0,hindi,telecom:hi:t3a
+"घर पहुँचकर मुझे फोन करना, मैं 99999 12345 पर हूँ।",0,hindi,telecom:hi:t3b
+"घर पहुँचकर मुझे फोन करना, मैं 9876543210 पर हूँ।",0,hindi,telecom:hi:t3b
+"घर पहुँचकर मुझे फोन करना, मैं 8000012345 पर हूँ।",0,hindi,telecom:hi:t3b
+"घर पहुँचकर मुझे फोन करना, मैं 9123456789 पर हूँ।",0,hindi,telecom:hi:t3b
+Your delivery partner Suresh will call you on 99999 12345 before delivery. Please keep your phone on.,0,english,telecom:en:t3a
+Your delivery partner Priya will call you on +91 90000 11223 before delivery. Please keep your phone on.,0,english,telecom:en:t3a
+Your delivery partner Priya will call you on 9123456789 before delivery. Please keep your phone on.,0,english,telecom:en:t3a
+Your delivery partner Priya will call you on +91 70000 54321 before delivery. Please keep your phone on.,0,english,telecom:en:t3a
+Your order is out for delivery. Priya (9123456789) will call you when he reaches.,0,english,telecom:en:t3b
+Your order is out for delivery. Ramesh (+91 90000 11223) will call you when he reaches.,0,english,telecom:en:t3b
+Your order is out for delivery. Suresh (8000012345) will call you when he reaches.,0,english,telecom:en:t3b
+Your order is out for delivery. Priya (99999 12345) will call you when he reaches.,0,english,telecom:en:t3b
+Our technician Suresh will call you on 8000012345 to confirm the visit time. -BSNL,0,english,telecom:en:t3c
+Our technician Suresh will call you on +91 90000 11223 to confirm the visit time. -BSNL,0,english,telecom:en:t3c
+Our technician Anita will call you on +91 70000 54321 to confirm the visit time. -Airtel,0,english,telecom:en:t3c
+Our technician Anita will call you on 9123456789 to confirm the visit time. -Airtel,0,english,telecom:en:t3c
+The school office will call you on 9123456789 about the admission form.,0,english,telecom:en:t3d
+The school office will call you on 9876543210 about the admission form.,0,english,telecom:en:t3d
+The school office will call you on +91 98765 43210 about the admission form.,0,english,telecom:en:t3d
+The school office will call you on 99999 12345 about the admission form.,0,english,telecom:en:t3d
+Aapka delivery partner Ramesh +91 90000 11223 par aapko call karega. Phone chalu rakhein.,0,hinglish,telecom:hi:t3a
+Aapka delivery partner Anita 9876543210 par aapko call karega. Phone chalu rakhein.,0,hinglish,telecom:hi:t3a
+Aapka delivery partner Priya +91 90000 11223 par aapko call karega. Phone chalu rakhein.,0,hinglish,telecom:hi:t3a
+Aapka delivery partner Anita +91 70000 54321 par aapko call karega. Phone chalu rakhein.,0,hinglish,telecom:hi:t3a
+Aapka order nikal gaya hai. Priya (+91 98765 43210) pahunch kar call karega.,0,hinglish,telecom:hi:t3b
+Aapka order nikal gaya hai. Ramesh (99999 12345) pahunch kar call karega.,0,hinglish,telecom:hi:t3b
+Aapka order nikal gaya hai. Suresh (8000012345) pahunch kar call karega.,0,hinglish,telecom:hi:t3b
+Aapka order nikal gaya hai. Anita (9123456789) pahunch kar call karega.,0,hinglish,telecom:hi:t3b
+Your appointment is confirmed for 16-Nov-2026 at 11:20 PM. To reschedule call Shree Tailors on 9876543210.,0,english,telecom:en:t3a
+Your appointment is confirmed for 22-Nov-2026 at 09:30 AM. To reschedule call Green Leaf Restaurant on +91 98765 43210.,0,english,telecom:en:t3a
+Your appointment is confirmed for 23-Nov-2026 at 6:40 PM. To reschedule call Sharma Dental Care on +91 90000 11223.,0,english,telecom:en:t3a
+Your appointment is confirmed for 22-Nov-2026 at 6:40 PM. To reschedule call City Clinic on 8000012345.,0,english,telecom:en:t3a
+Table booked for 4 on 16-Nov-2026 at 09:30 AM. For any change please call the restaurant on 9123456789.,0,english,telecom:en:t3b
+Table booked for 4 on 23-Nov-2026 at 10:15 AM. For any change please call the restaurant on +91 98765 43210.,0,english,telecom:en:t3b
+Table booked for 4 on 21-Nov-2026 at 07:58 PM. For any change please call the restaurant on +91 90000 11223.,0,english,telecom:en:t3b
+Table booked for 4 on 23-Nov-2026 at 6:40 PM. For any change please call the restaurant on +91 90000 11223.,0,english,telecom:en:t3b
+"Your stitching order is ready. Call Green Leaf Restaurant on 8000012345 before you come, we close at 8 pm.",0,english,telecom:en:t3c
+"Your stitching order is ready. Call Shree Tailors on +91 70000 54321 before you come, we close at 8 pm.",0,english,telecom:en:t3c
+"Your stitching order is ready. Call City Clinic on 8000012345 before you come, we close at 8 pm.",0,english,telecom:en:t3c
+"Your stitching order is ready. Call Sharma Dental Care on +91 70000 54321 before you come, we close at 8 pm.",0,english,telecom:en:t3c
+Thank you for visiting Laxmi Medical. For any query about your bill call us on 9123456789.,0,english,telecom:en:t3d
+Thank you for visiting Sharma Dental Care. For any query about your bill call us on +91 70000 54321.,0,english,telecom:en:t3d
+Thank you for visiting Laxmi Medical. For any query about your bill call us on 8000012345.,0,english,telecom:en:t3d
+Thank you for visiting City Clinic. For any query about your bill call us on +91 90000 11223.,0,english,telecom:en:t3d
+Aapki appointment 23-Nov-2026 ko 11:20 PM par confirm hai. Badalna ho to Laxmi Medical ko 99999 12345 par call karein.,0,hinglish,telecom:hi:t3a
+Aapki appointment 22-Nov-2026 ko 12:05 PM par confirm hai. Badalna ho to City Clinic ko +91 90000 11223 par call karein.,0,hinglish,telecom:hi:t3a
+Aapki appointment 16-Nov-2026 ko 6:40 PM par confirm hai. Badalna ho to Green Leaf Restaurant ko 99999 12345 par call karein.,0,hinglish,telecom:hi:t3a
+Aapki appointment 23-Nov-2026 ko 12:05 PM par confirm hai. Badalna ho to Laxmi Medical ko 8000012345 par call karein.,0,hinglish,telecom:hi:t3a
+आपकी अपॉइंटमेंट 23-Nov-2026 को 07:58 PM पर पक्की है। बदलाव के लिए Laxmi Medical को +91 98765 43210 पर कॉल कीजिए।,0,hindi,telecom:hi:t3a
+आपकी अपॉइंटमेंट 23-Nov-2026 को 09:30 AM पर पक्की है। बदलाव के लिए City Clinic को 9123456789 पर कॉल कीजिए।,0,hindi,telecom:hi:t3a
+आपकी अपॉइंटमेंट 16-Nov-2026 को 07:58 PM पर पक्की है। बदलाव के लिए Laxmi Medical को 99999 12345 पर कॉल कीजिए।,0,hindi,telecom:hi:t3a
+आपकी अपॉइंटमेंट 22-Nov-2026 को 07:58 PM पर पक्की है। बदलाव के लिए City Clinic को 9876543210 पर कॉल कीजिए।,0,hindi,telecom:hi:t3a

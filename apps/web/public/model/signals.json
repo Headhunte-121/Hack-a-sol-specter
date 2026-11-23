@@ -323,7 +323,12 @@
       ],
       "none": [
         "successfully",
-        "सफलतापूर्वक"
+        "सफलतापूर्वक",
+        "प्लान की वैधता",
+        "वैधता समाप्त",
+        "वैधता जल्द",
+        "प्लान समाप्त",
+        "प्लान जल्द"
       ]
     },
     {
@@ -514,7 +519,30 @@
           "phonetok"
         ]
       ],
-      "none": []
+      "none": [
+        "missed call",
+        "missed calls",
+        "missed a call",
+        "missed your call",
+        "missed voice call",
+        "miss call",
+        "call alert",
+        "call from",
+        "calls from",
+        "tried calling",
+        "tried to call",
+        "tried to reach",
+        "called you",
+        "will call you",
+        "call you on",
+        "call me",
+        "call me back",
+        "मिस्ड कॉल",
+        "मिस कॉल",
+        "फोन किया था",
+        "कॉल करेगा",
+        "कॉल आई"
+      ]
     },
     {
       "id": "has_link",
