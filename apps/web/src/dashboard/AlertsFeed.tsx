@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { LESSON_FOR_CATEGORY, type CategoryCode } from '../shared/categories'
+import { useDemoMode } from '../shell/demoMode'
 import { useLang } from '../shell/i18n'
 import { kvGet, kvSet } from '../shell/storage'
 import { apiGet } from './api'
@@ -19,11 +20,13 @@ export function AlertsFeed() {
   const { t, lang } = useLang()
   const [alerts, setAlerts] = useState<Alert[]>([])
   const [read, setRead] = useState<number[]>(kvGet('alerts.read', []))
+  const [demoMode] = useDemoMode()
   useEffect(() => {
     let live = true
-    void apiGet<{ rows: Alert[] }>('/alerts').then((r) => live && setAlerts(r.data?.rows ?? []))
+    // Demo mode off: the on-device fallback shows no sample alerts (a live server decides for itself)
+    void apiGet<{ rows: Alert[] }>('/alerts' + (demoMode ? '' : '?demo=0')).then((r) => live && setAlerts(r.data?.rows ?? []))
     return () => { live = false }
-  }, [])
+  }, [demoMode])
   if (alerts.length === 0) return null
   const unread = alerts.filter((a) => !read.includes(a.id)).length
   const pick = (a: Alert, f: 'title' | 'summary') => (a[`${f}_${lang}` as keyof Alert] as string) || (a[`${f}_hi` as keyof Alert] as string) || (a[`${f}_en` as keyof Alert] as string)
