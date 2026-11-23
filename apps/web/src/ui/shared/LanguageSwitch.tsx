@@ -35,7 +35,7 @@ export function LangPill({ inverted = false }: { inverted?: boolean }) {
 
       <Globe
         aria-hidden="true"
-        className={`pointer-events-none absolute left-2.5 z-10 size-3.5 shrink-0 ${
+        className={`pointer-events-none absolute left-3 z-10 size-3.5 shrink-0 ${
           inverted ? 'text-white/90' : 'text-slate-500'
         }`}
         strokeWidth={2}
@@ -48,7 +48,7 @@ export function LangPill({ inverted = false }: { inverted?: boolean }) {
         onChange={(e) => setLang(e.target.value as Lang)}
         className={`cursor-pointer appearance-none rounded-full font-semibold transition-colors focus-visible:outline-none ${
           inverted
-            ? 'h-7.5 bg-white/15 pr-6.5 pl-7 text-[11.5px] text-white ring-1 ring-white/25 hover:bg-white/25'
+            ? 'h-8.5 bg-white/15 pr-7.5 pl-8 text-[12.5px] text-white ring-1 ring-white/25 hover:bg-white/25'
             : 'h-8.5 border border-slate-200/90 bg-white pr-7 pl-7.5 text-[12.5px] text-slate-700 shadow-2xs hover:border-slate-300 hover:bg-slate-50'
         }`}
       >
@@ -61,7 +61,7 @@ export function LangPill({ inverted = false }: { inverted?: boolean }) {
 
       <ChevronDown
         aria-hidden="true"
-        className={`pointer-events-none absolute right-2 z-10 size-3.5 shrink-0 ${
+        className={`pointer-events-none absolute right-2.5 z-10 size-3.5 shrink-0 ${
           inverted ? 'text-white/85' : 'text-slate-500'
         }`}
         strokeWidth={2.2}

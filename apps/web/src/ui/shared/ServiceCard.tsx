@@ -77,34 +77,30 @@ export function ServiceCard({
   return (
     <a
       href={href}
-      className={`group flex min-h-25 flex-col justify-between gap-2 rounded-2xl border bg-white p-3 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.98] sm:min-h-31.5 sm:gap-3 sm:p-4 ${
+      className={`group flex min-h-36 flex-col justify-between gap-3 rounded-2xl border bg-white p-4 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.98] ${
         highlight
           ? 'border-[#1B3B73]/25 shadow-xs ring-1 ring-[#1B3B73]/10 hover:border-[#1B3B73]'
           : `border-slate-200/90 shadow-2xs ${style.ring}`
       }`}
     >
-      <div className="flex items-start justify-between gap-1.5">
+      <div className="flex items-start justify-between gap-2">
         <span
-          className={`flex size-8.5 shrink-0 items-center justify-center rounded-xl transition-colors duration-200 sm:size-10 ${style.badge} ${style.glow}`}
+          className={`flex size-10 shrink-0 items-center justify-center rounded-xl transition-colors duration-200 ${style.badge} ${style.glow}`}
         >
-          <IconComp className="size-4 sm:size-4.75" strokeWidth={2.1} />
+          <IconComp className="size-4.75" strokeWidth={2.1} />
         </span>
         {highlight && (
-          <span className="rounded-full bg-[#1B3B73]/10 px-2 py-0.5 text-[9.5px] font-bold uppercase tracking-wider text-[#1B3B73] sm:px-2.5 sm:text-[10px]">
+          <span className="rounded-full bg-[#1B3B73]/10 px-2.5 py-0.5 text-[10.5px] font-bold uppercase tracking-wider text-[#1B3B73]">
             Quick
           </span>
         )}
       </div>
 
       <div className="space-y-0.5">
-        <div className="text-[13.5px] font-bold leading-snug text-slate-900 transition-colors group-hover:text-[#1B3B73] sm:text-[14.5px]">
+        <div className="text-[15px] font-bold leading-snug text-slate-900 transition-colors group-hover:text-[#1B3B73]">
           {title}
         </div>
-        {sub && (
-          <p className="line-clamp-2 text-[11.5px] leading-snug text-slate-500 sm:text-[12px] sm:leading-relaxed">
-            {sub}
-          </p>
-        )}
+        {sub && <p className="line-clamp-2 text-[13px] leading-snug text-slate-500">{sub}</p>}
       </div>
     </a>
   )
