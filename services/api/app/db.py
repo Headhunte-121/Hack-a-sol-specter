@@ -67,6 +67,10 @@ class Database(Protocol):
         """Returns scam_category -> count for the given window."""
         ...
 
+    def query_district_window_counts(self, start: str, end: str, demo: bool) -> dict[tuple[str, str], int]:
+        """Returns (region_code, scam_category) -> count for the given window across all districts."""
+        ...
+
     def has_seed_data(self, region: str | None, category: str | None, channel: str | None, start: str, end: str) -> bool:
         """Returns True if any aggregate in the range has source='seed'."""
         ...
@@ -183,6 +187,15 @@ class SqliteDatabase:
         sql = f"SELECT scam_category, SUM(report_count) AS n FROM daily_aggregates WHERE {where_clause} GROUP BY scam_category"
         rows = self.query(sql, tuple(params))
         return {r["scam_category"]: r["n"] for r in rows}
+
+    def query_district_window_counts(self, start: str, end: str, demo: bool) -> dict[tuple[str, str], int]:
+        extra = "" if demo else " AND source <> 'seed'"
+        rows = self.query(
+            f"SELECT region_code, scam_category, SUM(report_count) AS n FROM daily_aggregates "
+            f"WHERE date >= ? AND date <= ?{extra} GROUP BY region_code, scam_category",
+            (start, end),
+        )
+        return {(r["region_code"], r["scam_category"]): r["n"] for r in rows}
 
     def has_seed_data(self, region: str | None, category: str | None, channel: str | None, start: str, end: str) -> bool:
         where = ["date >= ?", "date <= ?", "source = 'seed'"]
@@ -378,6 +391,15 @@ class PostgresDatabase:
         sql = f"SELECT scam_category, SUM(report_count)::int AS n FROM daily_aggregates WHERE {where_clause} GROUP BY scam_category"
         rows = self.query(sql, tuple(params))
         return {r["scam_category"]: r["n"] for r in rows}
+
+    def query_district_window_counts(self, start: str, end: str, demo: bool) -> dict[tuple[str, str], int]:
+        extra = "" if demo else " AND source <> 'seed'"
+        rows = self.query(
+            f"SELECT region_code, scam_category, SUM(report_count)::int AS n FROM daily_aggregates "
+            f"WHERE date >= %s AND date <= %s{extra} GROUP BY region_code, scam_category",
+            (start, end),
+        )
+        return {(r["region_code"], r["scam_category"]): r["n"] for r in rows}
 
     def has_seed_data(self, region: str | None, category: str | None, channel: str | None, start: str, end: str) -> bool:
         where = ["date >= %s", "date <= %s", "source = 'seed'"]

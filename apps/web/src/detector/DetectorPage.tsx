@@ -8,6 +8,7 @@ import { Layout } from '../shell/Layout'
 import { currentQuery } from '../shell/router'
 import { Banner, Icon, NumberedList, type Tone } from '../shell/ui'
 import type { Lexicon } from '../call/scripts'
+import { consumeSharedText, isAndroidNative, readRecentSms, subscribeIncomingSms, type DeviceSms } from '../native/sms'
 import { analyzeInput, type DetectResult } from './detect'
 import { DEMO_MESSAGES } from './demo'
 import { handleFeedback, saveLastResult } from './lastResult'
@@ -47,6 +48,25 @@ export default function DetectorPage() {
   const [result, setResult] = useState<DetectResult | null>(null)
   const [fb, setFb] = useState(false)
 
+  type ScannedSms = DeviceSms & { result: DetectResult }
+  const nativeSms = isAndroidNative()
+  const [inbox, setInbox] = useState<ScannedSms[]>([])
+  const [smsLoading, setSmsLoading] = useState(nativeSms)
+  const [smsDenied, setSmsDenied] = useState(false)
+  const [watchingSms, setWatchingSms] = useState(false)
+
+  const loadInbox = () => {
+    if (!nativeSms || !scorer || !brands) return
+    setSmsLoading(true)
+    setSmsDenied(false)
+    readRecentSms(30)
+      .then((msgs) => {
+        setInbox(msgs.map((m) => ({ ...m, result: analyzeInput(m.body, scorer, brands, lex, m.sender) })))
+      })
+      .catch(() => setSmsDenied(true))
+      .finally(() => setSmsLoading(false))
+  }
+
   useEffect(() => {
     let live = true
     Promise.all([loadScorer(), fetch('/model/brands.json').then((r) => r.json())])
@@ -56,6 +76,45 @@ export default function DetectorPage() {
     fetch('/model/call_lexicon.json').then((r) => r.json()).then((j) => live && setLex(j as Lexicon)).catch(() => {})
     return () => { live = false }
   }, [])
+
+  // 1. Auto-scan recent SMS + watch incoming SMS live on Android APK (no form needed)
+  useEffect(() => {
+    if (!nativeSms || !scorer || !brands) return
+    let live = true
+    let stop: (() => void) | null = null
+
+    setSmsLoading(true)
+    readRecentSms(30)
+      .then((msgs) => {
+        if (!live) return
+        setInbox(msgs.map((m) => ({ ...m, result: analyzeInput(m.body, scorer, brands, lex, m.sender) })))
+        setSmsLoading(false)
+        return subscribeIncomingSms((sms) => {
+          const res = analyzeInput(sms.body, scorer, brands, lex, sms.sender)
+          if (res.band !== 'looks_genuine') navigator.vibrate?.([250, 100, 250])
+          setInbox((prev) => [{ ...sms, result: res }, ...prev.filter((x) => x.id !== sms.id)])
+        })
+      })
+      .then((unsub) => {
+        if (live && unsub) { stop = unsub; setWatchingSms(true) }
+      })
+      .catch(() => { if (live) { setSmsDenied(true); setSmsLoading(false) } })
+
+    return () => { live = false; stop?.() }
+  }, [nativeSms, scorer, brands, lex])
+
+  // 2. Auto-check any message shared from WhatsApp / SMS (zero form on both APK & PWA)
+  useEffect(() => {
+    if (!scorer || !brands) return
+    const runShared = () => {
+      void consumeSharedText().then((txt) => {
+        if (txt) check(txt)
+      })
+    }
+    runShared()
+    window.addEventListener('suraksha:shared', runShared)
+    return () => window.removeEventListener('suraksha:shared', runShared)
+  }, [scorer, brands, lex])
 
   // Auto-fill from query params (e.g. from Web Share Target or route query)
   useEffect(() => {
@@ -189,57 +248,153 @@ export default function DetectorPage() {
     )
   }
 
+  const flaggedCount = inbox.filter((m) => m.result.band !== 'looks_genuine').length
+
   // ---------------------------------------------------------------- input screen
   return (
-    <Layout title={t('detector.title')} lead={t('detector.lead')}>
+    <Layout title={t('detector.title')} lead={nativeSms ? t('sms.inbox.sub') : t('detector.lead')}>
       {loadError && <Banner tone="bad" role="alert">{t('detector.error')}</Banner>}
       {!scorer && !loadError && <p className="text-muted">{t('detector.loading')}</p>}
 
-      <div className="flex flex-col gap-1.5">
-        <label htmlFor="sender-input" className="text-[17px] font-bold text-ink">
-          {t('detector.sender.label')}
-        </label>
-        <input
-          id="sender-input"
-          type="text"
-          value={sender}
-          onChange={(e) => setSender(e.target.value)}
-          placeholder={t('detector.sender.placeholder')}
-          maxLength={40}
-          className="h-12 w-full rounded-xl border-2 border-line bg-white px-3 text-[18px] text-ink focus:border-brand focus:outline-none"
-        />
-      </div>
+      {nativeSms && scorer && (
+        <section className="space-y-3" data-testid="sms-inbox">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h2 className="text-[18px] font-bold text-ink">{t('sms.inbox.title')}</h2>
+              {watchingSms && <p className="text-xs font-bold text-ok">● {t('sms.inbox.live_badge')}</p>}
+            </div>
+            <button type="button" className="btn btn-secondary !min-h-10 !text-[14px]" onClick={loadInbox}>
+              🔄 {t('sms.inbox.refresh')}
+            </button>
+          </div>
 
-      <label htmlFor="msg" className="text-[20px] font-bold">{t('detector.label')}</label>
-      <textarea
-        id="msg"
-        value={input}
-        onChange={(e) => setInput(e.target.value)}
-        placeholder={t('detector.placeholder')}
-        maxLength={2000}
-        className="h-[170px] w-full resize-none rounded-2xl border-2 border-brand bg-white p-4 text-[20px] leading-normal text-ink"
-      />
+          {flaggedCount > 0 && (
+            <Banner tone="bad" className="font-bold">⚠️ {t('sms.inbox.scam_count', { n: flaggedCount })}</Banner>
+          )}
 
-      {'clipboard' in navigator && typeof navigator.clipboard?.readText === 'function' && (
-        <button
-          className="btn btn-secondary !min-h-[60px] !text-[22px]"
-          onClick={async () => {
-            try {
-              const text = await navigator.clipboard.readText()
-              const parsed = parseSenderAndText(text, sender || undefined)
-              setInput(parsed.text)
-              if (parsed.sender) setSender(parsed.sender)
-            } catch {
-              /* permission refused */
-            }
-          }}
-        >
-          <Icon name="clipboard" size={26} />{t('detector.paste')}
-        </button>
+          {smsDenied ? (
+            <div className="card space-y-2.5">
+              <p className="text-[16px]">{t('sms.inbox.permission')}</p>
+              <button type="button" className="btn btn-primary w-full" onClick={loadInbox}>{t('sms.inbox.allow')}</button>
+            </div>
+          ) : smsLoading ? (
+            <p className="text-muted">{t('detector.loading')}</p>
+          ) : inbox.length === 0 ? (
+            <p className="card text-muted">{t('sms.inbox.empty')}</p>
+          ) : (
+            <ul className="space-y-2">
+              {inbox.map((item) => {
+                const bad = item.result.band === 'likely_scam'
+                const warn = item.result.band === 'suspicious'
+                const pill = bad
+                  ? 'border-bad-line bg-bad-bg text-bad'
+                  : warn
+                    ? 'border-warn-line bg-warn-bg text-warn'
+                    : 'border-ok-line bg-ok-bg text-ok'
+                return (
+                  <li key={item.id}>
+                    <button
+                      type="button"
+                      onClick={() => check(item.body, true, item.sender)}
+                      className={`card w-full space-y-1.5 text-left transition hover:border-brand ${bad ? 'border-bad-line!' : warn ? 'border-warn-line!' : ''}`}
+                    >
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="truncate font-bold text-ink">{item.sender || 'SMS'}</span>
+                        <span className={`shrink-0 rounded-full border px-2.5 py-0.5 text-xs font-bold ${pill}`}>
+                          {t(`band.${item.result.band}`)}
+                        </span>
+                      </div>
+                      <p className="line-clamp-2 text-[15px] text-muted">{item.body}</p>
+                    </button>
+                  </li>
+                )
+              })}
+            </ul>
+          )}
+        </section>
       )}
-      <button className="btn btn-primary !min-h-[68px] !text-[26px]" disabled={!scorer || !input.trim()} onClick={() => check()}>
-        <Icon name="search" size={28} stroke={2.5} />{t('detector.check')}
-      </button>
+
+      {/* Manual input: hidden inside collapsible toggle on Android APK (no form by default), visible on Web */}
+      {nativeSms ? (
+        <details className="card">
+          <summary className="cursor-pointer font-bold text-brand">{t('sms.inbox.manual_toggle')}</summary>
+          <div className="mt-3 flex flex-col gap-3">
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="sender-input-native" className="text-[17px] font-bold text-ink">
+                {t('detector.sender.label')}
+              </label>
+              <input
+                id="sender-input-native"
+                type="text"
+                value={sender}
+                onChange={(e) => setSender(e.target.value)}
+                placeholder={t('detector.sender.placeholder')}
+                maxLength={40}
+                className="h-12 w-full rounded-xl border-2 border-line bg-white px-3 text-[18px] text-ink focus:border-brand focus:outline-none"
+              />
+            </div>
+            <textarea
+              id="msg-native"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder={t('detector.placeholder')}
+              maxLength={2000}
+              className="h-[140px] w-full resize-none rounded-2xl border-2 border-brand bg-white p-3 text-[18px] text-ink"
+            />
+            <button className="btn btn-primary" disabled={!scorer || !input.trim()} onClick={() => check()}>
+              <Icon name="search" size={22} stroke={2.5} />{t('detector.check')}
+            </button>
+          </div>
+        </details>
+      ) : (
+        <>
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="sender-input" className="text-[17px] font-bold text-ink">
+              {t('detector.sender.label')}
+            </label>
+            <input
+              id="sender-input"
+              type="text"
+              value={sender}
+              onChange={(e) => setSender(e.target.value)}
+              placeholder={t('detector.sender.placeholder')}
+              maxLength={40}
+              className="h-12 w-full rounded-xl border-2 border-line bg-white px-3 text-[18px] text-ink focus:border-brand focus:outline-none"
+            />
+          </div>
+
+          <label htmlFor="msg" className="text-[20px] font-bold">{t('detector.label')}</label>
+          <textarea
+            id="msg"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder={t('detector.placeholder')}
+            maxLength={2000}
+            className="h-[170px] w-full resize-none rounded-2xl border-2 border-brand bg-white p-4 text-[20px] leading-normal text-ink"
+          />
+
+          {'clipboard' in navigator && typeof navigator.clipboard?.readText === 'function' && (
+            <button
+              className="btn btn-secondary !min-h-[60px] !text-[22px]"
+              onClick={async () => {
+                try {
+                  const text = await navigator.clipboard.readText()
+                  const parsed = parseSenderAndText(text, sender || undefined)
+                  setInput(parsed.text)
+                  if (parsed.sender) setSender(parsed.sender)
+                } catch {
+                  /* permission refused */
+                }
+              }}
+            >
+              <Icon name="clipboard" size={26} />{t('detector.paste')}
+            </button>
+          )}
+          <button className="btn btn-primary !min-h-[68px] !text-[26px]" disabled={!scorer || !input.trim()} onClick={() => check()}>
+            <Icon name="search" size={28} stroke={2.5} />{t('detector.check')}
+          </button>
+        </>
+      )}
 
       <Banner tone="info" className="flex items-center gap-3 !text-[18px]"><Icon name="lock" size={26} />{t('detector.privacy')}</Banner>
 

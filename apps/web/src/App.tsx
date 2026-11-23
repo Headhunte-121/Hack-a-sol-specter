@@ -6,6 +6,7 @@ import { Layout } from './shell/Layout'
 import { navigate, usePath } from './shell/router'
 import { usePwaBootstrap } from './shell/pwa'
 import { useReportSync } from './dashboard/sync'
+import { captureWebShareTarget, stashSharedText, subscribeNativeShare } from './native/sms'
 
 const DetectorPage = lazy(() => import('./detector/DetectorPage'))
 const ReportPage = lazy(() => import('./report/ReportPage'))
@@ -32,18 +33,14 @@ export default function App() {
   useReportSync()
 
   useEffect(() => {
-    if (typeof window === 'undefined') return
-    const searchParams = new URLSearchParams(window.location.search)
-    const sharedText = searchParams.get('text') || searchParams.get('url') || searchParams.get('title')
-    if (sharedText || window.location.pathname.startsWith('/share-target')) {
-      const textToPass = [searchParams.get('text'), searchParams.get('url')].filter(Boolean).join(' ') || searchParams.get('title') || ''
-      const senderToPass = searchParams.get('sender') || ''
-      window.history.replaceState(null, '', window.location.pathname.startsWith('/share-target') ? '/' : window.location.pathname)
-      const q = new URLSearchParams()
-      if (textToPass) q.set('text', textToPass)
-      if (senderToPass) q.set('sender', senderToPass)
-      navigate(`/message?${q.toString()}`)
-    }
+    captureWebShareTarget()
+    let stop: (() => void) | null = null
+    void subscribeNativeShare((text) => {
+      stashSharedText(text)
+      navigate('/message')
+      window.dispatchEvent(new CustomEvent('suraksha:shared'))
+    }).then((fn) => { stop = fn })
+    return () => { stop?.() }
   }, [])
 
   const path = usePath()

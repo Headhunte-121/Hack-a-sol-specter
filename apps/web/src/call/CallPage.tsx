@@ -13,11 +13,12 @@ import { isDemoMode, useDemoMode } from '../shell/demoMode'
 import { analyzeCall, fmtTime, hitRanges, STAGES, type CallResult, type Lexicon, type Segment } from './analyze'
 import { asrBase, AsrError, audioDuration, healthCheck, startRecording, uploadForTranscript, validateClip } from './asr'
 import { buildEvidenceNote } from './evidence'
-import { startLiveMic, type LiveMicSession } from './liveMic'
+import { currentQuery } from '../shell/router'
+import { isLiveMicSupported, startLiveMic, type LiveMicSession, type LiveSpeechLang } from './liveMic'
 import { postProcessTranscript } from './normalize'
 
 interface DemoCall { id: string; title: Tri; style: string; segments: Segment[] }
-type Mode = 'examples' | 'paste' | 'audio'
+type Mode = 'live' | 'examples' | 'paste' | 'audio'
 type Analysed = { result: CallResult; segments: Segment[]; duration: number | null; label?: Tri }
 
 const LEVEL_STYLE = {
@@ -41,7 +42,18 @@ export default function CallPage() {
   const [demos, setDemos] = useState<DemoCall[]>([])
   const [scorer, setScorer] = useState<Scorer | null>(null)
   const [brands, setBrands] = useState<BrandsFile | null>(null)
-  const [mode, setMode] = useState<Mode>(() => (isDemoMode() ? 'examples' : (asrBase() ? 'audio' : 'paste')))
+  const [mode, setMode] = useState<Mode>(() => {
+    if (currentQuery().get('live') === '1') return 'live'
+    return isLiveMicSupported() ? 'live' : (isDemoMode() ? 'examples' : 'paste')
+  })
+  const [liveLang, setLiveLang] = useState<LiveSpeechLang>(() => (lang === 'en' ? 'en-IN' : 'hi-IN'))
+  const [liveSession, setLiveSession] = useState<LiveMicSession | null>(null)
+  const [liveLines, setLiveLines] = useState<string[]>([])
+  const [liveInterim, setLiveInterim] = useState('')
+  const liveRef = useRef<LiveMicSession | null>(null)
+  const vibratedHigh = useRef(false)
+  liveRef.current = liveSession
+
   const [pasted, setPasted] = useState('')
   const [out, setOut] = useState<Analysed | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -49,49 +61,50 @@ export default function CallPage() {
   const [recording, setRecording] = useState<{ stop: () => Promise<Blob>; cancel: () => void } | null>(null)
   const [fb, setFb] = useState(false)
   const [copied, setCopied] = useState(false)
-  const [liveSession, setLiveSession] = useState<LiveMicSession | null>(null)
-  const [liveResult, setLiveResult] = useState<CallResult | null>(null)
-  const [liveText, setLiveText] = useState('')
   const abort = useRef<AbortController | null>(null)
   const recRef = useRef<{ cancel: () => void } | null>(null)
   const segRefs = useRef<Record<number, HTMLElement | null>>({})
   recRef.current = recording
 
+  const liveSegments = useMemo<Segment[]>(() => {
+    const all = [...liveLines, ...(liveInterim ? [liveInterim] : [])]
+    return all.map((text) => ({ start: null, end: null, text }))
+  }, [liveLines, liveInterim])
+
+  const liveResult = useMemo(() => {
+    if (!lex || liveSegments.length === 0) return null
+    return analyzeCall(liveSegments, lex, scorer, brands)
+  }, [lex, liveSegments, scorer, brands])
+
+  // Vibrate immediately when a live call crosses into high scam risk
+  useEffect(() => {
+    if (liveResult?.level === 'high' && !vibratedHigh.current) {
+      vibratedHigh.current = true
+      navigator.vibrate?.([300, 100, 300, 100, 300])
+    }
+  }, [liveResult?.level])
+
   const toggleLiveMic = async () => {
+    setError(null)
     if (liveSession) {
       await liveSession.stop()
       setLiveSession(null)
       return
     }
-    setError(null)
-    setLiveResult(null)
-    setLiveText('')
+    setLiveLines([])
+    setLiveInterim('')
+    vibratedHigh.current = false
     try {
-      const sess = await startLiveMic(lang === 'en' ? 'en-IN' : 'hi-IN', {
-        onTranscript: (committed, interim) => {
-          const combined = `${committed}\n${interim}`.trim()
-          setLiveText(combined)
-          if (!lex) return
-          const segs: Segment[] = combined.split('\n').filter(Boolean).map((text) => ({ start: null, end: null, text }))
-          if (!segs.length) return
-          const r = analyzeCall(segs, lex, scorer, brands)
-          setLiveResult(r)
-          if (r.level === 'high' && typeof navigator !== 'undefined' && 'vibrate' in navigator) {
-            navigator.vibrate([300, 100, 300])
-          }
-        },
+      const session = await startLiveMic(liveLang, {
+        onTranscript: (committed, interim) => { setLiveLines(committed); setLiveInterim(interim) },
         onError: (code) => {
-          setError(code === 'mic' ? 'call.err.mic' : 'call.err.failed')
           setLiveSession(null)
+          setError(code === 'unsupported' ? 'call.live.unsupported' : `call.err.${code}`)
         },
-        onEnd: () => {
-          setLiveSession(null)
-        },
+        onEnd: () => setLiveSession(null),
       })
-      setLiveSession(sess)
-    } catch {
-      // handled in onError
-    }
+      setLiveSession(session)
+    } catch { /* error handled in callback */ }
   }
 
   useEffect(() => {
@@ -100,8 +113,8 @@ export default function CallPage() {
     fetch('/content/demo_calls.json').then((r) => r.json()).then((j: { calls: DemoCall[] }) => live && setDemos(j.calls)).catch(() => {})
     void loadScorer().then((s) => live && setScorer(s)).catch(() => live && setScorer(null))
     fetch('/model/brands.json').then((r) => r.json()).then((j) => live && setBrands(j as BrandsFile)).catch(() => {})
-    return () => { live = false; recRef.current?.cancel(); abort.current?.abort(); void liveSession?.stop() }
-  }, [liveSession])
+    return () => { live = false; recRef.current?.cancel(); void liveRef.current?.stop(); abort.current?.abort() }
+  }, [])
 
   const run = (segments: Segment[], duration: number | null, label?: Tri) => {
     if (!lex) return
@@ -195,7 +208,7 @@ export default function CallPage() {
     }
   }, [demoMode, mode])
 
-  const tabs: Mode[] = demoMode ? ['examples', 'paste', 'audio'] : ['paste', 'audio']
+  const tabs: Mode[] = demoMode ? ['live', 'examples', 'paste', 'audio'] : ['live', 'paste', 'audio']
   const heardStages = res ? STAGES.filter((s) => res.stagesHeard.includes(s)) : []
 
   // ---------------------------------------------------------------- RESULT VIEW
@@ -303,7 +316,7 @@ export default function CallPage() {
   return (
     <Layout title={t('call.title')}>
       <p className="rounded-lg bg-soft p-2 text-sm text-info">ℹ️ {t('call.langnote')}</p>
-      <div role="tablist" className="grid grid-cols-3 gap-1">
+      <div role="tablist" className={`grid ${demoMode ? 'grid-cols-4' : 'grid-cols-3'} gap-1`}>
         {tabs.map((m) => (
           <button
             key={m}
@@ -312,10 +325,97 @@ export default function CallPage() {
             onClick={() => setMode(m)}
             className={`min-h-12 rounded-2xl border-2 text-sm font-bold ${mode === m ? 'border-brand bg-brand text-white' : 'border-line bg-white text-ink'}`}
           >
-            {t(`call.mode.${m}`)}
+            {m === 'live' ? t('call.live.mode') : m === 'audio' ? t('call.mode.upload') : t(`call.mode.${m}`)}
           </button>
         ))}
       </div>
+
+      {mode === 'live' && (
+        <section className="space-y-3" data-testid="call-live">
+          <div className="flex gap-2">
+            <button
+              type="button"
+              disabled={Boolean(liveSession)}
+              onClick={() => setLiveLang('hi-IN')}
+              className={`btn flex-1 !min-h-10 !text-[14px] ${liveLang === 'hi-IN' ? 'btn-primary' : 'btn-secondary'}`}
+            >
+              {t('call.live.lang_hi')}
+            </button>
+            <button
+              type="button"
+              disabled={Boolean(liveSession)}
+              onClick={() => setLiveLang('en-IN')}
+              className={`btn flex-1 !min-h-10 !text-[14px] ${liveLang === 'en-IN' ? 'btn-primary' : 'btn-secondary'}`}
+            >
+              {t('call.live.lang_en')}
+            </button>
+          </div>
+
+          <button
+            type="button"
+            disabled={!lex}
+            onClick={() => void toggleLiveMic()}
+            className={`btn w-full !min-h-16 !text-[20px] ${liveSession ? 'btn-danger' : 'btn-primary'}`}
+            data-testid="live-mic-toggle"
+          >
+            {liveSession ? `⏹ ${t('call.live.stop')}` : `🎙️ ${t('call.live.start')}`}
+          </button>
+
+          {liveSession && (
+            <p role="status" className="font-bold text-bad animate-pulse">● {t('call.live.listening')}</p>
+          )}
+
+          {/* Live real-time scam warning banner as the call plays */}
+          {liveResult && (
+            <div className="space-y-2.5" aria-live="assertive" data-testid="live-verdict" data-level={liveResult.level}>
+              <Banner tone={LEVEL_STYLE[liveResult.level].tone} className="flex items-center gap-3">
+                <span className="text-3xl" aria-hidden>{LEVEL_STYLE[liveResult.level].icon}</span>
+                <div>
+                  <div className="text-[22px] font-bold leading-tight">{t(`call.level.${liveResult.level}`)}</div>
+                  {liveResult.topScript && liveResult.level !== 'low' && (
+                    <div className="text-[16px] font-semibold">{t(`call.script.${liveResult.topScript}`)}</div>
+                  )}
+                </div>
+              </Banner>
+
+              {liveResult.level !== 'low' && (
+                <Banner tone="warn" className="font-bold">🛑 {t(`call.advice.${liveResult.level}`)}</Banner>
+              )}
+
+              {liveResult.stagesHeard.length > 0 && (
+                <div className="flex flex-wrap gap-1.5">
+                  {liveResult.stagesHeard.map((s) => (
+                    <span key={s} className="rounded-full border border-bad-line bg-bad-bg px-3 py-1 text-xs font-bold text-bad">
+                      {t(`call.stage.${s}`)}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              <div className="card max-h-48 overflow-y-auto space-y-1 text-[16px]">
+                {liveLines.map((line, i) => <p key={i}>{line}</p>)}
+                {liveInterim && <p className="italic text-muted">{liveInterim}</p>}
+              </div>
+
+              <div className="flex gap-2">
+                {liveResult.level === 'high' && (
+                  <a className="btn btn-danger flex-1" href="tel:1930">📞 {t('report.act.call_1930')}</a>
+                )}
+                <button
+                  type="button"
+                  className="btn btn-secondary flex-1"
+                  onClick={async () => {
+                    if (liveSession) { await liveSession.stop(); setLiveSession(null) }
+                    run(liveSegments, null)
+                  }}
+                >
+                  📋 {t('call.live.full_report')}
+                </button>
+              </div>
+            </div>
+          )}
+        </section>
+      )}
 
       {mode === 'examples' && (
         <section className="space-y-2">
@@ -360,58 +460,6 @@ export default function CallPage() {
             </p>
           ) : (
             <>
-              {/* GT-02 Bonus 1: Real-Time Live Call Warning */}
-              <button
-                className={`btn w-full ${liveSession ? 'btn-danger font-bold' : 'btn-primary'}`}
-                onClick={toggleLiveMic}
-              >
-                {liveSession ? `⏹ ${t('call.audio.stop')}` : `🎙️ ${lang === 'hi' ? 'लाइव कॉल चेतावनी (अभी सुनें)' : lang === 'cg' ? 'लाइव काल चेतावनी (अभी सुनव)' : 'Live Call Warning (Listen Now)'}`}
-              </button>
-
-              {liveSession && (
-                <div className="card space-y-3 border-2 border-brand/50 bg-surface p-3" aria-live="polite">
-                  <div className="flex items-center justify-between">
-                    <span className="font-bold text-bad animate-pulse">● {t('call.audio.recording')}</span>
-                    {liveResult && (
-                      <span className={`rounded-md px-2 py-0.5 text-xs font-bold text-white ${liveResult.level === 'high' ? 'bg-bad' : liveResult.level === 'medium' ? 'bg-warn' : 'bg-ok'}`}>
-                        {t(`call.level.${liveResult.level}`)}
-                      </span>
-                    )}
-                  </div>
-
-                  {liveResult && (
-                    <div className="space-y-2">
-                      {liveResult.topScript && (
-                        <p className="font-bold text-[16px] text-brand">
-                          🎯 {t(`call.script.${liveResult.topScript}`)}
-                        </p>
-                      )}
-                      <div className="flex flex-wrap gap-1">
-                        {STAGES.map((s) => {
-                          const heard = liveResult.stagesHeard.includes(s)
-                          return (
-                            <span key={s} className={`rounded px-1.5 py-0.5 text-xs font-semibold ${heard ? 'bg-bad text-white font-bold' : 'bg-line/40 text-muted'}`}>
-                              {t(`stage.${s}`)}
-                            </span>
-                          )
-                        })}
-                      </div>
-                      {liveResult.level === 'high' && (
-                        <a href="tel:1930" className="btn btn-danger w-full !text-[18px] font-bold block text-center">
-                          🛑 {lang === 'hi' ? 'कॉल काटें और 1930 पर रिपोर्ट करें' : 'Hang Up & Call 1930'}
-                        </a>
-                      )}
-                    </div>
-                  )}
-
-                  {liveText && (
-                    <p className="rounded bg-white/70 p-2 text-xs italic text-slate-700 max-h-24 overflow-y-auto">
-                      "{liveText.slice(-150)}"
-                    </p>
-                  )}
-                </div>
-              )}
-
               <label className="btn btn-secondary cursor-pointer">
                 📁 {t('call.audio.pick')}
                 <input
