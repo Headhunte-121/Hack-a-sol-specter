@@ -10,6 +10,7 @@ import { captureWebShareTarget, stashSharedText, subscribeNativeShare } from './
 
 const DetectorPage = lazy(() => import('./detector/DetectorPage'))
 const ReportPage = lazy(() => import('./report/ReportPage'))
+const ComplaintPage = lazy(() => import('./report/ComplaintPage'))
 const LearnPage = lazy(() => import('./learn/LearnPage'))
 const TrendsPage = lazy(() => import('./dashboard/TrendsPage'))
 const CallPage = lazy(() => import('./call/CallPage'))
@@ -21,6 +22,7 @@ const ROUTES: Record<string, () => React.ReactElement> = {
   '/settings': () => <Settings />,
   '/message': () => <DetectorPage />,
   '/report': () => <ReportPage />,
+  '/report/complaint': () => <ComplaintPage />,
   '/learn': () => <LearnPage />,
   '/trends': () => <TrendsPage />,
   '/call': () => <CallPage />,

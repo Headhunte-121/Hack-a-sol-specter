@@ -312,3 +312,10 @@
     line-height: 1.25 !important;
   }
 }
+
+/* Complaint helper: "Print or save as PDF" prints only the report for the website. */
+@media print {
+  body * { visibility: hidden; }
+  .complaint-print, .complaint-print * { visibility: visible; }
+  .complaint-print { display: block !important; position: absolute; left: 0; top: 0; width: 100%; padding: 16mm; }
+}

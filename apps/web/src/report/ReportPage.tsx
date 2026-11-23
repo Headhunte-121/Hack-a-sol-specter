@@ -7,6 +7,7 @@ import { useBackStep, useInnerScreenOnReturn } from '../shell/backStep'
 import { setBusy } from '../shell/busy'
 import { formatDate, useLang } from '../shell/i18n'
 import { Layout } from '../shell/Layout'
+import { navigate } from '../shell/router'
 import { kvGet, kvSet } from '../shell/storage'
 import { Banner, Icon, NumberedList, type Tone } from '../shell/ui'
 import { CHANNELS, LAST_VERIFIED } from './channels'
@@ -135,6 +136,15 @@ export default function ReportPage() {
           {route.primary === 'open_chakshu' && <button className="btn btn-primary" onClick={() => openPortal(CHANNELS.chakshu.url)}>{t('report.act.open_chakshu')}</button>}
           {route.primary === 'open_learn' && <a className="btn btn-primary" href="#/learn">{t('report.act.learn')}</a>}
           {offlineNote && <Banner tone="info" role="status" className="!text-[16px]">{t('report.offline')}</Banner>}
+
+          {route.channel !== 'tips' && (
+            <div className="card space-y-2" data-testid="complaint-entry">
+              <p className="text-[17px] leading-snug">{t('report.act.complaint_hint')}</p>
+              <button className="btn btn-primary" onClick={() => { kvSet('complaint.context', { outcome, shared, category, channel: channelPick, paid: payMethod }); navigate('/report/complaint') }}>
+                <Icon name="clipboard" size={24} />{t('report.act.complaint')}
+              </button>
+            </div>
+          )}
 
           {route.channel === 'helpline_1930' && (
             <div className="card space-y-2.5" data-testid="paid">
