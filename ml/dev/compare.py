@@ -34,7 +34,7 @@ def near_dup(text, thr=0.7):
     return max((c / (len(a) + len(sets[i]) - c) for i, c in cand.items()), default=0.0) >= thr
 
 
-DEV = {name: list(csv.DictReader(open(HERE / f, encoding="utf-8"))) for name, f in (("stress", "dev_stress_v1.csv"), ("sms", "dev_sms_v1.csv"), ("rewrite", "dev_rewrite_v1.csv"), ("evasion", "dev_evasion_v1.csv")) if (HERE / f).exists()}
+DEV = {name: list(csv.DictReader(open(HERE / f, encoding="utf-8"))) for name, f in (("stress", "dev_stress_v1.csv"), ("sms", "dev_sms_v1.csv"), ("rewrite", "dev_rewrite_v1.csv"), ("evasion", "dev_evasion_v1.csv"), ("calls", "dev_calls_v1.csv"), ("promos", "dev_promos_v1.csv")) if (HERE / f).exists()}
 CLEAN = {name: [r for r in rows if not near_dup(r["text"])] for name, rows in DEV.items()}
 
 
