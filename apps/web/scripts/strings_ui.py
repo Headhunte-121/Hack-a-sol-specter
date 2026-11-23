@@ -71,5 +71,5 @@ S = {
  "learn.score.desc.confident": ("{score} out of 100. Well done! You can teach others.", "100 में से {score}। शाबाश! आप दूसरों को भी सिखा सकते हैं।", "100 म ले {score}। शाबाश! तुमन दूसर ला घलो सिखा सकथव।"),
  "learn.weakest_tag": ("weakest", "सबसे कमज़ोर", "सबले कमजोर"),
  "learn.score.next": ("Read the next lesson: {topic}", "अगला पाठ पढ़ें: {topic}", "अगला पाठ पढ़व: {topic}"),
- "learn.take_quiz": ("Take the quiz (12 questions)", "क्विज़ दें (12 प्रश्न)", "क्विज़ देवव (12 प्रश्न)"),
+ "learn.take_quiz": ("Take the quiz ({n} questions)", "क्विज़ दें ({n} प्रश्न)", "क्विज़ देवव ({n} प्रश्न)"),
 }

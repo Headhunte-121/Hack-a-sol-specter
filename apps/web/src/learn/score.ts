@@ -7,6 +7,7 @@ import type { Question } from './content'
 export const DIFFICULTY_WEIGHT: Record<1 | 2 | 3, number> = { 1: 1, 2: 1.5, 3: 2 }
 export const TOPIC_WEIGHTS: Record<string, number> = {
   otp_pin_card: 20, fake_kyc: 15, digital_arrest: 15, courier_customs: 10, upi_qr: 20, links_apps: 10, what_to_do: 10,
+  atm_pin: 10, upi_pin: 10, safe_habits: 10,
 }
 export type Level = 'beginner' | 'aware' | 'confident'
 export interface Answer {
