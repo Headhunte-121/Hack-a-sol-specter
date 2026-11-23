@@ -52,6 +52,14 @@
         "accusation": ["jeet*|2", "जीत*|2", "winner|3", "lottery|3", "लॉटरी|3", "inaam|3", "इनाम|3", "prize|3", "gift voucher|2", "lucky draw|3"],
         "demand": ["processing fee|3", "registration fee|3", "tax bhej*|3", "tax जमा|3", "paise bhej*|3", "पैसे भेज*|3", "advance|2", "gst|2", "otp|3", "bank details|3", "बैंक डिटेल|3"]
       }
+    },
+    {
+      "id": "unauthorized_order",
+      "stages": {
+        "authority": ["amazon|2", "amazon security department|3", "calling from amazon|3", "security department|2", "fraud department|3", "customer service|2", "billing department|2", "cardholder services|2"],
+        "accusation": ["fraudulent activities|3", "unauthorized charge|3", "fraudulent|3", "unauthorized|3", "suspicious activity|3", "charge of|2", "unauthorized transaction|3", "compromised|2", "unknown ip|2", "account suspended|3", "order placed|2"],
+        "demand": ["press 1|3", "press 2|2", "talk to|2", "speak with|2", "call back|2", "cancel the order|2", "refund|2", "verify your identity|3", "confirm your card|3"]
+      }
     }
   ],
   "benign": ["your order|1", "delivery boy|1", "delivery|1", "appointment|1", "statement|1", "ghar aa gaya|1", "khana|1", "reminder|1", "thank you|1", "dhanyavad|1", "धन्यवाद|1", "डिलीवरी|1", "अपॉइंटमेंट|1", "खाना|1", "मम्मी|1", "papa|1", "ghar|1", "घर|1"]

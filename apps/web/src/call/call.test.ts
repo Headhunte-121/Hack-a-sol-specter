@@ -122,4 +122,19 @@ describe('normalisation and spelling tolerance', () => {
     expect(analyzeCall([], lex, scorer).level).toBe('low')
     expect(analyzeCall(one('   '), lex, scorer).level).toBe('low')
   })
+  it('flags real Amazon unauthorized charge scam call as high with top words highlighted', () => {
+    const amzCall: Segment[] = [
+      { start: 1.0, end: 17.0, text: 'Dear customer, this is Marnie from Amazon. We have noticed some fraudulent activities on your Amazon account regarding some unauthorized charge of $1,500 from unknown IP address coming from Albany, New York.' },
+      { start: 18.0, end: 25.0, text: 'Kindly press 1 to talk to our Amazon security department. Thank you.' },
+    ]
+    const r = analyzeCall(amzCall, lex, scorer)
+    expect(r.level).toBe('high')
+    expect(r.hits.length).toBeGreaterThan(0)
+    const ranges = hitRanges(r)
+    expect(ranges.length).toBeGreaterThan(0)
+    // Should highlight words like fraudulent, unauthorized, amazon, etc.
+    const highlightedWords = ranges.map((rg) => r.text.slice(rg.start, rg.end))
+    console.log('AMAZON HIGHLIGHTED WORDS:', highlightedWords)
+    expect(highlightedWords.some((w) => /fraudulent|unauthorized|amazon/i.test(w))).toBe(true)
+  })
 })

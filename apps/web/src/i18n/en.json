@@ -60,6 +60,7 @@
   "call.script.electricity_disconnect": "Fake electricity disconnection call",
   "call.script.fake_kyc": "Fake KYC / bank call",
   "call.script.lottery_prize": "Fake lottery / prize call",
+  "call.script.unauthorized_order": "Fake order / unauthorized charge call",
   "call.stage.accusation": "A problem or accusation",
   "call.stage.authority": "Claims to be an official",
   "call.stage.demand": "Asks for money, a code or an app",

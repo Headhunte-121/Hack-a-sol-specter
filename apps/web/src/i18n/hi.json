@@ -60,6 +60,7 @@
   "call.script.electricity_disconnect": "फ़र्ज़ी बिजली कनेक्शन कटने का कॉल",
   "call.script.fake_kyc": "फ़र्ज़ी केवाईसी / बैंक कॉल",
   "call.script.lottery_prize": "फ़र्ज़ी लॉटरी / इनाम कॉल",
+  "call.script.unauthorized_order": "फ़र्ज़ी ऑर्डर / अनधिकृत चार्ज कॉल",
   "call.stage.accusation": "कोई समस्या या आरोप",
   "call.stage.authority": "अधिकारी होने का दावा",
   "call.stage.demand": "पैसे, कोड या ऐप माँगता है",
