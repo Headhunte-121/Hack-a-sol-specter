@@ -1,9 +1,21 @@
+import { Capacitor } from '@capacitor/core'
 import { kvGet, kvSet } from '../shell/storage'
 import { buildLocalDashboardResponse } from './localDemo'
 
 // API base comes from a public environment variable. Empty means "no backend configured": the dashboard then shows labelled demo
 // numbers and this device's own anonymous reports instead of failing, and the rest of the app is unaffected.
-export const apiBase = (): string => ((import.meta.env?.VITE_API_BASE as string | undefined) ?? '').replace(/\/$/, '')
+export const DEFAULT_API_BASE = 'https://suraksha-api-xi.vercel.app'
+export const apiBase = (): string => {
+  const env = ((import.meta.env?.VITE_API_BASE as string | undefined) ?? '').trim().replace(/\/$/, '')
+  if (env) return env
+  // The installed Android app is built on someone's PC and is not updated when the setting changes: without a build-time address it uses the
+  // project's default. The website keeps the old behaviour (no address = demo numbers and this device's own reports).
+  try {
+    return Capacitor.isNativePlatform() ? DEFAULT_API_BASE : ''
+  } catch {
+    return ''
+  }
+}
 
 export interface ApiResult<T> {
   data: T | null

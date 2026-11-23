@@ -265,3 +265,12 @@ def test_cors_preflight_allows_cache_control_and_headers(clock):
     r = c.options("/health", headers=headers)
     assert r.status_code == 200
     assert r.headers.get("access-control-allow-origin") in ("*", "https://hack-a-sol-specter.vercel.app")
+
+
+def test_cors_allows_the_installed_android_app_even_when_only_the_website_is_listed(clock, db_target, monkeypatch):
+    monkeypatch.setenv("API_CORS", "https://hack-a-sol-specter.vercel.app,http://localhost:5173")
+    _, c = make(clock, db_target=db_target)
+    ask = lambda origin: c.options("/health", headers={"Origin": origin, "Access-Control-Request-Method": "GET"})
+    assert ask("https://hack-a-sol-specter.vercel.app").headers.get("access-control-allow-origin") == "https://hack-a-sol-specter.vercel.app"
+    assert ask("https://localhost").headers.get("access-control-allow-origin") == "https://localhost"
+    assert ask("https://evil.example.com").headers.get("access-control-allow-origin") is None

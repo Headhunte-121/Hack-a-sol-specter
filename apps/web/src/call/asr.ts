@@ -1,13 +1,24 @@
+import { Capacitor } from '@capacitor/core'
 import type { Segment } from './analyze'
 
 export const DEFAULT_ASR_BASE = 'https://paternal-ideology-situation.ngrok-free.dev'
 
 // Client side of the transcription service. Only this module talks to it; everything else works with the transcript text.
+const isNativeApp = (): boolean => {
+  try {
+    return Capacitor.isNativePlatform()
+  } catch {
+    return false
+  }
+}
 export const asrBase = (): string | null => {
   const env = (import.meta.env?.VITE_ASR_BASE as string | undefined)?.trim()
-  if (!env || env.toLowerCase() === 'none' || env.toLowerCase() === 'disabled') {
-    return null
+  if (env && (env.toLowerCase() === 'none' || env.toLowerCase() === 'disabled')) {
+    return null // switched off on purpose
   }
+  // The website is told its speech server by its build; the installed Android app is built on someone's PC and is not updated when the setting
+  // changes, so when the build did not set one the app falls back to the project's default instead of showing "Not configured".
+  if (!env) return isNativeApp() ? DEFAULT_ASR_BASE : null
   if (env.includes('onrender.com')) {
     return DEFAULT_ASR_BASE
   }

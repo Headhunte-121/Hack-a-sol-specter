@@ -69,7 +69,12 @@ def create_app(db_path: str | None = None, secret: str | None = None, min_count:
     app = FastAPI(title="Suraksha anonymous reports API", version=VERSION)
     app.state.db = db
     app.state.min_count = MIN
-    app.add_middleware(CORSMiddleware, allow_origins=os.environ.get("API_CORS", "*").split(","), allow_methods=["*"],
+    cors_origins = [o.strip() for o in os.environ.get("API_CORS", "*").split(",") if o.strip()]
+    if "*" not in cors_origins:
+        # The installed Android app (Capacitor) serves its pages from https://localhost, so its requests carry that origin; without it the
+        # app's Settings page shows the reports server as offline and queued reports never sync.
+        cors_origins += [o for o in ("https://localhost", "capacitor://localhost") if o not in cors_origins]
+    app.add_middleware(CORSMiddleware, allow_origins=cors_origins, allow_methods=["*"],
                        allow_headers=["*"], allow_credentials=False)
 
     @app.middleware("http")
