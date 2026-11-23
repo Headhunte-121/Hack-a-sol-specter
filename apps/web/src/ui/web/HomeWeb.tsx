@@ -47,7 +47,7 @@ export function HomeWeb(props: HomeViewProps) {
             decoding="async"
             onLoad={() => setHeroLoaded(true)}
             onError={() => setHeroLoaded(false)}
-            className={`absolute inset-y-0 right-0 h-full w-[54%] object-cover object-center transition-opacity duration-200 ${
+            className={`absolute inset-y-0 right-0 h-full w-[54%] -scale-x-100 object-cover object-center transition-opacity duration-200 ${
               heroLoaded ? 'opacity-100' : 'opacity-0'
             }`}
           />
