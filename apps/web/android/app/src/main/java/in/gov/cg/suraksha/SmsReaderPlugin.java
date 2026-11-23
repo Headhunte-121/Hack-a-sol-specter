@@ -6,9 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
+import android.net.Uri;
+import android.provider.Settings;
 import android.provider.Telephony;
 import android.telephony.SmsMessage;
 
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 
 import com.getcapacitor.JSArray;
@@ -85,6 +88,52 @@ public class SmsReaderPlugin extends Plugin {
     @PluginMethod
     public void stopListening(PluginCall call) {
         unregisterSafe();
+        call.resolve();
+    }
+
+    // ---- Chat (RCS) messages: read from the messaging app's notifications, see ChatNotificationListener ----
+
+    private boolean chatAccessEnabled() {
+        return NotificationManagerCompat.getEnabledListenerPackages(getContext()).contains(getContext().getPackageName());
+    }
+
+    @PluginMethod
+    public void getChatMessages(PluginCall call) {
+        JSObject res = new JSObject();
+        res.put("enabled", chatAccessEnabled());
+        res.put("messages", ChatNotificationListener.read(getContext(), call.getInt("limit", 30)));
+        call.resolve(res);
+    }
+
+    /** Opens Android's "Notification access" list, where the user turns Suraksha on or off. */
+    @PluginMethod
+    public void openChatAccessSettings(PluginCall call) {
+        try {
+            Intent i = new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS);
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            getContext().startActivity(i);
+            call.resolve();
+        } catch (Exception e) {
+            call.reject("Could not open the notification access settings");
+        }
+    }
+
+    /** Opens this app's "App info" page (on Android 13 and later an app that was not installed from a store needs "Allow restricted settings" there first). */
+    @PluginMethod
+    public void openAppSettings(PluginCall call) {
+        try {
+            Intent i = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.fromParts("package", getContext().getPackageName(), null));
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            getContext().startActivity(i);
+            call.resolve();
+        } catch (Exception e) {
+            call.reject("Could not open the app settings");
+        }
+    }
+
+    @PluginMethod
+    public void clearChatMessages(PluginCall call) {
+        ChatNotificationListener.clear(getContext());
         call.resolve();
     }
 
