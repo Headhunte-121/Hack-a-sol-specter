@@ -40,8 +40,7 @@ export default function CallPage() {
   const [demos, setDemos] = useState<DemoCall[]>([])
   const [scorer, setScorer] = useState<Scorer | null>(null)
   const [brands, setBrands] = useState<BrandsFile | null>(null)
-  const [asrAvailable, setAsrAvailable] = useState<boolean | null>(() => (asrBase() ? null : false))
-  const [mode, setMode] = useState<Mode>(() => (isDemoMode() ? 'examples' : 'paste'))
+  const [mode, setMode] = useState<Mode>(() => (isDemoMode() ? 'examples' : (asrBase() ? 'audio' : 'paste')))
   const [pasted, setPasted] = useState('')
   const [out, setOut] = useState<Analysed | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -60,22 +59,6 @@ export default function CallPage() {
     fetch('/content/demo_calls.json').then((r) => r.json()).then((j: { calls: DemoCall[] }) => live && setDemos(j.calls)).catch(() => {})
     void loadScorer().then((s) => live && setScorer(s)).catch(() => live && setScorer(null))
     fetch('/model/brands.json').then((r) => r.json()).then((j) => live && setBrands(j as BrandsFile)).catch(() => {})
-    if (asrBase()) {
-      healthCheck(4000).then((h) => {
-        if (!live) return
-        setAsrAvailable(h.ok)
-        if (!h.ok) {
-          setMode((m) => (m === 'audio' ? (isDemoMode() ? 'examples' : 'paste') : m))
-        }
-      }).catch(() => {
-        if (!live) return
-        setAsrAvailable(false)
-        setMode((m) => (m === 'audio' ? (isDemoMode() ? 'examples' : 'paste') : m))
-      })
-    } else {
-      setAsrAvailable(false)
-      setMode((m) => (m === 'audio' ? (isDemoMode() ? 'examples' : 'paste') : m))
-    }
     return () => { live = false; recRef.current?.cancel(); abort.current?.abort() }
   }, [])
 
@@ -330,9 +313,7 @@ export default function CallPage() {
           <p className="rounded-2xl border-2 border-warn-line bg-warn-bg p-3 text-sm text-warn">
             🔒 {t('call.audio.warning')}
           </p>
-          {asrAvailable === null ? (
-            <p className="card text-[15px] text-muted">⏳ {t('settings.server_status.checking')}</p>
-          ) : !asrAvailable ? (
+          {!asrBase() ? (
             <p className="card border-2 border-warn-line bg-warn-bg text-[15px] leading-relaxed text-warn font-medium" data-testid="asr-unavailable-note">
               ℹ️ {t('call.audio.unavailable_note')}
             </p>

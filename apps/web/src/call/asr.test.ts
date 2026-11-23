@@ -23,7 +23,20 @@ describe('asr service client and health probes', () => {
     expect(asrBase()).toBeNull()
   })
 
-  it('asrBase returns cleaned URL when VITE_ASR_BASE is set', () => {
+  it('asrBase falls back to ngrok when VITE_ASR_BASE points to onrender.com', () => {
+    import.meta.env.VITE_ASR_BASE = 'https://hack-a-sol-specter.onrender.com'
+    expect(asrBase()).toBe('https://paternal-ideology-situation.ngrok-free.dev')
+  })
+
+  it('asrBase returns null when explicitly disabled', () => {
+    import.meta.env.VITE_ASR_BASE = 'disabled'
+    expect(asrBase()).toBeNull()
+
+    import.meta.env.VITE_ASR_BASE = 'none'
+    expect(asrBase()).toBeNull()
+  })
+
+  it('asrBase returns cleaned URL when VITE_ASR_BASE is set to custom server', () => {
     import.meta.env.VITE_ASR_BASE = 'https://speech.example.com/'
     expect(asrBase()).toBe('https://speech.example.com')
 

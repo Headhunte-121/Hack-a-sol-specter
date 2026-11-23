@@ -91,13 +91,22 @@ describe('CallPage audio degradation and probe states', () => {
     expect(recordBtn).toBeUndefined()
   })
 
-  it('displays calm note when speech server health check fails', async () => {
+  it('renders audio upload and record controls when speech server is configured', async () => {
     import.meta.env.VITE_ASR_BASE = 'https://speech.example.com'
 
     vi.spyOn(globalThis, 'fetch').mockImplementation((url) => {
       const u = String(url)
-      if (u.includes('/health')) {
-        return Promise.reject(new Error('Connection refused'))
+      if (u.includes('call_lexicon.json')) {
+        return Promise.resolve(new Response(JSON.stringify({ version: '1', keywords: {} })))
+      }
+      if (u.includes('demo_calls.json')) {
+        return Promise.resolve(new Response(JSON.stringify({ calls: [] })))
+      }
+      if (u.includes('brands.json')) {
+        return Promise.resolve(new Response(JSON.stringify({ brands: [] })))
+      }
+      if (u.includes('model.json') || u.includes('signals.json')) {
+        return Promise.resolve(new Response(JSON.stringify({})))
       }
       return Promise.resolve(new Response(JSON.stringify({})))
     })
@@ -111,10 +120,6 @@ describe('CallPage audio degradation and probe states', () => {
       )
     })
 
-    await act(async () => {
-      await new Promise((r) => setTimeout(r, 50))
-    })
-
     // Find and click the audio tab
     const tabs = host.querySelectorAll('[role="tab"]')
     const audioTab = Array.from(tabs).find((t) => t.textContent?.toLowerCase().includes('audio'))
@@ -122,8 +127,10 @@ describe('CallPage audio degradation and probe states', () => {
       audioTab?.dispatchEvent(new MouseEvent('click', { bubbles: true }))
     })
 
-    const calmNote = host.querySelector('[data-testid="asr-unavailable-note"]')
-    expect(calmNote).not.toBeNull()
-    expect(calmNote?.textContent).toContain('Audio check needs a speech server')
+    // Record button and file input should be present
+    const recordBtn = Array.from(host.querySelectorAll('button')).find((b) => b.textContent?.includes('Record'))
+    expect(recordBtn).toBeDefined()
+    const fileInput = host.querySelector('input[type="file"]')
+    expect(fileInput).not.toBeNull()
   })
 })

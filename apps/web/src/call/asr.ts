@@ -1,9 +1,17 @@
 import type { Segment } from './analyze'
 
+export const DEFAULT_ASR_BASE = 'https://paternal-ideology-situation.ngrok-free.dev'
+
 // Client side of the transcription service. Only this module talks to it; everything else works with the transcript text.
 export const asrBase = (): string | null => {
   const env = (import.meta.env?.VITE_ASR_BASE as string | undefined)?.trim()
-  return env ? env.replace(/\/$/, '') : null
+  if (!env || env.toLowerCase() === 'none' || env.toLowerCase() === 'disabled') {
+    return null
+  }
+  if (env.includes('onrender.com')) {
+    return DEFAULT_ASR_BASE
+  }
+  return env.replace(/\/$/, '')
 }
 export const LIMITS = { maxBytes: 5 * 1024 * 1024, maxSeconds: 180 }
 const OK_TYPES = ['audio/mpeg', 'audio/mp3', 'audio/wav', 'audio/x-wav', 'audio/wave', 'audio/webm', 'audio/ogg', 'audio/mp4', 'audio/aac', 'audio/x-m4a', 'audio/m4a', 'video/webm']
