@@ -22,7 +22,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, Response
 from pydantic import BaseModel, ConfigDict, Field
 
-from .db import Database, get_database
+from .db import Database, PostgresDatabase, get_database
 from .regions import CATEGORIES, CHANNELS, REGIONS, RISK_BANDS
 
 VERSION = "0.1.0"
@@ -235,8 +235,17 @@ def create_app(db_path: str | None = None, secret: str | None = None, min_count:
         return {"status": "ok", "service": "suraksha-api", "version": VERSION}
 
     @app.get("/health")
-    def health():
-        return {"status": "ok", "version": VERSION, "time": now().strftime("%Y-%m-%dT%H:%M:%SZ")}
+    def health(check_db: int = 0):
+        adapter = "postgres" if isinstance(db, PostgresDatabase) else "sqlite"
+        res = {"status": "ok", "version": VERSION, "db": adapter, "time": now().strftime("%Y-%m-%dT%H:%M:%SZ")}
+        if check_db:
+            try:
+                db.query("SELECT 1")
+                res["db_connected"] = True
+            except Exception as e:
+                res["db_connected"] = False
+                res["db_error"] = f"{type(e).__name__}: {str(e)[:150]}"
+        return res
 
     app.state.insert_report = insert_report
     app.state.token_hash = token_hash
