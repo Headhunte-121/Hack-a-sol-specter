@@ -1,13 +1,8 @@
 text,label,lang,group
-891514 is your Uber verification code.,0,english,otp_delivery:en:1
 786798 is your Instagram verification code.,0,english,otp_delivery:en:1
 267680 is your Microsoft verification code.,0,english,otp_delivery:en:1
-952315 is your Uber verification code.,0,english,otp_delivery:en:1
-193121 is your Uber verification code.,0,english,otp_delivery:en:1
 994585 is your Instagram verification code.,0,english,otp_delivery:en:1
 507510 is your Amazon verification code.,0,english,otp_delivery:en:1
-294912 is your Google verification code.,0,english,otp_delivery:en:1
-786270 is your Google verification code.,0,english,otp_delivery:en:1
 205810 is your Instagram verification code.,0,english,otp_delivery:en:1
 ICICI Bank: Your OTP for login is 784327. Valid for 10 mins. Do not share this OTP with anyone.,0,english,otp_delivery:en:2
 HDFC Bank: Your OTP for login is 862589. Valid for 10 mins. Do not share this OTP with anyone.,0,english,otp_delivery:en:2
@@ -146,13 +141,6 @@ Kotak Bank: Aapke login ka OTP 713561 hai. Ise kisi ke saath share na karein. Va
 "At your request, your debit card XX9012 has been temporarily blocked. Visit branch with photo ID to reactivate. -Kotak Bank",0,english,card_block_user:en:2
 "At your request, your debit card XX4821 has been temporarily blocked. Visit branch with photo ID to reactivate. -Kotak Bank",0,english,card_block_user:en:2
 "At your request, your debit card XX7789 has been temporarily blocked. Visit branch with photo ID to reactivate. -ICICI Bank",0,english,card_block_user:en:2
-आपका कार्ड आपके अनुरोध पर ब्लॉक कर दिया गया है। दोबारा चालू करने के लिए नजदीकी शाखा में जाएं। -एसबीआई,0,hindi,card_block_user:hi:1
-आपका कार्ड आपके अनुरोध पर ब्लॉक कर दिया गया है। दोबारा चालू करने के लिए नजदीकी शाखा में जाएं। -एचडीएफसी कार्ड,0,hindi,card_block_user:hi:1
-Aapka card aapki request par block kar diya gaya hai. Dobara chalu karne ke liye branch jayein. -SBI,0,hinglish,card_block_user:hinglish:1
-Aapka card aapki request par block kar diya gaya hai. Dobara chalu karne ke liye branch jayein. -Axis Bank,0,hinglish,card_block_user:hinglish:1
-Aapka card aapki request par block kar diya gaya hai. Dobara chalu karne ke liye branch jayein. -ICICI Bank,0,hinglish,card_block_user:hinglish:1
-Aapka card aapki request par block kar diya gaya hai. Dobara chalu karne ke liye branch jayein. -Kotak Bank,0,hinglish,card_block_user:hinglish:1
-Aapka card aapki request par block kar diya gaya hai. Dobara chalu karne ke liye branch jayein. -HDFC Bank,0,hinglish,card_block_user:hinglish:1
 "Dear customer, your periodic KYC is due. Please visit your nearest Kotak Bank branch with Aadhaar and PAN before 05 Dec to avoid restrictions.",0,english,kyc_branch:en:1
 "Dear customer, your periodic KYC is due. Please visit your nearest SBI branch with Aadhaar and PAN before 28 Nov to avoid restrictions.",0,english,kyc_branch:en:1
 "Dear customer, your periodic KYC is due. Please visit your nearest SBI branch with Aadhaar and PAN before 31 Dec to avoid restrictions.",0,english,kyc_branch:en:1
@@ -178,23 +166,14 @@ Aapka card aapki request par block kar diya gaya hai. Dobara chalu karne ke liye
 "Dear customer, KYC ke liye 15 Dec se pehle nazdeeki ICICI Bank branch mein Aadhaar aur PAN ke saath aayein.",0,hinglish,kyc_branch:hinglish:1
 "Dear customer, KYC ke liye 30 Nov se pehle nazdeeki Kotak Bank branch mein Aadhaar aur PAN ke saath aayein.",0,hinglish,kyc_branch:hinglish:1
 "Dear customer, KYC ke liye 30 Nov se pehle nazdeeki ICICI Bank branch mein Aadhaar aur PAN ke saath aayein.",0,hinglish,kyc_branch:hinglish:1
-"Dear customer, KYC ke liye 05 Dec se pehle nazdeeki Axis Bank branch mein Aadhaar aur PAN ke saath aayein.",0,hinglish,kyc_branch:hinglish:1
-"Dear customer, KYC ke liye 31 Dec se pehle nazdeeki PNB branch mein Aadhaar aur PAN ke saath aayein.",0,hinglish,kyc_branch:hinglish:1
 "PM-Kisan installment of Rs 2,000 has been credited to your bank account. Check your status at pmkisan.gov.in",0,english,gov_scheme:en:1
 "Crop insurance claim of Rs 8,500 under Fasal Bima Yojana credited to your account. Check details at pmfby.gov.in",0,english,gov_scheme:en:2
 "Crop insurance claim of Rs 12,000 under Fasal Bima Yojana credited to your account. Check details at pmfby.gov.in",0,english,gov_scheme:en:2
 "Crop insurance claim of Rs 16,400 under Fasal Bima Yojana credited to your account. Check details at pmfby.gov.in",0,english,gov_scheme:en:2
-"पीएम किसान सम्मान निधि की 2,000 रुपये की किस्त आपके खाते में जमा हो गई है। स्थिति देखें: pmkisan.gov.in",0,hindi,gov_scheme:hi:1
 "आपकी फसल बीमा की 8,500 रुपये की राशि बैंक खाते में भेज दी गई है। स्थिति चेक करें।",0,hindi,gov_scheme:hi:2
 "आपकी फसल बीमा की 12,000 रुपये की राशि बैंक खाते में भेज दी गई है। स्थिति चेक करें।",0,hindi,gov_scheme:hi:2
 "आपकी फसल बीमा की 16,400 रुपये की राशि बैंक खाते में भेज दी गई है। स्थिति चेक करें।",0,hindi,gov_scheme:hi:2
-"PM-Kisan ki Rs 2,000 ki kist aapke account mein aa gayi hai. Status dekhein: pmkisan.gov.in",0,hinglish,gov_scheme:hinglish:1
-"Aapki fasal bima ki Rs 16,400 ki rashi bank account mein bhej di gayi hai.",0,hinglish,gov_scheme:hinglish:2
-"Aapki fasal bima ki Rs 8,500 ki rashi bank account mein bhej di gayi hai.",0,hinglish,gov_scheme:hinglish:2
-"Aapki fasal bima ki Rs 12,000 ki rashi bank account mein bhej di gayi hai.",0,hinglish,gov_scheme:hinglish:2
 Your Aadhaar update request has been successfully processed. Download e-Aadhaar or check status at uidai.gov.in,0,english,aadhaar_status:en:1
-आपका आधार अपडेट हो गया है। स्थिति देखने के लिए uidai.gov.in पर जाएँ।,0,hindi,aadhaar_status:hi:1
-Aapka Aadhaar update ho gaya hai. Status dekhne ke liye uidai.gov.in par jayein.,0,hinglish,aadhaar_status:hinglish:1
 "Your Airtel plan expires on 31 Dec. To enjoy unlimited calls and data, recharge in the official Airtel app.",0,english,telecom_expiry:en:1
 "Your Jio plan expires on 28 Nov. To enjoy unlimited calls and data, recharge in the official Jio app.",0,english,telecom_expiry:en:1
 "Your Vi plan expires on 15 Dec. To enjoy unlimited calls and data, recharge in the official Vi app.",0,english,telecom_expiry:en:1
@@ -215,7 +194,6 @@ Aapka Aadhaar update ho gaya hai. Status dekhne ke liye uidai.gov.in par jayein.
 आपका जियो प्लान 15 Dec को समाप्त हो रहा है। सेवाओं को जारी रखने के लिए ऐप में जाकर रिचार्ज करें।,0,hindi,telecom_expiry:hi:1
 Aapka Airtel plan 10 Jan ko expire ho raha hai. Recharge ke liye MyJio app kholein.,0,hinglish,telecom_expiry:hinglish:1
 Aapka Airtel plan 30 Nov ko expire ho raha hai. Recharge ke liye MyJio app kholein.,0,hinglish,telecom_expiry:hinglish:1
-Aapka Jio plan 28 Nov ko expire ho raha hai. Recharge ke liye MyJio app kholein.,0,hinglish,telecom_expiry:hinglish:1
 Aapka Jio plan 31 Dec ko expire ho raha hai. Recharge ke liye MyJio app kholein.,0,hinglish,telecom_expiry:hinglish:1
 Aapka Jio plan 15 Dec ko expire ho raha hai. Recharge ke liye MyJio app kholein.,0,hinglish,telecom_expiry:hinglish:1
 Aapka Jio plan 05 Dec ko expire ho raha hai. Recharge ke liye MyJio app kholein.,0,hinglish,telecom_expiry:hinglish:1
@@ -234,11 +212,9 @@ Aapka Flipkart order dispatch ho gaya hai aur 31 Dec tak deliver hoga. Track kar
 Aapka Flipkart order dispatch ho gaya hai aur 10 Jan tak deliver hoga. Track karein app mein.,0,hinglish,delivery_update:hinglish:1
 Aapka Flipkart order dispatch ho gaya hai aur 15 Dec tak deliver hoga. Track karein app mein.,0,hinglish,delivery_update:hinglish:1
 Aapka Flipkart order dispatch ho gaya hai aur 28 Nov tak deliver hoga. Track karein app mein.,0,hinglish,delivery_update:hinglish:1
-Myntra End of Reason Sale is live! Up to 60% off. Shop now at https://www.myntra.com/sale,0,english,brand_sale:en:1
 Great Indian Festival starts now on Amazon! Top deals on mobiles and electronics: https://www.amazon.in,0,english,brand_sale:en:2
 फ्लिपकार्ट बिग बिलियन डेज सेल शुरू हो गई है! भारी छूट का लाभ उठाने के लिए ऐप खोलें।,0,hindi,brand_sale:hi:1
 Amazon Mega Sale live ho gayi hai. 50% tak discounts paane ke liye visit karein: https://www.amazon.in,0,hinglish,brand_sale:hinglish:1
-"Cyber safety tip from Police: never share OTP, PIN or card details. Police will never ask for money on a call. Report fraud: 1930",0,english,awareness:en:1
 Security alert from PNB: Never share your confidential banking credentials with anyone. Report suspicious calls on 1930.,0,english,awareness:en:2
 Security alert from SBI: Never share your confidential banking credentials with anyone. Report suspicious calls on 1930.,0,english,awareness:en:2
 Security alert from HDFC Bank: Never share your confidential banking credentials with anyone. Report suspicious calls on 1930.,0,english,awareness:en:2
@@ -375,3 +351,164 @@ Aapke loan account XX6623 ki EMI Rs 450 10 Jan ko due hai. Khate me paryapt bala
 "Aapke loan account XX3312 ki EMI Rs 12,000 15 Dec ko due hai. Khate me paryapt balance rakhein. -Kotak Bank",0,hinglish,emi_reminder:hinglish:1
 "Aapke loan account XX6623 ki EMI Rs 8,200 31 Dec ko due hai. Khate me paryapt balance rakhein. -Kotak Bank",0,hinglish,emi_reminder:hinglish:1
 "Aapke loan account XX3312 ki EMI Rs 1,250 31 Dec ko due hai. Khate me paryapt balance rakhein. -Kotak Bank",0,hinglish,emi_reminder:hinglish:1
+यूआईडीएआई: आपके नाम में बदलाव का अनुरोध दर्ज हो गया है। इसे पूरा होने में 14 दिन तक लग सकते हैं। स्थिति देखें: myaadhaar.uidai.gov.in,0,hindi,aadhaar_status:hi:v2a
+यूआईडीएआई: आपके मोबाइल नंबर में बदलाव का अनुरोध दर्ज हो गया है। इसे पूरा होने में 5 दिन तक लग सकते हैं। स्थिति देखें: uidai.gov.in,0,hindi,aadhaar_status:hi:v2a
+यूआईडीएआई: आपके नाम में बदलाव का अनुरोध दर्ज हो गया है। इसे पूरा होने में 10 दिन तक लग सकते हैं। स्थिति देखें: myaadhaar.uidai.gov.in,0,hindi,aadhaar_status:hi:v2a
+यूआईडीएआई: आपके पते में बदलाव का अनुरोध दर्ज हो गया है। इसे पूरा होने में 10 दिन तक लग सकते हैं। स्थिति देखें: uidai.gov.in,0,hindi,aadhaar_status:hi:v2a
+यूआईडीएआई: आपके पते में बदलाव का अनुरोध दर्ज हो गया है। इसे पूरा होने में 3 दिन तक लग सकते हैं। स्थिति देखें: myaadhaar.uidai.gov.in,0,hindi,aadhaar_status:hi:v2a
+यूआईडीएआई: आपके जन्मतिथि में बदलाव का अनुरोध दर्ज हो गया है। इसे पूरा होने में 3 दिन तक लग सकते हैं। स्थिति देखें: myaadhaar.uidai.gov.in,0,hindi,aadhaar_status:hi:v2a
+आपका आधार नाम अपडेट पूरा हो चुका है। नया ई-आधार myaadhaar.uidai.gov.in से डाउनलोड किया जा सकता है। यह एक स्वचालित संदेश है।,0,hindi,aadhaar_status:hi:v2b
+आपका आधार नाम अपडेट पूरा हो चुका है। नया ई-आधार uidai.gov.in से डाउनलोड किया जा सकता है। यह एक स्वचालित संदेश है।,0,hindi,aadhaar_status:hi:v2b
+आपका आधार पते अपडेट पूरा हो चुका है। नया ई-आधार myaadhaar.uidai.gov.in से डाउनलोड किया जा सकता है। यह एक स्वचालित संदेश है।,0,hindi,aadhaar_status:hi:v2b
+आपका आधार ईमेल अपडेट पूरा हो चुका है। नया ई-आधार myaadhaar.uidai.gov.in से डाउनलोड किया जा सकता है। यह एक स्वचालित संदेश है।,0,hindi,aadhaar_status:hi:v2b
+आपका आधार मोबाइल नंबर अपडेट पूरा हो चुका है। नया ई-आधार myaadhaar.uidai.gov.in से डाउनलोड किया जा सकता है। यह एक स्वचालित संदेश है।,0,hindi,aadhaar_status:hi:v2b
+आपका आधार ईमेल अपडेट पूरा हो चुका है। नया ई-आधार uidai.gov.in से डाउनलोड किया जा सकता है। यह एक स्वचालित संदेश है।,0,hindi,aadhaar_status:hi:v2b
+आधार सेवा: पते सुधार के आपके आवेदन पर कार्रवाई जारी है। कृपया 7 कार्य दिवस प्रतीक्षा करें। किसी से ओटीपी या पिन साझा न करें।,0,hindi,aadhaar_status:hi:v2c
+आधार सेवा: पते सुधार के आपके आवेदन पर कार्रवाई जारी है। कृपया 3 कार्य दिवस प्रतीक्षा करें। किसी से ओटीपी या पिन साझा न करें।,0,hindi,aadhaar_status:hi:v2c
+आधार सेवा: ईमेल सुधार के आपके आवेदन पर कार्रवाई जारी है। कृपया 7 कार्य दिवस प्रतीक्षा करें। किसी से ओटीपी या पिन साझा न करें।,0,hindi,aadhaar_status:hi:v2c
+आधार सेवा: जन्मतिथि सुधार के आपके आवेदन पर कार्रवाई जारी है। कृपया 7 कार्य दिवस प्रतीक्षा करें। किसी से ओटीपी या पिन साझा न करें।,0,hindi,aadhaar_status:hi:v2c
+आधार सेवा: मोबाइल नंबर सुधार के आपके आवेदन पर कार्रवाई जारी है। कृपया 14 कार्य दिवस प्रतीक्षा करें। किसी से ओटीपी या पिन साझा न करें।,0,hindi,aadhaar_status:hi:v2c
+आधार सेवा: पते सुधार के आपके आवेदन पर कार्रवाई जारी है। कृपया 14 कार्य दिवस प्रतीक्षा करें। किसी से ओटीपी या पिन साझा न करें।,0,hindi,aadhaar_status:hi:v2c
+UIDAI update: aapke mobile number badalne ki request mil gayi hai. Process hone mein 7 din lag sakte hain. Status myaadhaar.uidai.gov.in par dekh sakte hain.,0,hinglish,aadhaar_status:hinglish:v2a
+UIDAI update: aapke date of birth badalne ki request mil gayi hai. Process hone mein 10 din lag sakte hain. Status uidai.gov.in par dekh sakte hain.,0,hinglish,aadhaar_status:hinglish:v2a
+UIDAI update: aapke mobile number badalne ki request mil gayi hai. Process hone mein 14 din lag sakte hain. Status myaadhaar.uidai.gov.in par dekh sakte hain.,0,hinglish,aadhaar_status:hinglish:v2a
+UIDAI update: aapke address badalne ki request mil gayi hai. Process hone mein 3 din lag sakte hain. Status myaadhaar.uidai.gov.in par dekh sakte hain.,0,hinglish,aadhaar_status:hinglish:v2a
+UIDAI update: aapke date of birth badalne ki request mil gayi hai. Process hone mein 7 din lag sakte hain. Status uidai.gov.in par dekh sakte hain.,0,hinglish,aadhaar_status:hinglish:v2a
+UIDAI update: aapke mobile number badalne ki request mil gayi hai. Process hone mein 7 din lag sakte hain. Status uidai.gov.in par dekh sakte hain.,0,hinglish,aadhaar_status:hinglish:v2a
+Aapka Aadhaar date of birth update complete ho chuka hai. Naya e-Aadhaar myaadhaar.uidai.gov.in se download karein. Yeh ek automatic message hai.,0,hinglish,aadhaar_status:hinglish:v2b
+Aapka Aadhaar naam update complete ho chuka hai. Naya e-Aadhaar uidai.gov.in se download karein. Yeh ek automatic message hai.,0,hinglish,aadhaar_status:hinglish:v2b
+Aapka Aadhaar address update complete ho chuka hai. Naya e-Aadhaar uidai.gov.in se download karein. Yeh ek automatic message hai.,0,hinglish,aadhaar_status:hinglish:v2b
+Aapka Aadhaar date of birth update complete ho chuka hai. Naya e-Aadhaar uidai.gov.in se download karein. Yeh ek automatic message hai.,0,hinglish,aadhaar_status:hinglish:v2b
+Aapka Aadhaar email update complete ho chuka hai. Naya e-Aadhaar myaadhaar.uidai.gov.in se download karein. Yeh ek automatic message hai.,0,hinglish,aadhaar_status:hinglish:v2b
+Aapka Aadhaar mobile number update complete ho chuka hai. Naya e-Aadhaar uidai.gov.in se download karein. Yeh ek automatic message hai.,0,hinglish,aadhaar_status:hinglish:v2b
+Aadhaar seva: naam sudhaar ki application par kaam chal raha hai. Kripya 7 working din intezaar karein. Apna OTP kisi se share na karein.,0,hinglish,aadhaar_status:hinglish:v2c
+Aadhaar seva: email sudhaar ki application par kaam chal raha hai. Kripya 5 working din intezaar karein. Apna OTP kisi se share na karein.,0,hinglish,aadhaar_status:hinglish:v2c
+Aadhaar seva: address sudhaar ki application par kaam chal raha hai. Kripya 5 working din intezaar karein. Apna OTP kisi se share na karein.,0,hinglish,aadhaar_status:hinglish:v2c
+Aadhaar seva: email sudhaar ki application par kaam chal raha hai. Kripya 10 working din intezaar karein. Apna OTP kisi se share na karein.,0,hinglish,aadhaar_status:hinglish:v2c
+Aadhaar seva: date of birth sudhaar ki application par kaam chal raha hai. Kripya 7 working din intezaar karein. Apna OTP kisi se share na karein.,0,hinglish,aadhaar_status:hinglish:v2c
+Aadhaar seva: date of birth sudhaar ki application par kaam chal raha hai. Kripya 10 working din intezaar karein. Apna OTP kisi se share na karein.,0,hinglish,aadhaar_status:hinglish:v2c
+"Fraud alert from Cyber Cell: scammers pose as officials on calls. Genuine officials never ask for OTP, PIN or money transfers over the phone. Dial 1930 to report.",0,english,awareness:en:v2a
+"Fraud alert from State Police: scammers pose as officials on calls. Genuine officials never ask for OTP, PIN or money transfers over the phone. Dial 1930 to report.",0,english,awareness:en:v2a
+"Fraud alert from Delhi Police: scammers pose as officials on calls. Genuine officials never ask for OTP, PIN or money transfers over the phone. Dial 1930 to report.",0,english,awareness:en:v2a
+"Fraud alert from Mumbai Police: scammers pose as officials on calls. Genuine officials never ask for OTP, PIN or money transfers over the phone. Dial 1930 to report.",0,english,awareness:en:v2a
+"Fraud alert from RBI: scammers pose as officials on calls. Genuine officials never ask for OTP, PIN or money transfers over the phone. Dial 1930 to report.",0,english,awareness:en:v2a
+"Cyber Cell advisory: do not click unknown links or install apps sent by strangers. If you get a suspicious call, hang up and report it at cybercrime.gov.in",0,english,awareness:en:v2b
+"State Police advisory: do not click unknown links or install apps sent by strangers. If you get a suspicious call, hang up and report it at cybercrime.gov.in",0,english,awareness:en:v2b
+"Delhi Police advisory: do not click unknown links or install apps sent by strangers. If you get a suspicious call, hang up and report it at cybercrime.gov.in",0,english,awareness:en:v2b
+"RBI advisory: do not click unknown links or install apps sent by strangers. If you get a suspicious call, hang up and report it at cybercrime.gov.in",0,english,awareness:en:v2b
+"Mumbai Police advisory: do not click unknown links or install apps sent by strangers. If you get a suspicious call, hang up and report it at cybercrime.gov.in",0,english,awareness:en:v2b
+"Reminder from Mumbai Police: your bank will never call to ask for your card number, CVV or OTP. If someone does, end the call and tell your branch.",0,english,awareness:en:v2c
+"Reminder from Delhi Police: your bank will never call to ask for your card number, CVV or OTP. If someone does, end the call and tell your branch.",0,english,awareness:en:v2c
+"Reminder from State Police: your bank will never call to ask for your card number, CVV or OTP. If someone does, end the call and tell your branch.",0,english,awareness:en:v2c
+"Reminder from Cyber Cell: your bank will never call to ask for your card number, CVV or OTP. If someone does, end the call and tell your branch.",0,english,awareness:en:v2c
+"Reminder from RBI: your bank will never call to ask for your card number, CVV or OTP. If someone does, end the call and tell your branch.",0,english,awareness:en:v2c
+Awareness: a call saying you will be arrested unless you pay at once is a scam. Cyber Cell does not demand money on a call. Report it on 1930.,0,english,awareness:en:v2d
+Awareness: a call saying you will be arrested unless you pay at once is a scam. RBI does not demand money on a call. Report it on 1930.,0,english,awareness:en:v2d
+Awareness: a call saying you will be arrested unless you pay at once is a scam. Mumbai Police does not demand money on a call. Report it on 1930.,0,english,awareness:en:v2d
+Awareness: a call saying you will be arrested unless you pay at once is a scam. State Police does not demand money on a call. Report it on 1930.,0,english,awareness:en:v2d
+Awareness: a call saying you will be arrested unless you pay at once is a scam. Delhi Police does not demand money on a call. Report it on 1930.,0,english,awareness:en:v2d
+Amazon Mid-Season sale starts 01 Dec! Enjoy up to 50% off on fashion. Browse the offers in the Amazon app or at https://www.amazon.in,0,english,brand_sale:en:v2a
+Swiggy Mid-Season sale starts 01 Dec! Enjoy up to 40% off on fashion. Browse the offers in the Swiggy app or at https://www.swiggy.com,0,english,brand_sale:en:v2a
+Myntra Festive sale starts 01 Dec! Enjoy up to 70% off on kitchen essentials. Browse the offers in the Myntra app or at https://www.myntra.com,0,english,brand_sale:en:v2a
+Amazon Festive sale starts 28 Nov! Enjoy up to 30% off on groceries. Browse the offers in the Amazon app or at https://www.amazon.in,0,english,brand_sale:en:v2a
+JioMart Festive sale starts 05 Dec! Enjoy up to 50% off on kitchen essentials. Browse the offers in the JioMart app or at https://www.jiomart.com,0,english,brand_sale:en:v2a
+Flipkart Mid-Season sale starts 12 Dec! Enjoy up to 40% off on kitchen essentials. Browse the offers in the Flipkart app or at https://www.flipkart.com,0,english,brand_sale:en:v2a
+"New arrivals at JioMart: mobiles from top labels, free delivery on orders above Rs 499. T&C apply. Visit https://www.jiomart.com",0,english,brand_sale:en:v2b
+"New arrivals at Myntra: mobiles from top labels, free delivery on orders above Rs 499. T&C apply. Visit https://www.myntra.com",0,english,brand_sale:en:v2b
+"New arrivals at Swiggy: mobiles from top labels, free delivery on orders above Rs 499. T&C apply. Visit https://www.swiggy.com",0,english,brand_sale:en:v2b
+"New arrivals at Amazon: fashion from top labels, free delivery on orders above Rs 499. T&C apply. Visit https://www.amazon.in",0,english,brand_sale:en:v2b
+"New arrivals at JioMart: kitchen essentials from top labels, free delivery on orders above Rs 499. T&C apply. Visit https://www.jiomart.com",0,english,brand_sale:en:v2b
+"New arrivals at Flipkart: mobiles from top labels, free delivery on orders above Rs 499. T&C apply. Visit https://www.flipkart.com",0,english,brand_sale:en:v2b
+Your Zomato coupon expires on 12 Dec. Use it on your next order in the app. Terms apply. Reply STOP to unsubscribe.,0,english,brand_sale:en:v2c
+Your Swiggy coupon expires on 28 Nov. Use it on your next order in the app. Terms apply. Reply STOP to unsubscribe.,0,english,brand_sale:en:v2c
+Your Myntra coupon expires on 05 Dec. Use it on your next order in the app. Terms apply. Reply STOP to unsubscribe.,0,english,brand_sale:en:v2c
+Your Myntra coupon expires on 12 Dec. Use it on your next order in the app. Terms apply. Reply STOP to unsubscribe.,0,english,brand_sale:en:v2c
+Your Amazon coupon expires on 28 Nov. Use it on your next order in the app. Terms apply. Reply STOP to unsubscribe.,0,english,brand_sale:en:v2c
+एचडीएफसी बैंक: आपके अनुरोध के अनुसार कार्ड XX3312 की ऑनलाइन खरीद सुविधा बंद कर दी गई है। फिर से चालू करने के लिए एचडीएफसी बैंक मोबाइल ऐप में जाएं।,0,hindi,card_block_user:hi:v2a
+एसबीआई: आपके अनुरोध के अनुसार कार्ड XX4821 की ऑनलाइन खरीद सुविधा बंद कर दी गई है। फिर से चालू करने के लिए एसबीआई मोबाइल ऐप में जाएं।,0,hindi,card_block_user:hi:v2a
+कोटक बैंक: आपके अनुरोध के अनुसार कार्ड XX4821 की ऑनलाइन खरीद सुविधा बंद कर दी गई है। फिर से चालू करने के लिए कोटक बैंक मोबाइल ऐप में जाएं।,0,hindi,card_block_user:hi:v2a
+एचडीएफसी बैंक: आपके अनुरोध के अनुसार कार्ड XX4821 की ऑनलाइन खरीद सुविधा बंद कर दी गई है। फिर से चालू करने के लिए एचडीएफसी बैंक मोबाइल ऐप में जाएं।,0,hindi,card_block_user:hi:v2a
+आईसीआईसीआई बैंक: आपके अनुरोध के अनुसार कार्ड XX9012 की ऑनलाइन खरीद सुविधा बंद कर दी गई है। फिर से चालू करने के लिए आईसीआईसीआई बैंक मोबाइल ऐप में जाएं।,0,hindi,card_block_user:hi:v2a
+आईसीआईसीआई बैंक: आपके अनुरोध के अनुसार कार्ड XX3312 की ऑनलाइन खरीद सुविधा बंद कर दी गई है। फिर से चालू करने के लिए आईसीआईसीआई बैंक मोबाइल ऐप में जाएं।,0,hindi,card_block_user:hi:v2a
+"आपने कार्ड XX9012 को अस्थायी रूप से रोकने का अनुरोध किया था, जो पूरा हो गया है। यह केवल आपकी जानकारी के लिए है। -एसबीआई",0,hindi,card_block_user:hi:v2b
+"आपने कार्ड XX7789 को अस्थायी रूप से रोकने का अनुरोध किया था, जो पूरा हो गया है। यह केवल आपकी जानकारी के लिए है। -एचडीएफसी बैंक",0,hindi,card_block_user:hi:v2b
+"आपने कार्ड XX5541 को अस्थायी रूप से रोकने का अनुरोध किया था, जो पूरा हो गया है। यह केवल आपकी जानकारी के लिए है। -एसबीआई",0,hindi,card_block_user:hi:v2b
+"आपने कार्ड XX5541 को अस्थायी रूप से रोकने का अनुरोध किया था, जो पूरा हो गया है। यह केवल आपकी जानकारी के लिए है। -एचडीएफसी बैंक",0,hindi,card_block_user:hi:v2b
+"आपने कार्ड XX3312 को अस्थायी रूप से रोकने का अनुरोध किया था, जो पूरा हो गया है। यह केवल आपकी जानकारी के लिए है। -कोटक बैंक",0,hindi,card_block_user:hi:v2b
+"आपने कार्ड XX7789 को अस्थायी रूप से रोकने का अनुरोध किया था, जो पूरा हो गया है। यह केवल आपकी जानकारी के लिए है। -कोटक बैंक",0,hindi,card_block_user:hi:v2b
+एक्सिस बैंक ग्राहक सेवा: आपके कहने पर कार्ड XX7789 ब्लॉक किया गया है। नया कार्ड 7 कार्य दिवस में आपके पते पर भेजा जाएगा।,0,hindi,card_block_user:hi:v2c
+आईसीआईसीआई बैंक ग्राहक सेवा: आपके कहने पर कार्ड XX4821 ब्लॉक किया गया है। नया कार्ड 7 कार्य दिवस में आपके पते पर भेजा जाएगा।,0,hindi,card_block_user:hi:v2c
+एचडीएफसी बैंक ग्राहक सेवा: आपके कहने पर कार्ड XX7789 ब्लॉक किया गया है। नया कार्ड 7 कार्य दिवस में आपके पते पर भेजा जाएगा।,0,hindi,card_block_user:hi:v2c
+आईसीआईसीआई बैंक ग्राहक सेवा: आपके कहने पर कार्ड XX5541 ब्लॉक किया गया है। नया कार्ड 7 कार्य दिवस में आपके पते पर भेजा जाएगा।,0,hindi,card_block_user:hi:v2c
+कोटक बैंक ग्राहक सेवा: आपके कहने पर कार्ड XX7789 ब्लॉक किया गया है। नया कार्ड 7 कार्य दिवस में आपके पते पर भेजा जाएगा।,0,hindi,card_block_user:hi:v2c
+एचडीएफसी बैंक ग्राहक सेवा: आपके कहने पर कार्ड XX3312 ब्लॉक किया गया है। नया कार्ड 7 कार्य दिवस में आपके पते पर भेजा जाएगा।,0,hindi,card_block_user:hi:v2c
+SBI: Aapki request par card XX4821 ki online kharidari band kar di gayi hai. Dobara chalu karne ke liye SBI mobile app kholein.,0,hinglish,card_block_user:hinglish:v2a
+Axis Bank: Aapki request par card XX3312 ki online kharidari band kar di gayi hai. Dobara chalu karne ke liye Axis Bank mobile app kholein.,0,hinglish,card_block_user:hinglish:v2a
+Axis Bank: Aapki request par card XX7789 ki online kharidari band kar di gayi hai. Dobara chalu karne ke liye Axis Bank mobile app kholein.,0,hinglish,card_block_user:hinglish:v2a
+SBI: Aapki request par card XX5541 ki online kharidari band kar di gayi hai. Dobara chalu karne ke liye SBI mobile app kholein.,0,hinglish,card_block_user:hinglish:v2a
+Axis Bank: Aapki request par card XX4821 ki online kharidari band kar di gayi hai. Dobara chalu karne ke liye Axis Bank mobile app kholein.,0,hinglish,card_block_user:hinglish:v2a
+Kotak Bank: Aapki request par card XX4821 ki online kharidari band kar di gayi hai. Dobara chalu karne ke liye Kotak Bank mobile app kholein.,0,hinglish,card_block_user:hinglish:v2a
+"Aapne card XX7789 ko kuch samay ke liye rokne ko kaha tha, woh ho gaya hai. Yeh sirf aapki jaankari ke liye hai. -Axis Bank",0,hinglish,card_block_user:hinglish:v2b
+"Aapne card XX5541 ko kuch samay ke liye rokne ko kaha tha, woh ho gaya hai. Yeh sirf aapki jaankari ke liye hai. -HDFC Bank",0,hinglish,card_block_user:hinglish:v2b
+"Aapne card XX3312 ko kuch samay ke liye rokne ko kaha tha, woh ho gaya hai. Yeh sirf aapki jaankari ke liye hai. -Axis Bank",0,hinglish,card_block_user:hinglish:v2b
+"Aapne card XX5541 ko kuch samay ke liye rokne ko kaha tha, woh ho gaya hai. Yeh sirf aapki jaankari ke liye hai. -ICICI Bank",0,hinglish,card_block_user:hinglish:v2b
+"Aapne card XX4821 ko kuch samay ke liye rokne ko kaha tha, woh ho gaya hai. Yeh sirf aapki jaankari ke liye hai. -Axis Bank",0,hinglish,card_block_user:hinglish:v2b
+"Aapne card XX1234 ko kuch samay ke liye rokne ko kaha tha, woh ho gaya hai. Yeh sirf aapki jaankari ke liye hai. -SBI",0,hinglish,card_block_user:hinglish:v2b
+ICICI Bank customer care: Aapke kehne par card XX3312 block kiya gaya hai. Naya card 7 working din mein aapke address par bheja jayega.,0,hinglish,card_block_user:hinglish:v2c
+Kotak Bank customer care: Aapke kehne par card XX1234 block kiya gaya hai. Naya card 7 working din mein aapke address par bheja jayega.,0,hinglish,card_block_user:hinglish:v2c
+Kotak Bank customer care: Aapke kehne par card XX9012 block kiya gaya hai. Naya card 7 working din mein aapke address par bheja jayega.,0,hinglish,card_block_user:hinglish:v2c
+HDFC Bank customer care: Aapke kehne par card XX7789 block kiya gaya hai. Naya card 7 working din mein aapke address par bheja jayega.,0,hinglish,card_block_user:hinglish:v2c
+HDFC Bank customer care: Aapke kehne par card XX9012 block kiya gaya hai. Naya card 7 working din mein aapke address par bheja jayega.,0,hinglish,card_block_user:hinglish:v2c
+HDFC Bank customer care: Aapke kehne par card XX1234 block kiya gaya hai. Naya card 7 working din mein aapke address par bheja jayega.,0,hinglish,card_block_user:hinglish:v2c
+"रसोई गैस सब्सिडी के तहत 6,500 रुपये की सहायता राशि आपके बैंक खाते में जमा कर दी गई है। विवरण के लिए नजदीकी सीएससी केंद्र या nrega.nic.in देखें।",0,hindi,gov_scheme:hi:v2a
+"रसोई गैस सब्सिडी के तहत 4,000 रुपये की सहायता राशि आपके बैंक खाते में जमा कर दी गई है। विवरण के लिए नजदीकी सीएससी केंद्र या pmkisan.gov.in देखें।",0,hindi,gov_scheme:hi:v2a
+"पीएम किसान योजना के तहत 6,500 रुपये की सहायता राशि आपके बैंक खाते में जमा कर दी गई है। विवरण के लिए नजदीकी सीएससी केंद्र या nrega.nic.in देखें।",0,hindi,gov_scheme:hi:v2a
+"छात्रवृत्ति योजना के तहत 2,000 रुपये की सहायता राशि आपके बैंक खाते में जमा कर दी गई है। विवरण के लिए नजदीकी सीएससी केंद्र या scholarships.gov.in देखें।",0,hindi,gov_scheme:hi:v2a
+"छात्रवृत्ति योजना के तहत 4,000 रुपये की सहायता राशि आपके बैंक खाते में जमा कर दी गई है। विवरण के लिए नजदीकी सीएससी केंद्र या scholarships.gov.in देखें।",0,hindi,gov_scheme:hi:v2a
+"पीएम किसान योजना के तहत 4,000 रुपये की सहायता राशि आपके बैंक खाते में जमा कर दी गई है। विवरण के लिए नजदीकी सीएससी केंद्र या nrega.nic.in देखें।",0,hindi,gov_scheme:hi:v2a
+पीएम किसान योजना: आपकी किस्त जारी हो चुकी है और 2 से 3 दिन में खाते में दिखेगी। राशि निकालने के लिए बैंक या ग्राम पंचायत केंद्र पर जाएं।,0,hindi,gov_scheme:hi:v2b
+मनरेगा मजदूरी: आपकी किस्त जारी हो चुकी है और 2 से 3 दिन में खाते में दिखेगी। राशि निकालने के लिए बैंक या ग्राम पंचायत केंद्र पर जाएं।,0,hindi,gov_scheme:hi:v2b
+रसोई गैस सब्सिडी: आपकी किस्त जारी हो चुकी है और 2 से 3 दिन में खाते में दिखेगी। राशि निकालने के लिए बैंक या ग्राम पंचायत केंद्र पर जाएं।,0,hindi,gov_scheme:hi:v2b
+छात्रवृत्ति योजना: आपकी किस्त जारी हो चुकी है और 2 से 3 दिन में खाते में दिखेगी। राशि निकालने के लिए बैंक या ग्राम पंचायत केंद्र पर जाएं।,0,hindi,gov_scheme:hi:v2b
+सूचना: रसोई गैस सब्सिडी की पात्रता सूची में आपका नाम शामिल है। अधिक जानकारी के लिए ग्राम पंचायत कार्यालय से संपर्क करें। कोई शुल्क नहीं देना है।,0,hindi,gov_scheme:hi:v2c
+सूचना: मनरेगा मजदूरी की पात्रता सूची में आपका नाम शामिल है। अधिक जानकारी के लिए ग्राम पंचायत कार्यालय से संपर्क करें। कोई शुल्क नहीं देना है।,0,hindi,gov_scheme:hi:v2c
+सूचना: छात्रवृत्ति योजना की पात्रता सूची में आपका नाम शामिल है। अधिक जानकारी के लिए ग्राम पंचायत कार्यालय से संपर्क करें। कोई शुल्क नहीं देना है।,0,hindi,gov_scheme:hi:v2c
+सूचना: पीएम किसान योजना की पात्रता सूची में आपका नाम शामिल है। अधिक जानकारी के लिए ग्राम पंचायत कार्यालय से संपर्क करें। कोई शुल्क नहीं देना है।,0,hindi,gov_scheme:hi:v2c
+"MNREGA mazdoori ke tahat Rs 2,000 ki sahayata rashi aapke bank account mein jama kar di gayi hai. Detail ke liye CSC kendra ya scholarships.gov.in dekhein.",0,hinglish,gov_scheme:hinglish:v2a
+"scholarship yojana ke tahat Rs 2,000 ki sahayata rashi aapke bank account mein jama kar di gayi hai. Detail ke liye CSC kendra ya scholarships.gov.in dekhein.",0,hinglish,gov_scheme:hinglish:v2a
+"gas subsidy ke tahat Rs 1,200 ki sahayata rashi aapke bank account mein jama kar di gayi hai. Detail ke liye CSC kendra ya scholarships.gov.in dekhein.",0,hinglish,gov_scheme:hinglish:v2a
+"scholarship yojana ke tahat Rs 2,000 ki sahayata rashi aapke bank account mein jama kar di gayi hai. Detail ke liye CSC kendra ya pmkisan.gov.in dekhein.",0,hinglish,gov_scheme:hinglish:v2a
+"PM Kisan yojana ke tahat Rs 1,200 ki sahayata rashi aapke bank account mein jama kar di gayi hai. Detail ke liye CSC kendra ya scholarships.gov.in dekhein.",0,hinglish,gov_scheme:hinglish:v2a
+"gas subsidy ke tahat Rs 1,200 ki sahayata rashi aapke bank account mein jama kar di gayi hai. Detail ke liye CSC kendra ya pmkisan.gov.in dekhein.",0,hinglish,gov_scheme:hinglish:v2a
+scholarship yojana: aapki kist jaari ho chuki hai aur 2-3 din mein account mein dikhegi. Paisa nikalne ke liye bank ya gram panchayat kendra jayein.,0,hinglish,gov_scheme:hinglish:v2b
+PM Kisan yojana: aapki kist jaari ho chuki hai aur 2-3 din mein account mein dikhegi. Paisa nikalne ke liye bank ya gram panchayat kendra jayein.,0,hinglish,gov_scheme:hinglish:v2b
+gas subsidy: aapki kist jaari ho chuki hai aur 2-3 din mein account mein dikhegi. Paisa nikalne ke liye bank ya gram panchayat kendra jayein.,0,hinglish,gov_scheme:hinglish:v2b
+MNREGA mazdoori: aapki kist jaari ho chuki hai aur 2-3 din mein account mein dikhegi. Paisa nikalne ke liye bank ya gram panchayat kendra jayein.,0,hinglish,gov_scheme:hinglish:v2b
+Suchna: PM Kisan yojana ki patrata list mein aapka naam hai. Adhik jaankari ke liye gram panchayat office se sampark karein. Koi fees nahi deni hai.,0,hinglish,gov_scheme:hinglish:v2c
+Suchna: gas subsidy ki patrata list mein aapka naam hai. Adhik jaankari ke liye gram panchayat office se sampark karein. Koi fees nahi deni hai.,0,hinglish,gov_scheme:hinglish:v2c
+Suchna: scholarship yojana ki patrata list mein aapka naam hai. Adhik jaankari ke liye gram panchayat office se sampark karein. Koi fees nahi deni hai.,0,hinglish,gov_scheme:hinglish:v2c
+Suchna: MNREGA mazdoori ki patrata list mein aapka naam hai. Adhik jaankari ke liye gram panchayat office se sampark karein. Koi fees nahi deni hai.,0,hinglish,gov_scheme:hinglish:v2c
+Use 237818 to log in to your Microsoft account. It expires in 10 minutes.,0,english,otp_delivery:en:v2a
+Use 237818 to log in to your PhonePe account. It expires in 10 minutes.,0,english,otp_delivery:en:v2a
+Use 237818 to log in to your WhatsApp account. It expires in 10 minutes.,0,english,otp_delivery:en:v2a
+Use 237818 to log in to your Swiggy account. It expires in 10 minutes.,0,english,otp_delivery:en:v2a
+Use 797555 to log in to your Swiggy account. It expires in 10 minutes.,0,english,otp_delivery:en:v2a
+Use 797555 to log in to your Google account. It expires in 10 minutes.,0,english,otp_delivery:en:v2a
+Use 237818 to log in to your Amazon account. It expires in 10 minutes.,0,english,otp_delivery:en:v2a
+Use 162860 to log in to your WhatsApp account. It expires in 10 minutes.,0,english,otp_delivery:en:v2a
+"Zomato security code: 162860. Do not give this code to anyone, including Zomato staff.",0,english,otp_delivery:en:v2b
+"PhonePe security code: 237818. Do not give this code to anyone, including PhonePe staff.",0,english,otp_delivery:en:v2b
+"WhatsApp security code: 237818. Do not give this code to anyone, including WhatsApp staff.",0,english,otp_delivery:en:v2b
+"Uber security code: 237818. Do not give this code to anyone, including Uber staff.",0,english,otp_delivery:en:v2b
+"PhonePe security code: 797555. Do not give this code to anyone, including PhonePe staff.",0,english,otp_delivery:en:v2b
+"Instagram security code: 237818. Do not give this code to anyone, including Instagram staff.",0,english,otp_delivery:en:v2b
+"Google security code: 237818. Do not give this code to anyone, including Google staff.",0,english,otp_delivery:en:v2b
+"Swiggy security code: 237818. Do not give this code to anyone, including Swiggy staff.",0,english,otp_delivery:en:v2b
+"Your one-time password for Instagram is 797555. If you did not request it, ignore this message.",0,english,otp_delivery:en:v2c
+"Your one-time password for Microsoft is 797555. If you did not request it, ignore this message.",0,english,otp_delivery:en:v2c
+"Your one-time password for Google is 797555. If you did not request it, ignore this message.",0,english,otp_delivery:en:v2c
+"Your one-time password for Google is 162860. If you did not request it, ignore this message.",0,english,otp_delivery:en:v2c
+"Your one-time password for PhonePe is 797555. If you did not request it, ignore this message.",0,english,otp_delivery:en:v2c
+"Your one-time password for Amazon is 797555. If you did not request it, ignore this message.",0,english,otp_delivery:en:v2c
+"Your one-time password for Instagram is 162860. If you did not request it, ignore this message.",0,english,otp_delivery:en:v2c
+"Your one-time password for Flipkart is 797555. If you did not request it, ignore this message.",0,english,otp_delivery:en:v2c

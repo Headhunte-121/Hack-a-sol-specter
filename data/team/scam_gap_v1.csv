@@ -1,9 +1,4 @@
 text,label,lang,group
-"Sorry, I sent Rs 450 to your number by mistake. Please return it. I am sending you a collect request now.",1,english,refund_trick:en:1
-"Sorry, I sent Rs 5,000 to your number by mistake. Please return it. I am sending you a collect request now.",1,english,refund_trick:en:1
-"Sorry, I sent Rs 15,500 to your number by mistake. Please return it. I am sending you a collect request now.",1,english,refund_trick:en:1
-"Sorry, I sent Rs 2,000 to your number by mistake. Please return it. I am sending you a collect request now.",1,english,refund_trick:en:1
-"Sorry, I sent Rs 1,250 to your number by mistake. Please return it. I am sending you a collect request now.",1,english,refund_trick:en:1
 "Mistakenly transferred Rs 5,000 to your GPay account. Kindly send back the money or accept collect request.",1,english,refund_trick:en:2
 "Mistakenly transferred Rs 8,200 to your GPay account. Kindly send back the money or accept collect request.",1,english,refund_trick:en:2
 "Mistakenly transferred Rs 12,000 to your GPay account. Kindly send back the money or accept collect request.",1,english,refund_trick:en:2
@@ -11,11 +6,6 @@ text,label,lang,group
 "Mistakenly transferred Rs 2,000 to your GPay account. Kindly send back the money or accept collect request.",1,english,refund_trick:en:2
 Mistakenly transferred Rs 450 to your GPay account. Kindly send back the money or accept collect request.,1,english,refund_trick:en:2
 "Mistakenly transferred Rs 3,500 to your GPay account. Kindly send back the money or accept collect request.",1,english,refund_trick:en:2
-"आपके खाते में गलती से 2,000 रुपये आ गए हैं। कृपया वापस भेज दें, मैं कलेक्ट रिक्वेस्ट भेज रहा हूँ।",1,hindi,refund_trick:hi:1
-"आपके खाते में गलती से 5,000 रुपये आ गए हैं। कृपया वापस भेज दें, मैं कलेक्ट रिक्वेस्ट भेज रहा हूँ।",1,hindi,refund_trick:hi:1
-"आपके खाते में गलती से 1,250 रुपये आ गए हैं। कृपया वापस भेज दें, मैं कलेक्ट रिक्वेस्ट भेज रहा हूँ।",1,hindi,refund_trick:hi:1
-"आपके खाते में गलती से 15,500 रुपये आ गए हैं। कृपया वापस भेज दें, मैं कलेक्ट रिक्वेस्ट भेज रहा हूँ।",1,hindi,refund_trick:hi:1
-"आपके खाते में गलती से 3,500 रुपये आ गए हैं। कृपया वापस भेज दें, मैं कलेक्ट रिक्वेस्ट भेज रहा हूँ।",1,hindi,refund_trick:hi:1
 "भाई धोखे से आपके फोनपे पर 450 रुपये चले गए हैं। पैसे वापस लौटा दो, कलेक्ट रिक्वेस्ट एक्सेप्ट करो।",1,hindi,refund_trick:hi:2
 "भाई धोखे से आपके फोनपे पर 1,250 रुपये चले गए हैं। पैसे वापस लौटा दो, कलेक्ट रिक्वेस्ट एक्सेप्ट करो।",1,hindi,refund_trick:hi:2
 "भाई धोखे से आपके फोनपे पर 3,500 रुपये चले गए हैं। पैसे वापस लौटा दो, कलेक्ट रिक्वेस्ट एक्सेप्ट करो।",1,hindi,refund_trick:hi:2
@@ -33,9 +23,6 @@ Mistakenly transferred Rs 450 to your GPay account. Kindly send back the money o
 "Hi dad, this is my new number. My old phone broke. Please urgently send Rs 15,000 to this account, will call you later.",1,english,new_number:en:1
 "Hi dad, this is my new number. My old phone broke. Please urgently send Rs 8,000 to this account, will call you later.",1,english,new_number:en:1
 "Hi dad, this is my new number. My old phone broke. Please urgently send Rs 12,000 to this account, will call you later.",1,english,new_number:en:1
-"हेलो पापा, यह मेरा नया नंबर है। फोन टूट गया। जल्दी से 15,000 रुपये इस खाते में भेज दो, बाद में बताऊँगा।",1,hindi,new_number:hi:1
-"हेलो पापा, यह मेरा नया नंबर है। फोन टूट गया। जल्दी से 12,000 रुपये इस खाते में भेज दो, बाद में बताऊँगा।",1,hindi,new_number:hi:1
-"हेलो पापा, यह मेरा नया नंबर है। फोन टूट गया। जल्दी से 8,000 रुपये इस खाते में भेज दो, बाद में बताऊँगा।",1,hindi,new_number:hi:1
 "Hello mummy, yeh mera naya number hai. Emergency hai, turant Rs 12,000 is account me transfer kar do, call baad me karunga.",1,hinglish,new_number:hinglish:1
 "Hello mummy, yeh mera naya number hai. Emergency hai, turant Rs 15,000 is account me transfer kar do, call baad me karunga.",1,hinglish,new_number:hinglish:1
 "Earn Rs 4,000 to 8,000 daily from home by liking Google maps places. No investment needed. Contact on Telegram: http://home-parttime.club/apply",1,english,job_scam:en:1
@@ -219,3 +206,51 @@ Your Aadhaar is suspended due to fraud. To avoid arrest warrant click here to ve
 "Rs 15,000 transaction initiated on your card. Share OTP with bank executive to cancel transaction immediately.",1,hinglish,scam_contrast:hinglish:1
 "Rs 35,000 transaction initiated on your card. Share OTP with bank executive to cancel transaction immediately.",1,hinglish,scam_contrast:hinglish:1
 "Rs 22,000 transaction initiated on your card. Share OTP with bank executive to cancel transaction immediately.",1,hinglish,scam_contrast:hinglish:1
+"भैया, मेरा पुराना सिम बंद हो गया है इसलिए यह नया नंबर सेव कर लो। अभी एक बिल भरना है और खाते में दिक्कत है, 15,000 रुपये इस नंबर पर फोनपे कर दो, शाम को लौटा दूंगा।",1,hindi,new_number:hi:v2a
+"भैया, मेरा पुराना सिम बंद हो गया है इसलिए यह नया नंबर सेव कर लो। अभी एक बिल भरना है और खाते में दिक्कत है, 8,000 रुपये इस नंबर पर फोनपे कर दो, शाम को लौटा दूंगा।",1,hindi,new_number:hi:v2a
+"भैया, मेरा पुराना सिम बंद हो गया है इसलिए यह नया नंबर सेव कर लो। अभी एक बिल भरना है और खाते में दिक्कत है, 25,000 रुपये इस नंबर पर फोनपे कर दो, शाम को लौटा दूंगा।",1,hindi,new_number:hi:v2a
+"भैया, मेरा पुराना सिम बंद हो गया है इसलिए यह नया नंबर सेव कर लो। अभी एक बिल भरना है और खाते में दिक्कत है, 12,000 रुपये इस नंबर पर फोनपे कर दो, शाम को लौटा दूंगा।",1,hindi,new_number:hi:v2a
+"माँ, मैं नए फोन से बात कर रहा हूँ। पुराना नंबर काम नहीं कर रहा। मेरी फीस जमा करनी है, कृपया 15,000 रुपये इस यूपीआई आईडी पर तुरंत भेजो। किसी को बताना मत।",1,hindi,new_number:hi:v2b
+"माँ, मैं नए फोन से बात कर रहा हूँ। पुराना नंबर काम नहीं कर रहा। मेरी फीस जमा करनी है, कृपया 25,000 रुपये इस यूपीआई आईडी पर तुरंत भेजो। किसी को बताना मत।",1,hindi,new_number:hi:v2b
+"माँ, मैं नए फोन से बात कर रहा हूँ। पुराना नंबर काम नहीं कर रहा। मेरी फीस जमा करनी है, कृपया 12,000 रुपये इस यूपीआई आईडी पर तुरंत भेजो। किसी को बताना मत।",1,hindi,new_number:hi:v2b
+"माँ, मैं नए फोन से बात कर रहा हूँ। पुराना नंबर काम नहीं कर रहा। मेरी फीस जमा करनी है, कृपया 8,000 रुपये इस यूपीआई आईडी पर तुरंत भेजो। किसी को बताना मत।",1,hindi,new_number:hi:v2b
+"नमस्ते अंकल, मैं अमित बोल रहा हूँ, यह मेरा नया नंबर है। अस्पताल में एडवांस देना है, तुरंत 12,000 रुपये भेज दीजिए। फोन बंद है इसलिए कॉल मत करना।",1,hindi,new_number:hi:v2c
+"नमस्ते अंकल, मैं अमित बोल रहा हूँ, यह मेरा नया नंबर है। अस्पताल में एडवांस देना है, तुरंत 15,000 रुपये भेज दीजिए। फोन बंद है इसलिए कॉल मत करना।",1,hindi,new_number:hi:v2c
+"नमस्ते अंकल, मैं मोहित बोल रहा हूँ, यह मेरा नया नंबर है। अस्पताल में एडवांस देना है, तुरंत 12,000 रुपये भेज दीजिए। फोन बंद है इसलिए कॉल मत करना।",1,hindi,new_number:hi:v2c
+"नमस्ते अंकल, मैं विकास बोल रहा हूँ, यह मेरा नया नंबर है। अस्पताल में एडवांस देना है, तुरंत 15,000 रुपये भेज दीजिए। फोन बंद है इसलिए कॉल मत करना।",1,hindi,new_number:hi:v2c
+"नमस्ते अंकल, मैं मोहित बोल रहा हूँ, यह मेरा नया नंबर है। अस्पताल में एडवांस देना है, तुरंत 25,000 रुपये भेज दीजिए। फोन बंद है इसलिए कॉल मत करना।",1,hindi,new_number:hi:v2c
+"नमस्ते अंकल, मैं सुनील बोल रहा हूँ, यह मेरा नया नंबर है। अस्पताल में एडवांस देना है, तुरंत 25,000 रुपये भेज दीजिए। फोन बंद है इसलिए कॉल मत करना।",1,hindi,new_number:hi:v2c
+"Hello madam, I accidentally paid Rs 3,000 to your number instead of my friend's. Can you please send it back to the same number? I will confirm once received.",1,english,refund_trick:en:v2a
+"Hello sir, I accidentally paid Rs 3,000 to your number instead of my friend's. Can you please send it back to the same number? I will confirm once received.",1,english,refund_trick:en:v2a
+"Dear friend, I accidentally paid Rs 3,000 to your number instead of my friend's. Can you please send it back to the same number? I will confirm once received.",1,english,refund_trick:en:v2a
+"Hello madam, I accidentally paid Rs 14,000 to your number instead of my friend's. Can you please send it back to the same number? I will confirm once received.",1,english,refund_trick:en:v2a
+"Dear friend, I accidentally paid Rs 9,500 to your number instead of my friend's. Can you please send it back to the same number? I will confirm once received.",1,english,refund_trick:en:v2a
+"Dear friend, I accidentally paid Rs 14,000 to your number instead of my friend's. Can you please send it back to the same number? I will confirm once received.",1,english,refund_trick:en:v2a
+"Sir, an amount of Rs 3,000 reached your PhonePe account in error from my side. Kindly refund to this number today, I am in a hurry. Thanks.",1,english,refund_trick:en:v2b
+"Sir, an amount of Rs 9,500 reached your GPay account in error from my side. Kindly refund to this number today, I am in a hurry. Thanks.",1,english,refund_trick:en:v2b
+"Sir, an amount of Rs 14,000 reached your Paytm account in error from my side. Kindly refund to this number today, I am in a hurry. Thanks.",1,english,refund_trick:en:v2b
+"Sir, an amount of Rs 9,500 reached your PhonePe account in error from my side. Kindly refund to this number today, I am in a hurry. Thanks.",1,english,refund_trick:en:v2b
+"Sir, an amount of Rs 14,000 reached your PhonePe account in error from my side. Kindly refund to this number today, I am in a hurry. Thanks.",1,english,refund_trick:en:v2b
+"Sir, an amount of Rs 14,000 reached your GPay account in error from my side. Kindly refund to this number today, I am in a hurry. Thanks.",1,english,refund_trick:en:v2b
+"Sorry to trouble you. My cousin typed the wrong number and Rs 9,500 came to you on GPay. Please return it through GPay on this number, I will message you the details.",1,english,refund_trick:en:v2c
+"Sorry to trouble you. My cousin typed the wrong number and Rs 3,000 came to you on PhonePe. Please return it through PhonePe on this number, I will message you the details.",1,english,refund_trick:en:v2c
+"Sorry to trouble you. My cousin typed the wrong number and Rs 14,000 came to you on BHIM. Please return it through BHIM on this number, I will message you the details.",1,english,refund_trick:en:v2c
+"Sorry to trouble you. My cousin typed the wrong number and Rs 14,000 came to you on Paytm. Please return it through Paytm on this number, I will message you the details.",1,english,refund_trick:en:v2c
+"Sorry to trouble you. My cousin typed the wrong number and Rs 5,000 came to you on GPay. Please return it through GPay on this number, I will message you the details.",1,english,refund_trick:en:v2c
+"Sorry to trouble you. My cousin typed the wrong number and Rs 3,000 came to you on BHIM. Please return it through BHIM on this number, I will message you the details.",1,english,refund_trick:en:v2c
+"नमस्ते, मैंने गलती से आपके फोनपे पर 5,000 रुपये भेज दिए हैं। कृपया इसी नंबर पर वापस कर दें, बहुत जरूरी है।",1,hindi,refund_trick:hi:v2a
+"नमस्ते, मैंने गलती से आपके पेटीएम पर 9,500 रुपये भेज दिए हैं। कृपया इसी नंबर पर वापस कर दें, बहुत जरूरी है।",1,hindi,refund_trick:hi:v2a
+"नमस्ते, मैंने गलती से आपके गूगल पे पर 14,000 रुपये भेज दिए हैं। कृपया इसी नंबर पर वापस कर दें, बहुत जरूरी है।",1,hindi,refund_trick:hi:v2a
+"नमस्ते, मैंने गलती से आपके फोनपे पर 3,000 रुपये भेज दिए हैं। कृपया इसी नंबर पर वापस कर दें, बहुत जरूरी है।",1,hindi,refund_trick:hi:v2a
+"नमस्ते, मैंने गलती से आपके फोनपे पर 14,000 रुपये भेज दिए हैं। कृपया इसी नंबर पर वापस कर दें, बहुत जरूरी है।",1,hindi,refund_trick:hi:v2a
+"नमस्ते, मैंने गलती से आपके गूगल पे पर 5,000 रुपये भेज दिए हैं। कृपया इसी नंबर पर वापस कर दें, बहुत जरूरी है।",1,hindi,refund_trick:hi:v2a
+"भाई साहब, मेरे दोस्त का नंबर समझकर आपके खाते में 9,500 रुपये डाल दिए। उसे लौटा दीजिए, मैं आपको स्क्रीनशॉट भेज रहा हूं।",1,hindi,refund_trick:hi:v2b
+"भाई साहब, मेरे दोस्त का नंबर समझकर आपके खाते में 5,000 रुपये डाल दिए। उसे लौटा दीजिए, मैं आपको स्क्रीनशॉट भेज रहा हूं।",1,hindi,refund_trick:hi:v2b
+"भाई साहब, मेरे दोस्त का नंबर समझकर आपके खाते में 14,000 रुपये डाल दिए। उसे लौटा दीजिए, मैं आपको स्क्रीनशॉट भेज रहा हूं।",1,hindi,refund_trick:hi:v2b
+"भाई साहब, मेरे दोस्त का नंबर समझकर आपके खाते में 3,000 रुपये डाल दिए। उसे लौटा दीजिए, मैं आपको स्क्रीनशॉट भेज रहा हूं।",1,hindi,refund_trick:hi:v2b
+"माफ कीजिए, गलत नंबर पर 14,000 रुपये चले गए हैं। यह पैसा भीम से वापस भेज दें, नहीं तो मेरी बड़ी परेशानी हो जाएगी।",1,hindi,refund_trick:hi:v2c
+"माफ कीजिए, गलत नंबर पर 9,500 रुपये चले गए हैं। यह पैसा गूगल पे से वापस भेज दें, नहीं तो मेरी बड़ी परेशानी हो जाएगी।",1,hindi,refund_trick:hi:v2c
+"माफ कीजिए, गलत नंबर पर 9,500 रुपये चले गए हैं। यह पैसा पेटीएम से वापस भेज दें, नहीं तो मेरी बड़ी परेशानी हो जाएगी।",1,hindi,refund_trick:hi:v2c
+"माफ कीजिए, गलत नंबर पर 3,000 रुपये चले गए हैं। यह पैसा गूगल पे से वापस भेज दें, नहीं तो मेरी बड़ी परेशानी हो जाएगी।",1,hindi,refund_trick:hi:v2c
+"माफ कीजिए, गलत नंबर पर 14,000 रुपये चले गए हैं। यह पैसा पेटीएम से वापस भेज दें, नहीं तो मेरी बड़ी परेशानी हो जाएगी।",1,hindi,refund_trick:hi:v2c
+"माफ कीजिए, गलत नंबर पर 5,000 रुपये चले गए हैं। यह पैसा भीम से वापस भेज दें, नहीं तो मेरी बड़ी परेशानी हो जाएगी।",1,hindi,refund_trick:hi:v2c
