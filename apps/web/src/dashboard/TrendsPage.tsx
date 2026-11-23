@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { Bar, BarChart, CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import { useLang } from '../shell/i18n'
 import { Layout } from '../shell/Layout'
+import { useDemoMode } from '../shell/demoMode'
 import { apiBase, apiGet } from './api'
 import { REGIONS } from './regionsData'
 
@@ -21,6 +22,7 @@ const q = (o: Record<string, string>) => {
 
 export default function TrendsPage() {
   const { t, lang } = useLang()
+  const [demoMode] = useDemoMode()
   const [tab, setTab] = useState<Tab>('overview')
   const [region, setRegion] = useState('')
   const [channel, setChannel] = useState('')
@@ -85,7 +87,7 @@ export default function TrendsPage() {
 
   return (
     <Layout title={t('trends.title')}>
-      {demo && <div role="note" className="rounded-2xl border-2 border-warn-line bg-warn-bg p-3 font-bold text-warn">⚠️ {t('trends.demo_banner')}</div>}
+      {demo && demoMode && <div role="note" className="rounded-2xl border-2 border-warn-line bg-warn-bg p-3 font-bold text-warn">⚠️ {t('trends.demo_banner')}</div>}
       {state.cached && <p className="text-sm text-muted">📴 {t('trends.cached')}</p>}
       {!apiBase() && !state.cached && <p role="alert" className="rounded-2xl border-2 border-line bg-white p-3">{t('trends.no_backend')}</p>}
       {state.error && apiBase() && <p role="alert" className="rounded-2xl border-2 border-bad-line bg-bad-bg p-3 text-bad">{t('trends.error')}</p>}

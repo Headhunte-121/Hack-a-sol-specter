@@ -8,6 +8,7 @@ import { useLang } from '../shell/i18n'
 import { Layout } from '../shell/Layout'
 import { Banner, NumberedList, type Tone } from '../shell/ui'
 import { useBackStep } from '../shell/backStep'
+import { isDemoMode, useDemoMode } from '../shell/demoMode'
 import { analyzeCall, fmtTime, hitRanges, STAGES, type CallResult, type Lexicon, type Segment } from './analyze'
 import { asrBase, AsrError, audioDuration, startRecording, uploadForTranscript, validateClip } from './asr'
 import { buildEvidenceNote, SCRIPT_CATEGORY } from './evidence'
@@ -25,10 +26,11 @@ const LEVEL_STYLE = {
 
 export default function CallPage() {
   const { t, lang } = useLang()
+  const [demoMode] = useDemoMode()
   const [lex, setLex] = useState<Lexicon | null>(null)
   const [demos, setDemos] = useState<DemoCall[]>([])
   const [scorer, setScorer] = useState<Scorer | null>(null)
-  const [mode, setMode] = useState<Mode>('examples')
+  const [mode, setMode] = useState<Mode>(() => (isDemoMode() ? 'examples' : 'audio'))
   const [pasted, setPasted] = useState('')
   const [out, setOut] = useState<Analysed | null>(null)
   const [error, setError] = useState<string | null>(null)
@@ -135,7 +137,13 @@ export default function CallPage() {
     try { await navigator.clipboard.writeText(buildEvidenceNote(res, out!.duration, t, new Date(), lang)); setCopied(true); setTimeout(() => setCopied(false), 2000) } catch { /* clipboard blocked */ }
   }
 
-  const tabs: Mode[] = ['examples', 'paste', 'audio']
+  useEffect(() => {
+    if (!demoMode && mode === 'examples') {
+      setMode('audio')
+    }
+  }, [demoMode, mode])
+
+  const tabs: Mode[] = demoMode ? ['examples', 'paste', 'audio'] : ['audio', 'paste']
   const topEv = res && res.topScript ? res.evidence.find((e) => e.script === res.topScript) : null
   const heardStages = res && topEv && res.level !== 'low' ? STAGES.filter((s) => topEv.stages[s].heard) : []
 
@@ -155,7 +163,7 @@ export default function CallPage() {
             </div>
           </Banner>
 
-          {out.label && <p className="-mt-1 text-xs text-muted">{t('call.example.label')}: {pick(out.label, lang)}</p>}
+          {demoMode && out.label && <p className="-mt-1 text-xs text-muted">{t('call.example.label')}: {pick(out.label, lang)}</p>}
 
           {/* 2. Immediate Action Advice */}
           <Banner tone="warn" className="font-bold flex items-start gap-2.5 !text-[18px]">

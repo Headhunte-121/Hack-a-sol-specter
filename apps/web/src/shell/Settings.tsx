@@ -3,6 +3,7 @@ import { useLang } from './i18n'
 import { Layout, LanguageSwitch } from './Layout'
 import { Icon } from './ui'
 import { hasConsent, setConsent } from './consent'
+import { useDemoMode } from './demoMode'
 import { applyUpdate, usePwaState } from './pwa'
 import { clearQueue } from './queue'
 import { kvClearAll } from './storage'
@@ -31,12 +32,33 @@ export function Settings() {
   const { t } = useLang()
   const pwa = usePwaState()
   const [share, setShare] = useState(hasConsent())
+  const [demo, setDemo] = useDemoMode()
   const [done, setDone] = useState(false)
   return (
     <Layout title={t('settings.title')}>
       <section className="card space-y-3">
         <h2 className="text-[20px] font-bold">{t('common.language')}</h2>
         <LanguageSwitch />
+      </section>
+      <section className="card space-y-3">
+        <h2 className="text-[20px] font-bold">{t('settings.demo.title')}</h2>
+        <p className="text-[17px] leading-snug text-muted">{t('settings.demo.body')}</p>
+        <div className="flex gap-2">
+          <button
+            className={`btn flex-1 !text-[18px] ${demo ? 'btn-primary' : 'btn-secondary'}`}
+            aria-pressed={demo}
+            onClick={() => setDemo(true)}
+          >
+            {t('settings.demo.on')}
+          </button>
+          <button
+            className={`btn flex-1 !text-[18px] ${!demo ? 'btn-primary' : 'btn-secondary'}`}
+            aria-pressed={!demo}
+            onClick={() => setDemo(false)}
+          >
+            {t('settings.demo.off')}
+          </button>
+        </div>
       </section>
       <section className="card space-y-3">
         <h2 className="text-[20px] font-bold">{t('privacy.consent.title')}</h2>

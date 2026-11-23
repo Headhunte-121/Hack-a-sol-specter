@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { ShareReport } from '../dashboard/ShareReport'
 import { useBackStep, useInnerScreenOnReturn } from '../shell/backStep'
+import { useDemoMode } from '../shell/demoMode'
 import { pick } from '../learn/content'
 import { useLang } from '../shell/i18n'
 import { Layout } from '../shell/Layout'
@@ -32,6 +33,7 @@ function Highlighted({ text, ranges }: { text: string; ranges: { start: number; 
 
 export default function DetectorPage() {
   const { t, lang } = useLang()
+  const [demoMode] = useDemoMode()
   const [scorer, setScorer] = useState<Scorer | null>(null)
   const [brands, setBrands] = useState<BrandsFile | null>(null)
   const [loadError, setLoadError] = useState(false)
@@ -152,16 +154,18 @@ export default function DetectorPage() {
 
       <Banner tone="info" className="flex items-center gap-3 !text-[18px]"><Icon name="lock" size={26} />{t('detector.privacy')}</Banner>
 
-      <section>
-        <h2 className="mb-2 text-[16px] font-bold text-muted">{t('detector.examples')}</h2>
-        <div className="flex flex-wrap gap-2">
-          {DEMO_MESSAGES.map((m) => (
-            <button key={m.id} className="rounded-full border-2 border-line bg-white px-3.5 py-2 text-[15px] font-bold text-ink" onClick={() => check(m.text)}>
-              {pick(m.label, lang)}
-            </button>
-          ))}
-        </div>
-      </section>
+      {demoMode && (
+        <section>
+          <h2 className="mb-2 text-[16px] font-bold text-muted">{t('detector.examples')}</h2>
+          <div className="flex flex-wrap gap-2">
+            {DEMO_MESSAGES.map((m) => (
+              <button key={m.id} className="rounded-full border-2 border-line bg-white px-3.5 py-2 text-[15px] font-bold text-ink" onClick={() => check(m.text)}>
+                {pick(m.label, lang)}
+              </button>
+            ))}
+          </div>
+        </section>
+      )}
     </Layout>
   )
 }
