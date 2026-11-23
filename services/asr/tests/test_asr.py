@@ -200,3 +200,19 @@ def test_without_a_hindi_model_everything_uses_the_default_model():
     t._model = _Router("base", [("hi", 0.9)])
     t.transcribe(np.zeros(16000, dtype=np.float32))
     assert t._model.used
+
+
+def test_decoding_uses_short_windows_so_long_hindi_is_not_cut_off():
+    from app.main import CHUNK_SECONDS, WhisperTranscriber
+
+    seen = {}
+
+    class Rec(_HindiOnlyModel):
+        def transcribe(self, audio, language=None, **kw):
+            seen.update(kw)
+            return super().transcribe(audio, language=language, **kw)
+
+    t = WhisperTranscriber(model="x")
+    t._model = Rec()
+    t.transcribe(np.zeros(16000, dtype=np.float32))
+    assert seen["chunk_length"] == CHUNK_SECONDS == 15

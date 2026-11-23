@@ -24,6 +24,9 @@ from .audio import duration_seconds, is_silent, load_audio, normalize
 
 VERSION = "0.1.0"
 MAX_BYTES = 5 * 1024 * 1024      # design target from the spec
+# Whisper decodes in windows (30 s by default) and may write at most 448 tokens per window. Hindi in Devanagari needs many tokens per word,
+# so a 30 s window of normal speech was cut off after about 40 words and the rest was lost on long recordings. 15 s windows fit the limit.
+CHUNK_SECONDS = int(os.environ.get("ASR_CHUNK_LENGTH", "15")) or None
 MAX_SECONDS = 180                # 3 minutes
 TIMEOUT_SECONDS = 120
 OK_TYPES = {"audio/mpeg", "audio/mp3", "audio/wav", "audio/x-wav", "audio/wave", "audio/webm", "audio/ogg", "audio/mp4", "audio/aac", "audio/x-m4a", "audio/m4a", "video/webm", "application/octet-stream", "audio/amr", "audio/amr-wb", "audio/3gpp", "audio/3gpp2"}
@@ -106,7 +109,7 @@ class WhisperTranscriber:
         lang = self._language(model, audio)
         if lang == "hi" and self._hindi_name:
             model = self._load_hindi()
-        segments, _ = model.transcribe(audio, language=lang, task="transcribe", vad_filter=True, beam_size=1, condition_on_previous_text=False,
+        segments, _ = model.transcribe(audio, language=lang, task="transcribe", vad_filter=True, chunk_length=CHUNK_SECONDS, beam_size=1, condition_on_previous_text=False,
                                        initial_prompt=PROMPTS[lang])
         out = []
         for s in segments:
