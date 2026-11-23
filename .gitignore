@@ -46,3 +46,6 @@ review_sheet*.csv
 
 # raw lesson recordings (the processed .m4a files in apps/web/public/audio are small enough to commit)
 apps/web/recordings/
+
+Suraksha_Mid_Evaluation_Guide.pdf
+generate_pdf.py

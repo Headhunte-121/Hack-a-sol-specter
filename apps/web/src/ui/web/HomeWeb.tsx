@@ -1,5 +1,5 @@
 import { AlertTriangle, ArrowRight, CheckCircle2, Lock, ShieldAlert } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
+import heroVillage from '../../assets/hero-village.jpeg?inline'
 import { AlertsFeed } from '../../dashboard/AlertsFeed'
 import { useLang } from '../../shell/i18n'
 import { HeroSearch } from '../shared/HeroSearch'
@@ -7,20 +7,10 @@ import { ServiceCard } from '../shared/ServiceCard'
 import { type HomeViewProps, SystemNotices } from '../shared/SystemNotices'
 import { getUiLabels } from '../shared/uiLabels'
 
-const HERO_IMG = '/images/hero-village.jpeg'
-
 export function HomeWeb(props: HomeViewProps) {
   const { pwa } = props
   const { lang, t } = useLang()
   const ui = getUiLabels(lang)
-  const imgRef = useRef<HTMLImageElement>(null)
-  const [heroLoaded, setHeroLoaded] = useState(false)
-
-  useEffect(() => {
-    if (imgRef.current?.complete && imgRef.current.naturalWidth > 0) {
-      setHeroLoaded(true)
-    }
-  }, [])
 
   return (
     <div className="space-y-5">
@@ -31,36 +21,41 @@ export function HomeWeb(props: HomeViewProps) {
           className="pointer-events-none absolute inset-0 overflow-hidden rounded-3xl"
           aria-hidden="true"
         >
+          {/* 1. Smooth Multi-Stop Navy-to-Sky Backdrop (eliminates muddy grey middle) */}
           <div
             className="absolute inset-0"
             style={{
               background:
-                'linear-gradient(96deg, #163264 0%, #163264 40%, #24509B 60%, #9BC0F7 85%, #DCEBFF 100%)',
+                'linear-gradient(94deg, #163264 0%, #163264 36%, #1C407E 45%, #2B5CA8 53%, #5887CF 61%, #A0C3F2 69%, #D9E9FD 77%, #EFF6FF 86%, #F8FBFF 100%)',
             }}
           />
 
-          <img
-            ref={imgRef}
-            src={HERO_IMG}
-            alt=""
-            loading="eager"
-            decoding="async"
-            onLoad={() => setHeroLoaded(true)}
-            onError={() => setHeroLoaded(false)}
-            className={`absolute inset-y-0 right-0 h-full w-[54%] -scale-x-100 object-cover object-center transition-opacity duration-200 ${
-              heroLoaded ? 'opacity-100' : 'opacity-0'
-            }`}
-          />
+          {/* 2. Masked & Multiply-Blended Illustration (white background melts into the sky gradient) */}
+          <div
+            className="absolute inset-y-0 right-0 w-[60%] mix-blend-multiply"
+            style={{
+              WebkitMaskImage:
+                'linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.35) 14%, black 32%, black 100%)',
+              maskImage:
+                'linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.35) 14%, black 32%, black 100%)',
+            }}
+          >
+            <img
+              src={heroVillage}
+              alt=""
+              loading="eager"
+              decoding="sync"
+              style={{ transform: 'scaleX(-1)' }}
+              className="size-full object-cover object-center"
+            />
+          </div>
 
-          {/* Smooth multi-edge navy blend over the illustration */}
+          {/* 3. Soft Left-Only Readability Wash (keeps text contrast high without darkening the village) */}
           <div
             className="absolute inset-0"
             style={{
-              background: [
-                'linear-gradient(90deg, #163264 0%, #163264 43%, rgba(22, 50, 100, 0.94) 51%, rgba(22, 50, 100, 0.56) 61%, rgba(22, 50, 100, 0.14) 74%, rgba(22, 50, 100, 0) 86%)',
-                'linear-gradient(180deg, rgba(22, 50, 100, 0.4) 0%, rgba(22, 50, 100, 0) 26%)',
-                'linear-gradient(0deg, rgba(22, 50, 100, 0.45) 0%, rgba(22, 50, 100, 0) 30%)',
-              ].join(', '),
+              background:
+                'linear-gradient(90deg, #163264 0%, #163264 38%, rgba(22, 50, 100, 0.55) 48%, rgba(22, 50, 100, 0) 62%)',
             }}
           />
         </div>
