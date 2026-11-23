@@ -642,6 +642,7 @@
   "share.title": "Help others: add to the scam trends",
   "sms.inbox.allow": "Allow SMS access",
   "sms.inbox.empty": "No SMS messages found on this phone.",
+  "sms.inbox.last_checked": "Checked {time}",
   "sms.inbox.live_badge": "Watching new SMS live",
   "sms.inbox.manual_toggle": "Check a WhatsApp text or link manually",
   "sms.inbox.permission": "Allow SMS access to check messages automatically without pasting.",

@@ -3,7 +3,7 @@ import { ShareReport } from '../dashboard/ShareReport'
 import { useBackStep, useInnerScreenOnReturn } from '../shell/backStep'
 import { useDemoMode } from '../shell/demoMode'
 import { pick } from '../learn/content'
-import { useLang } from '../shell/i18n'
+import { formatDateTime, useLang } from '../shell/i18n'
 import { Layout } from '../shell/Layout'
 import { currentQuery } from '../shell/router'
 import { Banner, Icon, NumberedList, type Tone } from '../shell/ui'
@@ -54,6 +54,7 @@ export default function DetectorPage() {
   const [smsLoading, setSmsLoading] = useState(nativeSms)
   const [smsDenied, setSmsDenied] = useState(false)
   const [watchingSms, setWatchingSms] = useState(false)
+  const [lastScan, setLastScan] = useState<number | null>(null)
 
   const loadInbox = () => {
     if (!nativeSms || !scorer || !brands) return
@@ -62,6 +63,7 @@ export default function DetectorPage() {
     readRecentSms(30)
       .then((msgs) => {
         setInbox(msgs.map((m) => ({ ...m, result: analyzeInput(m.body, scorer, brands, lex, m.sender) })))
+        setLastScan(Date.now())
       })
       .catch(() => setSmsDenied(true))
       .finally(() => setSmsLoading(false))
@@ -77,30 +79,53 @@ export default function DetectorPage() {
     return () => { live = false }
   }, [])
 
-  // 1. Auto-scan recent SMS + watch incoming SMS live on Android APK (no form needed)
+  // 1. Auto-scan recent SMS and watch for new ones on the Android app (no form needed).
+  // Two ways to learn about a new message, so one failing does not hide it: the live receiver (instant, but the phone can pause the page while the
+  // app is in the background, and a message sent over RCS / "Chat" never reaches any app as an SMS) and a re-read of the inbox every few seconds
+  // and whenever the app comes back to the screen.
   useEffect(() => {
     if (!nativeSms || !scorer || !brands) return
     let live = true
-    let stop: (() => void) | null = null
+    let unsub: Promise<() => void> | null = null
+    let timer: ReturnType<typeof setInterval> | null = null
+    const seen = new Set<string>() // sender + text, because the live id and the inbox id of one message differ
+    const keyOf = (m: DeviceSms) => `${m.sender}|${m.body}`
+    const scan = (first: boolean) =>
+      readRecentSms(30).then((msgs) => {
+        if (!live) return
+        const scanned = msgs.map((m) => ({ ...m, result: analyzeInput(m.body, scorer, brands, lex, m.sender) }))
+        if (!first && scanned.some((m) => !seen.has(keyOf(m)) && m.result.band !== 'looks_genuine')) navigator.vibrate?.([250, 100, 250])
+        for (const m of scanned) seen.add(keyOf(m))
+        setInbox(scanned)
+        setSmsDenied(false)
+        setLastScan(Date.now())
+      })
+    const onVisible = () => { if (document.visibilityState === 'visible') void scan(false).catch(() => {}) }
 
     setSmsLoading(true)
-    readRecentSms(30)
-      .then((msgs) => {
+    scan(true)
+      .then(() => {
         if (!live) return
-        setInbox(msgs.map((m) => ({ ...m, result: analyzeInput(m.body, scorer, brands, lex, m.sender) })))
         setSmsLoading(false)
-        return subscribeIncomingSms((sms) => {
+        unsub = subscribeIncomingSms((sms) => {
           const res = analyzeInput(sms.body, scorer, brands, lex, sms.sender)
-          if (res.band !== 'looks_genuine') navigator.vibrate?.([250, 100, 250])
-          setInbox((prev) => [{ ...sms, result: res }, ...prev.filter((x) => x.id !== sms.id)])
+          if (!seen.has(keyOf(sms)) && res.band !== 'looks_genuine') navigator.vibrate?.([250, 100, 250])
+          seen.add(keyOf(sms))
+          setInbox((prev) => [{ ...sms, result: res }, ...prev.filter((x) => x.id !== sms.id && keyOf(x) !== keyOf(sms))])
+          setLastScan(Date.now())
         })
-      })
-      .then((unsub) => {
-        if (live && unsub) { stop = unsub; setWatchingSms(true) }
+        return unsub.then(() => { if (live) setWatchingSms(true) })
       })
       .catch(() => { if (live) { setSmsDenied(true); setSmsLoading(false) } })
+    timer = setInterval(onVisible, 8000)
+    document.addEventListener('visibilitychange', onVisible)
 
-    return () => { live = false; stop?.() }
+    return () => {
+      live = false
+      if (timer) clearInterval(timer)
+      document.removeEventListener('visibilitychange', onVisible)
+      void unsub?.then((u) => u()).catch(() => {}) // stop listening even when the screen was left before the listener finished starting
+    }
   }, [nativeSms, scorer, brands, lex])
 
   // 2. Auto-check any message shared from WhatsApp / SMS (zero form on both APK & PWA)
@@ -262,6 +287,7 @@ export default function DetectorPage() {
             <div>
               <h2 className="text-[18px] font-bold text-ink">{t('sms.inbox.title')}</h2>
               {watchingSms && <p className="text-xs font-bold text-ok">● {t('sms.inbox.live_badge')}</p>}
+              {lastScan && <p className="text-xs text-muted" data-testid="sms-last-checked">{t('sms.inbox.last_checked', { time: formatDateTime(lastScan, lang) })}</p>}
             </div>
             <button type="button" className="btn btn-secondary !min-h-10 !text-[14px]" onClick={loadInbox}>
               🔄 {t('sms.inbox.refresh')}
@@ -299,7 +325,7 @@ export default function DetectorPage() {
                       className={`card w-full space-y-1.5 text-left transition hover:border-brand ${bad ? 'border-bad-line!' : warn ? 'border-warn-line!' : ''}`}
                     >
                       <div className="flex items-center justify-between gap-2">
-                        <span className="truncate font-bold text-ink">{item.sender || 'SMS'}</span>
+                        <span className="truncate font-bold text-ink">{item.sender || 'SMS'}<span className="ml-2 text-xs font-normal text-muted">{item.date ? formatDateTime(item.date, lang) : ''}</span></span>
                         <span className={`shrink-0 rounded-full border px-2.5 py-0.5 text-xs font-bold ${pill}`}>
                           {t(`band.${item.result.band}`)}
                         </span>

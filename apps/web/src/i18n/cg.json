@@ -642,6 +642,7 @@
   "share.title": "दूसर के मदद करव: ठगी के रुझान म जोड़व",
   "sms.inbox.allow": "एसएमएस के अनुमति देवव",
   "sms.inbox.empty": "ए फोन म कोनो एसएमएस संदेसा नइ मिलिस।",
+  "sms.inbox.last_checked": "{time} म जाँचे गीस",
   "sms.inbox.live_badge": "नवा एसएमएस म सीधा नजर",
   "sms.inbox.manual_toggle": "व्हाट्सऐप संदेसा या लिंक हाथ ले जांचव",
   "sms.inbox.permission": "बिना चिपकाए संदेसा अपन-आप जांचे बर एसएमएस के अनुमति देवव।",
