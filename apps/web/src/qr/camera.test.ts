@@ -106,3 +106,16 @@ describe('standalone detection and permission watching', () => {
     expect(seen).toEqual(['unknown'])
   })
 })
+
+describe('cameraEnvironment explains why the camera is refused', () => {
+  it('says whether the site policy allows the camera, how the app runs and which browser', async () => {
+    const { cameraEnvironment } = await import('./camera')
+    const doc = document as unknown as { permissionsPolicy?: unknown }
+    doc.permissionsPolicy = { allowsFeature: (f: string) => f !== 'camera' }
+    expect(cameraEnvironment()).toContain('site policy BLOCKS camera')
+    doc.permissionsPolicy = { allowsFeature: () => true }
+    expect(cameraEnvironment()).toContain('site policy allows camera')
+    delete doc.permissionsPolicy
+    expect(cameraEnvironment()).toMatch(/browser tab|home-screen app/)
+  })
+})

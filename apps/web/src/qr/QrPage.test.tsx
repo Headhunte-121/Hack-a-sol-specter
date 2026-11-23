@@ -63,7 +63,26 @@ describe('the QR page asks first and explains a switched-off camera', () => {
     await act(async () => { (q('camera-off-note')!.querySelector('button') as HTMLElement).click() })
     expect(q('camera-help')?.getAttribute('data-mode')).toBe('app')
     expect(q('camera-help')?.textContent).toContain(en['qr.cam.app.1'])
-    expect(q('camera-help')?.textContent).not.toContain('lock')
+    expect(q('camera-help')?.textContent).not.toContain(en['qr.cam.web.1'])
+    expect(q('camera-reinstall')?.textContent).toBe(en['qr.cam.reinstall']) // deleting and reinstalling the app does not clear Chrome's choice
+    expect(q('qr-env')?.textContent).toContain('home-screen app')
+  })
+
+  it('from the home screen on Android, offers to open the app in Chrome; in a browser tab it does not', async () => {
+    const ua = Object.getOwnPropertyDescriptor(navigator, 'userAgent')
+    Object.defineProperty(navigator, 'userAgent', { value: 'Mozilla/5.0 (Linux; Android 14; Phone) AppleWebKit/537.36 Chrome/130.0.0.0 Mobile Safari/537.36', configurable: true })
+    standalone = true
+    await mount('denied')
+    await act(async () => { (q('camera-off-note')!.querySelector('button') as HTMLElement).click() })
+    const link = q('camera-open-chrome') as HTMLAnchorElement
+    expect(link.getAttribute('href')).toMatch(/^intent:\/\/.+#Intent;scheme=https;package=com\.android\.chrome;end$/)
+    expect(q('qr-env')?.textContent).toContain('Chrome 130')
+    act(() => root.unmount())
+    standalone = false
+    await mount('denied')
+    await act(async () => { (q('camera-off-note')!.querySelector('button') as HTMLElement).click() })
+    expect(q('camera-open-chrome')).toBeNull()
+    if (ua) Object.defineProperty(navigator, 'userAgent', ua); else delete (navigator as unknown as Record<string, unknown>).userAgent
   })
 
   it('tapping Scan when the browser refuses shows the steps, the error code and the photo fallback', async () => {
