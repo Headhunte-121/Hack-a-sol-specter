@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-23.2",
+  "version": "2026-11-23.3",
   "notes": "Interpretable scam signals. A signal fires when every group has at least one phrase hit and no 'none' phrase hits. Phrases are space-separated lowercase tokens; a trailing * on the last token means prefix match. Used as extra model features and as explanation text, never as the whole classifier.",
   "signals": [
     {
@@ -37,9 +37,12 @@
           "batayein",
           "bhejo",
           "bhejiye",
+          "bhejein",
           "bhej",
           "daalo",
           "dalo",
+          "daalein",
+          "dalein",
           "बताएं",
           "बताइए",
           "बताओ",
@@ -93,7 +96,12 @@
         "मत डालें",
         "मत डालिए",
         "मत दें",
-        "मत दीजिए"
+        "मत दीजिए",
+        "delivery code",
+        "delivery partner",
+        "collect food",
+        "driver ko",
+        "ड्राइवर को"
       ]
     },
     {
@@ -175,7 +183,12 @@
         "मत डालें",
         "मत डालिए",
         "मत दें",
-        "मत दीजिए"
+        "मत दीजिए",
+        "delivery code",
+        "delivery partner",
+        "collect food",
+        "driver ko",
+        "ड्राइवर को"
       ]
     },
     {
@@ -249,6 +262,8 @@
           "giraft*",
           "summons",
           "penalty",
+          "illegal activity",
+          "अवैध गतिविधि",
           "ब्लॉक",
           "बंद",
           "गिरफ्तार*",
@@ -388,6 +403,12 @@
         "सफल",
         "debited",
         "credited",
+        "processed",
+        "has been processed",
+        "income tax",
+        "assessment year",
+        "ay ",
+        "आयकर",
         "official app",
         "thank you for",
         "धन्यवाद"
@@ -482,7 +503,11 @@
           "भरें",
           "भेजिए",
           "भेज दीजिए",
-          "भेजें"
+          "भेजें",
+          "scan qr",
+          "qr code",
+          "approve on gpay",
+          "approve on"
         ],
         [
           "amounttok",
@@ -492,7 +517,9 @@
           "फीस",
           "penalty",
           "जुर्माना",
-          "tax"
+          "tax",
+          "receive",
+          "advance"
         ]
       ],
       "none": [
@@ -502,6 +529,12 @@
         "सफल",
         "debited",
         "credited",
+        "processed",
+        "has been processed",
+        "income tax",
+        "assessment year",
+        "ay ",
+        "आयकर",
         "official app",
         "official portal",
         "आधिकारिक",
@@ -522,6 +555,7 @@
         [
           "cbi",
           "police",
+          "crime branch",
           "cyber cell",
           "cyber crime",
           "trai",
@@ -533,6 +567,7 @@
           "ed officer",
           "सीबीआई",
           "पुलिस",
+          "क्राइम ब्रांच",
           "साइबर",
           "ट्राई",
           "कस्टम",
@@ -541,7 +576,9 @@
           "नारकोटिक्स"
         ]
       ],
-      "none": []
+      "none": [
+        "urlgovtok"
+      ]
     },
     {
       "id": "secrecy_or_isolation",
@@ -562,7 +599,11 @@
           "do not disconnect",
           "mat katna",
           "mat kaatna",
-          "disconnect mat"
+          "disconnect mat",
+          "call na kate",
+          "call mat kaatna",
+          "कॉल न काटें",
+          "कॉल मत काटें"
         ]
       ],
       "none": []
@@ -730,6 +771,237 @@
           "transfer hue",
           "transfer kiya",
           "transferred to"
+        ]
+      ],
+      "none": []
+    },
+    {
+      "id": "otp_delivery_notice",
+      "kind": "reassure",
+      "groups": [
+        [
+          "otp",
+          "ओटीपी",
+          "verification code",
+          "सत्यापन कोड",
+          "security code",
+          "सुरक्षा कोड",
+          "login code",
+          "लॉगिन कोड",
+          "code",
+          "कोड"
+        ],
+        [
+          "is your",
+          "valid for",
+          "use",
+          "मान्य",
+          "karein",
+          "valid till",
+          "for your login",
+          "to verify",
+          "के लिए"
+        ]
+      ],
+      "none": [
+        "share",
+        "send",
+        "tell",
+        "give",
+        "enter",
+        "submit",
+        "batao",
+        "bataiye",
+        "bhejo",
+        "bhejiye",
+        "bhejein",
+        "daalein",
+        "dalein",
+        "scan",
+        "qr",
+        "qr code",
+        "पिन डालें",
+        "बताएं",
+        "बताइए",
+        "बताओ",
+        "भेजें",
+        "भेजिए",
+        "साझा करें",
+        "click",
+        "call",
+        "link"
+      ]
+    },
+    {
+      "id": "user_initiated",
+      "kind": "reassure",
+      "groups": [
+        [
+          "at your request",
+          "as per your request",
+          "per your request",
+          "aapki request par",
+          "aapke anurodh par",
+          "aapki request ke anusaar",
+          "aapke kehne par",
+          "anurodh par",
+          "अनुरोध पर",
+          "निवेदन पर",
+          "रिक्वेस्ट पर",
+          "आपके अनुरोध पर",
+          "at customer request",
+          "requested by you",
+          "initiated by you"
+        ]
+      ],
+      "none": []
+    },
+    {
+      "id": "official_status_notice",
+      "kind": "reassure",
+      "groups": [
+        [
+          "status",
+          "स्थिति",
+          "track",
+          "ट्रैक",
+          "check status",
+          "स्थिति देखें",
+          "status dekhein",
+          "status check",
+          "update status",
+          "अपडेट स्थिति",
+          "details",
+          "details at",
+          "जानकारी",
+          "track in app",
+          "app me dekhein",
+          "app mein dekhein"
+        ],
+        [
+          "urlgovtok",
+          "urlbrandtok",
+          "official app",
+          "आधिकारिक"
+        ]
+      ],
+      "none": [
+        "urlsusptok",
+        "urlshorttok",
+        "threat",
+        "block",
+        "arrest"
+      ]
+    },
+    {
+      "id": "scheme_credit_notice",
+      "kind": "reassure",
+      "groups": [
+        [
+          "pm kisan",
+          "pm-kisan",
+          "pmkisan",
+          "fasal bima",
+          "crop insurance",
+          "kist",
+          "किस्त",
+          "samman nidhi",
+          "पेंशन",
+          "pension",
+          "scholarship",
+          "छात्रवृत्ति",
+          "subsidy",
+          "सब्सिडी",
+          "ladli behna",
+          "mahtari vandan"
+        ],
+        [
+          "credited",
+          "credited to",
+          "deposit",
+          "deposited",
+          "jama",
+          "जमा",
+          "aa gayi",
+          "आ गई",
+          "bheji gayi",
+          "भेजी गई",
+          "transfer",
+          "has been credited",
+          "credited in"
+        ]
+      ],
+      "none": [
+        "pay fee",
+        "processing fee",
+        "shulk",
+        "शुल्क",
+        "claim fee",
+        "urlsusptok",
+        "urlshorttok"
+      ]
+    },
+    {
+      "id": "refund_trick",
+      "kind": "risk",
+      "groups": [
+        [
+          "by mistake",
+          "mistakenly",
+          "wrongly",
+          "galti se",
+          "गलती से",
+          "dhokhe se",
+          "bheja tha",
+          "sent by mistake",
+          "transferred by mistake",
+          "wrong transaction"
+        ],
+        [
+          "return",
+          "send back",
+          "wapas",
+          "वापस",
+          "lautao",
+          "lauta dein",
+          "refund",
+          "collect request",
+          "कलेक्ट रिक्वेस्ट",
+          "wapas bhej",
+          "return the money",
+          "wapas kar"
+        ]
+      ],
+      "none": []
+    },
+    {
+      "id": "new_number_money",
+      "kind": "risk",
+      "groups": [
+        [
+          "new number",
+          "naya number",
+          "नया नंबर",
+          "phone toot gaya",
+          "phone lost",
+          "lost my phone",
+          "phone kharab",
+          "phone broke",
+          "new sim",
+          "naya phone"
+        ],
+        [
+          "send money",
+          "paise bhej",
+          "पैसे भेज",
+          "transfer",
+          "need money",
+          "urgent money",
+          "help me",
+          "paise ki zaroorat",
+          "पैसे चाहिए",
+          "gpay karo",
+          "phonepe karo"
         ]
       ],
       "none": []

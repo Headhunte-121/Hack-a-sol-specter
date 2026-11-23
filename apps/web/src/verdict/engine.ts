@@ -12,7 +12,7 @@ export function combineBand(band: Band, links: UrlResult[]): Band {
 }
 
 /** What decided the verdict: the call-script rules, the model, both together, a genuine safety message, or nothing was found. */
-export type Basis = 'script' | 'script+model' | 'model' | 'advisory' | 'none'
+export type Basis = 'script' | 'script+model' | 'model' | 'advisory' | 'genuine_notice' | 'none'
 
 // Rules that a plain safety warning ("never share your OTP, police will never ask for money") sets off by itself.
 const WARNING_ONLY_RULES = new Set(['asks_secret_code', 'asks_id_details', 'authority_claim'])
@@ -61,6 +61,15 @@ export function assess(segments: Segment[], scorer: Scorer | null, lex: Lexicon 
   } else if (justAWarning && modelBand !== 'looks_genuine') {
     band = 'looks_genuine' // only the safety words set the model off
     basis = 'advisory'
+  } else if (
+    modelBand === 'suspicious' &&
+    firedRisk.length === 0 &&
+    (scored?.fired ?? []).some((f) => f.id === 'otp_delivery_notice' || f.id === 'official_status_notice') &&
+    (scored?.tokens.filter((t) => t.t.startsWith('url')).every((t) => t.t === 'urlgovtok' || t.t === 'urlbrandtok') ?? true) &&
+    !links.some((l) => l.risk === 'high')
+  ) {
+    band = 'looks_genuine' // genuine OTP or official notice with verified link
+    basis = 'genuine_notice'
   } else if (top && anyStrong && windowP >= cut && modelBand === 'looks_genuine') {
     band = 'suspicious' // a strong stage of a known script, plus a part of a long text the model finds suspicious
     basis = 'script+model'

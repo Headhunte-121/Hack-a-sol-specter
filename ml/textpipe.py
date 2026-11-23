@@ -15,9 +15,30 @@ import re
 from pathlib import Path
 
 HERE = Path(__file__).parent
-ENTITY_TOKENS = {"urltok", "urlshorttok", "urlsusptok", "phonetok", "amounttok", "numtok"}
+ENTITY_TOKENS = {"urltok", "urlshorttok", "urlsusptok", "urlgovtok", "urlbrandtok", "phonetok", "amounttok", "numtok"}
 SHORTENERS = ("bit.ly", "tinyurl.com", "rb.gy", "cutt.ly", "t.co", "goo.gl", "is.gd", "tiny.cc", "shorturl.at")
 SUSPICIOUS_TLDS = ("top", "xyz", "cc", "win", "info", "help", "club", "click", "online", "site", "link")
+
+_dom_path = HERE / "domains.json"
+if _dom_path.exists():
+    with open(_dom_path, encoding="utf-8") as _df:
+        _dom_data = json.load(_df)
+        GOV_SUFFIXES = tuple(_dom_data.get("gov_suffixes", ["gov.in", "nic.in"]))
+        OFFICIAL_DOMAINS = tuple(_dom_data.get("official", []))
+else:
+    GOV_SUFFIXES = ("gov.in", "nic.in")
+    OFFICIAL_DOMAINS = ()
+
+NUKTA_MAP = {
+    "\u0958": "\u0915",  # क़ -> क
+    "\u0959": "\u0916",  # ख़ -> ख
+    "\u095a": "\u0917",  # ग़ -> ग
+    "\u095b": "\u091c",  # ज़ -> ज
+    "\u095c": "\u0921",  # ड़ -> ड
+    "\u095d": "\u0922",  # ढ़ -> ढ
+    "\u095e": "\u092b",  # फ़ -> फ
+    "\u095f": "\u092f",  # य़ -> य
+}
 
 URL_RE = re.compile(
     r"(?:https?://|www\.)[^ ]+"
@@ -38,6 +59,11 @@ def normalize_text(raw: str) -> tuple[str, list[int]]:
     idx: list[int] = []
     for i, ch in enumerate(raw):
         o = ord(ch)
+        if ch in NUKTA_MAP:
+            ch = NUKTA_MAP[ch]
+            o = ord(ch)
+        elif ch == "\u093c":
+            continue
         if 0x966 <= o <= 0x96F:
             ch = chr(48 + o - 0x966)
         elif 65 <= o <= 90:
@@ -69,6 +95,10 @@ def _link_token(url: str) -> str:
     tld = host.rsplit(".", 1)[-1] if "." in host else ""
     if tld in SUSPICIOUS_TLDS or host.endswith(".in.net"):
         return "urlsusptok"
+    if any(host == s or host.endswith("." + s) for s in GOV_SUFFIXES):
+        return "urlgovtok"
+    if any(host == s or host.endswith("." + s) for s in OFFICIAL_DOMAINS):
+        return "urlbrandtok"
     return "urltok"
 
 

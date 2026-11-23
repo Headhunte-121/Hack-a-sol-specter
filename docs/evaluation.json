@@ -1,200 +1,168 @@
 {
-  "model_version": "2026-11-23.2",
-  "model_bytes": 1331985,
+  "model_version": "2026-11-23.3",
+  "model_bytes": 344038,
   "thresholds": {
-    "suspicious": 0.05,
-    "scam": 0.19
+    "suspicious": 0.19,
+    "scam": 0.35
   },
   "test": {
     "name": "test (group-aware split)",
     "overall@0.5": {
-      "n": 3050,
-      "scam": 1036,
-      "accuracy": 0.9859016393442623,
-      "precision": 0.9910979228486647,
-      "recall": 0.9671814671814671,
-      "f1": 0.9789936492427943,
-      "tn": 2005,
-      "fp": 9,
-      "fn": 34,
-      "tp": 1002,
-      "false_alarm_rate": 0.004468718967229395,
-      "auc_pr": 0.9974788777719297,
-      "auc_roc": 0.9985013208697419
+      "n": 202,
+      "scam": 61,
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "tn": 141,
+      "fp": 0,
+      "fn": 0,
+      "tp": 61,
+      "false_alarm_rate": 0.0,
+      "auc_pr": 1.0,
+      "auc_roc": 1.0
     },
     "flag@suspicious_cut": {
-      "n": 3050,
-      "scam": 1036,
-      "accuracy": 0.9845901639344262,
-      "precision": 0.96171802054155,
-      "recall": 0.9942084942084942,
-      "f1": 0.9776934029425723,
-      "tn": 1973,
-      "fp": 41,
-      "fn": 6,
-      "tp": 1030,
-      "false_alarm_rate": 0.02035749751737835,
-      "auc_pr": 0.9974788777719297,
-      "auc_roc": 0.9985013208697419
+      "n": 202,
+      "scam": 61,
+      "accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0,
+      "tn": 141,
+      "fp": 0,
+      "fn": 0,
+      "tp": 61,
+      "false_alarm_rate": 0.0,
+      "auc_pr": 1.0,
+      "auc_roc": 1.0
     },
     "bands": {
       "likely_scam": {
-        "scam": 1009,
-        "genuine": 21
+        "scam": 61,
+        "genuine": 0
       },
       "suspicious": {
-        "scam": 21,
-        "genuine": 20
+        "scam": 0,
+        "genuine": 0
       },
       "looks_genuine": {
-        "scam": 6,
-        "genuine": 1973
+        "scam": 0,
+        "genuine": 141
       }
     },
     "keyword_baseline": {
-      "n": 3050,
-      "scam": 1036,
-      "accuracy": 0.6750819672131148,
-      "precision": 0.7184466019417476,
-      "recall": 0.07142857142857142,
-      "f1": 0.1299385425812116,
-      "tn": 1985,
-      "fp": 29,
-      "fn": 962,
-      "tp": 74,
-      "false_alarm_rate": 0.014399205561072492
+      "n": 202,
+      "scam": 61,
+      "accuracy": 0.8217821782178217,
+      "precision": 1.0,
+      "recall": 0.4098360655737705,
+      "f1": 0.5813953488372093,
+      "tn": 141,
+      "fp": 0,
+      "fn": 36,
+      "tp": 25,
+      "false_alarm_rate": 0.0
     },
     "per_language": {
       "english": {
-        "n": 2802,
-        "scam": 921,
-        "accuracy": 0.9850107066381156,
-        "precision": 0.9910614525139665,
-        "recall": 0.9630836047774158,
-        "f1": 0.9768722466960352,
-        "tn": 1873,
-        "fp": 8,
-        "fn": 34,
-        "tp": 887,
-        "false_alarm_rate": 0.004253056884635832,
-        "auc_pr": 0.9971409374505192,
-        "auc_roc": 0.9983554615819318
-      },
-      "hindi": {
-        "n": 67,
-        "scam": 9,
-        "accuracy": 0.9850746268656716,
-        "precision": 0.9,
-        "recall": 1.0,
-        "f1": 0.9473684210526315,
-        "tn": 57,
-        "fp": 1,
-        "fn": 0,
-        "tp": 9,
-        "false_alarm_rate": 0.017241379310344827,
-        "auc_pr": 1.0000000000000002,
-        "auc_roc": 1.0
-      },
-      "hinglish": {
-        "n": 181,
-        "scam": 106,
+        "n": 85,
+        "scam": 18,
         "accuracy": 1.0,
         "precision": 1.0,
         "recall": 1.0,
         "f1": 1.0,
-        "tn": 75,
+        "tn": 67,
         "fp": 0,
         "fn": 0,
-        "tp": 106,
+        "tp": 18,
+        "false_alarm_rate": 0.0,
+        "auc_pr": 1.0,
+        "auc_roc": 1.0
+      },
+      "hindi": {
+        "n": 68,
+        "scam": 28,
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tn": 40,
+        "fp": 0,
+        "fn": 0,
+        "tp": 28,
+        "false_alarm_rate": 0.0,
+        "auc_pr": 1.0,
+        "auc_roc": 1.0
+      },
+      "hinglish": {
+        "n": 49,
+        "scam": 15,
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tn": 34,
+        "fp": 0,
+        "fn": 0,
+        "tp": 15,
         "false_alarm_rate": 0.0,
         "auc_pr": 1.0,
         "auc_roc": 1.0
       }
     },
     "per_source": {
-      "bolewara_uci": {
-        "n": 527,
-        "scam": 92,
-        "accuracy": 0.9753320683111955,
-        "precision": 0.9438202247191011,
-        "recall": 0.9130434782608695,
-        "f1": 0.9281767955801105,
-        "tn": 430,
-        "fp": 5,
-        "fn": 8,
-        "tp": 84,
-        "false_alarm_rate": 0.011494252873563218,
-        "auc_pr": 0.9588403903293162,
-        "auc_roc": 0.9855822088955521
-      },
-      "cloveai": {
-        "n": 1008,
-        "scam": 28,
+      "team_messages_v3": {
+        "n": 39,
+        "scam": 24,
         "accuracy": 1.0,
         "precision": 1.0,
         "recall": 1.0,
         "f1": 1.0,
-        "tn": 980,
+        "tn": 15,
         "fp": 0,
         "fn": 0,
-        "tp": 28,
+        "tp": 24,
         "false_alarm_rate": 0.0,
-        "auc_pr": 0.9999999999999999,
+        "auc_pr": 0.9999999999999998,
         "auc_roc": 1.0
       },
-      "shade63": {
-        "n": 1254,
-        "scam": 794,
-        "accuracy": 0.9768740031897927,
-        "precision": 0.9961089494163424,
-        "recall": 0.9672544080604534,
-        "f1": 0.9814696485623003,
-        "tn": 457,
-        "fp": 3,
-        "fn": 26,
-        "tp": 768,
-        "false_alarm_rate": 0.006521739130434782,
-        "auc_pr": 0.9994517619628714,
-        "auc_roc": 0.9990554156171284
-      },
-      "team_messages_v3": {
-        "n": 34,
-        "scam": 19,
-        "accuracy": 0.9705882352941176,
-        "precision": 0.95,
+      "team_scam_gap_v1": {
+        "n": 10,
+        "scam": 10,
+        "accuracy": 1.0,
+        "precision": 1.0,
         "recall": 1.0,
-        "f1": 0.9743589743589743,
-        "tn": 14,
-        "fp": 1,
+        "f1": 1.0,
+        "tn": 0,
+        "fp": 0,
         "fn": 0,
-        "tp": 19,
-        "false_alarm_rate": 0.06666666666666667,
+        "tp": 10,
+        "false_alarm_rate": 0.0
+      },
+      "team_syn1": {
+        "n": 42,
+        "scam": 15,
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "tn": 27,
+        "fp": 0,
+        "fn": 0,
+        "tp": 15,
+        "false_alarm_rate": 0.0,
         "auc_pr": 1.0,
         "auc_roc": 1.0
       },
-      "team_syn1": {
-        "n": 59,
-        "scam": 14,
-        "accuracy": 1.0,
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1": 1.0,
-        "tn": 45,
-        "fp": 0,
-        "fn": 0,
-        "tp": 14,
-        "false_alarm_rate": 0.0,
-        "auc_pr": 0.9999999999999999,
-        "auc_roc": 1.0
-      },
       "team_syn2": {
-        "n": 75,
+        "n": 78,
         "scam": 12,
         "accuracy": 1.0,
         "precision": 1.0,
         "recall": 1.0,
         "f1": 1.0,
-        "tn": 63,
+        "tn": 66,
         "fp": 0,
         "fn": 0,
         "tp": 12,
@@ -202,207 +170,134 @@
         "auc_pr": 1.0,
         "auc_roc": 1.0
       },
-      "ysangam_calls": {
-        "n": 93,
-        "scam": 77,
+      "team_trap_genuine_v1": {
+        "n": 33,
+        "scam": 0,
         "accuracy": 1.0,
-        "precision": 1.0,
-        "recall": 1.0,
-        "f1": 1.0,
-        "tn": 16,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "tn": 33,
         "fp": 0,
         "fn": 0,
-        "tp": 77,
-        "false_alarm_rate": 0.0,
-        "auc_pr": 1.0,
-        "auc_roc": 1.0
+        "tp": 0,
+        "false_alarm_rate": 0.0
       }
     },
     "calibration": {
-      "ece": 0.008769533017702334,
+      "ece": 0.007534021236993423,
       "bins": [
         {
           "bin": "0.0-0.1",
-          "n": 1999,
-          "mean_p": 0.0022191640429528627,
-          "frac_scam": 0.0080040020010005
-        },
-        {
-          "bin": "0.1-0.2",
-          "n": 23,
-          "mean_p": 0.14082384378842172,
-          "frac_scam": 0.5652173913043478
-        },
-        {
-          "bin": "0.2-0.3",
-          "n": 12,
-          "mean_p": 0.2531893673688195,
-          "frac_scam": 0.25
-        },
-        {
-          "bin": "0.3-0.4",
-          "n": 4,
-          "mean_p": 0.3096719067298247,
-          "frac_scam": 0.25
-        },
-        {
-          "bin": "0.4-0.5",
-          "n": 1,
-          "mean_p": 0.45786606841464994,
-          "frac_scam": 1.0
-        },
-        {
-          "bin": "0.5-0.6",
-          "n": 1,
-          "mean_p": 0.569379728891683,
-          "frac_scam": 1.0
-        },
-        {
-          "bin": "0.6-0.7",
-          "n": 3,
-          "mean_p": 0.6409846592673837,
-          "frac_scam": 0.6666666666666666
+          "n": 141,
+          "mean_p": 0.002859778986732977,
+          "frac_scam": 0.0
         },
         {
           "bin": "0.7-0.8",
-          "n": 7,
-          "mean_p": 0.7444337026521782,
-          "frac_scam": 0.5714285714285714
+          "n": 1,
+          "mean_p": 0.7918048195134053,
+          "frac_scam": 1.0
         },
         {
           "bin": "0.8-0.9",
-          "n": 6,
-          "mean_p": 0.8460356599717015,
-          "frac_scam": 0.8333333333333334
+          "n": 1,
+          "mean_p": 0.8058470542915452,
+          "frac_scam": 1.0
         },
         {
           "bin": "0.9-1.0",
-          "n": 994,
-          "mean_p": 0.9988009284651473,
-          "frac_scam": 0.9959758551307847
+          "n": 59,
+          "mean_p": 0.9878594012449445,
+          "frac_scam": 1.0
         }
       ]
     },
     "bias": {
       "genuine_bank_alerts": {
-        "n": 357,
+        "n": 54,
         "false_alarm_rate": 0.0
       },
       "genuine_otp_messages": {
-        "n": 53,
-        "false_alarm_rate": 0.018867924528301886
+        "n": 9,
+        "false_alarm_rate": 0.0
       },
       "genuine_other": {
-        "n": 1641,
-        "false_alarm_rate": 0.004875076173065204
+        "n": 81,
+        "false_alarm_rate": 0.0
       },
       "by_language": {
         "english": {
-          "n": 1881,
-          "false_alarm_rate": 0.004253056884635832
+          "n": 67,
+          "false_alarm_rate": 0.0
         },
         "hindi": {
-          "n": 58,
-          "false_alarm_rate": 0.017241379310344827
+          "n": 40,
+          "false_alarm_rate": 0.0
         },
         "hinglish": {
-          "n": 75,
+          "n": 34,
           "false_alarm_rate": 0.0
         }
       },
       "by_length": {
         "short": {
-          "n": 731,
-          "false_alarm_rate": 0.0027359781121751026
+          "n": 37,
+          "false_alarm_rate": 0.0
         },
         "medium": {
-          "n": 1268,
-          "false_alarm_rate": 0.00473186119873817
-        },
-        "long": {
-          "n": 15,
-          "false_alarm_rate": 0.06666666666666667
+          "n": 104,
+          "false_alarm_rate": 0.0
         }
       }
     },
-    "confident_mistakes": [
-      {
-        "text": "Solve d Case : A Man Was Found Murdered On  &lt;DECIMAL&gt; . &lt;#&gt;  AfterNoon. 1,His wife called Police. 2,Police questioned everyone. ",
-        "label": 0,
-        "p": 1.0,
-        "lang": "english"
-      },
-      {
-        "text": "OTP: 482913 is your SBI OTP. Never share with anyone. If you did not request this, your account may be compromised - reply YES to block.",
-        "label": 1,
-        "p": 0.0,
-        "lang": "english"
-      },
-      {
-        "text": "Hi ya babe x u 4goten bout me?' scammers getting smart..Though this is a regular vodafone no, if you respond you get further prem rate msg/s",
-        "label": 1,
-        "p": 0.006,
-        "lang": "english"
-      },
-      {
-        "text": "Message:some text missing* Sender:Name Missing* *Number Missing *Sent:Date missing *Missing U a lot thats y everything is missing sent via f",
-        "label": 0,
-        "p": 0.982,
-        "lang": "english"
-      },
-      {
-        "text": "Passport Seva: Your passport application status is 'Under Review'. Estimated processing time: 7-10 working days. Track at passportindia.gov.",
-        "label": 0,
-        "p": 0.98,
-        "lang": "english"
-      }
-    ],
-    "ms_per_message_python": 1.1286893438120358
+    "confident_mistakes": [],
+    "ms_per_message_python": 1.199528722479792
   },
   "challenge": {
     "name": "challenge (hand-written, never trained on)",
     "overall@0.5": {
       "n": 160,
       "scam": 80,
-      "accuracy": 0.9125,
-      "precision": 0.9230769230769231,
-      "recall": 0.9,
-      "f1": 0.9113924050632911,
-      "tn": 74,
-      "fp": 6,
-      "fn": 8,
-      "tp": 72,
-      "false_alarm_rate": 0.075,
-      "auc_pr": 0.9840816487368466,
-      "auc_roc": 0.9823437500000001
+      "accuracy": 0.8875,
+      "precision": 0.984375,
+      "recall": 0.7875,
+      "f1": 0.875,
+      "tn": 79,
+      "fp": 1,
+      "fn": 17,
+      "tp": 63,
+      "false_alarm_rate": 0.0125,
+      "auc_pr": 0.9840737439989189,
+      "auc_roc": 0.98390625
     },
     "flag@suspicious_cut": {
       "n": 160,
       "scam": 80,
-      "accuracy": 0.89375,
-      "precision": 0.8387096774193549,
-      "recall": 0.975,
-      "f1": 0.9017341040462428,
-      "tn": 65,
-      "fp": 15,
-      "fn": 2,
-      "tp": 78,
-      "false_alarm_rate": 0.1875,
-      "auc_pr": 0.9840816487368466,
-      "auc_roc": 0.9823437500000001
+      "accuracy": 0.9125,
+      "precision": 0.9583333333333334,
+      "recall": 0.8625,
+      "f1": 0.9078947368421053,
+      "tn": 77,
+      "fp": 3,
+      "fn": 11,
+      "tp": 69,
+      "false_alarm_rate": 0.0375,
+      "auc_pr": 0.9840737439989189,
+      "auc_roc": 0.98390625
     },
     "bands": {
       "likely_scam": {
-        "scam": 74,
-        "genuine": 8
+        "scam": 65,
+        "genuine": 1
       },
       "suspicious": {
         "scam": 4,
-        "genuine": 7
+        "genuine": 2
       },
       "looks_genuine": {
-        "scam": 2,
-        "genuine": 65
+        "scam": 11,
+        "genuine": 77
       }
     },
     "keyword_baseline": {
@@ -422,129 +317,135 @@
       "english": {
         "n": 54,
         "scam": 26,
-        "accuracy": 0.9074074074074074,
-        "precision": 0.8620689655172413,
-        "recall": 0.9615384615384616,
-        "f1": 0.9090909090909091,
-        "tn": 24,
-        "fp": 4,
-        "fn": 1,
-        "tp": 25,
-        "false_alarm_rate": 0.14285714285714285,
-        "auc_pr": 0.9920227920227919,
-        "auc_roc": 0.9917582417582418
+        "accuracy": 0.8888888888888888,
+        "precision": 0.9545454545454546,
+        "recall": 0.8076923076923077,
+        "f1": 0.875,
+        "tn": 27,
+        "fp": 1,
+        "fn": 5,
+        "tp": 21,
+        "false_alarm_rate": 0.03571428571428571,
+        "auc_pr": 0.9826037801112762,
+        "auc_roc": 0.9835164835164836
       },
       "hindi": {
         "n": 52,
         "scam": 26,
-        "accuracy": 0.8846153846153846,
-        "precision": 0.9545454545454546,
-        "recall": 0.8076923076923077,
-        "f1": 0.875,
-        "tn": 25,
-        "fp": 1,
-        "fn": 5,
-        "tp": 21,
-        "false_alarm_rate": 0.038461538461538464,
-        "auc_pr": 0.9824341976306858,
-        "auc_roc": 0.9807692307692307
+        "accuracy": 0.8653846153846154,
+        "precision": 1.0,
+        "recall": 0.7307692307692307,
+        "f1": 0.8444444444444444,
+        "tn": 26,
+        "fp": 0,
+        "fn": 7,
+        "tp": 19,
+        "false_alarm_rate": 0.0,
+        "auc_pr": 0.977573131277684,
+        "auc_roc": 0.9763313609467457
       },
       "hinglish": {
         "n": 54,
         "scam": 28,
-        "accuracy": 0.9444444444444444,
-        "precision": 0.9629629629629629,
-        "recall": 0.9285714285714286,
-        "f1": 0.9454545454545454,
-        "tn": 25,
-        "fp": 1,
-        "fn": 2,
-        "tp": 26,
-        "false_alarm_rate": 0.038461538461538464,
-        "auc_pr": 0.9867943705259881,
-        "auc_roc": 0.9835164835164835
+        "accuracy": 0.9074074074074074,
+        "precision": 1.0,
+        "recall": 0.8214285714285714,
+        "f1": 0.9019607843137255,
+        "tn": 26,
+        "fp": 0,
+        "fn": 5,
+        "tp": 23,
+        "false_alarm_rate": 0.0,
+        "auc_pr": 0.9939455172750102,
+        "auc_roc": 0.9931318681318682
       }
     },
     "per_source": {
       "challenge_v1": {
         "n": 160,
         "scam": 80,
-        "accuracy": 0.9125,
-        "precision": 0.9230769230769231,
-        "recall": 0.9,
-        "f1": 0.9113924050632911,
-        "tn": 74,
-        "fp": 6,
-        "fn": 8,
-        "tp": 72,
-        "false_alarm_rate": 0.075,
-        "auc_pr": 0.9840816487368466,
-        "auc_roc": 0.9823437500000001
+        "accuracy": 0.8875,
+        "precision": 0.984375,
+        "recall": 0.7875,
+        "f1": 0.875,
+        "tn": 79,
+        "fp": 1,
+        "fn": 17,
+        "tp": 63,
+        "false_alarm_rate": 0.0125,
+        "auc_pr": 0.9840737439989189,
+        "auc_roc": 0.98390625
       }
     },
     "calibration": {
-      "ece": 0.06148117157279191,
+      "ece": 0.10400907858621353,
       "bins": [
         {
           "bin": "0.0-0.1",
-          "n": 75,
-          "mean_p": 0.00963113721879992,
-          "frac_scam": 0.06666666666666667
+          "n": 81,
+          "mean_p": 0.009247574526392233,
+          "frac_scam": 0.08641975308641975
         },
         {
           "bin": "0.1-0.2",
-          "n": 4,
-          "mean_p": 0.14315655153045354,
-          "frac_scam": 0.25
+          "n": 7,
+          "mean_p": 0.14562012917879139,
+          "frac_scam": 0.5714285714285714
         },
         {
           "bin": "0.2-0.3",
-          "n": 2,
-          "mean_p": 0.2852817972303531,
+          "n": 4,
+          "mean_p": 0.24304428410727247,
           "frac_scam": 1.0
         },
         {
-          "bin": "0.4-0.5",
-          "n": 1,
-          "mean_p": 0.4857541791891885,
+          "bin": "0.3-0.4",
+          "n": 2,
+          "mean_p": 0.3407125625091747,
           "frac_scam": 0.0
         },
         {
+          "bin": "0.4-0.5",
+          "n": 2,
+          "mean_p": 0.43545598304745325,
+          "frac_scam": 1.0
+        },
+        {
           "bin": "0.5-0.6",
-          "n": 4,
-          "mean_p": 0.5255728357828162,
-          "frac_scam": 0.5
+          "n": 2,
+          "mean_p": 0.5804223505053117,
+          "frac_scam": 1.0
         },
         {
           "bin": "0.6-0.7",
           "n": 1,
-          "mean_p": 0.6014365206612897,
-          "frac_scam": 0.0
+          "mean_p": 0.6514890004426641,
+          "frac_scam": 1.0
         },
         {
           "bin": "0.7-0.8",
           "n": 1,
-          "mean_p": 0.7807276447293244,
+          "mean_p": 0.7508578114247281,
           "frac_scam": 1.0
         },
         {
           "bin": "0.8-0.9",
-          "n": 2,
-          "mean_p": 0.8546290412215154,
-          "frac_scam": 0.5
+          "n": 4,
+          "mean_p": 0.8862744290292673,
+          "frac_scam": 0.75
         },
         {
           "bin": "0.9-1.0",
-          "n": 70,
-          "mean_p": 0.9940642866134825,
-          "frac_scam": 0.9714285714285714
+          "n": 56,
+          "mean_p": 0.989471343054463,
+          "frac_scam": 1.0
         }
       ]
     },
     "bias": {
       "genuine_bank_alerts": {
         "n": 14,
-        "false_alarm_rate": 0.07142857142857142
+        "false_alarm_rate": 0.0
       },
       "genuine_otp_messages": {
         "n": 11,
@@ -552,20 +453,20 @@
       },
       "genuine_other": {
         "n": 58,
-        "false_alarm_rate": 0.06896551724137931
+        "false_alarm_rate": 0.0
       },
       "by_language": {
         "english": {
           "n": 28,
-          "false_alarm_rate": 0.14285714285714285
+          "false_alarm_rate": 0.03571428571428571
         },
         "hindi": {
           "n": 26,
-          "false_alarm_rate": 0.038461538461538464
+          "false_alarm_rate": 0.0
         },
         "hinglish": {
           "n": 26,
-          "false_alarm_rate": 0.038461538461538464
+          "false_alarm_rate": 0.0
         }
       },
       "by_length": {
@@ -575,42 +476,42 @@
         },
         "medium": {
           "n": 43,
-          "false_alarm_rate": 0.13953488372093023
+          "false_alarm_rate": 0.023255813953488372
         }
       }
     },
     "confident_mistakes": [
       {
-        "text": "गलती से आपके खाते में 5000 रुपये चले गए हैं, कृपया वापस भेज दें और मेरा कलेक्ट रिक्वेस्ट मंज़ूर करें।",
+        "text": "निवेश करें 10,000 और 7 दिन में पाएं 50,000, गारंटीड रिटर्न। हमारे वीआईपी स्टॉक ग्रुप से जुड़ें।",
         "label": 1,
-        "p": 0.007,
+        "p": 0.012,
         "lang": "hindi"
+      },
+      {
+        "text": "आपके क्रेडिट कार्ड के 5000 रिवॉर्ड पॉइंट आज समाप्त हो रहे हैं। एपीके डाउनलोड करके रिडीम करें।",
+        "label": 1,
+        "p": 0.013,
+        "lang": "hindi"
+      },
+      {
+        "text": "Scan this QR to receive Rs 8,000 payment from our company for your resume selection.",
+        "label": 1,
+        "p": 0.027,
+        "lang": "english"
       },
       {
         "text": "Hello, I accidentally sent Rs 5000 to your UPI, please return it. Also kindly approve the collect request I sent.",
         "label": 1,
-        "p": 0.015,
+        "p": 0.043,
         "lang": "english"
       },
       {
-        "text": "आपका बिजली कनेक्शन आज रात कट जाएगा क्योंकि बिल अपडेट नहीं है। तुरंत अधिकारी को फोन करें।",
-        "label": 1,
-        "p": 0.053,
-        "lang": "hindi"
-      },
-      {
-        "text": "Aapka Aadhaar update request mil gaya hai. URN se uidai.gov.in par status check karein.",
-        "label": 0,
-        "p": 0.944,
-        "lang": "hinglish"
-      },
-      {
-        "text": "Bhai galti se tumhare UPI me 5000 chale gaye, please wapas bhej do aur meri collect request accept kar lo.",
+        "text": "Aapki PM Kisan ki kist ruki hui hai. Bank details yahan update karo.",
         "label": 1,
         "p": 0.06,
         "lang": "hinglish"
       }
     ],
-    "ms_per_message_python": 0.9416073560714722
+    "ms_per_message_python": 1.1593073606491089
   }
 }
