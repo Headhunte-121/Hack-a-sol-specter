@@ -513,5 +513,20 @@
       }
     ],
     "ms_per_message_python": 1.1593073606491089
+  },
+  "status_note": "Added by the model-retrain review on 2026-11-23. These numbers describe the shipped model 2026-11-23.3. (1) The 'thresholds' field above was printed in error: model.json holds suspicious 0.1 and scam 0.35; the band counts below were computed with the printed 0.19 / 0.35. (2) This model was trained on 1184 rows, so the 'test' split numbers say nothing. (3) Evaluation messages leaked into its generated training data (see data/DATA.md). The corrected retrain candidate 2026-11-23.4 was evaluated and rejected: see docs/retrain_2026-11-23.4_candidate_report.md.",
+  "hashes": {
+    "model.json": "1becd172b7e6bdc028d951c53093e7713e3b5159f9b25e3e07be9b738f6d09bf",
+    "frozen_evaluation_files": {
+      "blind_v1.csv": "5fbb0cdde47b26eab3e768aabe1c1fbcb09864744a4ddd6996325591ce730718",
+      "eval_in.json": "ae26312ea707495b7e5853d49232c3314dde1544407b3a1a191de372a468a493",
+      "eval_otp_in.json": "b07a2180daa75ca364790a38ce70935c29fa2ad8e42fadc889f0da669d3f46d8",
+      "eval_evasion_in.json": "0250ec948b52e947e92bd06f13c5696b722a4c0f34387dc3896850e40ae231f4",
+      "voice/cvm_in.json": "f55a8ffcf4d0ae7673a2aee6aacd80d21d2df093586f3c09e11820bb7a839bb9",
+      "voice/cvm_in_asr.json": "6bcac8e180fc48e6aff228acd874c6c391dc4903a778ae027a134eeb588ef0ca",
+      "voice_hi/cvm_in_orig.json": "766cf6e4719341717fee6e9888468af720e76180a0841f836a8ef2a814597909",
+      "voice_hi/cvm_in_asr.json": "648ebba7cf2a8149617141eec8a0a2ad896ac2b110d243bf4bcc17513b4d0eb7",
+      "ai tuning/data/wild_big.csv": "712c8fc632548ea6314588316c385fc20afcfc0d6651c49f026bf8ffc4fd4837"
+    }
   }
 }

@@ -80,19 +80,23 @@ Point the app at the services with `VITE_API_BASE=http://localhost:8000` and `VI
 
 ## Evaluation
 
-The message model is a regularised logistic regression on character and word n-grams plus 17 interpretable warning signals, calibrated, 1.3 MB, scored by TypeScript on the phone. A parity test checks 247 saved examples against the Python scorer (identical tokens and signals, probabilities within 1e-6).
+The message model (`2026-11-23.3`) is a regularised logistic regression on character and word n-grams plus 25 interpretable warning signals, calibrated, 0.34 MB, scored by TypeScript on the phone. A parity test checks 247 saved examples against the Python scorer (identical tokens and signals, probabilities within 1e-6). The warning bands start at a calibrated probability of 0.10 (suspicious) and 0.35 (likely scam).
 
-| Set | Messages | Precision / recall / F1 (scam) | Keyword-only baseline F1 |
+**Read these numbers with care (review of 23 Nov 2026).** This model was trained on 1,184 messages, not the roughly 16,700 it should have used (its work folder did not contain the git-ignored public datasets), and some evaluation messages leaked into its generated training data, so its results on the blind and probe sets are flattering. Its scores on its own "test split" (202 messages) say nothing and are no longer quoted. A corrected retrain (`2026-11-23.4`: full data, a leak guard, capped weight for the generated data, two hard-negative rounds) was evaluated and did **not** meet the acceptance rules, so it was not shipped: it recovered the challenge-set recall (0.887, F1 0.934) but missed too many independently written scams at its chosen cut (probe set 377 of 399, spoken-clip texts 15 of 22, adversarial rewrites 117 of 274). The full comparison is in [docs/retrain_2026-11-23.4_candidate_report.md](docs/retrain_2026-11-23.4_candidate_report.md).
+
+| Set (shipped model) | Messages | Result | Keyword-only baseline F1 |
 |---|---|---|---|
-| Group-aware test split | 3,050 | 0.991 / 0.967 / 0.979 | 0.130 |
-| Hand-written challenge set | 160 | 0.911 / 0.900 / 0.906 | 0.222 |
+| Hand-written challenge set (never trained on) | 160 | precision / recall / F1 (scam, p ≥ 0.5) 0.984 / 0.787 / 0.875; 1 of 80 genuine flagged | 0.222 |
+| Probe set written by others | 780 | scams caught 387 of 399; genuine flagged 25 of 381 (flattered by the leak) | |
+| Spoken-clip texts as speech-to-text heard them | 40 | scams caught 19 of 22; genuine flagged 0 of 18 | |
+| Adversarial rewrites of scams | 274 | caught 120 | |
 
-Full per-language results, bias checks, calibration and the most confident mistakes are in [docs/evaluation_report.md](docs/evaluation_report.md).
+The challenge set is hand-written but small (160 messages, wide uncertainty) and was inspected during development; the sets written by other people are the more honest numbers. Per-language results, bias checks and calibration are in [docs/evaluation_report.md](docs/evaluation_report.md) (read its status note first).
 
 ## Limitations
 
-- The test split is mostly templated English data and its score is optimistic. The challenge set was written by the model's authors, so it is not fully blind.
-- Hindi (Devanagari) training data is small; Hindi recall on the challenge set is 0.81.
+- The shipped model was trained on far less data than intended and its probe and blind-set results are flattered by leaked rows (see the Evaluation section). Test-split scores on the public datasets are optimistic anyway because that data is templated English. The challenge set was written by the model's authors, so it is not fully blind.
+- Hindi (Devanagari) training data is small; Hindi recall on the challenge set is 0.73.
 - Call analysis supports Hindi and Hinglish only. There is no speech recognition for Chhattisgarhi, and audio transcription needs a connection.
 - Live detection during a call is not possible in a web app: phone systems do not let browsers hear a call in progress. The "On a call right now?" card is the substitute.
 - Scammers change wording; the model reflects its training data only. No check is perfect, and the app never calls anything "safe".
