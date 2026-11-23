@@ -8,7 +8,7 @@ import { Layout } from '../shell/Layout'
 import { currentQuery } from '../shell/router'
 import { Banner, Icon, NumberedList, type Tone } from '../shell/ui'
 import type { Lexicon } from '../call/scripts'
-import { consumeSharedText, isAndroidNative, readRecentSms, subscribeIncomingSms, type DeviceSms } from '../native/sms'
+import { consumeSharedText, isAndroidNative, openAppSettings, openChatAccessSettings, readChatMessages, readRecentSms, subscribeIncomingSms, type ChatRead, type DeviceSms } from '../native/sms'
 import { analyzeInput, type DetectResult } from './detect'
 import { DEMO_MESSAGES } from './demo'
 import { handleFeedback, saveLastResult } from './lastResult'
@@ -35,6 +35,17 @@ function Highlighted({ text, ranges }: { text: string; ranges: { start: number; 
   return <p className="card whitespace-pre-wrap break-words !text-[19px] leading-[1.7]">{parts}</p>
 }
 
+const sameText = (s: string) => s.replace(/\s+/g, ' ').trim().toLowerCase().slice(0, 60)
+
+/** The SMS inbox plus the Chat (RCS) messages kept from the messaging app's notifications, newest first. An SMS also posts a notification, so a message that is in
+ *  both lists is shown once (the SMS copy wins). Rejects only when the SMS inbox cannot be read. */
+async function readAllMessages(): Promise<{ messages: DeviceSms[]; chat: ChatRead }> {
+  const [sms, chat] = await Promise.all([readRecentSms(30), readChatMessages(30)])
+  const have = new Set(sms.map((m) => sameText(m.body)))
+  const extra = chat.messages.filter((m) => !have.has(sameText(m.body)))
+  return { messages: [...sms, ...extra].sort((a, b) => (b.date || 0) - (a.date || 0)).slice(0, 40), chat }
+}
+
 export default function DetectorPage() {
   const { t, lang } = useLang()
   const [demoMode] = useDemoMode()
@@ -55,14 +66,16 @@ export default function DetectorPage() {
   const [smsDenied, setSmsDenied] = useState(false)
   const [watchingSms, setWatchingSms] = useState(false)
   const [lastScan, setLastScan] = useState<number | null>(null)
+  const [chat, setChat] = useState({ supported: false, enabled: false }) // Chat (RCS) messages, read from the messaging app's notifications
 
   const loadInbox = () => {
     if (!nativeSms || !scorer || !brands) return
     setSmsLoading(true)
     setSmsDenied(false)
-    readRecentSms(30)
-      .then((msgs) => {
-        setInbox(msgs.map((m) => ({ ...m, result: analyzeInput(m.body, scorer, brands, lex, m.sender) })))
+    readAllMessages()
+      .then(({ messages, chat: c }) => {
+        setInbox(messages.map((m) => ({ ...m, result: analyzeInput(m.body, scorer, brands, lex, m.sender) })))
+        setChat({ supported: c.supported, enabled: c.enabled })
         setLastScan(Date.now())
       })
       .catch(() => setSmsDenied(true))
@@ -91,9 +104,10 @@ export default function DetectorPage() {
     const seen = new Set<string>() // sender + text, because the live id and the inbox id of one message differ
     const keyOf = (m: DeviceSms) => `${m.sender}|${m.body}`
     const scan = (first: boolean) =>
-      readRecentSms(30).then((msgs) => {
+      readAllMessages().then(({ messages, chat: c }) => {
         if (!live) return
-        const scanned = msgs.map((m) => ({ ...m, result: analyzeInput(m.body, scorer, brands, lex, m.sender) }))
+        setChat({ supported: c.supported, enabled: c.enabled })
+        const scanned = messages.map((m) => ({ ...m, result: analyzeInput(m.body, scorer, brands, lex, m.sender) }))
         if (!first && scanned.some((m) => !seen.has(keyOf(m)) && m.result.band !== 'looks_genuine')) navigator.vibrate?.([250, 100, 250])
         for (const m of scanned) seen.add(keyOf(m))
         setInbox(scanned)
@@ -298,6 +312,17 @@ export default function DetectorPage() {
             <Banner tone="bad" className="font-bold">⚠️ {t('sms.inbox.scam_count', { n: flaggedCount })}</Banner>
           )}
 
+          {chat.supported && !chat.enabled && (
+            <div className="card space-y-2.5" data-testid="chat-access">
+              <h3 className="font-bold text-ink">{t('sms.chat.title')}</h3>
+              <p className="text-[15px]">{t('sms.chat.why')}</p>
+              <button type="button" className="btn btn-primary w-full" onClick={() => void openChatAccessSettings()}>{t('sms.chat.allow')}</button>
+              <p className="text-[14px] text-muted">{t('sms.chat.restricted')}</p>
+              <button type="button" className="btn btn-secondary !min-h-10 !text-[14px]" onClick={() => void openAppSettings()}>{t('sms.chat.appinfo')}</button>
+            </div>
+          )}
+          {chat.supported && chat.enabled && <p className="text-xs font-bold text-ok" data-testid="chat-on">✓ {t('sms.chat.on')}</p>}
+
           {smsDenied ? (
             <div className="card space-y-2.5">
               <p className="text-[16px]">{t('sms.inbox.permission')}</p>
@@ -325,7 +350,7 @@ export default function DetectorPage() {
                       className={`card w-full space-y-1.5 text-left transition hover:border-brand ${bad ? 'border-bad-line!' : warn ? 'border-warn-line!' : ''}`}
                     >
                       <div className="flex items-center justify-between gap-2">
-                        <span className="truncate font-bold text-ink">{item.sender || 'SMS'}<span className="ml-2 text-xs font-normal text-muted">{item.date ? formatDateTime(item.date, lang) : ''}</span></span>
+                        <span className="truncate font-bold text-ink">{item.sender || 'SMS'}{item.via === 'chat' && <span className="ml-2 rounded-full border border-brand px-1.5 py-0.5 text-[11px] font-bold text-brand" data-testid="chat-badge">{t('sms.chat.badge')}</span>}<span className="ml-2 text-xs font-normal text-muted">{item.date ? formatDateTime(item.date, lang) : ''}</span></span>
                         <span className={`shrink-0 rounded-full border px-2.5 py-0.5 text-xs font-bold ${pill}`}>
                           {t(`band.${item.result.band}`)}
                         </span>

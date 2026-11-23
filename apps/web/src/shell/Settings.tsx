@@ -7,11 +7,13 @@ import { useLang } from './i18n'
 import { LanguageSwitch, Layout } from './Layout'
 import { applyUpdate, forceUpdateApp, usePwaState } from './pwa'
 import { clearQueue } from './queue'
+import { clearChatMessages } from '../native/sms'
 import { kvClearAll } from './storage'
 import { Icon } from './ui'
 
 export async function clearLocalData(): Promise<void> {
   kvClearAll()
+  await clearChatMessages().catch(() => {}) // the Chat messages the Android app kept from notifications
   await clearQueue().catch(() => {})
   try {
     sessionStorage.clear()
