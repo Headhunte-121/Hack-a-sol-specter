@@ -46,6 +46,14 @@ def test_health(setup):
     _, c, _, _ = setup
     j = c.get("/health").json()
     assert j["status"] == "ok" and j["model"] == "fake"
+    assert j["hindi_model"] is None  # a transcriber without Hindi routing says so
+
+
+def test_health_names_the_hindi_model_when_routing_is_on():
+    from app.main import WhisperTranscriber
+
+    assert WhisperTranscriber(model="small", hindi_model="/models/hi").hindi_name == "hi"
+    assert WhisperTranscriber(model="small", hindi_model="").hindi_name is None
 
 
 def test_success_returns_timestamped_text_and_cleans_repeats(setup):
