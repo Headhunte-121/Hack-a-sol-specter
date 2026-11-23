@@ -6,6 +6,7 @@ import { pick } from '../learn/content'
 import { useLang } from '../shell/i18n'
 import { Layout } from '../shell/Layout'
 import { Banner, Icon, NumberedList, type Tone } from '../shell/ui'
+import type { Lexicon } from '../call/scripts'
 import { analyzeInput, type DetectResult } from './detect'
 import { DEMO_MESSAGES } from './demo'
 import { handleFeedback, saveLastResult } from './lastResult'
@@ -36,6 +37,7 @@ export default function DetectorPage() {
   const [demoMode] = useDemoMode()
   const [scorer, setScorer] = useState<Scorer | null>(null)
   const [brands, setBrands] = useState<BrandsFile | null>(null)
+  const [lex, setLex] = useState<Lexicon | null>(null)
   const [loadError, setLoadError] = useState(false)
   const [input, setInput] = useState('')
   const [result, setResult] = useState<DetectResult | null>(null)
@@ -46,16 +48,18 @@ export default function DetectorPage() {
     Promise.all([loadScorer(), fetch('/model/brands.json').then((r) => r.json())])
       .then(([s, b]) => live && (setScorer(s), setBrands(b as BrandsFile)))
       .catch(() => live && setLoadError(true))
+    // the call-script rules also read pasted messages; without them the checker still works on the AI model and the warning rules
+    fetch('/model/call_lexicon.json').then((r) => r.json()).then((j) => live && setLex(j as Lexicon)).catch(() => {})
     return () => { live = false }
   }, [])
 
   const check = (text = input, fresh = true) => {
     if (!scorer || !brands || !text.trim()) return
-    const r = analyzeInput(text, scorer, brands)
+    const r = analyzeInput(text, scorer, brands, lex)
     setInput(text)
     setResult(r)
     setFb(false)
-    if (fresh) saveLastResult({ kind: r.type, band: r.band, script: r.script, signals: r.scamSignals, phrases: r.topWords, at: Date.now() })
+    if (fresh) saveLastResult({ kind: r.type, band: r.band, script: r.script, signals: r.scamSignals, category: r.category, phrases: r.topWords, at: Date.now() })
   }
 
   // Phone Back closes the result and keeps the text; coming back from the report or a lesson shows the same result again.

@@ -20,7 +20,3 @@ export function buildEvidenceNote(r: CallResult, durationSec: number | null, t: 
   lines.push(t('evidence.note'))
   return lines.join('\n')
 }
-
-export const SCRIPT_CATEGORY: Record<string, string> = {
-  fake_kyc: 'kyc_bank', digital_arrest: 'digital_arrest', courier_customs: 'courier_customs', electricity_disconnect: 'phishing_link', lottery_prize: 'lottery_prize', unauthorized_order: 'phishing_link',
-}
