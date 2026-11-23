@@ -30,7 +30,7 @@ export default defineConfig({
           action: '/',
           method: 'GET',
           params: {
-            title: 'sender',
+            title: 'title',
             text: 'text',
             url: 'url',
           },

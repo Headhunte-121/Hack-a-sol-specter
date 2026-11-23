@@ -2,6 +2,7 @@ import {
   AlertTriangle,
   BookOpen,
   ChevronLeft,
+  Download,
   Home,
   MessageSquareText,
   PanelLeftClose,
@@ -240,6 +241,15 @@ export function WebLayout({ children, back = true, onBack, title, lead, backTo =
                 Demo mode
               </a>
             )}
+            <a
+              href="/suraksha.apk"
+              download="Suraksha.apk"
+              title="Download Android APK"
+              className="inline-flex h-8.5 items-center gap-1.5 rounded-full border border-blue-200 bg-blue-50/70 px-3 text-[12px] font-bold text-[#1B3B73] transition hover:bg-blue-100"
+            >
+              <Download className="size-3.5" />
+              <span>APK (12MB)</span>
+            </a>
             <LangPill />
             <span
               className={`inline-flex h-8.5 items-center gap-1.5 rounded-full px-3 text-[12px] font-bold ring-1 ${

@@ -69,13 +69,20 @@ export async function subscribeNativeShare(onText: (text: string) => void): Prom
   return () => { void handle.remove() }
 }
 
-/** Captures GET /share-target?title=...&text=...&url=... on PWA launch and routes straight to #/message. */
+/** Captures GET /?title=...&text=...&url=... on PWA launch and routes straight to #/message. */
 export function captureWebShareTarget(): boolean {
   if (typeof window === 'undefined') return false
   const params = new URLSearchParams(window.location.search)
-  const parts = [params.get('title'), params.get('text'), params.get('url')].filter((x): x is string => Boolean(x?.trim()))
-  if (window.location.pathname !== '/share-target' && parts.length === 0) return false
-  if (parts.length > 0) stashSharedText(parts.join('\n'))
+  const text = params.get('text') || ''
+  const url = params.get('url') || ''
+  const title = params.get('title') || params.get('sender') || ''
+  if (!text && !url && !title && window.location.pathname !== '/share-target') return false
+  const bodyText = [text, url].filter(Boolean).join(' ') || title || ''
+  const senderText = title && title !== bodyText ? title : ''
+  if (bodyText) {
+    const full = senderText ? `From: ${senderText}\n${bodyText}` : bodyText
+    stashSharedText(full)
+  }
   history.replaceState(null, '', '/#/message')
   return true
 }
