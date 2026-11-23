@@ -3,11 +3,11 @@
   "rewrites": [
     {
       "source": "/(.*)",
-      "destination": "app/main.py"
+      "destination": "main.py"
     }
   ],
   "functions": {
-    "app/main.py": {
+    "main.py": {
       "excludeFiles": "{tests/**,.pytest_cache/**,**/__pycache__/**,data/**,*.db}"
     }
   },
