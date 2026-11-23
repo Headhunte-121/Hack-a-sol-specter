@@ -327,7 +327,7 @@
   "settings.clear": "Delete all my data on this phone",
   "settings.clear.confirm": "This removes history, quiz progress, queued reports and saved files. Continue?",
   "settings.cleared": "All data on this phone was deleted.",
-  "settings.demo.body": "Show sample scam messages, acted test calls, and demo labels. Turn off to hide examples and use as a real production app.",
+  "settings.demo.body": "Demo mode is for presentations: it shows sample scam messages, acted example calls and made-up trend numbers. Turn it off to use the app as it is for real people: no examples, and only real reports in the trends.",
   "settings.demo.off": "Hide examples (Production)",
   "settings.demo.on": "Show examples (Demo)",
   "settings.demo.title": "Demo & Example Mode",

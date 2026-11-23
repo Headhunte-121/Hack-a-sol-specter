@@ -35,18 +35,19 @@ export default function TrendsPage() {
   useEffect(() => {
     let live = true
     setState((s) => ({ ...s, loading: true }))
+    const demo = demoMode ? '' : '0' // Demo mode off: ask the server for real reports only, never the labelled demo rows
     Promise.all([
-      apiGet<Overview>('/trends/overview' + q({ region })),
-      apiGet<Trend>('/trends' + q({ group: 'week', region, channel })),
-      apiGet<Trend>('/trends' + q({ group: 'region', channel })),
-      apiGet<Rising>('/trends/rising'),
+      apiGet<Overview>('/trends/overview' + q({ region, demo })),
+      apiGet<Trend>('/trends' + q({ group: 'week', region, channel, demo })),
+      apiGet<Trend>('/trends' + q({ group: 'region', channel, demo })),
+      apiGet<Rising>('/trends/rising' + q({ demo })),
     ]).then(([o, w, r, ri]) => {
       if (!live) return
       setOverview(o.data); setWeekly(w.data); setByRegion(r.data); setRising(ri.data)
       setState({ loading: false, cached: [o, w, r].some((x) => x.fromCache), error: [o, w, r].every((x) => x.error) })
     })
     return () => { live = false }
-  }, [region, channel])
+  }, [region, channel, demoMode])
 
   const regionName = (code: string) => { const r = REGIONS.find((x) => x.code === code); return r ? (lang === 'en' ? r.en : r.hi) : code }
   const cat = (c: string) => t(`cat.${c}`) || c
@@ -83,11 +84,13 @@ export default function TrendsPage() {
   )
 
   const tabs: Tab[] = ['overview', 'trend', 'regions', 'about']
-  const empty = !state.loading && ((tab === 'trend' && weeklyPivot.data.length === 0) || (tab === 'regions' && regionTotals.length === 0))
+  const overviewEmpty = !!overview && overview.this_week_total === 0 && overview.top3.length === 0
+  const empty = !state.loading && ((tab === 'trend' && weeklyPivot.data.length === 0) || (tab === 'regions' && regionTotals.length === 0) || (tab === 'overview' && overviewEmpty))
 
   return (
     <Layout title={t('trends.title')}>
-      {demo && demoMode && <div role="note" className="rounded-2xl border-2 border-warn-line bg-warn-bg p-3 font-bold text-warn">⚠️ {t('trends.demo_banner')}</div>}
+      {/* demo numbers are always labelled, whatever the Demo setting says: the label follows the data, not the switch */}
+      {demo && <div role="note" className="rounded-2xl border-2 border-warn-line bg-warn-bg p-3 font-bold text-warn">⚠️ {t('trends.demo_banner')}</div>}
       {state.cached && <p className="text-sm text-muted">📴 {t('trends.cached')}</p>}
       {!apiBase() && !state.cached && <p role="alert" className="rounded-2xl border-2 border-line bg-white p-3">{t('trends.no_backend')}</p>}
       {state.error && apiBase() && <p role="alert" className="rounded-2xl border-2 border-bad-line bg-bad-bg p-3 text-bad">{t('trends.error')}</p>}
@@ -104,7 +107,7 @@ export default function TrendsPage() {
       {state.loading && <p>…</p>}
       {empty && <p className="card">{t('trends.empty')}</p>}
 
-      {tab === 'overview' && overview && !state.loading && (
+      {tab === 'overview' && overview && !overviewEmpty && !state.loading && (
         <section className="space-y-3" data-testid="overview">
           <div className="card text-center">
             <p className="text-sm">{t('trends.this_week')}</p>
