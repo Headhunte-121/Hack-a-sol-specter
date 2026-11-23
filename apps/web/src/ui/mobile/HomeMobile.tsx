@@ -1,5 +1,5 @@
 import { AlertTriangle, CheckCircle2, Lock, Phone } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { AlertsFeed } from '../../dashboard/AlertsFeed'
 import { useLang } from '../../shell/i18n'
 import { HeroSearch } from '../shared/HeroSearch'
@@ -7,18 +7,20 @@ import { ServiceCard } from '../shared/ServiceCard'
 import { type HomeViewProps, SystemNotices } from '../shared/SystemNotices'
 import { getUiLabels } from '../shared/uiLabels'
 
-const HERO_SOURCES = [
-  '/images/hero-village.jpeg',
-  '/images/hero-village.jpg',
-  '/images/hero-village.png',
-  '/images/hero-village.webp',
-]
+const HERO_IMG = '/images/hero-village.jpeg'
 
 export function HomeMobile(props: HomeViewProps) {
   const { pwa } = props
   const { lang, t } = useLang()
   const ui = getUiLabels(lang)
-  const [srcIdx, setSrcIdx] = useState(0)
+  const imgRef = useRef<HTMLImageElement>(null)
+  const [heroLoaded, setHeroLoaded] = useState(false)
+
+  useEffect(() => {
+    if (imgRef.current?.complete && imgRef.current.naturalWidth > 0) {
+      setHeroLoaded(true)
+    }
+  }, [])
 
   return (
     <>
@@ -36,14 +38,18 @@ export function HomeMobile(props: HomeViewProps) {
             }}
           />
 
-          {srcIdx < HERO_SOURCES.length && (
-            <img
-              src={HERO_SOURCES[srcIdx]}
-              alt=""
-              onError={() => setSrcIdx((prev) => prev + 1)}
-              className="absolute bottom-6 left-[34%] h-[108%] w-auto max-w-none object-contain object-bottom-left mix-blend-multiply"
-            />
-          )}
+          <img
+            ref={imgRef}
+            src={HERO_IMG}
+            alt=""
+            loading="eager"
+            decoding="async"
+            onLoad={() => setHeroLoaded(true)}
+            onError={() => setHeroLoaded(false)}
+            className={`absolute bottom-6 left-[34%] h-[108%] w-auto max-w-none object-contain object-bottom-left mix-blend-multiply transition-opacity duration-200 ${
+              heroLoaded ? 'opacity-100' : 'opacity-0'
+            }`}
+          />
 
           <div
             className="absolute inset-0"

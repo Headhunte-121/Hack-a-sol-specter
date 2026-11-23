@@ -9,7 +9,7 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['icons/*.png', 'icons/*.svg'],
+      includeAssets: ['icons/*.png', 'icons/*.svg', 'images/*'],
       manifest: {
         name: 'Suraksha',
         short_name: 'Suraksha',
@@ -29,7 +29,7 @@ export default defineConfig({
       },
       workbox: {
         // model, rule lists, lesson/question packs and fonts are all precached so the offline modules work in airplane mode
-        globPatterns: ['**/*.{js,css,html,svg,png,woff,woff2,json,mp3}'],
+        globPatterns: ['**/*.{js,css,html,svg,png,jpg,jpeg,webp,woff,woff2,json,mp3}'],
         maximumFileSizeToCacheInBytes: 8 * 1024 * 1024,
         navigateFallback: '/index.html',
         cleanupOutdatedCaches: true,
