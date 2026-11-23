@@ -6,9 +6,13 @@ import { closeThenGo, useBackStep, useInnerScreenOnReturn } from '../shell/backS
 import { Layout } from '../shell/Layout'
 import { currentQuery, navigate } from '../shell/router'
 import { Banner, Icon } from '../shell/ui'
-import { loadContentPack, pick, type ContentPack, type Lesson, type Question } from './content'
+import { lessonLines } from './audio'
+import { loadContentPack, lessonCards, lessonMinutes, pick, type ContentPack, type Lesson, type Question } from './content'
+import { LessonAudio } from './LessonAudio'
+import { LessonCards } from './LessonCards'
+import { OfflineDownload } from './OfflineDownload'
 import { attemptHistory, doneLessons, markLessonComplete, saveUsedQuestions, storeAttemptHistory, usedQuestions, type Attempt } from './progress'
-import { selectQuestions } from './quiz'
+import { displayOrder, QUIZ_LENGTH, selectQuestions } from './quiz'
 import { checkAnswer, computeLiteracyScore, computeTopicScores, recommendNextLesson, type Answer } from './score'
 
 type View = { kind: 'home' } | { kind: 'lesson'; id: string } | { kind: 'quiz' } | { kind: 'result'; attempt: Attempt; previous: number | null }
@@ -30,20 +34,6 @@ function useHashParams() {
     return () => window.removeEventListener('hashchange', on)
   }, [])
   return q
-}
-
-function Speak({ text, lang }: { text: string; lang: string }) {
-  const { t } = useLang()
-  const [on, setOn] = useState(false)
-  if (typeof window === 'undefined' || !('speechSynthesis' in window)) return null // hide the icon rather than fail
-  const toggle = () => {
-    if (on) { speechSynthesis.cancel(); setOn(false); return }
-    const u = new SpeechSynthesisUtterance(text)
-    u.lang = lang === 'en' ? 'en-IN' : 'hi-IN'
-    u.onend = () => setOn(false)
-    speechSynthesis.cancel(); speechSynthesis.speak(u); setOn(true)
-  }
-  return <button className="btn btn-secondary" onClick={toggle}><Icon name="speaker" size={26} />{on ? t('learn.stop_audio') : t('learn.read_aloud')}</button>
 }
 
 export default function LearnPage() {
@@ -91,7 +81,7 @@ function Home({ pack, done, title, onOpen, onQuiz }: { pack: ContentPack; done: 
   const rec = last ? recommendNextLesson(last.topics, last.score) : null
   return (
     <>
-      <button className="btn btn-primary !min-h-[68px] !text-[24px]" onClick={onQuiz}>{t('learn.take_quiz')}</button>
+      <button className="btn btn-primary !min-h-[68px] !text-[24px]" onClick={onQuiz}>{t('learn.take_quiz', { n: QUIZ_LENGTH })}</button>
       {last && <p className="text-[16px] text-muted">{t('learn.score.previous', { score: last.score })}</p>}
       <div className="text-[22px] font-bold">{t('learn.lessons')}</div>
       <ol className="flex flex-col gap-3">
@@ -99,42 +89,52 @@ function Home({ pack, done, title, onOpen, onQuiz }: { pack: ContentPack; done: 
           <li key={l.id}>
             <button className="flex min-h-[76px] w-full items-center gap-3.5 rounded-2xl border-2 border-line bg-white px-4 py-3 text-left" onClick={() => onOpen(l.id)}>
               <span className="num bg-brand">{i + 1}</span>
-              <span className="flex-1 text-[20px] font-bold leading-snug">{title(l)}</span>
+              <span className="flex-1"><span className="block text-[20px] font-bold leading-snug">{title(l)}</span><span className="block text-[15px] text-muted">{t('learn.minutes', { n: lessonMinutes(l) })}</span></span>
               {done.includes(l.id) && <span className="text-[15px] font-bold text-ok">✔ {t('learn.done')}</span>}
               {rec?.kind === 'lesson' && rec.topic === l.id && <span className="rounded-lg bg-warn-bg px-2 py-0.5 text-[13px] font-bold text-warn">{t('learn.recommended')}</span>}
             </button>
           </li>
         ))}
       </ol>
+      <OfflineDownload lessons={pack.lessons} />
     </>
   )
 }
 
 function LessonView({ lesson, done, onDone, onQuiz }: { lesson: Lesson; done: boolean; onDone: (id: string) => void; onQuiz: () => void }) {
   const { t, lang } = useLang()
-  const spoken = [pick(lesson.title, lang), pick(lesson.example, lang), ...lesson.signs.map((s) => pick(s, lang)), pick(lesson.todo, lang)].join('. ')
+  // The line being read aloud (-1 when none): 0 is the title, 1 the example, then each warning sign, and the last is what to do.
+  const [line, setLine] = useState(-1)
+  const lines = useMemo(() => lessonLines(lesson, lang), [lesson, lang])
+  const hot = (i: number) => (line === i ? 'rounded-xl bg-warn-bg px-2 -mx-2' : '')
+  const todoLine = 2 + lesson.signs.length
   return (
     <article className="flex flex-col gap-3">
-      <h1 className="text-[28px] font-bold leading-[1.3]">{pick(lesson.title, lang)}</h1>
-      <Speak text={spoken} lang={lang} />
-      <section className="card"><h2 className="mb-1 text-[18px] font-bold text-brand">{t('learn.example')}</h2><p className="text-[20px] leading-[1.7]">{pick(lesson.example, lang)}</p></section>
-      <section className="card"><h2 className="mb-1 flex items-center gap-2 text-[18px] font-bold text-warn"><Icon name="warn" size={24} />{t('learn.signs')}</h2><ul className="list-disc space-y-1 pl-6 text-[20px] leading-[1.6]">{lesson.signs.map((s, i) => <li key={i}>{pick(s, lang)}</li>)}</ul></section>
-      <Banner tone="ok" className="!border-ok-line"><h2 className="mb-1 flex items-center gap-2 text-[18px] font-bold"><Icon name="check" size={24} stroke={2.5} />{t('learn.todo')}</h2><p className="text-[20px] leading-[1.6]">{pick(lesson.todo, lang)}</p></Banner>
+      <h1 className={`text-[28px] font-bold leading-[1.3] ${hot(0)}`}>{pick(lesson.title, lang)}</h1>
+      <p className="text-[16px] text-muted">{t('learn.minutes', { n: lessonMinutes(lesson) })}</p>
+      <LessonAudio lesson={lesson} lines={lines} onLine={setLine} />
+      <LessonCards cards={lessonCards(lesson)} />
+      <section className="card"><h2 className="mb-1 text-[18px] font-bold text-brand">{t('learn.example')}</h2><p className={`text-[20px] leading-[1.7] ${hot(1)}`}>{pick(lesson.example, lang)}</p></section>
+      <section className="card"><h2 className="mb-1 flex items-center gap-2 text-[18px] font-bold text-warn"><Icon name="warn" size={24} />{t('learn.signs')}</h2><ul className="list-disc space-y-1 pl-6 text-[20px] leading-[1.6]">{lesson.signs.map((s, i) => <li key={i} className={hot(2 + i)}>{pick(s, lang)}</li>)}</ul></section>
+      <Banner tone="ok" className="!border-ok-line"><h2 className="mb-1 flex items-center gap-2 text-[18px] font-bold"><Icon name="check" size={24} stroke={2.5} />{t('learn.todo')}</h2><p className={`text-[20px] leading-[1.6] ${hot(todoLine)}`}>{pick(lesson.todo, lang)}</p></Banner>
       <button className="btn btn-primary" disabled={done} onClick={() => onDone(lesson.id)}>{done ? `✔ ${t('learn.done')}` : t('learn.mark_done')}</button>
-      <button className="btn btn-secondary" onClick={onQuiz}>{t('learn.take_quiz')}</button>
+      <button className="btn btn-secondary" onClick={onQuiz}>{t('learn.take_quiz', { n: QUIZ_LENGTH })}</button>
     </article>
   )
 }
 
 function QuizView({ pack, onFinish, onQuit }: { pack: ContentPack; onFinish: (a: Attempt, prev: number | null) => void; onQuit: () => void }) {
   const { t, lang } = useLang()
-  const session = useMemo(() => {
-    const s = selectQuestions(pack.questions, 12, usedQuestions())
+  // The seed only decides the order the questions and options are shown in. Answers are scored by each option's original index, so the
+  // score never depends on it.
+  const { session, orders } = useMemo(() => {
+    const seed = Date.now()
+    const s = selectQuestions(pack.questions, QUIZ_LENGTH, usedQuestions(), seed)
     saveUsedQuestions(s.used)
-    return s.questions
+    return { session: s.questions, orders: s.questions.map((q) => displayOrder(q, seed)) }
   }, [pack])
   const [i, setI] = useState(0)
-  const [chosen, setChosen] = useState<number | null>(null)
+  const [chosen, setChosen] = useState<number | null>(null) // the option's original index
   const [answers, setAnswers] = useState<Answer[]>([])
   useEffect(() => { setBusy('quiz', true); return () => setBusy('quiz', false) }, []) // never refresh the app mid-quiz
 
@@ -161,9 +161,9 @@ function QuizView({ pack, onFinish, onQuit }: { pack: ContentPack; onFinish: (a:
       <div className="h-3.5 rounded-[7px] bg-soft"><div className="h-3.5 rounded-[7px] bg-brand" style={{ width: `${((i + (chosen !== null ? 1 : 0)) / session.length) * 100}%` }} /></div>
       <h2 className="text-[22px] font-bold leading-snug">{pick(q.question, lang)}</h2>
       <div className="flex flex-col gap-2.5">
-        {q.options.map((o, idx) => {
+        {orders[i].map((idx) => {
           const state = chosen === null ? '' : idx === q.answer ? '!border-ok-line !bg-ok-bg' : idx === chosen ? '!border-bad-line !bg-bad-bg' : ''
-          return <button key={idx} className={`btn btn-secondary !justify-start !text-left !text-[20px] ${state}`} disabled={chosen !== null} onClick={() => pickOption(idx)}>{pick(o, lang)}</button>
+          return <button key={idx} className={`btn btn-secondary !justify-start !text-left !text-[20px] ${state}`} disabled={chosen !== null} onClick={() => pickOption(idx)}>{pick(q.options[idx], lang)}</button>
         })}
       </div>
       {res && (
