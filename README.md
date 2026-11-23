@@ -120,4 +120,4 @@ Official channels shown in the app: National Cyber Crime Helpline 1930, [cybercr
 
 ## AI tools
 
-Claude Code (Anthropic) was used for code, tests and data generation under the team's direction; details in [docs/ai_usage.md](docs/ai_usage.md).
+Claude Code (Anthropic) was used for code, tests and data generation under the team's direction; details in [docs/ai_usage.md](docs/ai_usage.md)..
