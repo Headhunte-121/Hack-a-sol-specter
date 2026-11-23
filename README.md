@@ -80,7 +80,7 @@ Point the app at the services with `VITE_API_BASE=http://localhost:8000` and `VI
 
 ## Evaluation
 
-The message model (`2026-11-24.1`) is a regularised logistic regression on character and word n-grams plus 26 interpretable warning signals, calibrated, 1.6 MB, scored by TypeScript on the phone. A parity test checks 247 saved examples against the Python scorer (identical tokens and signals, probabilities within 1e-6). The warning bands start at a calibrated probability of 0.18 (suspicious, shown amber) and 0.54 (likely scam, shown red); red is kept for messages the model is sure about, so an app that notifies the user should notify on red and only list amber. What changed since `2026-11-23.3` (which was trained on 1,184 messages by mistake) and what is not yet measured is in [docs/model_2026-11-24.1.md](docs/model_2026-11-24.1.md).
+The message model (`2026-11-24.1`) is a regularised logistic regression on character and word n-grams plus 26 interpretable warning signals, calibrated, 1.6 MB, scored by TypeScript on the phone. A parity test checks 247 saved examples against the Python scorer (identical tokens and signals, probabilities within 1e-6). The warning bands start at a calibrated probability of 0.14 (suspicious, shown amber) and 0.61 (likely scam, shown red); red is kept for messages the model is sure about, so an app that notifies the user should notify on red and only list amber. What changed since `2026-11-23.3` (which was trained on 1,184 messages by mistake) and what is not yet measured is in [docs/model_2026-11-24.1.md](docs/model_2026-11-24.1.md).
 
 | Set | Messages | `2026-11-23.3` (earlier) | `2026-11-24.1` (this model) |
 |---|---|---|---|

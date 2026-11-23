@@ -292,5 +292,75 @@
     "lang": "hindi",
     "expectedBand": "likely_scam",
     "notes": "Hindi unauthorized transaction threat"
+  },
+  {
+    "id": "gen_missed_call_alert_en",
+    "text": "Dear Customer, You have a missed call from +91 98765 43210 The last missed call was at 07:58 PM on 16-Nov-2026 Thankyou, Team Jio.",
+    "lang": "english",
+    "expectedBand": "looks_genuine",
+    "notes": "Telecom missed-call alert: the word call and a phone number, but nobody is asked to call"
+  },
+  {
+    "id": "gen_missed_calls_alert_en",
+    "text": "Vi Alert: You have missed 3 calls on 22-Nov. Last call from 9876543210 at 9:05 PM. Thank you.",
+    "lang": "english",
+    "expectedBand": "looks_genuine",
+    "notes": "Telecom missed-calls alert"
+  },
+  {
+    "id": "gen_missed_call_alert_hi",
+    "text": "आपके फोन पर 9123456789 से मिस्ड कॉल आई है, समय सुबह 10:30 बजे।",
+    "lang": "hindi",
+    "expectedBand": "looks_genuine",
+    "notes": "Hindi missed-call alert"
+  },
+  {
+    "id": "gen_tried_calling_personal_en",
+    "text": "Hi, I tried calling you but you did not pick up. Call me back on 9999912345 when you are free.",
+    "lang": "english",
+    "expectedBand": "looks_genuine",
+    "notes": "Personal message asking for a call back"
+  },
+  {
+    "id": "gen_delivery_partner_will_call_en",
+    "text": "Your parcel is out for delivery. The rider will call you on 8000012345 once he is nearby.",
+    "lang": "english",
+    "expectedBand": "looks_genuine",
+    "notes": "Delivery partner will call the customer"
+  },
+  {
+    "id": "scam_call_this_number_en",
+    "text": "Your account will be blocked today. Call 9876543210 immediately to update your KYC.",
+    "lang": "english",
+    "expectedBand": "likely_scam",
+    "notes": "Still a scam: asks the person to call a number at once"
+  },
+  {
+    "id": "gen_telecom_plan_expiry_en",
+    "text": "Your plan for Jio number 99999 12345 is expiring today. Recharge IMMEDIATELY to continue enjoying uninterrupted services. Visit jio.com/r/ab12",
+    "lang": "english",
+    "expectedBand": "looks_genuine",
+    "notes": "Telecom plan-expiry reminder with an official link"
+  },
+  {
+    "id": "gen_telecom_recharge_offer_en",
+    "text": "Recharge now your Airtel no. 9876543210 with Rs.719 plan & enjoy Airtel Benefits - Netflix, unlimited 5G & more. Recharge at airtel.in/offer",
+    "lang": "english",
+    "expectedBand": "looks_genuine",
+    "notes": "Telecom recharge offer"
+  },
+  {
+    "id": "gen_telecom_plan_expiry_hi",
+    "text": "आपके जियो नंबर 90000 11223 के प्लान की वैधता जल्द ही समाप्त हो जाएगी। सेवाओं के बंद होने से बचने के लिए अभी रिचार्ज करें। jio.com/r",
+    "lang": "hindi",
+    "expectedBand": "looks_genuine",
+    "notes": "Hindi plan-expiry reminder"
+  },
+  {
+    "id": "scam_free_recharge_otp_en",
+    "text": "FREE recharge for all Jio users! Share your OTP with our agent to activate your free 12-month plan.",
+    "lang": "english",
+    "expectedBand": "likely_scam",
+    "notes": "Still a scam: the same words, but it asks for the OTP"
   }
 ]
