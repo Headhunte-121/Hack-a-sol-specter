@@ -543,7 +543,7 @@ NEW_ITEMS = [
         "question": {"en": "If a link received in SMS looks like 'sbi-update.xyz', it is an official State Bank of India website.", "hi": "यदि संदेश में आया लिंक 'एसबीआई-अपडेट डॉट एक्सवाईजेड' जैसा दिखे, तो यह स्टेट बैंक की आधिकारिक वेबसाइट है।", "cg": "अगर संदेश म आए लिंक 'एसबीआई-अपडेट डॉट एक्सवाईजेड' जइसन दिखय, त ए स्टेट बैंक के असली वेबसाइट हे।"},
         "options": [{"en": "True", "hi": "सही", "cg": "सही"}, {"en": "False", "hi": "गलत", "cg": "गलत"}],
         "answer": 1,
-        "explanation": {"en": "False. Real Indian bank domains end in sbi.co.in or bank.in, never random domain extensions like .xyz or .top.", "hi": "गलत। असली भारतीय बैंक की वेबसाइट sbi.co.in या bank.in पर खत्म होती हैं, .xyz जैसी फर्जी वेबसाइटों पर नहीं।", "cg": "गलत। असली भारतीय बैंक के वेबसाइट sbi.co.in या bank.in म खतम होथे, .xyz जइसन फर्जी वेबसाइट म कभू नइ।"}
+        "explanation": {"en": "False. Real Indian bank domains end in sbi.co.in or bank.in, never random domain extensions like .xyz or .top.", "hi": "गलत। असली भारतीय बैंक की वेबसाइट sbi.co.in या bank.in पर खत्म होती हैं, अजीब अंत वाली फर्जी वेबसाइटों पर नहीं।", "cg": "गलत। असली भारतीय बैंक के वेबसाइट sbi.co.in या bank.in म खतम होथे, अजीब अंत वाले फर्जी वेबसाइट म कभू नइ।"}
     },
     {
         "id": "q_lnk_14", "topic": "links_apps", "difficulty": 3, "type": "scenario",
