@@ -32,6 +32,10 @@ Why both: on 24 spoken Hindi and Hinglish test clips the fine-tune writes almost
 
 `ASR_LANGUAGE=hi` or `en` skips language detection. A model whose language detector fails is treated as Hindi.
 
+`ASR_CHUNK_LENGTH` (seconds, default 15) sets the decoding window. Whisper writes at most 448 tokens per window and Hindi in Devanagari needs many tokens per word, so the default 30 s window cut a long recording off after about 40 words per window. On a 169 s test recording (655 words) the transcript recovered 571 words with 15 s windows against 400 with 30 s windows (word error rate 21.5% against 40.2%). Set it to 0 for Whisper's own default.
+
+**GPU.** `Dockerfile.gpu` builds the same service for an NVIDIA GPU (CUDA 12 libraries from pip); run it with `--gpus all` (Docker Compose: a `deploy.resources.reservations.devices` entry with the nvidia driver) and `ASR_DEVICE=cuda`. On an RTX 5050 laptop GPU it was about 3 times faster on long recordings and 4 to 8 times faster on short clips, and the models sit in video memory instead of system memory.
+
 `ASR_DEVICE=cuda` uses a GPU. `ASR_CORS` sets allowed origins. Phone-quality, noisy or accented speech transcribes worse; Chhattisgarhi is not supported.
 
 ## Deploy
