@@ -1,0 +1,273 @@
+text,label,lang,group
+"Scan this QR code to receive Rs 18,000 from our company for your resume selection. Enter your UPI PIN to accept.",1,english,qr_receive:en:g3a
+"Scan this QR code to receive Rs 10,000 from our company for your resume selection. Enter your UPI PIN to accept.",1,english,qr_receive:en:g3a
+"Scan this QR code to receive Rs 1,20,000 from our company for your resume selection. Enter your UPI PIN to accept.",1,english,qr_receive:en:g3a
+"Scan this QR code to receive Rs 4,200 from our company for your resume selection. Enter your UPI PIN to accept.",1,english,qr_receive:en:g3a
+"Your refund of Rs 40,000 is ready. Scan the QR sent below with PhonePe and put your PIN to receive the money.",1,english,qr_receive:en:g3b
+"Your refund of Rs 1,20,000 is ready. Scan the QR sent below with GPay and put your PIN to receive the money.",1,english,qr_receive:en:g3b
+"Your refund of Rs 10,000 is ready. Scan the QR sent below with PhonePe and put your PIN to receive the money.",1,english,qr_receive:en:g3b
+"Your refund of Rs 1,20,000 is ready. Scan the QR sent below with Paytm and put your PIN to receive the money.",1,english,qr_receive:en:g3b
+"Congratulations, you are selected for cashback. Scan this QR to receive Rs 2,500 in your account, PIN required.",1,english,qr_receive:en:g3c
+"Congratulations, you are selected for cashback. Scan this QR to receive Rs 1,20,000 in your account, PIN required.",1,english,qr_receive:en:g3c
+"Congratulations, you are selected for cashback. Scan this QR to receive Rs 4,200 in your account, PIN required.",1,english,qr_receive:en:g3c
+"Congratulations, you are selected for cashback. Scan this QR to receive Rs 25,000 in your account, PIN required.",1,english,qr_receive:en:g3c
+"To receive the advance payment for your item, scan my QR and approve the request on PhonePe.",1,english,qr_receive:en:g3d
+"To receive the advance payment for your item, scan my QR and approve the request on BHIM.",1,english,qr_receive:en:g3d
+"To receive the advance payment for your item, scan my QR and approve the request on Paytm.",1,english,qr_receive:en:g3d
+"To receive the advance payment for your item, scan my QR and approve the request on GPay.",1,english,qr_receive:en:g3d
+"Aapka Rs 10,000 ka refund aaya hai. Paisa receive karne ke liye ye QR scan karein aur GPay me apna PIN daalein.",1,hinglish,qr_receive:hi:g3a
+"Aapka Rs 2,500 ka refund aaya hai. Paisa receive karne ke liye ye QR scan karein aur GPay me apna PIN daalein.",1,hinglish,qr_receive:hi:g3a
+"Aapka Rs 18,000 ka refund aaya hai. Paisa receive karne ke liye ye QR scan karein aur BHIM me apna PIN daalein.",1,hinglish,qr_receive:hi:g3a
+"Aapka Rs 7,500 ka refund aaya hai. Paisa receive karne ke liye ye QR scan karein aur BHIM me apna PIN daalein.",1,hinglish,qr_receive:hi:g3a
+"Bhai tumhara payment bhejna hai, ye QR scan karke PIN daal do, paisa turant aa jayega.",1,hinglish,qr_receive:hi:g3b
+"Aapko cashback mila hai. QR code scan kijiye aur UPI PIN dalkar Rs 18,000 paiye.",1,hinglish,qr_receive:hi:g3c
+"Aapko cashback mila hai. QR code scan kijiye aur UPI PIN dalkar Rs 7,500 paiye.",1,hinglish,qr_receive:hi:g3c
+"Aapko cashback mila hai. QR code scan kijiye aur UPI PIN dalkar Rs 4,200 paiye.",1,hinglish,qr_receive:hi:g3c
+"Aapko cashback mila hai. QR code scan kijiye aur UPI PIN dalkar Rs 25,000 paiye.",1,hinglish,qr_receive:hi:g3c
+"Item ka advance dene ke liye main QR bhej raha hoon, scan karke approve kar dijiye, paisa aapke account me aa jayega.",1,hinglish,qr_receive:hi:g3d
+"आपके खाते में 25,000 रुपये का रिफंड आया है। पैसे पाने के लिए यह क्यूआर कोड स्कैन करें और अपना यूपीआई पिन डालें।",1,hindi,qr_receive:hi:g3a
+"आपके खाते में 40,000 रुपये का रिफंड आया है। पैसे पाने के लिए यह क्यूआर कोड स्कैन करें और अपना यूपीआई पिन डालें।",1,hindi,qr_receive:hi:g3a
+"आपके खाते में 18,000 रुपये का रिफंड आया है। पैसे पाने के लिए यह क्यूआर कोड स्कैन करें और अपना यूपीआई पिन डालें।",1,hindi,qr_receive:hi:g3a
+"आपके खाते में 7,500 रुपये का रिफंड आया है। पैसे पाने के लिए यह क्यूआर कोड स्कैन करें और अपना यूपीआई पिन डालें।",1,hindi,qr_receive:hi:g3a
+"बधाई हो, आपको कैशबैक मिला है। भीम में यह क्यूआर स्कैन करके पिन डालिए और 25,000 रुपये रिसीव कीजिए।",1,hindi,qr_receive:hi:g3b
+"बधाई हो, आपको कैशबैक मिला है। भीम में यह क्यूआर स्कैन करके पिन डालिए और 1,20,000 रुपये रिसीव कीजिए।",1,hindi,qr_receive:hi:g3b
+"बधाई हो, आपको कैशबैक मिला है। भीम में यह क्यूआर स्कैन करके पिन डालिए और 10,000 रुपये रिसीव कीजिए।",1,hindi,qr_receive:hi:g3b
+"बधाई हो, आपको कैशबैक मिला है। फोनपे में यह क्यूआर स्कैन करके पिन डालिए और 25,000 रुपये रिसीव कीजिए।",1,hindi,qr_receive:hi:g3b
+"सामान का एडवांस भेजने के लिए मैं क्यूआर कोड भेज रहा हूँ, इसे स्कैन करके मंजूर कर दीजिए, पैसा आपके खाते में आ जाएगा।",1,hindi,qr_receive:hi:g3c
+"Hello, sorry, I sent Rs 7,500 to your PhonePe by mistake. Please return it and also approve the collect request I have just sent.",1,english,wrong_pay:en:g3a
+"Hello, sorry, I sent Rs 10,000 to your PhonePe by mistake. Please return it and also approve the collect request I have just sent.",1,english,wrong_pay:en:g3a
+"Hello, sorry, I sent Rs 4,200 to your Paytm by mistake. Please return it and also approve the collect request I have just sent.",1,english,wrong_pay:en:g3a
+"Hello, sorry, I sent Rs 18,000 to your PhonePe by mistake. Please return it and also approve the collect request I have just sent.",1,english,wrong_pay:en:g3a
+"Sir I have accidentally transferred Rs 10,000 to you. Kindly send it back today, my father is in the hospital.",1,english,wrong_pay:en:g3b
+"Sir I have accidentally transferred Rs 40,000 to you. Kindly send it back today, my father is in the hospital.",1,english,wrong_pay:en:g3b
+"Sir I have accidentally transferred Rs 1,20,000 to you. Kindly send it back today, my father is in the hospital.",1,english,wrong_pay:en:g3b
+"Sir I have accidentally transferred Rs 4,200 to you. Kindly send it back today, my father is in the hospital.",1,english,wrong_pay:en:g3b
+"Hi, the amount of Rs 40,000 that landed in your account was meant for my friend. Please refund it to this number and accept the request.",1,english,wrong_pay:en:g3c
+"Hi, the amount of Rs 7,500 that landed in your account was meant for my friend. Please refund it to this number and accept the request.",1,english,wrong_pay:en:g3c
+"Hi, the amount of Rs 4,200 that landed in your account was meant for my friend. Please refund it to this number and accept the request.",1,english,wrong_pay:en:g3c
+"Hi, the amount of Rs 18,000 that landed in your account was meant for my friend. Please refund it to this number and accept the request.",1,english,wrong_pay:en:g3c
+"Bhaiya galti se aapke number par Rs 4,200 chale gaye hain, please wapas bhej do aur meri collect request approve kar dena.",1,hinglish,wrong_pay:hi:g3a
+"Bhaiya galti se aapke number par Rs 1,20,000 chale gaye hain, please wapas bhej do aur meri collect request approve kar dena.",1,hinglish,wrong_pay:hi:g3a
+"Bhaiya galti se aapke number par Rs 25,000 chale gaye hain, please wapas bhej do aur meri collect request approve kar dena.",1,hinglish,wrong_pay:hi:g3a
+"Bhaiya galti se aapke number par Rs 18,000 chale gaye hain, please wapas bhej do aur meri collect request approve kar dena.",1,hinglish,wrong_pay:hi:g3a
+"Sir Paytm par ghalat number daalne se 2,500 aapko chale gaye. Kripya wapas kar dijiye, bahut zaroori hai.",1,hinglish,wrong_pay:hi:g3b
+"Sir Paytm par ghalat number daalne se 1,20,000 aapko chale gaye. Kripya wapas kar dijiye, bahut zaroori hai.",1,hinglish,wrong_pay:hi:g3b
+"Sir Paytm par ghalat number daalne se 7,500 aapko chale gaye. Kripya wapas kar dijiye, bahut zaroori hai.",1,hinglish,wrong_pay:hi:g3b
+"Sir BHIM par ghalat number daalne se 40,000 aapko chale gaye. Kripya wapas kar dijiye, bahut zaroori hai.",1,hinglish,wrong_pay:hi:g3b
+"Namaste, mere dost ke bajaye aapko 1,20,000 rupaye transfer ho gaye. Refund kar do aur request accept kar lo please.",1,hinglish,wrong_pay:hi:g3c
+"Namaste, mere dost ke bajaye aapko 2,500 rupaye transfer ho gaye. Refund kar do aur request accept kar lo please.",1,hinglish,wrong_pay:hi:g3c
+"Namaste, mere dost ke bajaye aapko 10,000 rupaye transfer ho gaye. Refund kar do aur request accept kar lo please.",1,hinglish,wrong_pay:hi:g3c
+"Namaste, mere dost ke bajaye aapko 4,200 rupaye transfer ho gaye. Refund kar do aur request accept kar lo please.",1,hinglish,wrong_pay:hi:g3c
+"नमस्ते, गलती से आपके पेटीएम पर 10,000 रुपये चले गए हैं। कृपया वापस कर दें और मेरी कलेक्ट रिक्वेस्ट मंजूर कर दें।",1,hindi,wrong_pay:hi:g3a
+"नमस्ते, गलती से आपके गूगल पे पर 18,000 रुपये चले गए हैं। कृपया वापस कर दें और मेरी कलेक्ट रिक्वेस्ट मंजूर कर दें।",1,hindi,wrong_pay:hi:g3a
+"नमस्ते, गलती से आपके भीम पर 18,000 रुपये चले गए हैं। कृपया वापस कर दें और मेरी कलेक्ट रिक्वेस्ट मंजूर कर दें।",1,hindi,wrong_pay:hi:g3a
+"नमस्ते, गलती से आपके गूगल पे पर 25,000 रुपये चले गए हैं। कृपया वापस कर दें और मेरी कलेक्ट रिक्वेस्ट मंजूर कर दें।",1,hindi,wrong_pay:hi:g3a
+"भाई साहब, गलत नंबर पर 4,200 रुपये भेज दिए। पैसे लौटा दीजिए, मेरे पिताजी अस्पताल में हैं।",1,hindi,wrong_pay:hi:g3b
+"भाई साहब, गलत नंबर पर 1,20,000 रुपये भेज दिए। पैसे लौटा दीजिए, मेरे पिताजी अस्पताल में हैं।",1,hindi,wrong_pay:hi:g3b
+"भाई साहब, गलत नंबर पर 25,000 रुपये भेज दिए। पैसे लौटा दीजिए, मेरे पिताजी अस्पताल में हैं।",1,hindi,wrong_pay:hi:g3b
+"भाई साहब, गलत नंबर पर 40,000 रुपये भेज दिए। पैसे लौटा दीजिए, मेरे पिताजी अस्पताल में हैं।",1,hindi,wrong_pay:hi:g3b
+"निवेश करें 1,20,000 रुपये और 7 दिन में पाएं दोगुना, गारंटीड रिटर्न। हमारे वीआईपी स्टॉक ग्रुप से अभी जुड़ें।",1,hindi,invest:hi:g3a
+"निवेश करें 10,000 रुपये और 7 दिन में पाएं दोगुना, गारंटीड रिटर्न। हमारे वीआईपी स्टॉक ग्रुप से अभी जुड़ें।",1,hindi,invest:hi:g3a
+"निवेश करें 4,200 रुपये और 7 दिन में पाएं दोगुना, गारंटीड रिटर्न। हमारे वीआईपी स्टॉक ग्रुप से अभी जुड़ें।",1,hindi,invest:hi:g3a
+"निवेश करें 18,000 रुपये और 7 दिन में पाएं दोगुना, गारंटीड रिटर्न। हमारे वीआईपी स्टॉक ग्रुप से अभी जुड़ें।",1,hindi,invest:hi:g3a
+"घर बैठे रोज कमाएं 3,000 रुपये। बस वीडियो लाइक करें और रेटिंग दें। पहले 499 रुपये रजिस्ट्रेशन फीस जमा करें।",1,hindi,invest:hi:g3b
+"घर बैठे रोज कमाएं 3,000 रुपये। बस वीडियो लाइक करें और रेटिंग दें। पहले 300 रुपये रजिस्ट्रेशन फीस जमा करें।",1,hindi,invest:hi:g3b
+"घर बैठे रोज कमाएं 3,000 रुपये। बस वीडियो लाइक करें और रेटिंग दें। पहले 99 रुपये रजिस्ट्रेशन फीस जमा करें।",1,hindi,invest:hi:g3b
+"घर बैठे रोज कमाएं 3,000 रुपये। बस वीडियो लाइक करें और रेटिंग दें। पहले 49 रुपये रजिस्ट्रेशन फीस जमा करें।",1,hindi,invest:hi:g3b
+"शेयर बाजार की सीक्रेट टिप्स चाहिए? हमारे टेलीग्राम ग्रुप में जुड़ें, 100 प्रतिशत गारंटीड मुनाफा, पहले 7,500 रुपये जमा करें।",1,hindi,invest:hi:g3c
+"शेयर बाजार की सीक्रेट टिप्स चाहिए? हमारे टेलीग्राम ग्रुप में जुड़ें, 100 प्रतिशत गारंटीड मुनाफा, पहले 2,500 रुपये जमा करें।",1,hindi,invest:hi:g3c
+"शेयर बाजार की सीक्रेट टिप्स चाहिए? हमारे टेलीग्राम ग्रुप में जुड़ें, 100 प्रतिशत गारंटीड मुनाफा, पहले 10,000 रुपये जमा करें।",1,hindi,invest:hi:g3c
+"शेयर बाजार की सीक्रेट टिप्स चाहिए? हमारे टेलीग्राम ग्रुप में जुड़ें, 100 प्रतिशत गारंटीड मुनाफा, पहले 4,200 रुपये जमा करें।",1,hindi,invest:hi:g3c
+"Sirf 40,000 lagao aur 10 din me double paisa kamao, 100% guaranteed profit. Hamare VIP trading group se jud jao.",1,hinglish,invest:hi:g3a
+"Sirf 4,200 lagao aur 10 din me double paisa kamao, 100% guaranteed profit. Hamare VIP trading group se jud jao.",1,hinglish,invest:hi:g3a
+"Sirf 7,500 lagao aur 10 din me double paisa kamao, 100% guaranteed profit. Hamare VIP trading group se jud jao.",1,hinglish,invest:hi:g3a
+"Sirf 10,000 lagao aur 10 din me double paisa kamao, 100% guaranteed profit. Hamare VIP trading group se jud jao.",1,hinglish,invest:hi:g3a
+"Work from home! Roz 4000 kamao, bas YouTube videos like karo. Pehle 750 rupaye task deposit bhejna hoga.",1,hinglish,invest:hi:g3b
+"Work from home! Roz 4000 kamao, bas YouTube videos like karo. Pehle 499 rupaye task deposit bhejna hoga.",1,hinglish,invest:hi:g3b
+"Work from home! Roz 4000 kamao, bas YouTube videos like karo. Pehle 300 rupaye task deposit bhejna hoga.",1,hinglish,invest:hi:g3b
+"Work from home! Roz 4000 kamao, bas YouTube videos like karo. Pehle 99 rupaye task deposit bhejna hoga.",1,hinglish,invest:hi:g3b
+"Crypto plan me invest karo Rs 1,20,000, har hafte 30% return guaranteed. Abhi slot book karo, limited seats.",1,hinglish,invest:hi:g3c
+"Crypto plan me invest karo Rs 25,000, har hafte 30% return guaranteed. Abhi slot book karo, limited seats.",1,hinglish,invest:hi:g3c
+"Crypto plan me invest karo Rs 2,500, har hafte 30% return guaranteed. Abhi slot book karo, limited seats.",1,hinglish,invest:hi:g3c
+"Crypto plan me invest karo Rs 4,200, har hafte 30% return guaranteed. Abhi slot book karo, limited seats.",1,hinglish,invest:hi:g3c
+"Invest Rs 18,000 in our stock tips group and get guaranteed returns of 60% in two weeks. Join the VIP Telegram channel now.",1,english,invest:en:g3a
+"Invest Rs 1,20,000 in our stock tips group and get guaranteed returns of 60% in two weeks. Join the VIP Telegram channel now.",1,english,invest:en:g3a
+"Invest Rs 40,000 in our stock tips group and get guaranteed returns of 60% in two weeks. Join the VIP Telegram channel now.",1,english,invest:en:g3a
+"Invest Rs 2,500 in our stock tips group and get guaranteed returns of 60% in two weeks. Join the VIP Telegram channel now.",1,english,invest:en:g3a
+"Part time job: earn Rs 4,000 daily by rating hotels on Google Maps. Pay the Rs 300 task deposit to start, refundable with profit.",1,english,invest:en:g3b
+"Part time job: earn Rs 4,000 daily by rating hotels on Google Maps. Pay the Rs 150 task deposit to start, refundable with profit.",1,english,invest:en:g3b
+"Part time job: earn Rs 4,000 daily by rating hotels on Google Maps. Pay the Rs 750 task deposit to start, refundable with profit.",1,english,invest:en:g3b
+"Part time job: earn Rs 4,000 daily by rating hotels on Google Maps. Pay the Rs 499 task deposit to start, refundable with profit.",1,english,invest:en:g3b
+"Earn from home, no experience needed. Complete simple tasks, withdraw daily. First deposit Rs 4,200 to unlock your account.",1,english,invest:en:g3c
+"Earn from home, no experience needed. Complete simple tasks, withdraw daily. First deposit Rs 40,000 to unlock your account.",1,english,invest:en:g3c
+"Earn from home, no experience needed. Complete simple tasks, withdraw daily. First deposit Rs 1,20,000 to unlock your account.",1,english,invest:en:g3c
+"Earn from home, no experience needed. Complete simple tasks, withdraw daily. First deposit Rs 25,000 to unlock your account.",1,english,invest:en:g3c
+Aapki PM Kisan ki agli kist ruki hui hai. Release karne ke liye apni bank details aur OTP is number par bhejein.,1,hinglish,scheme:hi:g3a
+Ladli Behna yojana ka paisa aapke account me aane wala hai. Pehle ye link kholkar apna ATM PIN daalein: http://bit.ly/3kXz9,1,hinglish,scheme:hi:g3b
+Ladli Behna yojana ka paisa aapke account me aane wala hai. Pehle ye link kholkar apna ATM PIN daalein: http://tinyurl.com/4abx7,1,hinglish,scheme:hi:g3b
+Ladli Behna yojana ka paisa aapke account me aane wala hai. Pehle ye link kholkar apna ATM PIN daalein: http://bank-secure-reward.club/redeem,1,hinglish,scheme:hi:g3b
+Ladli Behna yojana ka paisa aapke account me aane wala hai. Pehle ye link kholkar apna ATM PIN daalein: http://sbi-update-kyc.top/login,1,hinglish,scheme:hi:g3b
+"Sarkari subsidy ke Rs 25,000 aapke naam hain. Paisa pane ke liye Aadhaar number aur account number turant batayein.",1,hinglish,scheme:hi:g3c
+"Sarkari subsidy ke Rs 1,20,000 aapke naam hain. Paisa pane ke liye Aadhaar number aur account number turant batayein.",1,hinglish,scheme:hi:g3c
+"Sarkari subsidy ke Rs 4,200 aapke naam hain. Paisa pane ke liye Aadhaar number aur account number turant batayein.",1,hinglish,scheme:hi:g3c
+"Sarkari subsidy ke Rs 2,500 aapke naam hain. Paisa pane ke liye Aadhaar number aur account number turant batayein.",1,hinglish,scheme:hi:g3c
+Aapka ration card band ho jayega. Abhi http://bit.ly/3kXz9 par jaakar e-KYC karein aur OTP daalein.,1,hinglish,scheme:hi:g3d
+Aapka ration card band ho jayega. Abhi http://tinyurl.com/4abx7 par jaakar e-KYC karein aur OTP daalein.,1,hinglish,scheme:hi:g3d
+Aapka ration card band ho jayega. Abhi http://sbi-update-kyc.top/login par jaakar e-KYC karein aur OTP daalein.,1,hinglish,scheme:hi:g3d
+Aapka ration card band ho jayega. Abhi http://bank-secure-reward.club/redeem par jaakar e-KYC karein aur OTP daalein.,1,hinglish,scheme:hi:g3d
+आपकी पीएम किसान की अगली किस्त रुकी हुई है। जारी करने के लिए अपना बैंक खाता नंबर और ओटीपी इस नंबर पर भेजें।,1,hindi,scheme:hi:g3a
+लाडली बहना योजना का पैसा आपके खाते में आने वाला है। पहले अपना एटीएम पिन इस लिंक पर डालें: http://sbi-update-kyc.top/login,1,hindi,scheme:hi:g3b
+लाडली बहना योजना का पैसा आपके खाते में आने वाला है। पहले अपना एटीएम पिन इस लिंक पर डालें: http://bank-secure-reward.club/redeem,1,hindi,scheme:hi:g3b
+लाडली बहना योजना का पैसा आपके खाते में आने वाला है। पहले अपना एटीएम पिन इस लिंक पर डालें: http://bit.ly/3kXz9,1,hindi,scheme:hi:g3b
+लाडली बहना योजना का पैसा आपके खाते में आने वाला है। पहले अपना एटीएम पिन इस लिंक पर डालें: http://tinyurl.com/4abx7,1,hindi,scheme:hi:g3b
+"सरकारी सब्सिडी के 7,500 रुपये आपके नाम हैं। पैसा पाने के लिए आधार नंबर और खाता नंबर तुरंत बताएं।",1,hindi,scheme:hi:g3c
+"सरकारी सब्सिडी के 2,500 रुपये आपके नाम हैं। पैसा पाने के लिए आधार नंबर और खाता नंबर तुरंत बताएं।",1,hindi,scheme:hi:g3c
+"सरकारी सब्सिडी के 40,000 रुपये आपके नाम हैं। पैसा पाने के लिए आधार नंबर और खाता नंबर तुरंत बताएं।",1,hindi,scheme:hi:g3c
+"सरकारी सब्सिडी के 10,000 रुपये आपके नाम हैं। पैसा पाने के लिए आधार नंबर और खाता नंबर तुरंत बताएं।",1,hindi,scheme:hi:g3c
+"Your PM Kisan instalment is on hold. To release it, send your bank account number and the OTP you receive to this number.",1,english,scheme:en:g3a
+"Government subsidy of Rs 2,500 is pending in your name. Share your Aadhaar and account number now to receive it.",1,english,scheme:en:g3b
+"Government subsidy of Rs 10,000 is pending in your name. Share your Aadhaar and account number now to receive it.",1,english,scheme:en:g3b
+"Government subsidy of Rs 4,200 is pending in your name. Share your Aadhaar and account number now to receive it.",1,english,scheme:en:g3b
+"Government subsidy of Rs 40,000 is pending in your name. Share your Aadhaar and account number now to receive it.",1,english,scheme:en:g3b
+Aapke credit card ke 5000 reward points aaj expire ho rahe hain. Ye apk download karke redeem karein: http://tinyurl.com/4abx7,1,hinglish,card_apk:hi:g3a
+Aapke credit card ke 5000 reward points aaj expire ho rahe hain. Ye apk download karke redeem karein: http://bank-secure-reward.club/redeem,1,hinglish,card_apk:hi:g3a
+Aapke credit card ke 5000 reward points aaj expire ho rahe hain. Ye apk download karke redeem karein: http://sbi-update-kyc.top/login,1,hinglish,card_apk:hi:g3a
+Aapke credit card ke 5000 reward points aaj expire ho rahe hain. Ye apk download karke redeem karein: http://pm-kisan-claim.xyz/verify,1,hinglish,card_apk:hi:g3a
+Dear customer aapke Axis Bank card ka reward redeem karne ke liye ye app install karein aur card number aur CVV bharein.,1,hinglish,card_apk:hi:g3b
+Dear customer aapke SBI card ka reward redeem karne ke liye ye app install karein aur card number aur CVV bharein.,1,hinglish,card_apk:hi:g3b
+Dear customer aapke Bank of Baroda card ka reward redeem karne ke liye ye app install karein aur card number aur CVV bharein.,1,hinglish,card_apk:hi:g3b
+Dear customer aapke Canara Bank card ka reward redeem karne ke liye ye app install karein aur card number aur CVV bharein.,1,hinglish,card_apk:hi:g3b
+Aapka credit card limit badh gaya hai. Is link se app download karke OTP verify karein.,1,hinglish,card_apk:hi:g3c
+"प्रिय ग्राहक, आपके एचडीएफसी बैंक कार्ड का रिवॉर्ड पाने के लिए यह ऐप इंस्टॉल करें और कार्ड नंबर तथा सीवीवी डालें।",1,hindi,card_apk:hi:g3b
+"प्रिय ग्राहक, आपके एक्सिस बैंक कार्ड का रिवॉर्ड पाने के लिए यह ऐप इंस्टॉल करें और कार्ड नंबर तथा सीवीवी डालें।",1,hindi,card_apk:hi:g3b
+"प्रिय ग्राहक, आपके बैंक ऑफ बड़ौदा कार्ड का रिवॉर्ड पाने के लिए यह ऐप इंस्टॉल करें और कार्ड नंबर तथा सीवीवी डालें।",1,hindi,card_apk:hi:g3b
+"प्रिय ग्राहक, आपके आईसीआईसी बैंक कार्ड का रिवॉर्ड पाने के लिए यह ऐप इंस्टॉल करें और कार्ड नंबर तथा सीवीवी डालें।",1,hindi,card_apk:hi:g3b
+Your SBI credit card reward points will expire today. Download the app from http://bank-secure-reward.club/redeem and enter your card number and CVV to redeem.,1,english,card_apk:en:g3a
+Your ICICI Bank credit card reward points will expire today. Download the app from http://sbi-update-kyc.top/login and enter your card number and CVV to redeem.,1,english,card_apk:en:g3a
+Your PNB credit card reward points will expire today. Download the app from http://sbi-update-kyc.top/login and enter your card number and CVV to redeem.,1,english,card_apk:en:g3a
+Your Union Bank credit card reward points will expire today. Download the app from http://tinyurl.com/4abx7 and enter your card number and CVV to redeem.,1,english,card_apk:en:g3a
+"Dear customer, your card limit is increased. Install this apk and verify with the OTP to activate: http://bit.ly/3kXz9",1,english,card_apk:en:g3b
+"Dear customer, your card limit is increased. Install this apk and verify with the OTP to activate: http://sbi-update-kyc.top/login",1,english,card_apk:en:g3b
+"Dear customer, your card limit is increased. Install this apk and verify with the OTP to activate: http://tinyurl.com/4abx7",1,english,card_apk:en:g3b
+"Dear customer, your card limit is increased. Install this apk and verify with the OTP to activate: http://pm-kisan-claim.xyz/verify",1,english,card_apk:en:g3b
+मैं मुंबई साइबर सेल से बोल रहा हूँ। आपके आधार से मनी लॉन्ड्रिंग हुई है। कृपया कॉल मत काटिए और वीडियो कॉल पर बने रहिए।,1,hindi,arrest:hi:g3a
+"आपके नाम से एक पार्सल पकड़ा गया है जिसमें ड्रग्स मिले हैं। आप डिजिटल अरेस्ट में हैं, किसी को कुछ मत बताइए और जांच के लिए पैसे जमा कीजिए।",1,hindi,arrest:hi:g3b
+यह नारकोटिक्स विभाग है। आपके खिलाफ गैर जमानती वारंट जारी हुआ है। गिरफ्तारी से बचना है तो सत्यापन राशि सुरक्षित खाते में ट्रांसफर करें।,1,hindi,arrest:hi:g3c
+मैं सीबीआई अधिकारी बोल रहा हूँ। आपके खाते से अवैध लेनदेन हुआ है। कॉल न काटें और अपनी बैंक जानकारी अभी बताएं।,1,hindi,arrest:hi:g3d
+"Main Delhi police cyber cell se bol raha hoon. Aapke Aadhaar par drugs ka parcel pakda gaya hai. Call mat kaatiye, video call par rahiye.",1,hinglish,arrest:hi:g3a
+Aapke khilaaf arrest warrant nikla hai. Digital arrest se bachna hai to safe account me verification amount transfer kijiye aur kisi ko mat bataiye.,1,hinglish,arrest:hi:g3b
+"Yeh customs department hai. Aapke parcel me illegal saamaan mila hai. Jaanch ke liye turant Rs 10,000 jama kariye warna case darj hoga.",1,hinglish,arrest:hi:g3c
+"Yeh customs department hai. Aapke parcel me illegal saamaan mila hai. Jaanch ke liye turant Rs 18,000 jama kariye warna case darj hoga.",1,hinglish,arrest:hi:g3c
+"Yeh customs department hai. Aapke parcel me illegal saamaan mila hai. Jaanch ke liye turant Rs 7,500 jama kariye warna case darj hoga.",1,hinglish,arrest:hi:g3c
+"Yeh customs department hai. Aapke parcel me illegal saamaan mila hai. Jaanch ke liye turant Rs 1,20,000 jama kariye warna case darj hoga.",1,hinglish,arrest:hi:g3c
+"This is the cyber crime branch. Money laundering case is registered on your Aadhaar. Stay on the video call and do not tell anyone, or you will be arrested.",1,english,arrest:en:g3a
+We are from the narcotics bureau. A non bailable warrant is issued against you. Transfer the verification amount to the RBI safe account immediately.,1,english,arrest:en:g3b
+Sir aapka Aadhaar verification expire ho gaya hai. Is number par call karke apni details confirm kijiye warna SIM band ho jayegi.,1,hinglish,kyc_exp:hi:g3a
+Aapka PAN card aapke Axis Bank account se link nahi hai. Aaj raat tak update karein nahi to account freeze ho jayega: http://tinyurl.com/4abx7,1,hinglish,kyc_exp:hi:g3b
+Aapka PAN card aapke Axis Bank account se link nahi hai. Aaj raat tak update karein nahi to account freeze ho jayega: http://sbi-update-kyc.top/login,1,hinglish,kyc_exp:hi:g3b
+Aapka PAN card aapke SBI account se link nahi hai. Aaj raat tak update karein nahi to account freeze ho jayega: http://bank-secure-reward.club/redeem,1,hinglish,kyc_exp:hi:g3b
+Aapka PAN card aapke Bank of Baroda account se link nahi hai. Aaj raat tak update karein nahi to account freeze ho jayega: http://sbi-update-kyc.top/login,1,hinglish,kyc_exp:hi:g3b
+"Aapki KYC adhuri hai. Turant 70XXXXXX55 par call karein aur OTP batayein, warna account block ho jayega.",1,hinglish,kyc_exp:hi:g3c
+"Aapki KYC adhuri hai. Turant 81XXXXXX47 par call karein aur OTP batayein, warna account block ho jayega.",1,hinglish,kyc_exp:hi:g3c
+"Aapki KYC adhuri hai. Turant 90XXXXXX21 par call karein aur OTP batayein, warna account block ho jayega.",1,hinglish,kyc_exp:hi:g3c
+"Aapki KYC adhuri hai. Turant 98XXXXXX10 par call karein aur OTP batayein, warna account block ho jayega.",1,hinglish,kyc_exp:hi:g3c
+आपका आधार सत्यापन समाप्त हो गया है। इस नंबर पर कॉल करके अपनी जानकारी बताएं वरना सिम बंद हो जाएगी।,1,hindi,kyc_exp:hi:g3a
+"आपका केवाईसी अधूरा है। आज रात तक http://pm-kisan-claim.xyz/verify पर जाकर अपडेट करें, नहीं तो खाता बंद हो जाएगा।",1,hindi,kyc_exp:hi:g3b
+"आपका केवाईसी अधूरा है। आज रात तक http://tinyurl.com/4abx7 पर जाकर अपडेट करें, नहीं तो खाता बंद हो जाएगा।",1,hindi,kyc_exp:hi:g3b
+"आपका केवाईसी अधूरा है। आज रात तक http://sbi-update-kyc.top/login पर जाकर अपडेट करें, नहीं तो खाता बंद हो जाएगा।",1,hindi,kyc_exp:hi:g3b
+"आपका केवाईसी अधूरा है। आज रात तक http://bit.ly/3kXz9 पर जाकर अपडेट करें, नहीं तो खाता बंद हो जाएगा।",1,hindi,kyc_exp:hi:g3b
+Your Aadhaar verification has expired. Call 90XXXXXX21 and confirm your details today or your mobile number will be deactivated.,1,english,kyc_exp:en:g3a
+Your Aadhaar verification has expired. Call 81XXXXXX47 and confirm your details today or your mobile number will be deactivated.,1,english,kyc_exp:en:g3a
+Your Aadhaar verification has expired. Call 98XXXXXX10 and confirm your details today or your mobile number will be deactivated.,1,english,kyc_exp:en:g3a
+Your Aadhaar verification has expired. Call 70XXXXXX55 and confirm your details today or your mobile number will be deactivated.,1,english,kyc_exp:en:g3a
+Your Union Bank KYC is incomplete. Update at http://pm-kisan-claim.xyz/verify within 24 hours to avoid account suspension.,1,english,kyc_exp:en:g3b
+Your PNB KYC is incomplete. Update at http://tinyurl.com/4abx7 within 24 hours to avoid account suspension.,1,english,kyc_exp:en:g3b
+Your Bank of Baroda KYC is incomplete. Update at http://sbi-update-kyc.top/login within 24 hours to avoid account suspension.,1,english,kyc_exp:en:g3b
+Your SBI KYC is incomplete. Update at http://bit.ly/3kXz9 within 24 hours to avoid account suspension.,1,english,kyc_exp:en:g3b
+Aapka parcel aaya hai lekin address adhura hai. Delivery ke liye Rs 300 is link par pay karein: http://bit.ly/3kXz9,1,hinglish,parcel_fee:hi:g3a
+Aapka parcel aaya hai lekin address adhura hai. Delivery ke liye Rs 499 is link par pay karein: http://pm-kisan-claim.xyz/verify,1,hinglish,parcel_fee:hi:g3a
+Aapka parcel aaya hai lekin address adhura hai. Delivery ke liye Rs 750 is link par pay karein: http://bit.ly/3kXz9,1,hinglish,parcel_fee:hi:g3a
+Aapka parcel aaya hai lekin address adhura hai. Delivery ke liye Rs 150 is link par pay karein: http://bank-secure-reward.club/redeem,1,hinglish,parcel_fee:hi:g3a
+Courier company: aapka package rok diya gaya hai. Redelivery charge Rs 99 abhi UPI se bhejiye.,1,hinglish,parcel_fee:hi:g3b
+Courier company: aapka package rok diya gaya hai. Redelivery charge Rs 499 abhi UPI se bhejiye.,1,hinglish,parcel_fee:hi:g3b
+Courier company: aapka package rok diya gaya hai. Redelivery charge Rs 750 abhi UPI se bhejiye.,1,hinglish,parcel_fee:hi:g3b
+Courier company: aapka package rok diya gaya hai. Redelivery charge Rs 150 abhi UPI se bhejiye.,1,hinglish,parcel_fee:hi:g3b
+आपका पार्सल पहुंच गया है पर पता अधूरा है। डिलीवरी के लिए 150 रुपये इस लिंक पर जमा करें: http://pm-kisan-claim.xyz/verify,1,hindi,parcel_fee:hi:g3a
+आपका पार्सल पहुंच गया है पर पता अधूरा है। डिलीवरी के लिए 300 रुपये इस लिंक पर जमा करें: http://sbi-update-kyc.top/login,1,hindi,parcel_fee:hi:g3a
+आपका पार्सल पहुंच गया है पर पता अधूरा है। डिलीवरी के लिए 300 रुपये इस लिंक पर जमा करें: http://pm-kisan-claim.xyz/verify,1,hindi,parcel_fee:hi:g3a
+आपका पार्सल पहुंच गया है पर पता अधूरा है। डिलीवरी के लिए 150 रुपये इस लिंक पर जमा करें: http://sbi-update-kyc.top/login,1,hindi,parcel_fee:hi:g3a
+कूरियर कंपनी: आपका पैकेज रोक लिया गया है। रीडिलीवरी शुल्क 750 रुपये अभी यूपीआई से भेजें।,1,hindi,parcel_fee:hi:g3b
+कूरियर कंपनी: आपका पैकेज रोक लिया गया है। रीडिलीवरी शुल्क 300 रुपये अभी यूपीआई से भेजें।,1,hindi,parcel_fee:hi:g3b
+कूरियर कंपनी: आपका पैकेज रोक लिया गया है। रीडिलीवरी शुल्क 99 रुपये अभी यूपीआई से भेजें।,1,hindi,parcel_fee:hi:g3b
+कूरियर कंपनी: आपका पैकेज रोक लिया गया है। रीडिलीवरी शुल्क 49 रुपये अभी यूपीआई से भेजें।,1,hindi,parcel_fee:hi:g3b
+Your parcel is on hold due to an incomplete address. Pay the Rs 499 redelivery fee here to release it: http://tinyurl.com/4abx7,1,english,parcel_fee:en:g3a
+Your parcel is on hold due to an incomplete address. Pay the Rs 99 redelivery fee here to release it: http://bit.ly/3kXz9,1,english,parcel_fee:en:g3a
+Your parcel is on hold due to an incomplete address. Pay the Rs 49 redelivery fee here to release it: http://bit.ly/3kXz9,1,english,parcel_fee:en:g3a
+Your parcel is on hold due to an incomplete address. Pay the Rs 750 redelivery fee here to release it: http://bit.ly/3kXz9,1,english,parcel_fee:en:g3a
+"Papa main hoon, ye mera naya number hai. Mera accident ho gaya hai, abhi turant Rs 1,20,000 bhej do, kisi ko mat batana.",1,hinglish,family_sos:hi:g3a
+"Papa main hoon, ye mera naya number hai. Mera accident ho gaya hai, abhi turant Rs 40,000 bhej do, kisi ko mat batana.",1,hinglish,family_sos:hi:g3a
+"Papa main hoon, ye mera naya number hai. Mera accident ho gaya hai, abhi turant Rs 4,200 bhej do, kisi ko mat batana.",1,hinglish,family_sos:hi:g3a
+"Papa main hoon, ye mera naya number hai. Mera accident ho gaya hai, abhi turant Rs 10,000 bhej do, kisi ko mat batana.",1,hinglish,family_sos:hi:g3a
+"Mummy phone kharab ho gaya isliye naye number se message kar raha hoon. Fees bharni hai, 10,000 rupaye abhi UPI kar do.",1,hinglish,family_sos:hi:g3b
+"Mummy phone kharab ho gaya isliye naye number se message kar raha hoon. Fees bharni hai, 4,200 rupaye abhi UPI kar do.",1,hinglish,family_sos:hi:g3b
+"Mummy phone kharab ho gaya isliye naye number se message kar raha hoon. Fees bharni hai, 25,000 rupaye abhi UPI kar do.",1,hinglish,family_sos:hi:g3b
+"Mummy phone kharab ho gaya isliye naye number se message kar raha hoon. Fees bharni hai, 18,000 rupaye abhi UPI kar do.",1,hinglish,family_sos:hi:g3b
+"पापा मैं बोल रहा हूँ, यह मेरा नया नंबर है। मेरा एक्सीडेंट हो गया है, अभी तुरंत 1,20,000 रुपये भेजो, किसी को मत बताना।",1,hindi,family_sos:hi:g3a
+"पापा मैं बोल रहा हूँ, यह मेरा नया नंबर है। मेरा एक्सीडेंट हो गया है, अभी तुरंत 2,500 रुपये भेजो, किसी को मत बताना।",1,hindi,family_sos:hi:g3a
+"पापा मैं बोल रहा हूँ, यह मेरा नया नंबर है। मेरा एक्सीडेंट हो गया है, अभी तुरंत 25,000 रुपये भेजो, किसी को मत बताना।",1,hindi,family_sos:hi:g3a
+"पापा मैं बोल रहा हूँ, यह मेरा नया नंबर है। मेरा एक्सीडेंट हो गया है, अभी तुरंत 10,000 रुपये भेजो, किसी को मत बताना।",1,hindi,family_sos:hi:g3a
+"माँ फोन खराब हो गया है इसलिए नए नंबर से लिख रहा हूँ। फीस भरनी है, 1,20,000 रुपये अभी यूपीआई कर दो।",1,hindi,family_sos:hi:g3b
+"माँ फोन खराब हो गया है इसलिए नए नंबर से लिख रहा हूँ। फीस भरनी है, 2,500 रुपये अभी यूपीआई कर दो।",1,hindi,family_sos:hi:g3b
+"माँ फोन खराब हो गया है इसलिए नए नंबर से लिख रहा हूँ। फीस भरनी है, 10,000 रुपये अभी यूपीआई कर दो।",1,hindi,family_sos:hi:g3b
+"माँ फोन खराब हो गया है इसलिए नए नंबर से लिख रहा हूँ। फीस भरनी है, 4,200 रुपये अभी यूपीआई कर दो।",1,hindi,family_sos:hi:g3b
+"Hi dad, this is my new number as my phone broke. I am in trouble, please send Rs 40,000 right now and do not tell mom.",1,english,family_sos:en:g3a
+"Hi dad, this is my new number as my phone broke. I am in trouble, please send Rs 2,500 right now and do not tell mom.",1,english,family_sos:en:g3a
+"Hi dad, this is my new number as my phone broke. I am in trouble, please send Rs 1,20,000 right now and do not tell mom.",1,english,family_sos:en:g3a
+"Hi dad, this is my new number as my phone broke. I am in trouble, please send Rs 10,000 right now and do not tell mom.",1,english,family_sos:en:g3a
+Aapka bijli bill pending hai. Aaj raat 9:30 baje connection kat jayega. Turant is number par sampark karein: 90XXXXXX21,1,hinglish,utility_cut:hi:g3a
+Aapka bijli bill pending hai. Aaj raat 9:30 baje connection kat jayega. Turant is number par sampark karein: 98XXXXXX10,1,hinglish,utility_cut:hi:g3a
+Aapka bijli bill pending hai. Aaj raat 9:30 baje connection kat jayega. Turant is number par sampark karein: 70XXXXXX55,1,hinglish,utility_cut:hi:g3a
+Aapka bijli bill pending hai. Aaj raat 9:30 baje connection kat jayega. Turant is number par sampark karein: 81XXXXXX47,1,hinglish,utility_cut:hi:g3a
+Aapka gas connection band hone wala hai. Abhi 70XXXXXX55 par call karke KYC karwayein aur OTP batayein.,1,hinglish,utility_cut:hi:g3b
+Aapka gas connection band hone wala hai. Abhi 81XXXXXX47 par call karke KYC karwayein aur OTP batayein.,1,hinglish,utility_cut:hi:g3b
+Aapka gas connection band hone wala hai. Abhi 90XXXXXX21 par call karke KYC karwayein aur OTP batayein.,1,hinglish,utility_cut:hi:g3b
+Aapka gas connection band hone wala hai. Abhi 98XXXXXX10 par call karke KYC karwayein aur OTP batayein.,1,hinglish,utility_cut:hi:g3b
+आपका बिजली कनेक्शन आज रात काट दिया जाएगा क्योंकि पिछला बिल जमा नहीं हुआ। अभी इस नंबर पर बात करें: 70XXXXXX55,1,hindi,utility_cut:hi:g3a
+आपका बिजली कनेक्शन आज रात काट दिया जाएगा क्योंकि पिछला बिल जमा नहीं हुआ। अभी इस नंबर पर बात करें: 81XXXXXX47,1,hindi,utility_cut:hi:g3a
+आपका बिजली कनेक्शन आज रात काट दिया जाएगा क्योंकि पिछला बिल जमा नहीं हुआ। अभी इस नंबर पर बात करें: 98XXXXXX10,1,hindi,utility_cut:hi:g3a
+आपका बिजली कनेक्शन आज रात काट दिया जाएगा क्योंकि पिछला बिल जमा नहीं हुआ। अभी इस नंबर पर बात करें: 90XXXXXX21,1,hindi,utility_cut:hi:g3a
+"Dear consumer, your power connection will be cut tonight as last bill is unpaid. Call the officer on 81XXXXXX47 now to avoid disconnection.",1,english,utility_cut:en:g3a
+"Dear consumer, your power connection will be cut tonight as last bill is unpaid. Call the officer on 90XXXXXX21 now to avoid disconnection.",1,english,utility_cut:en:g3a
+"Dear consumer, your power connection will be cut tonight as last bill is unpaid. Call the officer on 70XXXXXX55 now to avoid disconnection.",1,english,utility_cut:en:g3a
+"Dear consumer, your power connection will be cut tonight as last bill is unpaid. Call the officer on 98XXXXXX10 now to avoid disconnection.",1,english,utility_cut:en:g3a
+"Aapka personal loan approve ho gaya hai. Bas Rs 99 processing fee jama karein, 10 minute me paisa account me.",1,hinglish,loan_fee:hi:g3a
+"Aapka personal loan approve ho gaya hai. Bas Rs 150 processing fee jama karein, 10 minute me paisa account me.",1,hinglish,loan_fee:hi:g3a
+"Aapka personal loan approve ho gaya hai. Bas Rs 750 processing fee jama karein, 10 minute me paisa account me.",1,hinglish,loan_fee:hi:g3a
+"Aapka personal loan approve ho gaya hai. Bas Rs 300 processing fee jama karein, 10 minute me paisa account me.",1,hinglish,loan_fee:hi:g3a
+"Instant loan Rs 40,000 bina document ke. Pehle insurance charge bhejiye, phir amount release hoga.",1,hinglish,loan_fee:hi:g3b
+"Instant loan Rs 25,000 bina document ke. Pehle insurance charge bhejiye, phir amount release hoga.",1,hinglish,loan_fee:hi:g3b
+"Instant loan Rs 4,200 bina document ke. Pehle insurance charge bhejiye, phir amount release hoga.",1,hinglish,loan_fee:hi:g3b
+"Instant loan Rs 10,000 bina document ke. Pehle insurance charge bhejiye, phir amount release hoga.",1,hinglish,loan_fee:hi:g3b
+आपका लोन मंजूर हो गया है। राशि पाने के लिए पहले 49 रुपये प्रोसेसिंग शुल्क भेजें।,1,hindi,loan_fee:hi:g3a
+आपका लोन मंजूर हो गया है। राशि पाने के लिए पहले 499 रुपये प्रोसेसिंग शुल्क भेजें।,1,hindi,loan_fee:hi:g3a
+आपका लोन मंजूर हो गया है। राशि पाने के लिए पहले 750 रुपये प्रोसेसिंग शुल्क भेजें।,1,hindi,loan_fee:hi:g3a
+आपका लोन मंजूर हो गया है। राशि पाने के लिए पहले 99 रुपये प्रोसेसिंग शुल्क भेजें।,1,hindi,loan_fee:hi:g3a
+"Instant loan of Rs 4,200 approved without documents. Pay the Rs 150 insurance charge first to release the amount.",1,english,loan_fee:en:g3a
+"Instant loan of Rs 40,000 approved without documents. Pay the Rs 499 insurance charge first to release the amount.",1,english,loan_fee:en:g3a
+"Instant loan of Rs 4,200 approved without documents. Pay the Rs 49 insurance charge first to release the amount.",1,english,loan_fee:en:g3a
+"Instant loan of Rs 4,200 approved without documents. Pay the Rs 99 insurance charge first to release the amount.",1,english,loan_fee:en:g3a
+"Maine aapka saamaan khareedne ka advance bhej diya hai. Ye QR scan karke paisa le lijiye, bas UPI PIN daalna hoga.",1,hinglish,market:hi:g3a
+"Main army me hoon, payment BHIM se karunga. Aap ye link kholkar apna PIN daal dijiye taaki paisa aa jaye.",1,hinglish,market:hi:g3b
+"Main army me hoon, payment Paytm se karunga. Aap ye link kholkar apna PIN daal dijiye taaki paisa aa jaye.",1,hinglish,market:hi:g3b
+"Main army me hoon, payment GPay se karunga. Aap ye link kholkar apna PIN daal dijiye taaki paisa aa jaye.",1,hinglish,market:hi:g3b
+"Main army me hoon, payment PhonePe se karunga. Aap ye link kholkar apna PIN daal dijiye taaki paisa aa jaye.",1,hinglish,market:hi:g3b
+Aapka refund process karne ke liye AnyDesk install karein aur 9 digit code mujhe bata dijiye.,1,hinglish,remote:hi:g3a
+"Our technician will fix your phone. Install AnyDesk, share the 9 digit code with us and we will process your refund.",1,english,remote:en:g3a
+"Badhai ho! Aapko KBC lucky draw me Rs 25,000 ka inaam mila hai. Claim karne ke liye Rs 150 processing fee bhejiye.",1,hinglish,lottery:hi:g3a
+"Badhai ho! Aapko KBC lucky draw me Rs 25,000 ka inaam mila hai. Claim karne ke liye Rs 750 processing fee bhejiye.",1,hinglish,lottery:hi:g3a
+"Badhai ho! Aapko KBC lucky draw me Rs 4,200 ka inaam mila hai. Claim karne ke liye Rs 300 processing fee bhejiye.",1,hinglish,lottery:hi:g3a
+"Badhai ho! Aapko KBC lucky draw me Rs 2,500 ka inaam mila hai. Claim karne ke liye Rs 750 processing fee bhejiye.",1,hinglish,lottery:hi:g3a
+"आयकर विभाग से आपको 1,20,000 रुपये का रिफंड मिलेगा। इसके लिए अपना खाता नंबर और ओटीपी बताएं।",1,hindi,tax:hi:g3a
+"आयकर विभाग से आपको 25,000 रुपये का रिफंड मिलेगा। इसके लिए अपना खाता नंबर और ओटीपी बताएं।",1,hindi,tax:hi:g3a
+"आयकर विभाग से आपको 7,500 रुपये का रिफंड मिलेगा। इसके लिए अपना खाता नंबर और ओटीपी बताएं।",1,hindi,tax:hi:g3a
+"आयकर विभाग से आपको 4,200 रुपये का रिफंड मिलेगा। इसके लिए अपना खाता नंबर और ओटीपी बताएं।",1,hindi,tax:hi:g3a

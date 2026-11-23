@@ -1,0 +1,181 @@
+text,label,lang,group
+"Dear Customer, INR 499.00 debited from A/c *7745 on 25-Nov and credited to VPA shop@okaxis (UPI Ref No 908877665544). If not done by you, call the bank helpline. -SBI",0,english,bank_txn:en:s3a
+"Dear Customer, INR 7,800.00 debited from A/c *7745 on 28-Nov and credited to VPA shop@okaxis (UPI Ref No 317246859003). If not done by you, call the bank helpline. -Union Bank",0,english,bank_txn:en:s3a
+"Dear Customer, INR 7,800.00 debited from A/c *7745 on 05-Dec and credited to VPA shop@okaxis (UPI Ref No 908877665544). If not done by you, call the bank helpline. -Axis Bank",0,english,bank_txn:en:s3a
+"Rs.2,350.50 spent on IDFC First Bank Card x4321 at Zomato on 01-Dec. Avl Lmt Rs.45,000. Not you? Call the number on the back of your card.",0,english,bank_txn:en:s3b
+"Rs.15,000.00 spent on Bank of Baroda Card x4321 at Amazon on 01-Dec. Avl Lmt Rs.45,000. Not you? Call the number on the back of your card.",0,english,bank_txn:en:s3b
+"Rs.2,350.50 spent on Kotak Mahindra Bank Card x4321 at Meesho on 05-Dec. Avl Lmt Rs.45,000. Not you? Call the number on the back of your card.",0,english,bank_txn:en:s3b
+"Your A/c XX1234 is credited with Rs 2,350.50 on 01-Dec by UPI Ref 908877665544. Avl Bal Rs 31,250.55. -Kotak Mahindra Bank",0,english,bank_txn:en:s3c
+"Your A/c XXXX3307 is credited with Rs 15,000.00 on 01-Dec by UPI Ref 412398765012. Avl Bal Rs 31,250.55. -Kotak Mahindra Bank",0,english,bank_txn:en:s3c
+"Your A/c *7745 is credited with Rs 7,800.00 on 01-Dec by UPI Ref 412398765012. Avl Bal Rs 31,250.55. -IDFC First Bank",0,english,bank_txn:en:s3c
+"A/c X4821 debited by 15,000.00 on 05-Dec trf to Flipkart Ref 552233441100. Not you? Call your bank immediately.",0,english,bank_txn:en:s3d
+"A/c *7745 debited by 1,200.00 on 12-Dec trf to Meesho Ref 552233441100. Not you? Call your bank immediately.",0,english,bank_txn:en:s3d
+"A/c *7745 debited by 1,200.00 on 28-Nov trf to BigBasket Ref 908877665544. Not you? Call your bank immediately.",0,english,bank_txn:en:s3d
+"Canara Bank: Rs 12,400 withdrawn at ATM on 01-Dec. Avl Bal Rs 12,400.55. If not you call the bank helpline.",0,english,bank_txn:en:s3e
+"IDFC First Bank: Rs 12,400 withdrawn at ATM on 12-Dec. Avl Bal Rs 12,400.55. If not you call the bank helpline.",0,english,bank_txn:en:s3e
+"Canara Bank: Rs 4,500 withdrawn at ATM on 15-Dec. Avl Bal Rs 12,400.55. If not you call the bank helpline.",0,english,bank_txn:en:s3e
+"Salary of Rs 7,800.00 credited to your A/c XXXX3307 on 12-Dec. Avl Bal Rs 48,260.10. -HDFC Bank",0,english,bank_txn:en:s3f
+"Salary of Rs 2,350.50 credited to your A/c XX1234 on 23-Nov. Avl Bal Rs 48,260.10. -Canara Bank",0,english,bank_txn:en:s3f
+"Salary of Rs 2,350.50 credited to your A/c XXXX3307 on 12-Dec. Avl Bal Rs 48,260.10. -Bank of Baroda",0,english,bank_txn:en:s3f
+"Dear Customer, your cheque no 1029 for Rs 8,999 has been cleared on 05-Dec. -Bank of Baroda",0,english,bank_txn:en:s3g
+"Dear Customer, your cheque no 4821 for Rs 2,350 has been cleared on 23-Nov. -HDFC Bank",0,english,bank_txn:en:s3g
+"Dear Customer, your cheque no 9912 for Rs 4,500 has been cleared on 01-Dec. -Canara Bank",0,english,bank_txn:en:s3g
+Your standing instruction of Rs 250 to Swiggy was executed on 12-Dec. Ref 552233441100. -Canara Bank,0,english,bank_txn:en:s3h
+"Your standing instruction of Rs 8,999 to Flipkart was executed on 28-Nov. Ref 412398765012. -ICICI Bank",0,english,bank_txn:en:s3h
+Your standing instruction of Rs 99 to Amazon was executed on 28-Nov. Ref 908877665544. -Union Bank,0,english,bank_txn:en:s3h
+"Dear Customer, your EMI of Rs 2,350 for loan A/c 4821 is due on 25-Nov. Please ensure sufficient balance. -Canara Bank",0,english,bank_notice:en:s3a
+"Dear Customer, your EMI of Rs 1,200 for loan A/c 3307 is due on 12-Dec. Please ensure sufficient balance. -Union Bank",0,english,bank_notice:en:s3a
+"Dear Customer, your EMI of Rs 250 for loan A/c 3307 is due on 15-Dec. Please ensure sufficient balance. -Union Bank",0,english,bank_notice:en:s3a
+Your ICICI Bank credit card statement of Rs 499 is generated. Minimum due Rs 450 by 12-Dec. Pay through the official app only.,0,english,bank_notice:en:s3b
+"Your Kotak Mahindra Bank credit card statement of Rs 8,999 is generated. Minimum due Rs 450 by 25-Nov. Pay through the official app only.",0,english,bank_notice:en:s3b
+Your ICICI Bank credit card statement of Rs 250 is generated. Minimum due Rs 450 by 12-Dec. Pay through the official app only.,0,english,bank_notice:en:s3b
+"A new payee has been added to your account. If you did not do this, visit your nearest branch. -ICICI Bank",0,english,bank_notice:en:s3c
+"A new payee has been added to your account. If you did not do this, visit your nearest branch. -Axis Bank",0,english,bank_notice:en:s3c
+"A new payee has been added to your account. If you did not do this, visit your nearest branch. -Union Bank",0,english,bank_notice:en:s3c
+Your debit card ending 7745 will expire on 25-Nov. A new card has been sent to your registered address. -Bank of Baroda,0,english,bank_notice:en:s3d
+Your debit card ending 7745 will expire on 15-Dec. A new card has been sent to your registered address. -Kotak Mahindra Bank,0,english,bank_notice:en:s3d
+Your debit card ending 4821 will expire on 28-Nov. A new card has been sent to your registered address. -Axis Bank,0,english,bank_notice:en:s3d
+Mutual fund SIP of Rs 499 has been processed on 23-Nov. Units allotted 31.254. Statement: https://www.licindia.in/pay,0,english,bank_notice:en:s3e
+"Mutual fund SIP of Rs 2,350 has been processed on 01-Dec. Units allotted 31.254. Statement: https://www.myntra.com/track",0,english,bank_notice:en:s3e
+"Mutual fund SIP of Rs 1,200 has been processed on 12-Dec. Units allotted 31.254. Statement: https://www.airtel.in/app",0,english,bank_notice:en:s3e
+Your fixed deposit of Rs 499 matures on 28-Nov. Visit the branch or the official app to renew. -SBI,0,english,bank_notice:en:s3f
+Your fixed deposit of Rs 99 matures on 05-Dec. Visit the branch or the official app to renew. -IDFC First Bank,0,english,bank_notice:en:s3f
+"Your fixed deposit of Rs 12,400 matures on 28-Nov. Visit the branch or the official app to renew. -Union Bank",0,english,bank_notice:en:s3f
+Your PAN has been linked to your Aadhaar successfully. -Income Tax Department,0,english,bank_notice:en:s3g
+We have received your complaint no 4821. We will resolve it within 3 working days. -Customer Care,0,english,bank_notice:en:s3h
+We have received your complaint no 7745. We will resolve it within 3 working days. -Customer Care,0,english,bank_notice:en:s3h
+We have received your complaint no 9912. We will resolve it within 3 working days. -Customer Care,0,english,bank_notice:en:s3h
+Your service request 3307 has been resolved. Thank you for banking with IDFC First Bank.,0,english,bank_notice:en:s3i
+Your service request 9912 has been resolved. Thank you for banking with Axis Bank.,0,english,bank_notice:en:s3i
+Your service request 1029 has been resolved. Thank you for banking with Union Bank.,0,english,bank_notice:en:s3i
+Your cheque book request has been received and will be delivered in 7 working days. -ICICI Bank,0,english,bank_notice:en:s3j
+Your cheque book request has been received and will be delivered in 7 working days. -Canara Bank,0,english,bank_notice:en:s3j
+Your cheque book request has been received and will be delivered in 7 working days. -Axis Bank,0,english,bank_notice:en:s3j
+<#> 102912 is your Swiggy verification code. Do not share it with anyone. xkF9sd2,0,english,otp_sms:en:s3a
+<#> 482112 is your Ajio verification code. Do not share it with anyone. xkF9sd2,0,english,otp_sms:en:s3a
+<#> 991212 is your Nykaa verification code. Do not share it with anyone. xkF9sd2,0,english,otp_sms:en:s3a
+774500 is the OTP for your Nykaa login. Valid for 10 mins. Do not share it with anyone.,0,english,otp_sms:en:s3b
+482100 is the OTP for your BigBasket login. Valid for 10 mins. Do not share it with anyone.,0,english,otp_sms:en:s3b
+482100 is the OTP for your Nykaa login. Valid for 10 mins. Do not share it with anyone.,0,english,otp_sms:en:s3b
+OTP for your transaction of Rs 250 on SBI card *7745 is 330756. Never share OTP with anyone. -SBI,0,english,otp_sms:en:s3c
+"OTP for your transaction of Rs 12,400 on Kotak Mahindra Bank card XX1234 is 774556. Never share OTP with anyone. -Kotak Mahindra Bank",0,english,otp_sms:en:s3c
+OTP for your transaction of Rs 250 on Axis Bank card XXXX3307 is 774556. Never share OTP with anyone. -Axis Bank,0,english,otp_sms:en:s3c
+"Use 482134 as your login code for BigBasket. Do not share this with anyone, our team will never ask for it.",0,english,otp_sms:en:s3d
+"Use 102934 as your login code for Meesho. Do not share this with anyone, our team will never ask for it.",0,english,otp_sms:en:s3d
+"Use 102934 as your login code for Nykaa. Do not share this with anyone, our team will never ask for it.",0,english,otp_sms:en:s3d
+Amazon: 9912 is your delivery OTP. Share it only with the delivery partner when the order arrives.,0,english,otp_sms:en:s3e
+Swiggy: 7745 is your delivery OTP. Share it only with the delivery partner when the order arrives.,0,english,otp_sms:en:s3e
+Swiggy: 3307 is your delivery OTP. Share it only with the delivery partner when the order arrives.,0,english,otp_sms:en:s3e
+Your one time password for Kotak Mahindra Bank NetBanking is 991277. Valid for 5 minutes. Please do not share with anyone.,0,english,otp_sms:en:s3f
+Your one time password for Union Bank NetBanking is 330777. Valid for 5 minutes. Please do not share with anyone.,0,english,otp_sms:en:s3f
+Your one time password for Bank of Baroda NetBanking is 330777. Valid for 5 minutes. Please do not share with anyone.,0,english,otp_sms:en:s3f
+Flat 50% OFF on fashion at Flipkart! Use code END50. Shop now: https://www.tatapower.com/pay T&C apply. Reply STOP to opt out.,0,english,promo:en:s3a
+Flat 50% OFF on fashion at BigBasket! Use code END50. Shop now: https://www.zomato.com/order T&C apply. Reply STOP to opt out.,0,english,promo:en:s3a
+Flat 50% OFF on fashion at Myntra! Use code END50. Shop now: https://www.licindia.in/pay T&C apply. Reply STOP to opt out.,0,english,promo:en:s3a
+Meesho: Your cart is waiting. Complete your order today and get free delivery: https://www.nykaa.com/offers,0,english,promo:en:s3b
+Myntra: Your cart is waiting. Complete your order today and get free delivery: https://www.axismf.com,0,english,promo:en:s3b
+Swiggy: Your cart is waiting. Complete your order today and get free delivery: https://www.hdfclife.com/policy,0,english,promo:en:s3b
+Big Sale on Nykaa this weekend. Up to 70% off on mobiles and laptops. Visit https://www.licindia.in/pay T&C apply.,0,english,promo:en:s3c
+Big Sale on Swiggy this weekend. Up to 70% off on mobiles and laptops. Visit https://www.hdfclife.com/policy T&C apply.,0,english,promo:en:s3c
+Big Sale on Ajio this weekend. Up to 70% off on mobiles and laptops. Visit https://www.tatapower.com/pay T&C apply.,0,english,promo:en:s3c
+Vi: Recharge with Rs 250 and get extra data this week. Recharge on the app or https://www.axismf.com,0,english,promo:en:s3d
+"BSNL: Recharge with Rs 4,500 and get extra data this week. Recharge on the app or https://www.bsnl.co.in/recharge",0,english,promo:en:s3d
+"Jio: Recharge with Rs 8,999 and get extra data this week. Recharge on the app or https://www.practo.com/appointment",0,english,promo:en:s3d
+Enjoy 20% cashback on your next order with Ajio. Offer valid till 28-Nov. T&C apply.,0,english,promo:en:s3e
+Enjoy 20% cashback on your next order with Ajio. Offer valid till 15-Dec. T&C apply.,0,english,promo:en:s3e
+Enjoy 20% cashback on your next order with Meesho. Offer valid till 15-Dec. T&C apply.,0,english,promo:en:s3e
+"Hi, your Zomato order has been shipped and will arrive by 25-Nov. Track here: https://www.zomato.com/order",0,english,promo:en:s3f
+"Hi, your Zomato order has been shipped and will arrive by 23-Nov. Track here: https://www.zomato.com/order",0,english,promo:en:s3f
+"Hi, your Flipkart order has been shipped and will arrive by 25-Nov. Track here: https://www.myntra.com/track",0,english,promo:en:s3f
+Your Flipkart order 7745 has been delivered. Rate your experience: https://www.licindia.in/pay,0,english,promo:en:s3g
+Your Swiggy order 7745 has been delivered. Rate your experience: https://www.hdfclife.com/policy,0,english,promo:en:s3g
+Your Nykaa order 1029 has been delivered. Rate your experience: https://www.airtel.in/app,0,english,promo:en:s3g
+Ajio Pay Later: your bill of Rs 250 is due on 28-Nov. Pay in the app to avoid late fee.,0,english,promo:en:s3h
+"Amazon Pay Later: your bill of Rs 8,999 is due on 01-Dec. Pay in the app to avoid late fee.",0,english,promo:en:s3h
+Amazon Pay Later: your bill of Rs 250 is due on 23-Nov. Pay in the app to avoid late fee.,0,english,promo:en:s3h
+"Jio: Rs 25,000 recharge successful. Validity 28 days, 2GB/day. Download the Jio app: https://www.makemytrip.com/trip",0,english,telecom:en:s3a
+"Vi: Rs 25,000 recharge successful. Validity 28 days, 2GB/day. Download the Vi app: https://www.airtel.in/app",0,english,telecom:en:s3a
+"Airtel: Rs 499 recharge successful. Validity 28 days, 2GB/day. Download the Airtel app: https://www.zomato.com/order",0,english,telecom:en:s3a
+BSNL: You have used 80% of your daily data. Recharge with Rs 19 for 1 GB more on the app.,0,english,telecom:en:s3b
+Vi: You have used 80% of your daily data. Recharge with Rs 19 for 1 GB more on the app.,0,english,telecom:en:s3b
+Jio: You have used 80% of your daily data. Recharge with Rs 19 for 1 GB more on the app.,0,english,telecom:en:s3b
+Airtel: Your plan will expire on 05-Dec. Recharge on the app or https://www.bigbasket.com/orders to continue services.,0,english,telecom:en:s3c
+Vi: Your plan will expire on 23-Nov. Recharge on the app or https://www.hdfclife.com/policy to continue services.,0,english,telecom:en:s3c
+BSNL: Your plan will expire on 05-Dec. Recharge on the app or https://www.myntra.com/track to continue services.,0,english,telecom:en:s3c
+"Your BSNL postpaid bill of Rs 8,999 is generated. Due date 01-Dec. Pay on the app. Ignore if paid.",0,english,telecom:en:s3d
+"Your BSNL postpaid bill of Rs 2,350 is generated. Due date 15-Dec. Pay on the app. Ignore if paid.",0,english,telecom:en:s3d
+"Your Airtel postpaid bill of Rs 4,500 is generated. Due date 15-Dec. Pay on the app. Ignore if paid.",0,english,telecom:en:s3d
+"Dear customer, your DTH recharge is due. Recharge on the app to avoid disconnection. Balance Rs 12.",0,english,telecom:en:s3e
+"Your appointment with Dr. Sharma is confirmed for 25-Nov at 9:00 AM. Reply 1 to confirm, 2 to cancel. -Clinic",0,english,appointment:en:s3a
+"Your appointment with Dr. Sharma is confirmed for 25-Nov at 11:30 AM. Reply 1 to confirm, 2 to cancel. -Clinic",0,english,appointment:en:s3a
+"Your appointment with Dr. Sharma is confirmed for 05-Dec at 4:15 PM. Reply 1 to confirm, 2 to cancel. -Clinic",0,english,appointment:en:s3a
+Reminder: your lab test is scheduled on 15-Dec at 9:00 AM. Please come fasting. -Diagnostics,0,english,appointment:en:s3b
+Reminder: your lab test is scheduled on 12-Dec at 9:00 AM. Please come fasting. -Diagnostics,0,english,appointment:en:s3b
+Reminder: your lab test is scheduled on 12-Dec at 11:30 AM. Please come fasting. -Diagnostics,0,english,appointment:en:s3b
+Your IRCTC PNR 243307678 is confirmed. Train 12345 departs 11:30 AM on 15-Dec. Happy journey.,0,english,appointment:en:s3c
+Your IRCTC PNR 244821678 is confirmed. Train 12345 departs 11:30 AM on 05-Dec. Happy journey.,0,english,appointment:en:s3c
+Your IRCTC PNR 243307678 is confirmed. Train 12345 departs 11:30 AM on 05-Dec. Happy journey.,0,english,appointment:en:s3c
+Your flight booking is confirmed for 23-Nov. Web check-in opens 48 hours before departure: https://www.hdfclife.com/policy,0,english,appointment:en:s3d
+Your flight booking is confirmed for 15-Dec. Web check-in opens 48 hours before departure: https://www.zomato.com/order,0,english,appointment:en:s3d
+Your flight booking is confirmed for 12-Dec. Web check-in opens 48 hours before departure: https://www.airtel.in/app,0,english,appointment:en:s3d
+Your cab is arriving in 3 minutes. Vehicle MP09AB1234. Driver Suresh. OTP 7745.,0,english,appointment:en:s3e
+Your cab is arriving in 3 minutes. Vehicle MP09AB1234. Driver Suresh. OTP 9912.,0,english,appointment:en:s3e
+Your cab is arriving in 3 minutes. Vehicle MP09AB1234. Driver Suresh. OTP 4821.,0,english,appointment:en:s3e
+Parent teacher meeting on 28-Nov at 4:15 PM. Please attend. -Principal,0,english,appointment:en:s3f
+Parent teacher meeting on 01-Dec at 4:15 PM. Please attend. -Principal,0,english,appointment:en:s3f
+Parent teacher meeting on 23-Nov at 6:45 PM. Please attend. -Principal,0,english,appointment:en:s3f
+Your parcel is out for delivery today. Delivery partner will call you. No payment is needed.,0,english,appointment:en:s3g
+"Your electricity bill of Rs 2,350 is due on 05-Dec. Pay on the official app or website. Ignore if already paid.",0,english,appointment:en:s3h
+Your electricity bill of Rs 499 is due on 15-Dec. Pay on the official app or website. Ignore if already paid.,0,english,appointment:en:s3h
+Your electricity bill of Rs 250 is due on 01-Dec. Pay on the official app or website. Ignore if already paid.,0,english,appointment:en:s3h
+UIDAI: Your Aadhaar update request has been received. URN 1234/56789/7745. Track at https://uidai.gov.in,0,english,govt:en:s3a
+UIDAI: Your Aadhaar update request has been received. URN 1234/56789/9912. Track at https://uidai.gov.in,0,english,govt:en:s3a
+UIDAI: Your Aadhaar update request has been received. URN 1234/56789/1029. Track at https://uidai.gov.in,0,english,govt:en:s3a
+"Your income tax return has been processed. Refund of Rs 1,200 will be credited within 15 days. -Income Tax Department",0,english,govt:en:s3b
+"Your income tax return has been processed. Refund of Rs 25,000 will be credited within 15 days. -Income Tax Department",0,english,govt:en:s3b
+"Your income tax return has been processed. Refund of Rs 12,400 will be credited within 15 days. -Income Tax Department",0,english,govt:en:s3b
+"Your LPG cylinder booking is confirmed. Delivery code 9912 will be needed at delivery, share it only with the delivery person.",0,english,govt:en:s3c
+"Your LPG cylinder booking is confirmed. Delivery code 1029 will be needed at delivery, share it only with the delivery person.",0,english,govt:en:s3c
+"Your LPG cylinder booking is confirmed. Delivery code 3307 will be needed at delivery, share it only with the delivery person.",0,english,govt:en:s3c
+Your driving licence renewal is due on 05-Dec. Apply at the official parivahan portal.,0,english,govt:en:s3d
+Your driving licence renewal is due on 15-Dec. Apply at the official parivahan portal.,0,english,govt:en:s3d
+Your driving licence renewal is due on 01-Dec. Apply at the official parivahan portal.,0,english,govt:en:s3d
+Your vaccination slot is booked for 28-Nov at 4:15 PM. Please carry your ID. -Health Department,0,english,govt:en:s3e
+Your vaccination slot is booked for 23-Nov at 4:15 PM. Please carry your ID. -Health Department,0,english,govt:en:s3e
+Your vaccination slot is booked for 01-Dec at 6:45 PM. Please carry your ID. -Health Department,0,english,govt:en:s3e
+"Aapke A/c XXXX3307 se Rs 25,000 debit hue hain 28-Nov ko. Agar aapne nahi kiya to bank ko turant batayein. -HDFC Bank",0,hinglish,hinglish_sms:hi:s3a
+Aapke A/c XX1234 se Rs 499 debit hue hain 01-Dec ko. Agar aapne nahi kiya to bank ko turant batayein. -Union Bank,0,hinglish,hinglish_sms:hi:s3a
+"Aapke A/c *7745 se Rs 25,000 debit hue hain 01-Dec ko. Agar aapne nahi kiya to bank ko turant batayein. -Kotak Mahindra Bank",0,hinglish,hinglish_sms:hi:s3a
+Aapka OTP 330721 hai. Ise kisi ke saath share na karein. -ICICI Bank,0,hinglish,hinglish_sms:hi:s3b
+Aapka OTP 482121 hai. Ise kisi ke saath share na karein. -HDFC Bank,0,hinglish,hinglish_sms:hi:s3b
+Aapka OTP 482121 hai. Ise kisi ke saath share na karein. -SBI,0,hinglish,hinglish_sms:hi:s3b
+BigBasket: Aapka order 25-Nov tak pahunch jayega. Track karein: https://www.airtel.in/app,0,hinglish,hinglish_sms:hi:s3c
+Nykaa: Aapka order 01-Dec tak pahunch jayega. Track karein: https://www.makemytrip.com/trip,0,hinglish,hinglish_sms:hi:s3c
+Zomato: Aapka order 01-Dec tak pahunch jayega. Track karein: https://www.bigbasket.com/orders,0,hinglish,hinglish_sms:hi:s3c
+"BSNL: Aapka Rs 4,500 ka recharge safal raha. Validity 28 din. Dhanyavad.",0,hinglish,hinglish_sms:hi:s3d
+Jio: Aapka Rs 99 ka recharge safal raha. Validity 28 din. Dhanyavad.,0,hinglish,hinglish_sms:hi:s3d
+"BSNL: Aapka Rs 25,000 ka recharge safal raha. Validity 28 din. Dhanyavad.",0,hinglish,hinglish_sms:hi:s3d
+Aapki EMI Rs 250 01-Dec ko debit hogi. Account me balance rakhein. -ICICI Bank,0,hinglish,hinglish_sms:hi:s3e
+"Aapki EMI Rs 25,000 05-Dec ko debit hogi. Account me balance rakhein. -Bank of Baroda",0,hinglish,hinglish_sms:hi:s3e
+"Aapki EMI Rs 8,999 28-Nov ko debit hogi. Account me balance rakhein. -Kotak Mahindra Bank",0,hinglish,hinglish_sms:hi:s3e
+"Aapka bijli bill Rs 250 hai, last date 05-Dec. App se bharein. Agar bhar diya hai to ignore karein.",0,hinglish,hinglish_sms:hi:s3f
+"Aapka bijli bill Rs 25,000 hai, last date 01-Dec. App se bharein. Agar bhar diya hai to ignore karein.",0,hinglish,hinglish_sms:hi:s3f
+"Aapka bijli bill Rs 499 hai, last date 15-Dec. App se bharein. Agar bhar diya hai to ignore karein.",0,hinglish,hinglish_sms:hi:s3f
+Aapki appointment 23-Nov ko 4:15 PM par confirm ho gayi hai. Reply 1 to confirm.,0,hinglish,hinglish_sms:hi:s3g
+Aapki appointment 25-Nov ko 11:30 AM par confirm ho gayi hai. Reply 1 to confirm.,0,hinglish,hinglish_sms:hi:s3g
+Aapki appointment 23-Nov ko 9:00 AM par confirm ho gayi hai. Reply 1 to confirm.,0,hinglish,hinglish_sms:hi:s3g
+आपके खाते X4821 से 499 रुपये डेबिट हुए हैं। यदि आपने नहीं किए तो बैंक को तुरंत बताएं। -IDFC First Bank,0,hindi,hindi_sms:hi:s3a
+आपके खाते *7745 से 499 रुपये डेबिट हुए हैं। यदि आपने नहीं किए तो बैंक को तुरंत बताएं। -ICICI Bank,0,hindi,hindi_sms:hi:s3a
+"आपके खाते *7745 से 12,400 रुपये डेबिट हुए हैं। यदि आपने नहीं किए तो बैंक को तुरंत बताएं। -ICICI Bank",0,hindi,hindi_sms:hi:s3a
+आपका ओटीपी 482121 है। इसे किसी को न बताएं। -HDFC Bank,0,hindi,hindi_sms:hi:s3b
+आपका ओटीपी 774521 है। इसे किसी को न बताएं। -HDFC Bank,0,hindi,hindi_sms:hi:s3b
+आपका ओटीपी 991221 है। इसे किसी को न बताएं। -Union Bank,0,hindi,hindi_sms:hi:s3b
+आपका ऑर्डर 01-Dec तक पहुंच जाएगा। ट्रैक करें: https://www.zomato.com/order,0,hindi,hindi_sms:hi:s3c
+आपका ऑर्डर 15-Dec तक पहुंच जाएगा। ट्रैक करें: https://www.makemytrip.com/trip,0,hindi,hindi_sms:hi:s3c
+आपका ऑर्डर 23-Nov तक पहुंच जाएगा। ट्रैक करें: https://www.airtel.in/app,0,hindi,hindi_sms:hi:s3c
+"आपकी किस्त 4,500 रुपये 15-Dec को कटेगी। खाते में राशि रखें। -Canara Bank",0,hindi,hindi_sms:hi:s3d
+आपकी किस्त 99 रुपये 25-Nov को कटेगी। खाते में राशि रखें। -SBI,0,hindi,hindi_sms:hi:s3d
+"आपकी किस्त 1,200 रुपये 05-Dec को कटेगी। खाते में राशि रखें। -ICICI Bank",0,hindi,hindi_sms:hi:s3d
+"आपका बिजली बिल 250 रुपये का है, अंतिम तिथि 23-Nov। ऐप से भरें। भर दिया हो तो अनदेखा करें।",0,hindi,hindi_sms:hi:s3e
+"आपका बिजली बिल 499 रुपये का है, अंतिम तिथि 12-Dec। ऐप से भरें। भर दिया हो तो अनदेखा करें।",0,hindi,hindi_sms:hi:s3e
+"आपका बिजली बिल 99 रुपये का है, अंतिम तिथि 25-Nov। ऐप से भरें। भर दिया हो तो अनदेखा करें।",0,hindi,hindi_sms:hi:s3e
