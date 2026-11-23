@@ -35,7 +35,7 @@ export function LangPill({ inverted = false }: { inverted?: boolean }) {
 
       <Globe
         aria-hidden="true"
-        className={`pointer-events-none absolute left-2.5 size-3.5 shrink-0 ${
+        className={`pointer-events-none absolute left-2.5 z-10 size-3.5 shrink-0 ${
           inverted ? 'text-white/90' : 'text-slate-500'
         }`}
         strokeWidth={2}
@@ -46,10 +46,10 @@ export function LangPill({ inverted = false }: { inverted?: boolean }) {
         data-testid="lang-select"
         value={lang}
         onChange={(e) => setLang(e.target.value as Lang)}
-        className={`cursor-pointer appearance-none rounded-full pr-7 pl-7.5 font-semibold transition-all focus-visible:outline-none ${
+        className={`cursor-pointer appearance-none rounded-full font-semibold transition-colors focus-visible:outline-none ${
           inverted
-            ? 'h-8 bg-white/15 text-[12px] text-white ring-1 ring-white/25 backdrop-blur-xs hover:bg-white/25'
-            : 'h-8.5 border border-slate-200/90 bg-white text-[12.5px] text-slate-700 shadow-2xs hover:border-slate-300 hover:bg-slate-50'
+            ? 'h-7.5 bg-white/15 pr-6.5 pl-7 text-[11.5px] text-white ring-1 ring-white/25 hover:bg-white/25'
+            : 'h-8.5 border border-slate-200/90 bg-white pr-7 pl-7.5 text-[12.5px] text-slate-700 shadow-2xs hover:border-slate-300 hover:bg-slate-50'
         }`}
       >
         {LANGS.map((l) => (
@@ -61,8 +61,8 @@ export function LangPill({ inverted = false }: { inverted?: boolean }) {
 
       <ChevronDown
         aria-hidden="true"
-        className={`pointer-events-none absolute right-2.5 size-3.5 shrink-0 ${
-          inverted ? 'text-white/80' : 'text-slate-500'
+        className={`pointer-events-none absolute right-2 z-10 size-3.5 shrink-0 ${
+          inverted ? 'text-white/85' : 'text-slate-500'
         }`}
         strokeWidth={2.2}
       />
