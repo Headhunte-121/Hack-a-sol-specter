@@ -356,8 +356,26 @@ export default function CallPage() {
       {error && (
         <div role="alert" className="space-y-2 rounded-2xl border-2 border-bad-line bg-bad-bg p-3 text-bad">
           <p>{t(error)}</p>
+          {error === 'call.err.mic' && (
+            <div className="pt-1">
+              <label className="btn btn-secondary cursor-pointer w-full text-center">
+                🎙️ {lang === 'hi' ? 'फ़ोन रिकॉर्डर से रिकॉर्ड करें' : lang === 'cg' ? 'फोन रिकार्डर ले रिकार्ड करव' : 'Record using phone recorder'}
+                <input
+                  type="file"
+                  accept="audio/*"
+                  capture
+                  className="sr-only"
+                  onChange={(e) => {
+                    const f = e.target.files?.[0]
+                    if (f) void handleBlob(f)
+                    e.target.value = ''
+                  }}
+                />
+              </label>
+            </div>
+          )}
           {mode === 'audio' && (
-            <button className="underline" onClick={() => { setError(null); setMode('paste') }}>
+            <button className="underline block" onClick={() => { setError(null); setMode('paste') }}>
               {t('call.try_paste')}
             </button>
           )}
