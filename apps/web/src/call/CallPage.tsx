@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { loadScorer, type Scorer } from '../detector/model'
+import type { BrandsFile } from '../detector/url'
 import { pick, type Tri } from '../learn/content'
 import { handleFeedback, saveLastResult } from '../detector/lastResult'
 import { ShareReport } from '../dashboard/ShareReport'
-import type { CategoryCode } from '../shared/categories'
+import { SCRIPT_CATEGORY, categoryFromSignals, type CategoryCode } from '../shared/categories'
 import { useLang } from '../shell/i18n'
 import { Layout } from '../shell/Layout'
 import { Banner, NumberedList, type Tone } from '../shell/ui'
@@ -11,7 +12,7 @@ import { useBackStep } from '../shell/backStep'
 import { isDemoMode, useDemoMode } from '../shell/demoMode'
 import { analyzeCall, fmtTime, hitRanges, STAGES, type CallResult, type Lexicon, type Segment } from './analyze'
 import { asrBase, AsrError, audioDuration, startRecording, uploadForTranscript, validateClip } from './asr'
-import { buildEvidenceNote, SCRIPT_CATEGORY } from './evidence'
+import { buildEvidenceNote } from './evidence'
 import { postProcessTranscript } from './normalize'
 
 interface DemoCall { id: string; title: Tri; style: string; segments: Segment[] }
@@ -24,12 +25,21 @@ const LEVEL_STYLE = {
   low: { tone: 'ok' as Tone, icon: '✅', color: '#14583a' },
 } as const
 
+/** The report category: the known call script when the rules heard one, otherwise what the warning rules point to. */
+function categoryOf(r: CallResult): CategoryCode | undefined {
+  if (r.level === 'low') return undefined
+  if (r.topScript) return SCRIPT_CATEGORY[r.topScript]
+  const c = categoryFromSignals(r.signals)
+  return c === 'other' ? undefined : c
+}
+
 export default function CallPage() {
   const { t, lang } = useLang()
   const [demoMode] = useDemoMode()
   const [lex, setLex] = useState<Lexicon | null>(null)
   const [demos, setDemos] = useState<DemoCall[]>([])
   const [scorer, setScorer] = useState<Scorer | null>(null)
+  const [brands, setBrands] = useState<BrandsFile | null>(null)
   const [mode, setMode] = useState<Mode>(() => (isDemoMode() ? 'examples' : 'audio'))
   const [pasted, setPasted] = useState('')
   const [out, setOut] = useState<Analysed | null>(null)
@@ -48,18 +58,19 @@ export default function CallPage() {
     fetch('/model/call_lexicon.json').then((r) => r.json()).then((j) => live && setLex(j)).catch(() => live && setError('detector.error'))
     fetch('/content/demo_calls.json').then((r) => r.json()).then((j: { calls: DemoCall[] }) => live && setDemos(j.calls)).catch(() => {})
     void loadScorer().then((s) => live && setScorer(s)).catch(() => live && setScorer(null))
+    fetch('/model/brands.json').then((r) => r.json()).then((j) => live && setBrands(j as BrandsFile)).catch(() => {})
     return () => { live = false; recRef.current?.cancel(); abort.current?.abort() }
   }, [])
 
   const run = (segments: Segment[], duration: number | null, label?: Tri) => {
     if (!lex) return
-    const result = analyzeCall(segments, lex, scorer)
+    const result = analyzeCall(segments, lex, scorer, brands)
     setOut({ result, segments, duration, label })
     setFb(false); setError(null); setStatus(null); setCopied(false)
-    const category = result.topScript ? (SCRIPT_CATEGORY[result.topScript] as CategoryCode) : undefined
+    const category = categoryOf(result)
     saveLastResult({
-      kind: 'call', band: result.level === 'high' ? 'likely_scam' : result.level === 'medium' ? 'suspicious' : 'looks_genuine', script: 'call',
-      signals: [], category, phrases: [...new Set(result.hits.map((h) => result.text.slice(h.charStart, h.charEnd)))].filter((w) => !/\d{6,}/.test(w)).slice(0, 8),
+      kind: 'call', band: result.band, script: 'call',
+      signals: result.signals, category, phrases: [...new Set(result.hits.map((h) => result.text.slice(h.charStart, h.charEnd)))].filter((w) => !/\d{6,}/.test(w)).slice(0, 8),
       durationSec: duration ?? undefined, at: Date.now(),
     })
   }
@@ -144,8 +155,7 @@ export default function CallPage() {
   }, [demoMode, mode])
 
   const tabs: Mode[] = demoMode ? ['examples', 'paste', 'audio'] : ['audio', 'paste']
-  const topEv = res && res.topScript ? res.evidence.find((e) => e.script === res.topScript) : null
-  const heardStages = res && topEv && res.level !== 'low' ? STAGES.filter((s) => topEv.stages[s].heard) : []
+  const heardStages = res ? STAGES.filter((s) => res.stagesHeard.includes(s)) : []
 
   // ---------------------------------------------------------------- RESULT VIEW
   if (res && style && out) {
@@ -178,6 +188,9 @@ export default function CallPage() {
               <NumberedList tone="bad" items={heardStages.map((s) => t(`call.stage.${s}`))} />
             </div>
           )}
+
+          {/* 3b. Raised by the AI model alone: say so, rather than showing stages nobody heard */}
+          {res.level !== 'low' && !res.topScript && <p className="rounded-lg bg-soft p-2.5 text-[16px] text-info">ℹ️ {t('call.modelonly')}</p>}
 
           {/* 4. Flagged Words */}
           {phraseChips.length > 0 && res.level !== 'low' && (
@@ -228,7 +241,7 @@ export default function CallPage() {
 
           {/* 7. Bottom sharing & feedback */}
           <div className="pt-2">
-            <ShareReport kind="call" signals={[]} band={res.level === 'high' ? 'likely_scam' : res.level === 'medium' ? 'suspicious' : 'looks_genuine'} category={res.topScript ? (SCRIPT_CATEGORY[res.topScript] as CategoryCode) : undefined} />
+            <ShareReport kind="call" signals={res.signals} band={res.band} category={categoryOf(res)} />
           </div>
 
           <div className="border-t border-line pt-3">

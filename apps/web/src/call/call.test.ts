@@ -35,18 +35,30 @@ describe('demo and test transcripts (acceptance: every scam flagged with the rig
 
 describe('stage rules', () => {
   it('a single word such as bank or police never triggers a warning alone', () => {
-    for (const t of ['bank', 'police', 'bank se bol raha hoon', 'पुलिस', 'I went to the bank and the police station']) {
-      expect(analyzeCall(one(t), lex, scorer).level).not.toBe('high')
+    for (const t of ['bank', 'police', 'पुलिस', 'bank police']) {
+      expect(analyzeCall(one(t), lex, scorer).level).toBe('low')
     }
   })
-  it('shared stages alone (urgency + isolation) are not enough: a script-specific stage is required', () => {
-    expect(analyzeCall(one('turant abhi aaj hi kisi ko mat batana call mat katna'), lex, scorer).level).not.toBe('high')
+  it('a fragment with one stage is never named as a known call script', () => {
+    for (const t of ['bank se bol raha hoon', 'I went to the bank and the police station', 'there is an arrest warrant']) {
+      expect(analyzeCall(one(t), lex, scorer).topScript).toBeNull()
+    }
   })
-  it('two stages give high; medium needs one strong stage plus a learned score above the suspicious cut', () => {
-    expect(analyzeCall(one('Your KYC is pending and you must share the OTP right now'), lex, scorer).level).toBe('high')
+  it('shared stages alone (urgency + isolation) are not enough to name a script: a script-specific stage is required', () => {
+    const r = analyzeCall(one('turant abhi aaj hi kisi ko mat batana call mat katna'), lex, scorer)
+    expect(r.topScript).toBeNull()
+    expect(r.basis).not.toBe('script')
+  })
+  it('two stages of one script, one of them specific, name the script', () => {
+    const r = analyzeCall(one('Your KYC is pending and you must share the OTP right now'), lex, scorer)
+    expect(r.level).toBe('high')
+    expect(r.basis).toBe('script')
+    expect(r.topScript).toBe('fake_kyc')
+  })
+  it('stages are reported only when really heard, and a verdict raised by the model alone says so', () => {
     const r = analyzeCall(one('there is an arrest warrant'), lex, scorer)
-    expect(['medium', 'low']).toContain(r.level)
-    expect(r.level).not.toBe('high')
+    expect(r.stagesHeard).toEqual(['accusation'])
+    expect(r.basis).toBe('model')
   })
   it('a transcript with a warning NOT to share the OTP is not flagged', () => {
     expect(analyzeCall(one('never share your OTP or PIN with anyone, ओटीपी किसी को न बताएं'), lex, scorer).level).not.toBe('high')

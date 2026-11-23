@@ -2,6 +2,11 @@
 export const CATEGORY_CODES = ['kyc_bank', 'otp', 'digital_arrest', 'courier_customs', 'lottery_prize', 'loan_app', 'investment_job', 'phishing_link', 'payment_request', 'fake_qr', 'other'] as const
 export type CategoryCode = (typeof CATEGORY_CODES)[number]
 
+/** The category a known call script belongs to (used when a script matched, whether the text was pasted, typed or spoken). */
+export const SCRIPT_CATEGORY: Record<string, CategoryCode> = {
+  fake_kyc: 'kyc_bank', digital_arrest: 'digital_arrest', courier_customs: 'courier_customs', electricity_disconnect: 'phishing_link', lottery_prize: 'lottery_prize', unauthorized_order: 'phishing_link',
+}
+
 /** categoryFromSignals: map detector signals to one category for the (optional) anonymous report. */
 export function categoryFromSignals(signals: string[]): CategoryCode {
   const has = (s: string) => signals.includes(s)
