@@ -2,9 +2,10 @@ import { useEffect } from 'react'
 import { hasConsent } from '../shell/consent'
 import { clearQueue, enqueueReport, flushReportQueue, queueLength } from '../shell/queue'
 import { apiBase, apiHealthy } from './api'
-import { rotateClientToken } from './token'
-import { validateReportSchema, type ReportPayload } from './report'
+import { clearLocalAnonymousReports, recordLocalAnonymousReport } from './localDemo'
 import { REGIONS } from './regionsData'
+import { validateReportSchema, type ReportPayload } from './report'
+import { rotateClientToken } from './token'
 
 const codes = REGIONS.map((r) => r.code)
 
@@ -12,6 +13,7 @@ const codes = REGIONS.map((r) => r.code)
 export async function queueReport(p: ReportPayload): Promise<'queued' | 'no_consent' | 'invalid'> {
   if (!hasConsent()) return 'no_consent'
   if (!validateReportSchema(p, codes)) return 'invalid'
+  recordLocalAnonymousReport(p) // the same four fields, kept on this device so the charts can show them while no server is reachable
   await enqueueReport({ ...p })
   void syncQueue()
   return 'queued'
@@ -25,12 +27,14 @@ export async function syncQueue(): Promise<{ sent: number; failed: number }> {
   try {
     if (!hasConsent()) {
       if ((await queueLength().catch(() => 0)) > 0) await clearQueue()
+      clearLocalAnonymousReports()
       return { sent: 0, failed: 0 }
     }
     if (!apiBase() || !(await apiHealthy())) return { sent: 0, failed: 0 }
     const token = rotateClientToken()
     const base = apiBase()
-    const withToken: typeof fetch = (url, init) => fetch(url, { ...init, headers: { ...(init?.headers as Record<string, string>), 'X-Client-Token': token } })
+    const withToken: typeof fetch = (url, init) =>
+      fetch(url, { ...init, headers: { ...(init?.headers as Record<string, string>), 'X-Client-Token': token } })
     return await flushReportQueue(base, withToken)
   } finally {
     syncing = false
