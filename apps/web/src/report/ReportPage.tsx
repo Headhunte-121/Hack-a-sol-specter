@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
+import { CHANNELS as ANSWER_CHANNELS, type Channel } from '../dashboard/report'
 import { ShareReport } from '../dashboard/ShareReport'
 import { recentLastResult } from '../detector/lastResult'
+import { CATEGORY_CODES, LESSON_FOR_CATEGORY, type CategoryCode } from '../shared/categories'
 import { useBackStep, useInnerScreenOnReturn } from '../shell/backStep'
 import { setBusy } from '../shell/busy'
 import { formatDate, useLang } from '../shell/i18n'
@@ -9,7 +11,8 @@ import { kvGet, kvSet } from '../shell/storage'
 import { Banner, Icon, NumberedList, type Tone } from '../shell/ui'
 import { CHANNELS, LAST_VERIFIED } from './channels'
 import { buildEvidenceChecklist, chooseChannel, type Answers, type ChecklistId, type ChannelId, type Outcome, type StepId } from './routing'
-import { buildReportSummary } from './summary'
+import { adviceKey, asCategory, asChannel, problemFromCheck, reportBand } from './problem'
+import { buildReportSummary, type ReportFacts } from './summary'
 
 const isTouch = () => typeof window !== 'undefined' && window.matchMedia?.('(pointer: coarse)').matches
 const CARD_TONE: Record<ChannelId, Tone> = { helpline_1930: 'bad', bank_then_1930: 'warn', chakshu: 'info', cybercrime_portal: 'info', tips: 'ok' }
@@ -21,6 +24,11 @@ export default function ReportPage() {
   const [copied, setCopied] = useState(false)
   const [offlineNote, setOfflineNote] = useState(false)
   const last = useMemo(() => recentLastResult(), [])
+  // What happened, in the person's own answer. A recent flagged check only pre-fills it; it stays visible and can be changed.
+  const initial = useMemo(() => problemFromCheck(last), [last])
+  const [category, setCategory] = useState<CategoryCode | null>(initial.category)
+  const [channelPick, setChannelPick] = useState<Channel | null>(initial.channel)
+  const [edited, setEdited] = useState(false)
 
   useEffect(() => {
     setBusy('report', outcome !== null) // an app update must never refresh the page mid-report
@@ -40,7 +48,14 @@ export default function ReportPage() {
     kvSet(`checklist.${route!.channel}`, next) // saveChecklistProgress: on the device only
   }
 
-  const summary = useMemo(() => (route && route.channel !== 'tips' ? buildReportSummary(last, t, new Date(), lang) : ''), [route?.channel, last, lang])
+  const asksProblem = !!route && (route.channel === 'helpline_1930' || route.channel === 'bank_then_1930' || route.channel === 'chakshu')
+  const facts: ReportFacts = {
+    category: asksProblem ? category : null,
+    channel: asksProblem ? channelPick : null,
+    moneyLost: outcome === 'money_lost' ? true : outcome === 'no_money' ? false : undefined,
+    shared: outcome === 'no_money' ? shared : undefined,
+  }
+  const summary = useMemo(() => (route && route.channel !== 'tips' ? buildReportSummary(last, t, new Date(), lang, facts) : ''), [route?.channel, last, lang, category, channelPick, outcome, shared])
   const copy = async () => {
     try { await navigator.clipboard.writeText(summary); setCopied(true); setTimeout(() => setCopied(false), 2000) } catch { /* clipboard blocked: the text stays selectable */ }
   }
@@ -50,16 +65,19 @@ export default function ReportPage() {
     setOfflineNote(false)
     window.open(url, '_blank', 'noopener,noreferrer')
   }
-  const reset = () => { setOutcome(null); setShared(null); setCopied(false); setOfflineNote(false) }
+  const reset = () => { setOutcome(null); setShared(null); setCopied(false); setOfflineNote(false); setCategory(initial.category); setChannelPick(initial.channel); setEdited(false) }
   // Phone Back returns to the first question; coming back from a lesson or another screen shows the same advice again.
   useInnerScreenOnReturn((d) => {
     const o = d?.outcome
     if (o !== 'money_lost' && o !== 'no_money' && o !== 'other_cyber' && o !== 'checking') return false
     setOutcome(o)
     setShared(typeof d?.shared === 'boolean' ? d.shared : null)
+    const c = asCategory(d?.category)
+    const ch = asChannel(d?.channel)
+    if (c || ch) { setCategory(c); setChannelPick(ch); setEdited(true) }
     return true
   })
-  const back = useBackStep(outcome !== null, reset, { outcome, shared })
+  const back = useBackStep(outcome !== null, reset, { outcome, shared, category, channel: channelPick })
 
   const stepText: Record<StepId, string> = {
     call_1930: t('step.call_1930'), open_cybercrime: t('step.open_cybercrime'), open_chakshu: t('step.open_chakshu'), call_bank: t('step.call_bank'),
@@ -114,6 +132,33 @@ export default function ReportPage() {
           {route.primary === 'open_learn' && <a className="btn btn-primary" href="#/learn">{t('report.act.learn')}</a>}
           {offlineNote && <Banner tone="info" role="status" className="!text-[16px]">{t('report.offline')}</Banner>}
 
+          {asksProblem && (
+            <div className="card space-y-3" data-testid="problem">
+              <h3 className="text-[20px] font-bold">{t('report.happened.title')}</h3>
+              {!category ? <p className="text-[16px] text-muted">{t('report.happened.pick')}</p> : !edited && initial.category === category ? <p className="text-[16px] text-muted">{t('report.happened.prefilled')}</p> : null}
+              <div role="radiogroup" aria-label={t('report.happened.title')} className="grid grid-cols-2 gap-2">
+                {CATEGORY_CODES.map((c) => (
+                  <button key={c} type="button" role="radio" aria-checked={category === c} data-category={c} className={`btn !min-h-14 !px-2 !text-[16px] !leading-tight ${category === c ? 'btn-primary' : 'btn-secondary'}`} onClick={() => { setCategory(c); setEdited(true) }}>{t(`cat.${c}`)}</button>
+                ))}
+              </div>
+              <h3 className="text-[18px] font-bold">{t('report.channel.title')}</h3>
+              <div role="radiogroup" aria-label={t('report.channel.title')} className="grid grid-cols-2 gap-2">
+                {ANSWER_CHANNELS.map((c) => (
+                  <button key={c} type="button" role="radio" aria-checked={channelPick === c} data-channel-pick={c} className={`btn !min-h-14 !text-[17px] ${channelPick === c ? 'btn-primary' : 'btn-secondary'}`} onClick={() => { setChannelPick(c); setEdited(true) }}>{t(`trends.channel.${c}`)}</button>
+                ))}
+              </div>
+              {category && (
+                <div data-testid="advice" className="space-y-1.5">
+                  <Banner tone="info" className="!text-[17px]">
+                    <div className="font-bold">{t('report.advice.title')}</div>
+                    <div>{t(adviceKey(category))}</div>
+                    <a className="mt-2 inline-block font-bold underline" href={`#/learn?lesson=${LESSON_FOR_CATEGORY[category]}`}>{t('report.advice.lesson')}</a>
+                  </Banner>
+                </div>
+              )}
+            </div>
+          )}
+
           <div className="mt-1 text-[20px] font-bold">{t('report.steps')}</div>
           <NumberedList items={route.steps.map((s) => stepText[s])} />
 
@@ -142,7 +187,9 @@ export default function ReportPage() {
             </div>
           )}
 
-          {last && route.channel !== 'tips' && <ShareReport kind={last.kind} signals={last.signals} category={last.category as never} band={last.band === 'looks_genuine' ? 'suspicious' : last.band} />}
+          {asksProblem && (category && channelPick
+            ? <ShareReport channel={channelPick} category={category} band={reportBand(last, category)} />
+            : <p className="text-[16px] leading-snug text-muted" data-testid="send-hint">{t('report.send_hint')}</p>)}
 
           <p className="mt-2 text-[16px] leading-snug text-muted">{t('report.disclaimer')} {t('report.verified', { date: formatDate(new Date(LAST_VERIFIED), lang) })}</p>
         </div>
