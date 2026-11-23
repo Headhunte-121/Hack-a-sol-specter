@@ -1,5 +1,6 @@
+import { ChevronDown, Globe } from 'lucide-react'
+import { useId } from 'react'
 import { LANGS, useLang, type Lang } from '../../shell/i18n'
-import { Icon } from '../../shell/ui'
 
 /** Full three-way language choice (used in Settings). */
 export function LanguageSwitch() {
@@ -12,7 +13,7 @@ export function LanguageSwitch() {
           type="button"
           onClick={() => setLang(l.code)}
           aria-pressed={lang === l.code}
-          className={`btn min-h-14! text-[18px]! ${lang === l.code ? 'btn-primary' : 'btn-secondary'}`}
+          className={`btn min-h-10.5! px-2! text-[14px]! ${lang === l.code ? 'btn-primary' : 'btn-secondary'}`}
         >
           {l.label}
         </button>
@@ -21,38 +22,50 @@ export function LanguageSwitch() {
   )
 }
 
-/** Language dropdown for the Mobile and Web headers (also exported from Layout.tsx). A native list, so phones open their own
- *  large picker and screen readers announce it as "Language". All three languages show in their own script. */
+/** Proportional native-select language pill for Mobile & Web headers. */
 export function LangPill({ inverted = false }: { inverted?: boolean }) {
   const { lang, setLang, t } = useLang()
+  const id = useId()
 
   return (
-    <label
-      className={`relative inline-flex min-h-9 shrink-0 items-center rounded-full transition-colors ${
-        inverted
-          ? 'bg-white/15 text-white hover:bg-white/25'
-          : 'border border-slate-200 bg-slate-100 text-slate-700 hover:bg-slate-200'
-      }`}
-    >
-      <span className="sr-only">{t('common.language')}</span>
-      <span className="pointer-events-none absolute left-2.5">
-        <Icon name="globe" size={15} />
-      </span>
+    <div className="relative inline-flex items-center">
+      <label htmlFor={id} className="sr-only">
+        {t('common.language')}
+      </label>
+
+      <Globe
+        aria-hidden="true"
+        className={`pointer-events-none absolute left-2.5 size-3.5 shrink-0 ${
+          inverted ? 'text-white/90' : 'text-slate-500'
+        }`}
+        strokeWidth={2}
+      />
+
       <select
+        id={id}
+        data-testid="lang-select"
         value={lang}
         onChange={(e) => setLang(e.target.value as Lang)}
-        data-testid="lang-select"
-        className="min-h-9 cursor-pointer appearance-none rounded-full bg-transparent pr-7 pl-8 text-[13px]! font-bold!"
+        className={`cursor-pointer appearance-none rounded-full pr-7 pl-7.5 font-semibold transition-all focus-visible:outline-none ${
+          inverted
+            ? 'h-8 bg-white/15 text-[12px] text-white ring-1 ring-white/25 backdrop-blur-xs hover:bg-white/25'
+            : 'h-8.5 border border-slate-200/90 bg-white text-[12.5px] text-slate-700 shadow-2xs hover:border-slate-300 hover:bg-slate-50'
+        }`}
       >
         {LANGS.map((l) => (
-          <option key={l.code} value={l.code} lang={l.code === 'cg' ? 'hne' : l.code} className="bg-white text-ink">
+          <option key={l.code} value={l.code} className="bg-white text-slate-900">
             {l.label}
           </option>
         ))}
       </select>
-      <span className="pointer-events-none absolute right-2.5">
-        <Icon name="down" size={14} stroke={2.5} />
-      </span>
-    </label>
+
+      <ChevronDown
+        aria-hidden="true"
+        className={`pointer-events-none absolute right-2.5 size-3.5 shrink-0 ${
+          inverted ? 'text-white/80' : 'text-slate-500'
+        }`}
+        strokeWidth={2.2}
+      />
+    </div>
   )
 }
