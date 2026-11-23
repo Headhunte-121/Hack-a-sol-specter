@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
-  Captions,
   CheckCircle2,
   Download,
   FastForward,
@@ -19,7 +18,7 @@ import {
 import { useLang, type Lang } from '../shell/i18n'
 import { formatClock, type Rate } from './audio'
 import { pick, type Lesson } from './content'
-import { buildSectionFrames, SceneArtwork, splitSentences } from './LessonVisuals'
+import { AudioSceneIllustration, buildAudioStoryboard, getBeatAtTime } from './LessonVisuals'
 import { playableUrl, videoNarrationUrl } from './offline'
 import { narrateScene, playSceneSound } from './videoAudio'
 import { generateAndDownloadLessonVideo } from './videoGenerator'
@@ -27,19 +26,6 @@ import { buildLessonScenes, totalVideoDuration, type VideoScene } from './videoT
 
 interface LessonVideoProps {
   lesson: Lesson
-}
-
-interface SceneTiming {
-  scene: VideoScene
-  index: number
-  start: number
-  end: number
-}
-
-interface SubtitleCue {
-  start: number
-  end: number
-  text: string
 }
 
 const VIDEO_RATES = [0.75, 1, 1.25, 1.5, 2] as const
@@ -51,124 +37,11 @@ const SPEED_LABEL: Record<Lang, string> = {
   cg: 'रफ्तार',
 }
 
-const CAPTIONS_LABEL: Record<Lang, string> = {
-  en: 'Subtitles',
-  hi: 'उपशीर्षक',
-  cg: 'लिखावट',
-}
-
 const SCENE_LIGHT_BG: Record<VideoScene['kind'], string> = {
   intro: 'linear-gradient(135deg, #EAF1FF 0%, #FFFFFF 52%, #DCEBFF 100%)',
   scenario: 'linear-gradient(135deg, #FFF1F2 0%, #FFFFFF 54%, #FFE4E6 100%)',
   signs: 'linear-gradient(135deg, #FFFBEB 0%, #FFFFFF 54%, #FEF3C7 100%)',
   todo: 'linear-gradient(135deg, #ECFDF5 0%, #FFFFFF 54%, #D1FAE5 100%)',
-}
-
-/** Estimate spoken duration weight from actual letters, word cadence, and natural punctuation pauses. */
-function speechWeight(text: string): number {
-  const clean = text.trim()
-  if (!clean) return 1
-  const words = clean.split(/\s+/).filter(Boolean).length
-  const commas = (clean.match(/[,;:]/g) ?? []).length
-  const stops = (clean.match(/[.!?।]/g) ?? []).length
-  return Math.max(4, clean.length * 0.72 + words * 1.8 + commas * 3.5 + stops * 7)
-}
-
-/** Break spoken narration into crisp ~2-second subtitle cues (about 6–8 words per cue). */
-function chunkIntoTwoSecCues(text: string, lang: Lang): string[] {
-  const maxChars = lang === 'en' ? 40 : 46
-  const sentences = splitSentences(text)
-  const out: string[] = []
-
-  for (const sentence of sentences) {
-    // Prefer splitting at natural clause boundaries first
-    const clauses = sentence
-      .split(/(?<=[,;:])\s+/)
-      .map((c) => c.trim())
-      .filter(Boolean)
-
-    for (const clause of clauses) {
-      if (clause.length <= maxChars) {
-        out.push(clause)
-        continue
-      }
-      const words = clause.split(/\s+/).filter(Boolean)
-      let line = ''
-      for (const w of words) {
-        if (line && line.length + 1 + w.length > maxChars) {
-          out.push(line)
-          line = w
-        } else {
-          line = line ? `${line} ${w}` : w
-        }
-      }
-      if (line) out.push(line)
-    }
-  }
-
-  return out
-}
-
-/** Allocate scene windows strictly proportional to spoken narration weight (with tiny 0.35s breath between sections). */
-function buildSceneTimings(scenes: VideoScene[], lang: Lang, totalDur: number): SceneTiming[] {
-  const breathSec = scenes.length > 1 ? Math.min(0.35, totalDur * 0.01) : 0
-  const spokenTotalSec = Math.max(1, totalDur - breathSec * Math.max(0, scenes.length - 1))
-  const weights = scenes.map((sc) => {
-    const spoken = pick(sc.narration, lang).trim() || pick(sc.caption, lang).trim()
-    return speechWeight(spoken)
-  })
-  const sum = weights.reduce((a, b) => a + b, 0) || 1
-  let cursor = 0
-
-  return scenes.map((scene, index) => {
-    const span = (weights[index] / sum) * spokenTotalSec
-    const start = cursor
-    const end = index === scenes.length - 1 ? totalDur : cursor + span + breathSec
-    cursor = end
-    return { scene, index, start, end }
-  })
-}
-
-/** Build continuous ~2-second timestamped cues aligned with the narration timeline. */
-function buildSubtitleTimeline(timings: SceneTiming[], lang: Lang): SubtitleCue[] {
-  const cues: SubtitleCue[] = []
-
-  for (const st of timings) {
-    const spoken = pick(st.scene.narration, lang).trim() || pick(st.scene.caption, lang).trim()
-    const chunks = chunkIntoTwoSecCues(spoken, lang)
-    if (chunks.length === 0) continue
-
-    const weights = chunks.map(speechWeight)
-    const totalW = weights.reduce((a, b) => a + b, 0) || 1
-    const sceneSpan = Math.max(0.4, st.end - st.start)
-    let cursor = st.start
-
-    chunks.forEach((chunk, i) => {
-      const span = (weights[i] / totalW) * sceneSpan
-      const start = cursor
-      const end = i === chunks.length - 1 ? st.end : cursor + span
-      cursor = end
-      cues.push({ start, end, text: chunk })
-    })
-  }
-
-  return cues
-}
-
-/** Find active scene and normalized 0..1 progress within that scene from weighted timings. */
-function getTimedSceneAt(
-  timings: SceneTiming[],
-  time: number
-): { scene: VideoScene; index: number; progress: number } {
-  for (let i = 0; i < timings.length; i++) {
-    const st = timings[i]
-    if (time < st.end || i === timings.length - 1) {
-      const span = Math.max(0.01, st.end - st.start)
-      const progress = Math.min(1, Math.max(0, (time - st.start) / span))
-      return { scene: st.scene, index: st.index, progress }
-    }
-  }
-  return { scene: timings[0].scene, index: 0, progress: 0 }
 }
 
 export function LessonVideo({ lesson }: LessonVideoProps) {
@@ -189,14 +62,12 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
   const [volume, setVolume] = useState(1)
   const [rate, setRate] = useState<VideoRate>(1)
   const [speedMenuOpen, setSpeedMenuOpen] = useState(false)
-  const [showCaptions, setShowCaptions] = useState(true)
   const [skipBadge, setSkipBadge] = useState<'-10' | '+10' | null>(null)
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [isGenerating, setIsGenerating] = useState(false)
   const [generateProgress, setGenerateProgress] = useState(0)
   const [downloadSuccess, setDownloadSuccess] = useState(false)
   const [audioError, setAudioError] = useState(false)
-  const [timedCues, setTimedCues] = useState<SubtitleCue[] | null>(null)
 
   // The narration file: the downloaded copy when there is one (it plays with no internet), otherwise the normal address.
   const narrationUrl = videoNarrationUrl(lesson.id, audioLang)
@@ -206,7 +77,6 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
     const made: { url: string | null } = { url: null }
     setNarrationSrc(narrationUrl)
     setAudioError(false)
-    setTimedCues(null)
 
     playableUrl(
       narrationUrl,
@@ -215,21 +85,6 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
     ).then((r) => {
       if (alive) setNarrationSrc(r.src)
     })
-
-    // If an exact timed caption track exists beside the .m4a narration, prefer its timestamps
-    const captionJsonUrl = narrationUrl.replace(/\.m4a$/, '.json')
-    if (typeof fetch === 'function') {
-      fetch(captionJsonUrl)
-        .then((r) => (r.ok ? r.json() : null))
-        .then((data: { segments?: { start?: number; end?: number; text?: string }[] } | null) => {
-          if (!alive || !data?.segments?.length) return
-          const parsed = data.segments
-            .filter((s) => typeof s.start === 'number' && typeof s.end === 'number' && s.text?.trim())
-            .map((s) => ({ start: s.start as number, end: s.end as number, text: (s.text as string).trim() }))
-          if (parsed.length > 0) setTimedCues(parsed)
-        })
-        .catch(() => {})
-    }
 
     return () => {
       alive = false
@@ -242,44 +97,36 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
   const stopNarrationRef = useRef<(() => void) | null>(null)
   const lastActiveSceneIdx = useRef(-1)
   const skipBadgeTimer = useRef<number | undefined>(undefined)
+  const langSwitchTimer = useRef<number | undefined>(undefined)
+  const isPlayingRef = useRef(isPlaying)
+  isPlayingRef.current = isPlaying
 
-  const sceneTimings = useMemo(
-    () => buildSceneTimings(scenes, audioLang, duration),
-    [scenes, audioLang, duration]
+  // Build audio-driven visual storyboard: every spoken line gets its own timed illustration
+  const storyboard = useMemo(
+    () => buildAudioStoryboard(lesson, scenes, audioLang, duration),
+    [lesson, scenes, audioLang, duration]
   )
 
-  const fallbackCues = useMemo(
-    () => buildSubtitleTimeline(sceneTimings, audioLang),
-    [sceneTimings, audioLang]
+  const activeBeat = useMemo(
+    () => getBeatAtTime(storyboard, currentTime),
+    [storyboard, currentTime]
   )
 
-  const subtitleCues = timedCues ?? fallbackCues
+  const currentScene = activeBeat.scene
+  const sceneIdx = activeBeat.sceneIndex
 
-  const { scene: currentScene, index: sceneIdx, progress: sceneProgress } = useMemo(
-    () => getTimedSceneAt(sceneTimings, currentTime),
-    [sceneTimings, currentTime]
-  )
-
-  // 4 distinct visual + explanation frames inside the active section
-  const sectionFrames = useMemo(
-    () => buildSectionFrames(lesson, currentScene, audioLang),
-    [lesson, currentScene, audioLang]
-  )
-  const frameIdx = Math.min(
-    sectionFrames.length - 1,
-    Math.floor(sceneProgress * sectionFrames.length)
-  )
-  const activeFrame = sectionFrames[frameIdx] ?? sectionFrames[0]
-
-  // Active ~2-second subtitle cue synced directly to live audio currentTime
-  const activeSubtitle = useMemo(() => {
-    if (subtitleCues.length === 0) return ''
-    for (let i = 0; i < subtitleCues.length; i++) {
-      const c = subtitleCues[i]
-      if (currentTime < c.end || i === subtitleCues.length - 1) return c.text
+  // Unique section boundary timestamps for subtle scrubber dividers
+  const sectionStarts = useMemo(() => {
+    const seen = new Set<number>()
+    const starts: number[] = []
+    for (const b of storyboard) {
+      if (b.sceneIndex > 0 && !seen.has(b.sceneIndex)) {
+        seen.add(b.sceneIndex)
+        starts.push(b.start)
+      }
     }
-    return subtitleCues[subtitleCues.length - 1].text
-  }, [subtitleCues, currentTime])
+    return starts
+  }, [storyboard])
 
   const cancelFallbackNarration = useCallback(() => {
     if (stopNarrationRef.current) {
@@ -298,10 +145,6 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
       audioRef.current.volume = isMuted ? 0 : volume
     }
   }, [rate, volume, isMuted])
-
-  const isPlayingRef = useRef(isPlaying)
-  const langSwitchTimer = useRef<number | undefined>(undefined)
-  isPlayingRef.current = isPlaying
 
   // Sync Play / Pause state with audio element (and cancel fallback speech when stopped)
   useEffect(() => {
@@ -323,7 +166,7 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
     }
   }, [isPlaying, cancelFallbackNarration])
 
-  // Smooth 60fps audio clock sync so ~2s subtitle cues switch with zero lag
+  // Smooth 60fps audio clock sync so visuals switch immediately with the voice
   useEffect(() => {
     if (!isPlaying || audioError) return
     let rafId = 0
@@ -442,11 +285,6 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
     [currentTime, handleSeek]
   )
 
-  const jumpToScene = (idx: number) => {
-    const target = sceneTimings[idx]?.start ?? 0
-    handleSeek(idx === 0 ? 0 : target + 0.05)
-  }
-
   const handleAudioLangChange = (newLang: Lang) => {
     setAudioLang(newLang)
     setAudioError(false)
@@ -489,9 +327,6 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
     } else if (e.key.toLowerCase() === 'm') {
       e.preventDefault()
       setIsMuted((prev) => !prev)
-    } else if (e.key.toLowerCase() === 'c') {
-      e.preventDefault()
-      setShowCaptions((prev) => !prev)
     } else if (e.key.toLowerCase() === 'f') {
       e.preventDefault()
       toggleFullscreen()
@@ -504,6 +339,7 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
     setGenerateProgress(0)
     setDownloadSuccess(false)
     cancelFallbackNarration()
+    isPlayingRef.current = false
     setIsPlaying(false)
     if (audioRef.current) {
       audioRef.current.pause()
@@ -589,7 +425,7 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
         </p>
       )}
 
-      {/* Unified YouTube-Style Light Civic Player Shell (Stage + Unclipped Dock) */}
+      {/* Unified YouTube-Style Light Civic Player Shell */}
       <div
         ref={videoContainerRef}
         tabIndex={0}
@@ -598,12 +434,12 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
           isFullscreen ? 'fixed inset-0 z-50 h-screen w-screen rounded-none border-none' : ''
         }`}
       >
-        {/* 1. Visual Stage (Reserved pb-13 keeps cards stationary when CC toggles ON/OFF) */}
+        {/* 1. Audio-Synced Illustrated Stage */}
         <div
           onClick={togglePlay}
           onDoubleClick={toggleFullscreen}
           className={`group relative flex w-full cursor-pointer flex-col justify-between overflow-hidden bg-[#F4F8FF] ${
-            isFullscreen ? 'flex-1' : 'min-h-[265px] sm:aspect-video sm:min-h-[330px]'
+            isFullscreen ? 'flex-1' : 'min-h-[250px] sm:aspect-video sm:min-h-[310px]'
           }`}
         >
           {/* Light Civic Scene Gradient Background */}
@@ -621,7 +457,7 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
             }}
           />
 
-          {/* Top Bar: Brand + Section Pill + Visual Frame Counter */}
+          {/* Top Bar: Brand + Live Scene Badge */}
           <div className="relative z-10 flex items-center justify-between gap-2 px-3 pt-2.5 text-[10.5px] font-extrabold tracking-wider sm:px-4 sm:pt-3 sm:text-[11px]">
             <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-white/94 px-2.5 py-1 text-[#163264] shadow-xs ring-1 ring-blue-900/10">
               <ShieldCheck className="size-3.5 text-[#1747c4]" strokeWidth={2.4} />
@@ -630,30 +466,30 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
 
             <div className="flex min-w-0 items-center gap-1.5">
               <span className="shrink-0 rounded-full bg-white/90 px-2 py-0.5 font-mono text-[10px] font-extrabold text-[#163264] ring-1 ring-blue-900/10">
-                {frameIdx + 1}/{sectionFrames.length}
+                {activeBeat.beatInScene + 1}/{activeBeat.beatsInScene}
               </span>
               <span
                 className="truncate rounded-full px-2.5 py-1 text-[10px] font-extrabold tracking-wide text-white uppercase shadow-xs transition-colors duration-300 sm:text-[10.5px]"
                 style={{ backgroundColor: currentScene.accentColor }}
               >
-                {pick(currentScene.subheading, audioLang)}
+                {activeBeat.badge}
               </span>
             </div>
           </div>
 
-          {/* Center Stage: Visual Card + Respective Topic Explanation (Zero Stepper Dots) */}
-          <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-3 pt-2 pb-13 sm:px-5 sm:pb-14">
+          {/* Center Stage: Live Audio-Matched Illustration + Spoken Explanation Card */}
+          <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-3 py-4 sm:px-5 sm:py-6">
             {showStartIntro ? (
               <div className="grid w-full max-w-2xl grid-cols-1 items-center gap-3 sm:grid-cols-12">
-                <div className="mx-auto w-full max-w-[185px] sm:col-span-5 sm:max-w-none">
-                  <SceneArtwork frame={activeFrame} accentColor={currentScene.accentColor} />
+                <div className="mx-auto w-full max-w-[200px] sm:col-span-5 sm:max-w-none">
+                  <AudioSceneIllustration art={activeBeat.art} accentColor={currentScene.accentColor} />
                 </div>
                 <div className="flex flex-col items-center gap-2 text-center sm:col-span-7 sm:items-start sm:text-left">
                   <h3 className="text-[18px] font-extrabold leading-tight text-[#0F1B3D] sm:text-2xl">
                     {pick(currentScene.heading, audioLang)}
                   </h3>
                   <p className="text-xs font-semibold text-slate-600 sm:text-sm">
-                    {pick(currentScene.subheading, audioLang)}
+                    {activeBeat.badge}
                   </p>
                   <div className="mt-1 inline-flex items-center gap-2 rounded-full bg-[#163264] px-5 py-2 text-xs font-extrabold text-white shadow-lg shadow-blue-950/25 ring-4 ring-white/90 transition-transform group-hover:scale-105 sm:text-sm">
                     <Play className="size-4 translate-x-px fill-current" />
@@ -662,25 +498,25 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
                 </div>
               </div>
             ) : (
-              <div className="grid w-full max-w-2xl grid-cols-1 items-center gap-3 sm:grid-cols-12">
-                {/* Left: Rotating Topic Visual Card (4 distinct visuals per section) */}
-                <div className="mx-auto w-full max-w-[180px] transition-all duration-300 sm:col-span-5 sm:max-w-none">
-                  <SceneArtwork frame={activeFrame} accentColor={currentScene.accentColor} />
+              <div
+                key={activeBeat.id}
+                className="grid w-full max-w-2xl grid-cols-1 items-center gap-3 transition-all duration-300 sm:grid-cols-12"
+              >
+                {/* Left: Full-Bleed Illustrated Scene Matched to Current Audio Beat */}
+                <div className="mx-auto w-full max-w-[205px] sm:col-span-6 sm:max-w-none">
+                  <AudioSceneIllustration art={activeBeat.art} accentColor={currentScene.accentColor} />
                 </div>
 
-                {/* Right: Matched Topic Explanation Card */}
-                <div className="flex flex-col gap-1.5 rounded-2xl border border-slate-200/90 bg-white/95 p-3 text-left shadow-md shadow-blue-950/8 sm:col-span-7 sm:p-4">
+                {/* Right: Matching Visual Card Showing What Is Being Spoken Right Now */}
+                <div className="flex flex-col gap-2 rounded-2xl border border-slate-200/90 bg-white/96 p-3.5 text-left shadow-md shadow-blue-950/8 sm:col-span-6 sm:p-4">
                   <span
                     className="inline-flex w-fit items-center rounded-full px-2.5 py-0.5 text-[10px] font-extrabold tracking-wide text-white uppercase"
                     style={{ backgroundColor: currentScene.accentColor }}
                   >
-                    {activeFrame.tag}
+                    {activeBeat.headline}
                   </span>
-                  <h4 className="text-[14px] font-extrabold leading-snug text-[#0F1B3D] sm:text-[16px]">
-                    {activeFrame.heading}
-                  </h4>
-                  <p className="line-clamp-4 text-[12px] font-medium leading-relaxed text-slate-700 sm:text-[13.5px]">
-                    {activeFrame.explanation}
+                  <p className="text-[13.5px] font-bold leading-relaxed text-[#0F1B3D] sm:text-[15px]">
+                    {activeBeat.spokenLine}
                   </p>
                 </div>
               </div>
@@ -704,20 +540,6 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
               </div>
             )}
           </div>
-
-          {/* Pure Floating YouTube-Style Live Subtitles Overlay (Zero Layout Shift) */}
-          {showCaptions && !showStartIntro && activeSubtitle && (
-            <div
-              className="pointer-events-none absolute inset-x-0 bottom-2.5 z-20 px-3"
-              data-testid="video-subtitle"
-            >
-              <div className="mx-auto flex max-w-2xl justify-center text-center">
-                <p className="line-clamp-2 rounded-lg bg-[#0F1B3D]/92 px-3.5 py-1.5 text-[11.5px] font-semibold leading-snug text-white shadow-md backdrop-blur-xs sm:text-[13px]">
-                  {activeSubtitle}
-                </p>
-              </div>
-            </div>
-          )}
         </div>
 
         {/* 2. Unclipped YouTube-Style Playback Control Dock */}
@@ -725,7 +547,7 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
           onClick={(e) => e.stopPropagation()}
           className="relative z-20 border-t border-blue-100 bg-white px-2.5 pt-2 pb-2.5 sm:px-3.5"
         >
-          {/* Interactive Scrubber with Weighted Chapter Dividers */}
+          {/* Interactive Scrubber with Section Dividers */}
           <div className="group/scrub relative mb-2 flex h-4 items-center">
             <div className="relative h-1.5 w-full overflow-hidden rounded-full bg-slate-200 transition-all group-hover/scrub:h-2">
               <div
@@ -733,11 +555,11 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
                 style={{ width: `${progressPct}%` }}
               />
               {duration > 0 &&
-                sceneTimings.slice(1).map((st) => (
+                sectionStarts.map((startSec, i) => (
                   <span
-                    key={st.index}
+                    key={i}
                     className="pointer-events-none absolute inset-y-0 w-0.5 bg-white"
-                    style={{ left: `${(st.start / duration) * 100}%` }}
+                    style={{ left: `${(startSec / duration) * 100}%` }}
                   />
                 ))}
             </div>
@@ -827,24 +649,8 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
               </span>
             </div>
 
-            {/* Right: Captions Toggle, Speed Popover (up to 2×), Fullscreen */}
+            {/* Right: Speed Popover (up to 2×), Fullscreen */}
             <div className="relative flex shrink-0 items-center gap-1">
-              <button
-                type="button"
-                onClick={() => setShowCaptions((v) => !v)}
-                aria-pressed={showCaptions}
-                aria-label={CAPTIONS_LABEL[lang]}
-                title={CAPTIONS_LABEL[lang]}
-                className={`flex size-8 items-center justify-center rounded-lg transition-colors ${
-                  showCaptions
-                    ? 'bg-[#EFF4FF] text-[#1747c4] ring-1 ring-blue-200'
-                    : 'text-slate-500 hover:bg-slate-100'
-                }`}
-              >
-                <Captions className="size-4" strokeWidth={2.2} />
-              </button>
-
-              {/* Speed Selector Button + Popover Menu (0.75× to 2×) */}
               <div className="relative">
                 <button
                   type="button"
@@ -894,27 +700,6 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
                 {isFullscreen ? <Minimize className="size-4" strokeWidth={2.2} /> : <Maximize className="size-4" strokeWidth={2.2} />}
               </button>
             </div>
-          </div>
-
-          {/* 4-Step Chapter Quick-Jump Strip */}
-          <div className="mt-2 grid grid-cols-4 gap-1 border-t border-slate-100 pt-2">
-            {scenes.map((sc, idx) => {
-              const active = idx === sceneIdx
-              return (
-                <button
-                  key={sc.kind}
-                  type="button"
-                  onClick={() => jumpToScene(idx)}
-                  className={`truncate rounded-lg px-2 py-1 text-[10.5px] font-bold transition-all sm:text-[11px] ${
-                    active
-                      ? 'bg-[#EFF4FF] text-[#1747c4] ring-1 ring-[#1747c4]/25'
-                      : 'bg-slate-50/80 text-slate-500 hover:bg-slate-100 hover:text-[#0F1B3D]'
-                  }`}
-                >
-                  {idx + 1}. {pick(sc.subheading, audioLang)}
-                </button>
-              )
-            })}
           </div>
         </div>
       </div>
