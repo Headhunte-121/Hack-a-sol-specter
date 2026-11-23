@@ -33,7 +33,7 @@ MIN_DF = 3
 KEEP = 60000          # features kept after pruning (model-size control)
 SIG_SCALE = 1.0
 LANG_WEIGHT = 3.0
-VERSION = "2026-11-23.1"
+VERSION = "2026-11-23.2"
 rng = random.Random(7)
 
 
