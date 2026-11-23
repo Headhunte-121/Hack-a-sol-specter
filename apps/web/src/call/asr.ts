@@ -14,8 +14,8 @@ export const asrBase = (): string | null => {
   return env.replace(/\/$/, '')
 }
 export const LIMITS = { maxBytes: 5 * 1024 * 1024, maxSeconds: 180 }
-const OK_TYPES = ['audio/mpeg', 'audio/mp3', 'audio/wav', 'audio/x-wav', 'audio/wave', 'audio/webm', 'audio/ogg', 'audio/mp4', 'audio/aac', 'audio/x-m4a', 'audio/m4a', 'video/webm']
-const OK_EXT = /\.(mp3|wav|m4a|ogg|webm|aac|mp4)$/i
+const OK_TYPES = ['audio/mpeg', 'audio/mp3', 'audio/wav', 'audio/x-wav', 'audio/wave', 'audio/webm', 'audio/ogg', 'audio/mp4', 'audio/aac', 'audio/x-m4a', 'audio/m4a', 'video/webm', 'audio/amr', 'audio/amr-wb', 'audio/3gpp', 'audio/3gpp2']
+const OK_EXT = /\.(mp3|wav|m4a|ogg|webm|aac|mp4|amr|3gp)$/i
 
 export type ClipError = 'too_big' | 'too_long' | 'bad_type' | 'empty'
 export class AsrError extends Error {

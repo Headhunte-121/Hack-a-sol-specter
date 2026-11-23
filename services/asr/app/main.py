@@ -26,8 +26,8 @@ VERSION = "0.1.0"
 MAX_BYTES = 5 * 1024 * 1024      # design target from the spec
 MAX_SECONDS = 180                # 3 minutes
 TIMEOUT_SECONDS = 120
-OK_TYPES = {"audio/mpeg", "audio/mp3", "audio/wav", "audio/x-wav", "audio/wave", "audio/webm", "audio/ogg", "audio/mp4", "audio/aac", "audio/x-m4a", "audio/m4a", "video/webm", "application/octet-stream"}
-OK_EXT = re.compile(r"\.(mp3|wav|m4a|ogg|webm|aac|mp4)$", re.I)
+OK_TYPES = {"audio/mpeg", "audio/mp3", "audio/wav", "audio/x-wav", "audio/wave", "audio/webm", "audio/ogg", "audio/mp4", "audio/aac", "audio/x-m4a", "audio/m4a", "video/webm", "application/octet-stream", "audio/amr", "audio/amr-wb", "audio/3gpp", "audio/3gpp2"}
+OK_EXT = re.compile(r"\.(mp3|wav|m4a|ogg|webm|aac|mp4|amr|3gp)$", re.I)
 log = logging.getLogger("asr")
 
 

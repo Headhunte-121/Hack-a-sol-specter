@@ -323,7 +323,7 @@ export default function CallPage() {
                 📁 {t('call.audio.pick')}
                 <input
                   type="file"
-                  accept="audio/*,.mp3,.wav,.m4a,.ogg,.webm"
+                  accept="audio/*,.mp3,.wav,.m4a,.ogg,.webm,.amr,.3gp"
                   className="sr-only"
                   onChange={(e) => {
                     const f = e.target.files?.[0]

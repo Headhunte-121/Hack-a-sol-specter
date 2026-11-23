@@ -89,5 +89,11 @@ describe('asr service client and health probes', () => {
 
     const badTypeBlob = new Blob(['sample'], { type: 'text/plain' })
     expect(validateClip(badTypeBlob, 10)).toBe('bad_type')
+
+    const amrBlob = new Blob(['sample audio'], { type: 'audio/amr' })
+    expect(validateClip(amrBlob, 10)).toBeNull()
+
+    const amrNamedBlob = Object.assign(new Blob(['sample audio'], { type: 'application/octet-stream' }), { name: 'call_recording.amr' })
+    expect(validateClip(amrNamedBlob, 10)).toBeNull()
   })
 })
