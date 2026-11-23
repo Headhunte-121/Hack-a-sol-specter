@@ -111,24 +111,28 @@ export default function QrPage() {
         <button className="btn btn-secondary w-full" onClick={stop}>⏹ {t('qr.stop')}</button>
       ) : (
         <div className="grid gap-2">
-          <button className="btn btn-primary" disabled={!secure || opening} onClick={openScanner}>📷 {opening ? t('qr.opening') : t('qr.scan')}</button>
+          {/* The first choice is a photo taken by the phone's own camera app: it needs no permission, so it always works. */}
+          <label className="btn btn-primary cursor-pointer" data-testid="qr-photo-main">📷 {t('qr.take_photo')}
+            <input type="file" accept="image/*" capture="environment" className="sr-only" onChange={(e) => { const f = e.target.files?.[0]; if (f) void fromFile(f); e.target.value = '' }} />
+          </label>
           <label className="btn btn-secondary cursor-pointer">🖼️ {t('qr.upload')}
             <input type="file" accept="image/*" className="sr-only" onChange={(e) => { const f = e.target.files?.[0]; if (f) void fromFile(f); e.target.value = '' }} />
           </label>
+          <button className="btn btn-secondary" disabled={!secure || opening} onClick={openScanner} data-testid="qr-scan-live">🎥 {opening ? t('qr.opening') : t('qr.scan')}</button>
           <p className="text-xs text-muted">{t('qr.camera_note')}</p>
           {perm !== 'denied' && !nowOk && !error && <p className="text-sm" data-testid="camera-ask">{t('qr.cam.ask')}</p>}
           {nowOk && <p role="status" className="font-bold text-ok" data-testid="camera-now-ok">{t('qr.cam.now_ok')}</p>}
           {perm === 'denied' && !error && !showHelp && (
-            <div className="flex items-center justify-between gap-3 rounded-xl border-2 border-warn-line bg-warn-bg px-3 py-2 text-warn" data-testid="camera-off-note">
-              <span>{t('qr.cam.off_note')}</span>
-              <button type="button" className="font-bold underline" onClick={() => setShowHelp(true)}>{t('qr.cam.show')}</button>
+            <div className="flex flex-col gap-2 rounded-xl border-2 border-warn-line bg-warn-bg px-3 py-2 text-warn" data-testid="camera-off-note">
+              <span>{t('qr.cam.use_photo')}</span>
+              <button type="button" className="self-start text-sm font-bold underline" onClick={() => setShowHelp(true)}>{t('qr.cam.show')}</button>
             </div>
           )}
         </div>
       )}
 
       {(error === 'qr.err.camera' || error === 'qr.err.camera_dismissed' || showHelp) && (
-        <CameraHelp kind={error === 'qr.err.camera_dismissed' ? 'dismissed' : 'denied'} standalone={isStandalone()} code={errCode} onRetry={() => void openScanner()} onFile={(f) => void fromFile(f)} />
+        <CameraHelp kind={error === 'qr.err.camera_dismissed' ? 'dismissed' : 'denied'} open={showHelp && !error} standalone={isStandalone()} code={errCode} onRetry={() => void openScanner()} onFile={(f) => void fromFile(f)} />
       )}
 
       {error && error !== 'qr.err.camera' && error !== 'qr.err.camera_dismissed' && (
