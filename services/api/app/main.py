@@ -22,7 +22,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, Response
 from pydantic import BaseModel, ConfigDict, Field
 
-from .db import Database
+from .db import Database, get_database
 from .regions import CATEGORIES, CHANNELS, REGIONS, RISK_BANDS
 
 VERSION = "0.1.0"
@@ -58,7 +58,7 @@ class AlertIn(BaseModel):
 
 def create_app(db_path: str | None = None, secret: str | None = None, min_count: int | None = None, rate_limit: int | None = None,
                now_fn: Callable[[], datetime] | None = None, admin_key: str | None = None) -> FastAPI:
-    db = Database(db_path or os.environ.get("API_DB", "data/reports.db"))
+    db = get_database(db_path)
     secret = secret or os.environ.get("API_SECRET") or secrets.token_hex(16)
     MIN = int(min_count if min_count is not None else os.environ.get("API_MIN_COUNT", 5))
     LIMIT = int(rate_limit if rate_limit is not None else os.environ.get("API_RATE_LIMIT", 60))
@@ -70,7 +70,7 @@ def create_app(db_path: str | None = None, secret: str | None = None, min_count:
     app.state.db = db
     app.state.min_count = MIN
     app.add_middleware(CORSMiddleware, allow_origins=os.environ.get("API_CORS", "*").split(","), allow_methods=["GET", "POST"],
-                       allow_headers=["Content-Type", "X-Client-Token", "X-Admin-Key"], allow_credentials=False)
+                       allow_headers=["Content-Type", "X-Client-Token", "X-Admin-Key", "Authorization"], allow_credentials=False)
 
     @app.middleware("http")
     async def limit_body(request: Request, call_next):
@@ -89,11 +89,8 @@ def create_app(db_path: str | None = None, secret: str | None = None, min_count:
             raise HTTPException(400, "missing or invalid X-Client-Token")
         t = now()
         h, window = token_hash(token, t.strftime("%Y-%m-%d")), t.strftime("%Y-%m-%dT%H")
-        row = db.query("SELECT count FROM rate_limit_log WHERE hashed_token=? AND window_start=?", (h, window))
-        used = row[0]["count"] if row else 0
-        if used + n > LIMIT:
+        if not db.record_rate_limit(h, window, n, LIMIT):
             raise HTTPException(429, "rate limit reached, try again later")
-        db.execute("INSERT INTO rate_limit_log VALUES (?,?,?) ON CONFLICT(hashed_token, window_start) DO UPDATE SET count = count + ?", (h, window, n, n))
 
     def valid(r: ReportIn) -> bool:
         return r.scam_category in CATEGORIES and r.channel in CHANNELS and r.region_code in region_codes and r.risk_band in RISK_BANDS and (
@@ -105,31 +102,9 @@ def create_app(db_path: str | None = None, secret: str | None = None, min_count:
             return "rejected"
         t = now()
         bid = r.client_batch_id or str(uuid.uuid4())
-        with db.lock:
-            if db.query("SELECT 1 FROM scam_reports WHERE client_batch_id=?", (bid,)):
-                return "duplicate"
-            db.conn.execute("INSERT INTO scam_reports (created_hour, scam_category, channel, region_code, risk_band, source, client_batch_id) VALUES (?,?,?,?,?,?,?)",
-                            (t.strftime("%Y-%m-%dT%H:00:00Z"), r.scam_category, r.channel, r.region_code, r.risk_band, source, bid))
-            db.conn.execute("""INSERT INTO daily_aggregates VALUES (?,?,?,?,?,1)
-                               ON CONFLICT(date, region_code, scam_category, channel, source) DO UPDATE SET report_count = report_count + 1""",
-                            (t.strftime("%Y-%m-%d"), r.region_code, r.scam_category, r.channel, source))
-            db.conn.commit()
-        return "accepted"
-
-    def monday(d: str) -> str:
-        return d  # weekly bucketing is done in SQL below
-
-    WEEK = "date(date, '-6 days', 'weekday 1')"
-
-    def filters(region: str | None, category: str | None, channel: str | None, start: str, end: str, demo: bool = True):
-        where, params = ["date >= ?", "date <= ?"], [start, end]
-        if not demo:
-            where.append("source <> 'seed'")  # production view: only reports that came from the app, never the labelled demo rows
-        for col, val in (("region_code", region), ("scam_category", category), ("channel", channel)):
-            if val:
-                where.append(f"{col} = ?")
-                params.append(val)
-        return " AND ".join(where), tuple(params)
+        created_hour = t.strftime("%Y-%m-%dT%H:00:00Z")
+        date_str = t.strftime("%Y-%m-%d")
+        return db.insert_report(created_hour, r.scam_category, r.channel, r.region_code, r.risk_band, source, bid, date_str)
 
     def date_range(frm: str | None, to: str | None, default_days: int = 56) -> tuple[str, str]:
         end = to or now().strftime("%Y-%m-%d")
@@ -138,9 +113,6 @@ def create_app(db_path: str | None = None, secret: str | None = None, min_count:
             if not re.match(r"^\d{4}-\d{2}-\d{2}$", v):
                 raise HTTPException(422, "dates must be YYYY-MM-DD")
         return start, end
-
-    def includes_seed(where: str, params: tuple) -> bool:
-        return bool(db.query(f"SELECT 1 FROM daily_aggregates WHERE {where} AND source='seed' LIMIT 1", params))
 
     # ------------------------------------------------------------------ write endpoints
     @app.post("/reports")
@@ -168,19 +140,15 @@ def create_app(db_path: str | None = None, secret: str | None = None, min_count:
     def trends(group: str = Query("week", pattern="^(week|region)$"), region: str | None = None, category: str | None = None, channel: str | None = None,
                frm: str | None = Query(None, alias="from"), to: str | None = None, demo: bool = True):
         start, end = date_range(frm, to)
-        where, params = filters(region, category, channel, start, end, demo)
-        if group == "week":
-            rows = db.query(f"SELECT {WEEK} AS week_start, scam_category, SUM(report_count) AS report_count FROM daily_aggregates WHERE {where} GROUP BY week_start, scam_category ORDER BY week_start", params)
-        else:
-            rows = db.query(f"SELECT region_code, scam_category, SUM(report_count) AS report_count FROM daily_aggregates WHERE {where} GROUP BY region_code, scam_category ORDER BY region_code", params)
+        rows = db.query_trends(group, region, category, channel, start, end, demo)
         shown = [r for r in rows if r["report_count"] >= MIN]  # applySuppression
-        return {"group": group, "min_count": MIN, "suppressed_cells": len(rows) - len(shown), "includes_seed": includes_seed(where, params), "rows": shown}
+        inc_seed = False if not demo else db.has_seed_data(region, category, channel, start, end)
+        return {"group": group, "min_count": MIN, "suppressed_cells": len(rows) - len(shown), "includes_seed": inc_seed, "rows": shown}
 
     def window_counts(region: str | None, days_ago_start: int, days_ago_end: int, demo: bool = True) -> dict[str, int]:
         end = (now() - timedelta(days=days_ago_end)).strftime("%Y-%m-%d")
         start = (now() - timedelta(days=days_ago_start)).strftime("%Y-%m-%d")
-        where, params = filters(region, None, None, start, end, demo)
-        return {r["scam_category"]: r["n"] for r in db.query(f"SELECT scam_category, SUM(report_count) AS n FROM daily_aggregates WHERE {where} GROUP BY scam_category", params)}
+        return db.query_window_counts(region, start, end, demo)
 
     @app.get("/trends/top")
     def top(region: str | None = None, days: int = Query(7, ge=1, le=60), demo: bool = True):
@@ -195,9 +163,9 @@ def create_app(db_path: str | None = None, secret: str | None = None, min_count:
         prev = {c: n for c, n in prev.items() if n >= MIN}
         total, ptotal = sum(cur.values()), sum(prev.values())
         change = None if ptotal == 0 else round((total - ptotal) / ptotal * 100, 1)
-        where, params = filters(region, None, None, (now() - timedelta(days=13)).strftime("%Y-%m-%d"), now().strftime("%Y-%m-%d"), demo)
+        inc_seed = False if not demo else db.has_seed_data(region, None, None, (now() - timedelta(days=13)).strftime("%Y-%m-%d"), now().strftime("%Y-%m-%d"))
         return {"this_week_total": total, "last_week_total": ptotal, "change_pct": change, "min_count": MIN,
-                "top3": [{"scam_category": c, "report_count": n} for c, n in sorted(cur.items(), key=lambda x: -x[1])[:3]], "includes_seed": includes_seed(where, params)}
+                "top3": [{"scam_category": c, "report_count": n} for c, n in sorted(cur.items(), key=lambda x: -x[1])[:3]], "includes_seed": inc_seed}
 
     @app.get("/trends/rising")
     def rising(demo: bool = True):
@@ -209,20 +177,17 @@ def create_app(db_path: str | None = None, secret: str | None = None, min_count:
     @app.get("/regions")
     def regions(response: Response):
         response.headers["Cache-Control"] = "public, max-age=3600"
-        return {"rows": db.query("SELECT region_code, name_en, name_hi, parent_region, display_order FROM region_lookup ORDER BY name_en")}
+        return {"rows": db.get_regions()}
 
     @app.get("/categories")
     def categories(response: Response):
         response.headers["Cache-Control"] = "public, max-age=3600"
-        return {"rows": db.query("SELECT category_code, linked_lesson FROM scam_categories ORDER BY category_code")}
+        return {"rows": db.get_categories()}
 
     @app.get("/alerts")
     def alerts(region: str | None = None):
         today = now().strftime("%Y-%m-%d")
-        rows = db.query("SELECT * FROM alert_items WHERE active=1 AND expires_at >= ? ORDER BY created_at DESC", (today,))  # expireAlerts: hidden after expiry
-        if region:
-            rows = [r for r in rows if r["region_scope"] in ("all", region)]
-        return {"rows": rows}
+        return {"rows": db.get_alerts(today, region)}
 
     @app.post("/alerts")
     def publish_alert(a: AlertIn, x_admin_key: str | None = Header(default=None)):
@@ -233,16 +198,15 @@ def create_app(db_path: str | None = None, secret: str | None = None, min_count:
         for lang in ("en", "hi", "cg"):
             if not a.title.get(lang, "").strip() or not a.summary.get(lang, "").strip():
                 raise HTTPException(422, f"title and summary are required in {lang}")
-        db.execute("INSERT INTO alert_items (created_at, title_en, title_hi, title_cg, summary_en, summary_hi, summary_cg, scam_category, region_scope, expires_at, active, source_note) VALUES (?,?,?,?,?,?,?,?,?,?,1,?)",
-                   (now().strftime("%Y-%m-%dT%H:%M:%SZ"), a.title["en"], a.title["hi"], a.title["cg"], a.summary["en"], a.summary["hi"], a.summary["cg"], a.scam_category, a.region_scope, a.expires_at, a.source_note))
+        db.create_alert(now().strftime("%Y-%m-%dT%H:%M:%SZ"), a.title["en"], a.title["hi"], a.title["cg"],
+                        a.summary["en"], a.summary["hi"], a.summary["cg"], a.scam_category, a.region_scope, a.expires_at, a.source_note)
         return {"ok": True}
 
     @app.get("/export")
     def export(frm: str | None = Query(None, alias="from"), to: str | None = None):
         """Aggregates only: weekly counts per region and category, small cells removed."""
         start, end = date_range(frm, to)
-        where, params = filters(None, None, None, start, end)
-        rows = db.query(f"SELECT {WEEK} AS week_start, region_code, scam_category, SUM(report_count) AS report_count, MAX(source='seed') AS includes_seed FROM daily_aggregates WHERE {where} GROUP BY week_start, region_code, scam_category", params)
+        rows = db.export_aggregates(start, end)
         buf = io.StringIO()
         w = csv.writer(buf)
         w.writerow(["week_start", "region_code", "scam_category", "report_count", "includes_demo_data"])
@@ -250,6 +214,25 @@ def create_app(db_path: str | None = None, secret: str | None = None, min_count:
             if r["report_count"] >= MIN:
                 w.writerow([r["week_start"], r["region_code"], r["scam_category"], r["report_count"], int(r["includes_seed"])])
         return Response(buf.getvalue(), media_type="text/csv", headers={"Content-Disposition": "attachment; filename=scam_trends.csv"})
+
+    # ------------------------------------------------------------------ internal maintenance (D4)
+    @app.post("/internal/purge")
+    def internal_purge(authorization: str | None = Header(default=None)):
+        """Daily retention cleanup. Protected by Authorization: Bearer <CRON_SECRET>.
+        Also prevents Supabase free-tier project from pausing due to inactivity."""
+        cron_secret = os.environ.get("CRON_SECRET", "")
+        expected = f"Bearer {cron_secret}"
+        if not cron_secret or not authorization or not hmac.compare_digest(expected, authorization):
+            raise HTTPException(401, "unauthorized cron execution")
+        t = now()
+        rl_before = (t - timedelta(days=1)).strftime("%Y-%m-%dT%H")
+        raw_before = (t - timedelta(days=30)).strftime("%Y-%m-%dT%H:00:00Z")
+        res = db.purge_expired(rl_before, raw_before)
+        return {"ok": True, "status": "purged", **res}
+
+    @app.get("/")
+    def root():
+        return {"status": "ok", "service": "suraksha-api", "version": VERSION}
 
     @app.get("/health")
     def health():

@@ -11,6 +11,8 @@ Every dataset used, with its licence **as stated**. Where a licence is not state
 | Team-written messages v1/v2 | `ai tuning/data/synthetic*.csv` | 2026-11-22 | ~2.5k | en / hi / hinglish | team-generated (templates) | training | Yes |
 | Team-written messages v3 | `data/team/messages_v3.csv` | 2026-11-22 | ~1k (about 500 after dedupe) | hi / hinglish | team-generated (templates) | training | Yes |
 | Real Hinglish alerts & scams v1 | `data/team/real_v1.csv` | 2026-11-23 | 8 rows | Hinglish | team-redacted (UPI debit alerts & traps) | training, tuning | Yes |
+| Team trap-genuine mitigation v1 | `data/team/trap_genuine_v1.csv` | 2026-11-23 | 376 rows | en / hi / hinglish | project's own (team-generated) | training, trap mitigation | Yes |
+| Team scam-gap coverage v1 | `data/team/scam_gap_v1.csv` | 2026-11-23 | 220 rows | en / hi / hinglish | project's own (team-generated) | training, gap mitigation | Yes |
 | Challenge set v1 | `ai tuning/data/wild_big.csv` | 2026-11-22 | 160 | en / hi / hinglish | team-generated (templates) | final evaluation only, never trained on | Yes |
 
 ## Label harmonisation

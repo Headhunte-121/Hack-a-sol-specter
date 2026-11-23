@@ -20,9 +20,25 @@ export interface FiredSignal {
   spans: [number, number][] // token index ranges [start, end)
 }
 
-export const ENTITY_TOKENS = new Set(['urltok', 'urlshorttok', 'urlsusptok', 'phonetok', 'amounttok', 'numtok'])
+import domainsData from './domains.json'
+
+export const GOV_SUFFIXES: string[] = domainsData.gov_suffixes
+export const OFFICIAL_DOMAINS: string[] = domainsData.official
+
+export const ENTITY_TOKENS = new Set(['urltok', 'urlshorttok', 'urlsusptok', 'urlgovtok', 'urlbrandtok', 'phonetok', 'amounttok', 'numtok'])
 const SHORTENERS = ['bit.ly', 'tinyurl.com', 'rb.gy', 'cutt.ly', 't.co', 'goo.gl', 'is.gd', 'tiny.cc', 'shorturl.at']
 const SUSPICIOUS_TLDS = ['top', 'xyz', 'cc', 'win', 'info', 'help', 'club', 'click', 'online', 'site', 'link']
+
+const NUKTA_MAP: Record<string, string> = {
+  '\u0958': '\u0915', // क़ -> क
+  '\u0959': '\u0916', // ख़ -> ख
+  '\u095a': '\u0917', // ग़ -> ग
+  '\u095b': '\u091c', // ज़ -> ज
+  '\u095c': '\u0921', // ड़ -> ड
+  '\u095d': '\u0922', // ढ़ -> ढ
+  '\u095e': '\u092b', // फ़ -> फ
+  '\u095f': '\u092f', // य़ -> य
+}
 
 const URL_SRC =
   '(?:https?://|www\\.)[^ ]+' +
@@ -39,7 +55,9 @@ export function normalizeText(raw: string): { clean: string; idx: number[] } {
   const idx: number[] = []
   for (let i = 0; i < raw.length; i++) {
     let ch = raw[i]
-    const o = raw.charCodeAt(i)
+    if (NUKTA_MAP[ch]) ch = NUKTA_MAP[ch]
+    else if (ch === '\u093c') continue
+    const o = ch.charCodeAt(0)
     if (o >= 0x966 && o <= 0x96f) ch = String.fromCharCode(48 + o - 0x966)
     else if (o >= 65 && o <= 90) ch = String.fromCharCode(o + 32)
     else if (ch === '​' || ch === '‌' || ch === '‍' || ch === '﻿') continue
@@ -66,6 +84,8 @@ function linkToken(url: string): string {
   if (SHORTENERS.some((s) => host === s || host.endsWith('.' + s))) return 'urlshorttok'
   const tld = host.includes('.') ? host.slice(host.lastIndexOf('.') + 1) : ''
   if (SUSPICIOUS_TLDS.includes(tld) || host.endsWith('.in.net')) return 'urlsusptok'
+  if (GOV_SUFFIXES.some((s) => host === s || host.endsWith('.' + s))) return 'urlgovtok'
+  if (OFFICIAL_DOMAINS.some((s) => host === s || host.endsWith('.' + s))) return 'urlbrandtok'
   return 'urltok'
 }
 
