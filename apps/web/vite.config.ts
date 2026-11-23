@@ -26,6 +26,15 @@ export default defineConfig({
           { src: 'icons/icon-512.png', sizes: '512x512', type: 'image/png' },
           { src: 'icons/icon-maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
         ],
+        share_target: {
+          action: '/',
+          method: 'GET',
+          params: {
+            title: 'sender',
+            text: 'text',
+            url: 'url',
+          },
+        },
       },
       workbox: {
         // model, rule lists, lesson/question packs and fonts are all precached so the offline modules work in airplane mode

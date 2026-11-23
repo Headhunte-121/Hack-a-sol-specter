@@ -13,6 +13,7 @@ import { isDemoMode, useDemoMode } from '../shell/demoMode'
 import { analyzeCall, fmtTime, hitRanges, STAGES, type CallResult, type Lexicon, type Segment } from './analyze'
 import { asrBase, AsrError, audioDuration, healthCheck, startRecording, uploadForTranscript, validateClip } from './asr'
 import { buildEvidenceNote } from './evidence'
+import { startLiveMic, type LiveMicSession } from './liveMic'
 import { postProcessTranscript } from './normalize'
 
 interface DemoCall { id: string; title: Tri; style: string; segments: Segment[] }
@@ -48,10 +49,50 @@ export default function CallPage() {
   const [recording, setRecording] = useState<{ stop: () => Promise<Blob>; cancel: () => void } | null>(null)
   const [fb, setFb] = useState(false)
   const [copied, setCopied] = useState(false)
+  const [liveSession, setLiveSession] = useState<LiveMicSession | null>(null)
+  const [liveResult, setLiveResult] = useState<CallResult | null>(null)
+  const [liveText, setLiveText] = useState('')
   const abort = useRef<AbortController | null>(null)
   const recRef = useRef<{ cancel: () => void } | null>(null)
   const segRefs = useRef<Record<number, HTMLElement | null>>({})
   recRef.current = recording
+
+  const toggleLiveMic = async () => {
+    if (liveSession) {
+      await liveSession.stop()
+      setLiveSession(null)
+      return
+    }
+    setError(null)
+    setLiveResult(null)
+    setLiveText('')
+    try {
+      const sess = await startLiveMic(lang === 'en' ? 'en-IN' : 'hi-IN', {
+        onTranscript: (committed, interim) => {
+          const combined = `${committed}\n${interim}`.trim()
+          setLiveText(combined)
+          if (!lex) return
+          const segs: Segment[] = combined.split('\n').filter(Boolean).map((text) => ({ start: null, end: null, text }))
+          if (!segs.length) return
+          const r = analyzeCall(segs, lex, scorer, brands)
+          setLiveResult(r)
+          if (r.level === 'high' && typeof navigator !== 'undefined' && 'vibrate' in navigator) {
+            navigator.vibrate([300, 100, 300])
+          }
+        },
+        onError: (code) => {
+          setError(code === 'mic' ? 'call.err.mic' : 'call.err.failed')
+          setLiveSession(null)
+        },
+        onEnd: () => {
+          setLiveSession(null)
+        },
+      })
+      setLiveSession(sess)
+    } catch {
+      // handled in onError
+    }
+  }
 
   useEffect(() => {
     let live = true
@@ -59,8 +100,8 @@ export default function CallPage() {
     fetch('/content/demo_calls.json').then((r) => r.json()).then((j: { calls: DemoCall[] }) => live && setDemos(j.calls)).catch(() => {})
     void loadScorer().then((s) => live && setScorer(s)).catch(() => live && setScorer(null))
     fetch('/model/brands.json').then((r) => r.json()).then((j) => live && setBrands(j as BrandsFile)).catch(() => {})
-    return () => { live = false; recRef.current?.cancel(); abort.current?.abort() }
-  }, [])
+    return () => { live = false; recRef.current?.cancel(); abort.current?.abort(); void liveSession?.stop() }
+  }, [liveSession])
 
   const run = (segments: Segment[], duration: number | null, label?: Tri) => {
     if (!lex) return
@@ -319,6 +360,58 @@ export default function CallPage() {
             </p>
           ) : (
             <>
+              {/* GT-02 Bonus 1: Real-Time Live Call Warning */}
+              <button
+                className={`btn w-full ${liveSession ? 'btn-danger font-bold' : 'btn-primary'}`}
+                onClick={toggleLiveMic}
+              >
+                {liveSession ? `⏹ ${t('call.audio.stop')}` : `🎙️ ${lang === 'hi' ? 'लाइव कॉल चेतावनी (अभी सुनें)' : lang === 'cg' ? 'लाइव काल चेतावनी (अभी सुनव)' : 'Live Call Warning (Listen Now)'}`}
+              </button>
+
+              {liveSession && (
+                <div className="card space-y-3 border-2 border-brand/50 bg-surface p-3" aria-live="polite">
+                  <div className="flex items-center justify-between">
+                    <span className="font-bold text-bad animate-pulse">● {t('call.audio.recording')}</span>
+                    {liveResult && (
+                      <span className={`rounded-md px-2 py-0.5 text-xs font-bold text-white ${liveResult.level === 'high' ? 'bg-bad' : liveResult.level === 'medium' ? 'bg-warn' : 'bg-ok'}`}>
+                        {t(`call.level.${liveResult.level}`)}
+                      </span>
+                    )}
+                  </div>
+
+                  {liveResult && (
+                    <div className="space-y-2">
+                      {liveResult.topScript && (
+                        <p className="font-bold text-[16px] text-brand">
+                          🎯 {t(`call.script.${liveResult.topScript}`)}
+                        </p>
+                      )}
+                      <div className="flex flex-wrap gap-1">
+                        {STAGES.map((s) => {
+                          const heard = liveResult.stagesHeard.includes(s)
+                          return (
+                            <span key={s} className={`rounded px-1.5 py-0.5 text-xs font-semibold ${heard ? 'bg-bad text-white font-bold' : 'bg-line/40 text-muted'}`}>
+                              {t(`stage.${s}`)}
+                            </span>
+                          )
+                        })}
+                      </div>
+                      {liveResult.level === 'high' && (
+                        <a href="tel:1930" className="btn btn-danger w-full !text-[18px] font-bold block text-center">
+                          🛑 {lang === 'hi' ? 'कॉल काटें और 1930 पर रिपोर्ट करें' : 'Hang Up & Call 1930'}
+                        </a>
+                      )}
+                    </div>
+                  )}
+
+                  {liveText && (
+                    <p className="rounded bg-white/70 p-2 text-xs italic text-slate-700 max-h-24 overflow-y-auto">
+                      "{liveText.slice(-150)}"
+                    </p>
+                  )}
+                </div>
+              )}
+
               <label className="btn btn-secondary cursor-pointer">
                 📁 {t('call.audio.pick')}
                 <input

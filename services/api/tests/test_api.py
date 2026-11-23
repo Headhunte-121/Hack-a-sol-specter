@@ -160,6 +160,9 @@ def test_demo_off_returns_only_real_reports_and_never_unlabelled_demo_numbers(cl
     assert [(r["region_code"], r["scam_category"], r["report_count"]) for r in t["rows"]] == [("raipur", "kyc_bank", 6)]
     assert c.get("/trends/top", params={"demo": 0}).json()["rows"] == [{"scam_category": "kyc_bank", "report_count": 6}]
     assert c.get("/trends/rising", params={"demo": 0}).json()["rows"] == [{"scam_category": "kyc_bank", "this_week": 6, "last_week": 0}]  # from the real six only
+    # District-level filtering (GT-02 Bonus #3):
+    assert c.get("/trends/rising", params={"region": "raipur", "demo": 0}).json()["rows"] == [{"scam_category": "kyc_bank", "this_week": 6, "last_week": 0}]
+    assert c.get("/trends/rising", params={"region": "bilaspur", "demo": 0}).json()["rows"] == []
 
 
 def test_demo_off_with_no_real_reports_shows_nothing(clock, db_target):

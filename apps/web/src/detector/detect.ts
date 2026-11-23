@@ -2,6 +2,7 @@ import type { Lexicon } from '../call/scripts'
 import { SCRIPT_CATEGORY, type CategoryCode } from '../shared/categories'
 import { assess, combineBand } from '../verdict/engine'
 import { Scorer, signalTokens, toHighlights, type Band, type Highlight } from './model'
+import { analyzeSender, parseSenderAndText, type SenderAnalysis } from './sender'
 import { ENTITY_TOKENS, detectScript } from './textpipe'
 import { checkUrl, detectInputType, type BrandsFile, type UrlResult } from './url'
 
@@ -10,6 +11,7 @@ export { combineBand }
 export interface DetectResult {
   type: 'message' | 'url'
   text: string // the sanitised text that was analysed (and is displayed)
+  sender?: SenderAnalysis
   script: 'english' | 'hindi' | 'hinglish'
   band: Band
   basis?: 'script' | 'script+model' | 'model' | 'advisory' | 'genuine_notice' | 'none' // what decided the verdict (see verdict/engine.ts)
@@ -46,8 +48,10 @@ function confidenceOf(band: Band, p: number): 'low' | 'medium' | 'high' {
 
 /** analyzeInput: the shared verdict (see verdict/engine.ts) presented as a message result. The call checker gets the same verdict
  *  for the same words. Pass the call-script lexicon so spoken-style scams in a pasted message are recognised too. */
-export function analyzeInput(rawInput: string, scorer: Scorer, brands: BrandsFile, lex: Lexicon | null = null): DetectResult {
-  const text = sanitizeDisplayText(rawInput)
+export function analyzeInput(rawInput: string, scorer: Scorer, brands: BrandsFile, lex: Lexicon | null = null, explicitSender?: string): DetectResult {
+  const parsed = parseSenderAndText(rawInput, explicitSender)
+  const text = sanitizeDisplayText(parsed.text)
+  const senderAnalysis = parsed.sender ? analyzeSender(parsed.sender, text) : undefined
   const script = detectScript(text)
   const type = detectInputType(text)
 
@@ -58,6 +62,7 @@ export function analyzeInput(rawInput: string, scorer: Scorer, brands: BrandsFil
     return {
       type, text, script, band, p: u.risk === 'high' ? 0.95 : u.risk === 'medium' ? 0.5 : 0.1, confidence: u.risk === 'low' ? 'low' : 'medium',
       highlights: [], topWords: [], reasons: reasons.length ? reasons : ['reason.url.no_flags'], actions: ACTIONS[band], links: [u], scamSignals: [],
+      sender: senderAnalysis,
     }
   }
 
@@ -65,7 +70,15 @@ export function analyzeInput(rawInput: string, scorer: Scorer, brands: BrandsFil
   const r = a.scored!
   const ex = a.explained!
   const links = a.links
-  const band = a.band
+  let band = a.band
+
+  // Incorporate sender risk into the band:
+  if (senderAnalysis?.risk === 'high') {
+    band = 'likely_scam'
+  } else if (senderAnalysis?.risk === 'medium' && band === 'looks_genuine') {
+    band = 'suspicious'
+  }
+
   const top = band !== 'looks_genuine' && (a.basis === 'script' || a.basis === 'script+model') ? a.top : null // a known call script is named only when its rules decided
 
   // Words that raised the risk: first the words behind triggered warning signals, then strong model words, then phrases of the matched script.
@@ -76,11 +89,18 @@ export function analyzeInput(rawInput: string, scorer: Scorer, brands: BrandsFil
   const highlights = band === 'looks_genuine' ? [] : toHighlights([...flagged, ...scriptSpans])
   const topWords = [...flagged.filter((tk) => !ENTITY_TOKENS.has(tk.t)).map((tk) => text.slice(tk.s, tk.e)), ...scriptSpans.map((s) => text.slice(s.s, s.e))]
 
-  const reasons: string[] = top ? [`reason.script.${top.script}`] : []
+  const reasons: string[] = []
+  if (senderAnalysis?.flag) {
+    reasons.push(`reason.${senderAnalysis.flag}`)
+  } else if (senderAnalysis?.kind === 'dlt_header' && band === 'looks_genuine') {
+    reasons.push('reason.ok.sender_dlt')
+  }
+  if (top) reasons.push(`reason.script.${top.script}`)
   for (const s of ex.riskSignals) if (reasons.length < 4) reasons.push(`reason.${s.id}`)
   for (const l of links) for (const f of l.flags) if (reasons.length < 4 && f.severity === 'high') reasons.push(`reason.url.${f.id}`)
   if (band === 'looks_genuine') {
     reasons.length = 0
+    if (senderAnalysis?.kind === 'dlt_header') reasons.push('reason.ok.sender_dlt')
     if (a.basis === 'advisory') reasons.push('reason.ok.tells_not_to_share') // it only warns you not to share a code
     for (const s of ex.reassureSignals.slice(0, 2)) if (!reasons.includes(`reason.ok.${s.id}`) && reasons.length < 2) reasons.push(`reason.ok.${s.id}`)
     const hasGovOrBrand = r.tokens.some((t) => t.t === 'urlgovtok' || t.t === 'urlbrandtok')
@@ -91,9 +111,13 @@ export function analyzeInput(rawInput: string, scorer: Scorer, brands: BrandsFil
     if (!reasons.length) reasons.push('reason.no_flags')
   } else if (!reasons.length) reasons.push('reason.model_pattern')
 
-  const confidence = a.basis === 'script' ? (a.top!.stagesHeard.length >= 3 ? 'high' : 'medium') : a.basis === 'advisory' || a.basis === 'genuine_notice' ? 'medium' : confidenceOf(band, r.p)
+  const confidence = senderAnalysis?.risk === 'high' ? 'high' : a.basis === 'script' ? (a.top!.stagesHeard.length >= 3 ? 'high' : 'medium') : a.basis === 'advisory' || a.basis === 'genuine_notice' ? 'medium' : confidenceOf(band, r.p)
+  const scamSignals = r.fired.filter((s) => s.kind === 'risk').map((s) => s.id)
+  if (senderAnalysis?.flag) scamSignals.push(senderAnalysis.flag)
+
   return {
     type, text, script, band, basis: a.basis, category: top ? SCRIPT_CATEGORY[top.script] : undefined, p: r.p, confidence,
-    highlights, topWords: [...new Set(topWords)].slice(0, 5), reasons, actions: ACTIONS[band], links, scamSignals: r.fired.filter((s) => s.kind === 'risk').map((s) => s.id),
+    highlights, topWords: [...new Set(topWords)].slice(0, 5), reasons, actions: ACTIONS[band], links, scamSignals,
+    sender: senderAnalysis,
   }
 }

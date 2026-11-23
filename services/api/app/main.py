@@ -168,9 +168,9 @@ def create_app(db_path: str | None = None, secret: str | None = None, min_count:
                 "top3": [{"scam_category": c, "report_count": n} for c, n in sorted(cur.items(), key=lambda x: -x[1])[:3]], "includes_seed": inc_seed}
 
     @app.get("/trends/rising")
-    def rising(demo: bool = True):
-        """suggestFromReports: categories whose weekly count rises sharply, as a prompt for a human to write an alert."""
-        cur, prev = window_counts(None, 6, 0, demo), window_counts(None, 13, 7, demo)
+    def rising(region: str | None = None, demo: bool = True):
+        """suggestFromReports: categories whose weekly count rises sharply, as a prompt for a human to write an alert (optionally per district/region)."""
+        cur, prev = window_counts(region, 6, 0, demo), window_counts(region, 13, 7, demo)
         rows = [{"scam_category": c, "this_week": n, "last_week": prev.get(c, 0)} for c, n in cur.items() if n >= MIN and n >= 2 * max(1, prev.get(c, 0))]
         return {"rows": sorted(rows, key=lambda r: -r["this_week"])}
 

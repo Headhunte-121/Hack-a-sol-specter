@@ -55,32 +55,64 @@ export default function QrPage() {
     setScanning(false)
   }
 
+  // Live scanner effect: starts playback and throttled decoding AFTER the video element is visible in the DOM
+  useEffect(() => {
+    if (!scanning || !stream.current || !video.current) return
+    const v = video.current
+    v.srcObject = stream.current
+    void v.play().catch(() => {})
+
+    const canvas = document.createElement('canvas')
+    const ctx = canvas.getContext('2d', { willReadFrequently: true })
+    const detector = typeof window !== 'undefined' && 'BarcodeDetector' in window
+      ? new (window as unknown as { BarcodeDetector: new (o: { formats: string[] }) => { detect: (s: HTMLVideoElement) => Promise<{ rawValue: string }[]> } }).BarcodeDetector({ formats: ['qr_code'] })
+      : null
+
+    let cancelled = false
+    let timer = 0
+
+    const scanFrame = async () => {
+      if (cancelled) return
+      if (v.readyState >= 2 && v.videoWidth) {
+        let code: string | null = null
+        if (detector) {
+          const hits = await detector.detect(v).catch(() => [])
+          code = hits[0]?.rawValue ?? null
+        } else if (ctx) {
+          const scale = Math.min(1, 640 / Math.max(v.videoWidth, v.videoHeight))
+          canvas.width = Math.round(v.videoWidth * scale)
+          canvas.height = Math.round(v.videoHeight * scale)
+          ctx.drawImage(v, 0, 0, canvas.width, canvas.height)
+          code = decodeQr(ctx.getImageData(0, 0, canvas.width, canvas.height).data, canvas.width, canvas.height)
+        }
+        if (code && !cancelled) {
+          stop()
+          setRaw(code)
+          return
+        }
+      }
+      timer = window.setTimeout(() => void scanFrame(), 150)
+    }
+
+    timer = window.setTimeout(() => void scanFrame(), 150)
+    return () => {
+      cancelled = true
+      clearTimeout(timer)
+    }
+  }, [scanning])
+
   /** openScanner: the camera is requested only when the user taps Scan, and stopped as soon as a code is read. */
   async function openScanner() {
     setError(null); setRaw(null); setNowOk(false); setShowHelp(false)
     setOpening(true) // the first request can take a moment (a permission question, or one quiet retry)
     try {
       stream.current = await openCamera()
+      setScanning(true)
     } catch (e) {
-      setError(cameraErrorKey(e)); setErrCode(describeCameraError(e)); return // blocked, busy, missing or unsupported: each gets its own next step
+      setError(cameraErrorKey(e)); setErrCode(describeCameraError(e))
     } finally {
       setOpening(false)
     }
-    setScanning(true)
-    const v = video.current // always on the page (hidden until scanning), so it exists before React re-renders
-    if (!v) { stop(); return }
-    v.srcObject = stream.current; await v.play().catch(() => {})
-    const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d', { willReadFrequently: true })!
-    const tick = () => {
-      if (v.readyState >= 2 && v.videoWidth) {
-        canvas.width = v.videoWidth; canvas.height = v.videoHeight
-        ctx.drawImage(v, 0, 0)
-        const code = decodeQr(ctx.getImageData(0, 0, canvas.width, canvas.height).data, canvas.width, canvas.height)
-        if (code) { stop(); setRaw(code); return }
-      }
-      raf.current = requestAnimationFrame(tick)
-    }
-    tick()
   }
 
   async function fromFile(f: File) {
@@ -164,7 +196,9 @@ export default function QrPage() {
           <p className="font-bold">{t('qr.rule')}</p>
           <div className="grid gap-2">
             <a className="btn btn-secondary" href="#/learn?lesson=upi_qr">🎓 {t('qr.next.lesson')}</a>
-            {a.risk !== 'none' && <a className="btn btn-danger" href="#/report?from=message">🚨 {t('qr.next.report')}</a>}
+            {a.risk !== 'none' && !(a.flags.length === 1 && a.flags[0].id === 'preset_amount') && (
+              <a className="btn btn-danger" href="#/report?from=message">🚨 {t('qr.next.report')}</a>
+            )}
           </div>
         </section>
       )}

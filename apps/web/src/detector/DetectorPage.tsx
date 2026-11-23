@@ -5,12 +5,14 @@ import { useDemoMode } from '../shell/demoMode'
 import { pick } from '../learn/content'
 import { useLang } from '../shell/i18n'
 import { Layout } from '../shell/Layout'
+import { currentQuery } from '../shell/router'
 import { Banner, Icon, NumberedList, type Tone } from '../shell/ui'
 import type { Lexicon } from '../call/scripts'
 import { analyzeInput, type DetectResult } from './detect'
 import { DEMO_MESSAGES } from './demo'
 import { handleFeedback, saveLastResult } from './lastResult'
 import { loadScorer, type Scorer } from './model'
+import { parseSenderAndText } from './sender'
 import type { BrandsFile } from './url'
 
 const BAND = {
@@ -40,6 +42,8 @@ export default function DetectorPage() {
   const [lex, setLex] = useState<Lexicon | null>(null)
   const [loadError, setLoadError] = useState(false)
   const [input, setInput] = useState('')
+  const [sender, setSender] = useState('')
+  const [initialChecked, setInitialChecked] = useState(false)
   const [result, setResult] = useState<DetectResult | null>(null)
   const [fb, setFb] = useState(false)
 
@@ -53,14 +57,46 @@ export default function DetectorPage() {
     return () => { live = false }
   }, [])
 
-  const check = (text = input, fresh = true) => {
+  // Auto-fill from query params (e.g. from Web Share Target or route query)
+  useEffect(() => {
+    const q = currentQuery()
+    const qText = q.get('text')
+    const qSender = q.get('sender')
+    if (qText || qSender) {
+      if (qText) {
+        const parsed = parseSenderAndText(qText, qSender || undefined)
+        setInput(parsed.text)
+        if (parsed.sender) setSender(parsed.sender)
+      } else if (qSender) {
+        setSender(qSender)
+      }
+    }
+  }, [])
+
+  const check = (text = input, fresh = true, currentSender = sender) => {
     if (!scorer || !brands || !text.trim()) return
-    const r = analyzeInput(text, scorer, brands, lex)
-    setInput(text)
+    const parsed = parseSenderAndText(text, currentSender || undefined)
+    const effectiveSender = parsed.sender || currentSender || undefined
+    const r = analyzeInput(parsed.text, scorer, brands, lex, effectiveSender)
+    setInput(parsed.text)
+    if (effectiveSender) setSender(effectiveSender)
     setResult(r)
     setFb(false)
     if (fresh) saveLastResult({ kind: r.type, band: r.band, script: r.script, signals: r.scamSignals, category: r.category, phrases: r.topWords, at: Date.now() })
   }
+
+  // Auto-run check if initial shared text was provided once scorer & brands load
+  useEffect(() => {
+    if (scorer && brands && !initialChecked) {
+      const q = currentQuery()
+      const qText = q.get('text')
+      if (qText) {
+        setInitialChecked(true)
+        const qSender = q.get('sender')
+        check(qText, true, qSender || undefined)
+      }
+    }
+  }, [scorer, brands, initialChecked])
 
   // Phone Back closes the result and keeps the text; coming back from the report or a lesson shows the same result again.
   const [restoreText, setRestoreText] = useState<string | null>(null)
@@ -101,6 +137,28 @@ export default function DetectorPage() {
           </Banner>
           <p className="-mt-1 text-[15px] text-muted">{t(`conf.${result.confidence}`)} · {t(`detector.script.${result.script}`)}</p>
 
+          {result.sender && (
+            <div className="flex items-center gap-2 rounded-xl border border-line bg-surface p-3 text-[16px]">
+              <span className="font-bold">{t('detector.sender.info')}:</span>
+              <span className="font-mono font-bold text-ink">{result.sender.sender}</span>
+              {result.sender.kind === 'dlt_header' && (
+                <span className="ml-auto rounded-full bg-emerald-100 px-2.5 py-0.5 text-[13px] font-bold text-emerald-800">
+                  TRAI DLT
+                </span>
+              )}
+              {result.sender.kind === 'foreign_number' && (
+                <span className="ml-auto rounded-full bg-red-100 px-2.5 py-0.5 text-[13px] font-bold text-red-800">
+                  {result.sender.countryCode} Foreign
+                </span>
+              )}
+              {result.sender.kind === 'personal_mobile' && (
+                <span className="ml-auto rounded-full bg-amber-100 px-2.5 py-0.5 text-[13px] font-bold text-amber-800">
+                  10-Digit Mobile
+                </span>
+              )}
+            </div>
+          )}
+
           {result.type === 'message' ? <Highlighted text={result.text} ranges={result.highlights} /> : <p className="card break-all font-mono !text-[17px]">{result.text}</p>}
 
           <div className="text-[22px] font-bold">{scamLike ? t('detector.why') : t('detector.why_ok')}</div>
@@ -137,6 +195,21 @@ export default function DetectorPage() {
       {loadError && <Banner tone="bad" role="alert">{t('detector.error')}</Banner>}
       {!scorer && !loadError && <p className="text-muted">{t('detector.loading')}</p>}
 
+      <div className="flex flex-col gap-1.5">
+        <label htmlFor="sender-input" className="text-[17px] font-bold text-ink">
+          {t('detector.sender.label')}
+        </label>
+        <input
+          id="sender-input"
+          type="text"
+          value={sender}
+          onChange={(e) => setSender(e.target.value)}
+          placeholder={t('detector.sender.placeholder')}
+          maxLength={40}
+          className="h-12 w-full rounded-xl border-2 border-line bg-white px-3 text-[18px] text-ink focus:border-brand focus:outline-none"
+        />
+      </div>
+
       <label htmlFor="msg" className="text-[20px] font-bold">{t('detector.label')}</label>
       <textarea
         id="msg"
@@ -144,11 +217,23 @@ export default function DetectorPage() {
         onChange={(e) => setInput(e.target.value)}
         placeholder={t('detector.placeholder')}
         maxLength={2000}
-        className="h-[190px] w-full resize-none rounded-2xl border-2 border-brand bg-white p-4 text-[20px] leading-normal text-ink"
+        className="h-[170px] w-full resize-none rounded-2xl border-2 border-brand bg-white p-4 text-[20px] leading-normal text-ink"
       />
 
       {'clipboard' in navigator && typeof navigator.clipboard?.readText === 'function' && (
-        <button className="btn btn-secondary !min-h-[60px] !text-[22px]" onClick={async () => { try { setInput(await navigator.clipboard.readText()) } catch { /* permission refused */ } }}>
+        <button
+          className="btn btn-secondary !min-h-[60px] !text-[22px]"
+          onClick={async () => {
+            try {
+              const text = await navigator.clipboard.readText()
+              const parsed = parseSenderAndText(text, sender || undefined)
+              setInput(parsed.text)
+              if (parsed.sender) setSender(parsed.sender)
+            } catch {
+              /* permission refused */
+            }
+          }}
+        >
           <Icon name="clipboard" size={26} />{t('detector.paste')}
         </button>
       )}
@@ -163,7 +248,7 @@ export default function DetectorPage() {
           <h2 className="mb-2 text-[16px] font-bold text-muted">{t('detector.examples')}</h2>
           <div className="flex flex-wrap gap-2">
             {DEMO_MESSAGES.map((m) => (
-              <button key={m.id} className="rounded-full border-2 border-line bg-white px-3.5 py-2 text-[15px] font-bold text-ink" onClick={() => check(m.text)}>
+              <button key={m.id} className="rounded-full border-2 border-line bg-white px-3.5 py-2 text-[15px] font-bold text-ink" onClick={() => check(m.text, true, '')}>
                 {pick(m.label, lang)}
               </button>
             ))}
