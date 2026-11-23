@@ -41,7 +41,7 @@ check() {
 # 1. Health check
 test_health() {
   local res
-  res=$(curl -sS -f "$API_URL/health")
+  res=$(curl -m 15 -sS -f "$API_URL/health")
   echo "$res" | grep -q '"status":"ok"'
 }
 check "GET /health status ok" test_health
@@ -49,7 +49,7 @@ check "GET /health status ok" test_health
 # 2. CORS Preflight (OPTIONS /reports)
 test_cors_preflight() {
   local headers
-  headers=$(curl -sS -I -X OPTIONS "$API_URL/reports" \
+  headers=$(curl -m 15 -sS -i -X OPTIONS "$API_URL/reports" \
     -H "Origin: $WEB_ORIGIN" \
     -H "Access-Control-Request-Method: POST" \
     -H "Access-Control-Request-Headers: Content-Type,X-Client-Token")
@@ -60,7 +60,7 @@ check "CORS OPTIONS preflight" test_cors_preflight
 # 3. CORS on actual GET /regions
 test_cors_actual() {
   local headers
-  headers=$(curl -sS -I "$API_URL/regions" -H "Origin: $WEB_ORIGIN")
+  headers=$(curl -m 15 -sS -i "$API_URL/regions" -H "Origin: $WEB_ORIGIN")
   echo "$headers" | grep -iq "Access-Control-Allow-Origin: \($WEB_ORIGIN\|\*\)"
 }
 check "CORS GET /regions headers" test_cors_actual
@@ -69,7 +69,7 @@ check "CORS GET /regions headers" test_cors_actual
 BATCH_ID="smoke-$(date +%s)-$RANDOM"
 test_post_report() {
   local res
-  res=$(curl -sS -f -X POST "$API_URL/reports" \
+  res=$(curl -m 15 -sS -f -X POST "$API_URL/reports" \
     -H "Content-Type: application/json" \
     -H "X-Client-Token: smoketesttokensmoketesttoken1234" \
     -d "{\"scam_category\":\"kyc_bank\",\"channel\":\"sms\",\"region_code\":\"raipur\",\"risk_band\":\"likely_scam\",\"client_batch_id\":\"$BATCH_ID\"}")
@@ -80,7 +80,7 @@ check "POST /reports with client_batch_id" test_post_report
 # 5. Read trends overview (demo=0)
 test_trends_overview() {
   local res
-  res=$(curl -sS -f "$API_URL/trends/overview?demo=0")
+  res=$(curl -m 15 -sS -f "$API_URL/trends/overview?demo=0")
   echo "$res" | grep -q '"min_count"'
 }
 check "GET /trends/overview?demo=0" test_trends_overview
