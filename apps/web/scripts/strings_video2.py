@@ -1,0 +1,18 @@
+S = {
+ "learn.video.seek": ("Move through the video", "वीडियो में आगे-पीछे जाएँ", "वीडियो म आघू-पाछू जावव"),
+ "learn.video.rewind": ("Back 10 seconds", "10 सेकंड पीछे", "10 सेकंड पाछू"),
+ "learn.video.forward": ("Forward 10 seconds", "10 सेकंड आगे", "10 सेकंड आघू"),
+ "learn.video.mute": ("Mute", "आवाज़ बंद करें", "अवाज बंद करव"),
+ "learn.video.unmute": ("Turn the sound on", "आवाज़ चालू करें", "अवाज चालू करव"),
+ "learn.video.volume": ("Volume", "आवाज़ का स्तर", "अवाज के स्तर"),
+ "learn.video.audio_note": ("The narration is a computer voice. The Chhattisgarhi narration uses a Hindi voice, so some words may sound different. Recordings by native speakers are coming.",
+                            "यह कथन कंप्यूटर की आवाज़ है। छत्तीसगढ़ी कथन में हिंदी आवाज़ है, इसलिए कुछ शब्द अलग सुनाई दे सकते हैं। मूल भाषा बोलने वालों की रिकॉर्डिंग आ रही है।",
+                            "ए कथन कंप्यूटर के अवाज हे। छत्तीसगढ़ी कथन म हिंदी अवाज हे, एकरे सेती कुछ शब्द अलग सुनावत हो सकथे। अपन भाखा बोलइया मन के रिकॉर्डिंग आत हे।"),
+ "learn.video.generate_hint": ("Saves a short video of this lesson with captions, to keep or share. It has no voice.",
+                               "इस पाठ का उपशीर्षक वाला छोटा वीडियो सहेजें, रखने या भेजने के लिए। इसमें आवाज़ नहीं है।",
+                               "ए पाठ के उपशीर्षक वाले छोटे वीडियो ला सहेजव, राखे या भेजे बर। एमा अवाज नइ हे।"),
+ "learn.video.gen_trigger": ("Suspicious message", "संदिग्ध संदेश", "संदिग्ध संदेश"),
+ "learn.video.gen_flag": ("Warning sign {n}:", "चेतावनी का संकेत {n}:", "चेतावनी के संकेत {n}:"),
+ "learn.video.gen_safe": ("What to do:", "क्या करें:", "का करव:"),
+ "learn.video.gen_helpline": ("Cyber fraud helpline: call 1930 now", "साइबर ठगी हेल्पलाइन: अभी 1930 पर कॉल करें", "साइबर ठगी हेल्पलाइन: अभी 1930 म कॉल करव"),
+}

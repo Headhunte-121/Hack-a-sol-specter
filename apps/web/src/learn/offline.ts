@@ -10,18 +10,25 @@ export const AUDIO_CACHE = 'lesson-audio'
 /** The recordings are mono AAC at 32 kbps (scripts/make_audio.py), which is 240 000 bytes for each minute. */
 export const BYTES_PER_MINUTE = 240_000
 
-/** audioFiles: every recording and caption file the lessons declare for a language, once each. */
+/** About how many bytes one video narration takes (mono AAC at 32 kbps, about a minute). */
+export const BYTES_PER_NARRATION = 300_000
+
+/** videoNarrationUrl: the narration file of a lesson's video in a language. */
+export const videoNarrationUrl = (lessonId: string, lang: Lang): string => `/audio/video/${lessonId}.${lang}.m4a`
+
+/** audioFiles: every recording and caption file the lessons declare for a language, plus each lesson's video narration, once each. */
 export function audioFiles(lessons: Lesson[], lang: Lang): string[] {
   const out: string[] = []
   for (const l of lessons) {
     for (const p of [l.audio?.[lang], l.captions?.[lang]]) if (p && !out.includes(audioUrl(p))) out.push(audioUrl(p))
+    out.push(videoNarrationUrl(l.id, lang))
   }
   return out
 }
 
 /** estimateBytes: about how much the recordings of a language take, from each lesson's reading time (an estimate, shown as "about"). */
 export function estimateBytes(lessons: Lesson[], lang: Lang, minutesOf: (l: Lesson) => number): number {
-  return lessons.filter((l) => !!l.audio?.[lang]).reduce((n, l) => n + minutesOf(l) * BYTES_PER_MINUTE, 0)
+  return lessons.reduce((n, l) => n + (l.audio?.[lang] ? minutesOf(l) * BYTES_PER_MINUTE : 0) + BYTES_PER_NARRATION, 0)
 }
 
 /** formatBytes: "850 KB", "7.2 MB". The unit names come from the language files so Hindi and Chhattisgarhi screens show Devanagari. */

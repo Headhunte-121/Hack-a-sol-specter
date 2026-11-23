@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { Lesson } from './content'
-import { AUDIO_CACHE, audioFiles, BYTES_PER_MINUTE, cachedCount, downloadFiles, estimateBytes, formatBytes, outcomeKey, playableUrl, removeDownloads, storageInfo, type CacheLike, type CacheStorageLike } from './offline'
+import { AUDIO_CACHE, audioFiles, BYTES_PER_MINUTE, BYTES_PER_NARRATION, cachedCount, downloadFiles, estimateBytes, formatBytes, outcomeKey, playableUrl, removeDownloads, storageInfo, videoNarrationUrl, type CacheLike, type CacheStorageLike } from './offline'
 
 const t = (s: string) => ({ en: s, hi: s, cg: s })
 const lesson = (id: string, audio: Lesson['audio'], captions?: Lesson['captions']): Lesson => ({ id, scripts: [], minutes: 4, title: t(id), example: t(id), signs: [t(id)], todo: t(id), audio, captions })
@@ -28,15 +28,19 @@ function fakeCaches(cache = new FakeCache(), opts: { failPut?: (url: string) => 
 const ok = (body: string, status = 200) => new Response(body, { status })
 
 describe('which files to download', () => {
-  it('lists the recordings and captions of one language, once each, and skips lessons with none', () => {
-    expect(audioFiles(lessons, 'hi')).toEqual(['/audio/a.hi.m4a', '/audio/a.hi.json', '/audio/b.hi.m4a'])
-    expect(audioFiles(lessons, 'cg')).toEqual(['/audio/a.cg.m4a'])
-    expect(audioFiles(lessons, 'en')).toEqual([])
+  it('lists the recordings and captions of one language, once each, skips lessons with none, and adds the video narration of every lesson', () => {
+    const video = (lang: 'hi' | 'cg' | 'en') => lessons.map((l) => videoNarrationUrl(l.id, lang))
+    const hi = audioFiles(lessons, 'hi')
+    expect(hi.filter((u) => !u.startsWith('/audio/video/'))).toEqual(['/audio/a.hi.m4a', '/audio/a.hi.json', '/audio/b.hi.m4a'])
+    expect(hi.filter((u) => u.startsWith('/audio/video/'))).toEqual(video('hi'))
+    expect(audioFiles(lessons, 'cg').filter((u) => !u.startsWith('/audio/video/'))).toEqual(['/audio/a.cg.m4a'])
+    expect(audioFiles(lessons, 'en')).toEqual(video('en')) // no recordings in English, but the video narration still downloads
+    expect(videoNarrationUrl('upi_pin', 'cg')).toBe('/audio/video/upi_pin.cg.m4a')
   })
   it('estimates the size from the reading time at 32 kbps', () => {
     expect(BYTES_PER_MINUTE).toBe(240_000)
-    expect(estimateBytes(lessons, 'hi', (l) => l.minutes ?? 1)).toBe(2 * 4 * 240_000)
-    expect(estimateBytes(lessons, 'en', () => 4)).toBe(0)
+    expect(estimateBytes(lessons, 'hi', (l) => l.minutes ?? 1)).toBe(2 * 4 * 240_000 + lessons.length * BYTES_PER_NARRATION)
+    expect(estimateBytes(lessons, 'en', () => 4)).toBe(lessons.length * BYTES_PER_NARRATION) // only the video narration
   })
   it('formats sizes with the unit names it is given', () => {
     expect(formatBytes(512)).toBe('1 KB')

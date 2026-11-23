@@ -132,9 +132,12 @@ describe('LessonAudio', () => {
 })
 
 describe('OfflineDownload', () => {
-  it('is not shown at all when no lesson has a recording (nothing to download)', async () => {
+  it('still offers the video narration when no lesson has a recording of its own', async () => {
+    vi.stubGlobal('caches', { open: async () => ({ match: async () => undefined, put: async () => {}, delete: async () => true, keys: async () => [] }), delete: async () => true })
     await mount(<OfflineDownload lessons={[lesson()]} />)
-    expect(host.innerHTML).toBe('')
+    await flush()
+    expect(host.innerHTML).not.toBe('')
+    expect(host.textContent).toContain(hi('learn.offline.have', { n: 0, total: 1 })) // one file: the lesson's video narration
   })
   it('shows the button, how many files and an estimate of the size when recordings exist', async () => {
     vi.stubGlobal('caches', { open: async () => ({ match: async () => undefined, put: async () => {}, delete: async () => true, keys: async () => [] }), delete: async () => true })
@@ -143,7 +146,7 @@ describe('OfflineDownload', () => {
     await flush()
     const button = qa('button').find((b) => b.textContent === hi('learn.offline.button'))
     expect(button).toBeTruthy()
-    expect(host.textContent).toContain(hi('learn.offline.have', { n: 0, total: 1 }))
+    expect(host.textContent).toContain(hi('learn.offline.have', { n: 0, total: 2 })) // the recording and the video narration
     expect(host.textContent).toContain('एमबी') // the unit is in Devanagari on the Hindi screen
     expect(host.textContent).toMatch(/खाली/)
   })

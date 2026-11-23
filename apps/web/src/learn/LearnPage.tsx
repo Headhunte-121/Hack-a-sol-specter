@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { Film, LayoutGrid } from 'lucide-react'
 import { categoryFromSignals, LESSON_FOR_CATEGORY } from '../shared/categories'
 import { setBusy } from '../shell/busy'
 import { useLang } from '../shell/i18n'
@@ -10,6 +11,7 @@ import { lessonLines } from './audio'
 import { loadContentPack, lessonCards, lessonMinutes, pick, type ContentPack, type Lesson, type Question } from './content'
 import { LessonAudio } from './LessonAudio'
 import { LessonCards } from './LessonCards'
+import { LessonVideo } from './LessonVideo'
 import { OfflineDownload } from './OfflineDownload'
 import { attemptHistory, doneLessons, markLessonComplete, saveUsedQuestions, storeAttemptHistory, usedQuestions, type Attempt } from './progress'
 import { displayOrder, QUIZ_LENGTH, selectQuestions } from './quiz'
@@ -89,7 +91,17 @@ function Home({ pack, done, title, onOpen, onQuiz }: { pack: ContentPack; done: 
           <li key={l.id}>
             <button className="flex min-h-[76px] w-full items-center gap-3.5 rounded-2xl border-2 border-line bg-white px-4 py-3 text-left" onClick={() => onOpen(l.id)}>
               <span className="num bg-brand">{i + 1}</span>
-              <span className="flex-1"><span className="block text-[20px] font-bold leading-snug">{title(l)}</span><span className="block text-[15px] text-muted">{t('learn.minutes', { n: lessonMinutes(l) })}</span></span>
+              <span className="flex-1">
+                <span className="block text-[20px] font-bold leading-snug">{title(l)}</span>
+                <span className="flex items-center gap-2 text-[15px] text-muted">
+                  <span>{t('learn.minutes', { n: lessonMinutes(l) })}</span>
+                  <span>•</span>
+                  <span className="flex items-center gap-1 font-semibold text-brand">
+                    <Film size={13} />
+                    <span>{t('learn.video.badge')}</span>
+                  </span>
+                </span>
+              </span>
               {done.includes(l.id) && <span className="text-[15px] font-bold text-ok">✔ {t('learn.done')}</span>}
               {rec?.kind === 'lesson' && rec.topic === l.id && <span className="rounded-lg bg-warn-bg px-2 py-0.5 text-[13px] font-bold text-warn">{t('learn.recommended')}</span>}
             </button>
@@ -103,6 +115,7 @@ function Home({ pack, done, title, onOpen, onQuiz }: { pack: ContentPack; done: 
 
 function LessonView({ lesson, done, onDone, onQuiz }: { lesson: Lesson; done: boolean; onDone: (id: string) => void; onQuiz: () => void }) {
   const { t, lang } = useLang()
+  const [tab, setTab] = useState<'video' | 'cards'>('video')
   // The line being read aloud (-1 when none): 0 is the title, 1 the example, then each warning sign, and the last is what to do.
   const [line, setLine] = useState(-1)
   const lines = useMemo(() => lessonLines(lesson, lang), [lesson, lang])
@@ -112,8 +125,40 @@ function LessonView({ lesson, done, onDone, onQuiz }: { lesson: Lesson; done: bo
     <article className="flex flex-col gap-3">
       <h1 className={`text-[28px] font-bold leading-[1.3] ${hot(0)}`}>{pick(lesson.title, lang)}</h1>
       <p className="text-[16px] text-muted">{t('learn.minutes', { n: lessonMinutes(lesson) })}</p>
-      <LessonAudio lesson={lesson} lines={lines} onLine={setLine} />
-      <LessonCards cards={lessonCards(lesson)} />
+
+      {/* Tab Switcher: Video Explainer vs Visual Cards */}
+      <div className="flex rounded-xl border border-line bg-soft p-1">
+        <button
+          type="button"
+          onClick={() => setTab('video')}
+          className={`flex flex-1 items-center justify-center gap-2 rounded-lg py-2 text-[16px] font-bold transition-all ${
+            tab === 'video' ? 'bg-brand text-white shadow-sm' : 'text-muted hover:text-ink'
+          }`}
+        >
+          <Film size={18} />
+          <span>{t('learn.video.tab_video')}</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => setTab('cards')}
+          className={`flex flex-1 items-center justify-center gap-2 rounded-lg py-2 text-[16px] font-bold transition-all ${
+            tab === 'cards' ? 'bg-brand text-white shadow-sm' : 'text-muted hover:text-ink'
+          }`}
+        >
+          <LayoutGrid size={18} />
+          <span>{t('learn.video.tab_cards')}</span>
+        </button>
+      </div>
+
+      {tab === 'video' ? (
+        <LessonVideo lesson={lesson} />
+      ) : (
+        <>
+          <LessonAudio lesson={lesson} lines={lines} onLine={setLine} />
+          <LessonCards cards={lessonCards(lesson)} />
+        </>
+      )}
+
       <section className="card"><h2 className="mb-1 text-[18px] font-bold text-brand">{t('learn.example')}</h2><p className={`text-[20px] leading-[1.7] ${hot(1)}`}>{pick(lesson.example, lang)}</p></section>
       <section className="card"><h2 className="mb-1 flex items-center gap-2 text-[18px] font-bold text-warn"><Icon name="warn" size={24} />{t('learn.signs')}</h2><ul className="list-disc space-y-1 pl-6 text-[20px] leading-[1.6]">{lesson.signs.map((s, i) => <li key={i} className={hot(2 + i)}>{pick(s, lang)}</li>)}</ul></section>
       <Banner tone="ok" className="!border-ok-line"><h2 className="mb-1 flex items-center gap-2 text-[18px] font-bold"><Icon name="check" size={24} stroke={2.5} />{t('learn.todo')}</h2><p className={`text-[20px] leading-[1.6] ${hot(todoLine)}`}>{pick(lesson.todo, lang)}</p></Banner>

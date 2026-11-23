@@ -66,7 +66,8 @@ describe('content validator', () => {
 
   it('catches too few questions for a topic, duplicate ids and a bad topic', async () => {
     edit(QUIZ, (j) => {
-      j.questions = j.questions.filter((q: { id: string }) => q.id !== 'q_atm_6')
+      let atm = 0
+      j.questions = j.questions.filter((q: { topic: string }) => q.topic !== 'atm_pin' || ++atm <= 5)
       j.questions[1].id = j.questions[0].id
       j.questions[2].topic = 'nonsense'
     })
