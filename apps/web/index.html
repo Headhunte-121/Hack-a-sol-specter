@@ -8,6 +8,38 @@
     <link rel="icon" type="image/png" href="/icons/icon-192.png" />
     <link rel="apple-touch-icon" href="/icons/icon-192.png" />
     <title>Suraksha</title>
+    <script>
+  (function () {
+    var KEY = 'suraksha_asset_reload';
+    window.addEventListener(
+      'error',
+      function (e) {
+        var target = e.target;
+        var url = target && (target.src || target.href);
+        if (!url || url.indexOf('/assets/') === -1) return;
+        if (sessionStorage.getItem(KEY)) return;
+        sessionStorage.setItem(KEY, '1');
+
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker
+            .getRegistrations()
+            .then(function (regs) {
+              return Promise.all(regs.map(function (r) { return r.unregister(); }));
+            })
+            .finally(function () {
+              window.location.reload();
+            });
+        } else {
+          window.location.reload();
+        }
+      },
+      true
+    );
+    window.addEventListener('load', function () {
+      sessionStorage.removeItem(KEY);
+    });
+  })();
+</script>
   </head>
   <body>
     <div id="root"></div>
