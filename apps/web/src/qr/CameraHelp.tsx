@@ -36,7 +36,7 @@ export function CameraHelp({ kind, standalone, code, onRetry, onFile }: {
       <p className="font-bold">{t('qr.err.camera')}</p>
       <p>{t('qr.cam.why')}</p>
       {standalone && <p data-testid="camera-reinstall">{t('qr.cam.reinstall')}</p>}
-      <NumberedList items={steps.map((k) => t(k))} />
+      <NumberedList items={steps.map((k) => t(k, { site: typeof location !== 'undefined' ? location.host : '' }))} />
       <button type="button" className="btn btn-primary" onClick={onRetry} data-testid="camera-recheck">📷 {t('qr.cam.recheck')}</button>
       {standalone && android && <a className="btn btn-secondary" href={chromeUrl} data-testid="camera-open-chrome">{t('qr.cam.open_chrome')}</a>}
       {photo}
