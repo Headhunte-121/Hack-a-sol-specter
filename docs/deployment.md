@@ -77,7 +77,7 @@ Add the following environment variables in **Project Settings → Environment Va
 | `DATABASE_URL` | Supabase **Transaction Pooler** string (port 6543) | `postgresql://postgres.[ref]:[password]@aws-0-ap-south-1.pooler.supabase.com:6543/postgres` |
 | `API_SECRET` | Daily salt secret for report token hashing | 32+ hex characters (e.g. from `openssl rand -hex 32`) |
 | `API_ADMIN_KEY` | Key for posting system alert banners | Random secret string |
-| `API_CORS` | Allowed web frontend origin(s) | `https://suraksha.vercel.app,http://localhost:5173` |
+| `API_CORS` | Allowed web frontend origin(s) | `https://hack-a-sol-specter.vercel.app,http://localhost:5173` |
 | `CRON_SECRET` | Bearer token for Vercel daily cron trigger | Random secret string |
 | `API_AUTOSTART` | Initialize FastAPI app instance at import time | `1` |
 
@@ -96,7 +96,7 @@ Set in the frontend Vercel project settings:
 
 | Variable | Description | Value |
 | :--- | :--- | :--- |
-| `VITE_API_BASE` | URL of Vercel Project B (no trailing slash) | `https://suraksha-api.vercel.app` |
+| `VITE_API_BASE` | URL of Vercel Project B (no trailing slash) | `https://suraksha-api-xi.vercel.app` (Vercel adds a suffix when the plain name is taken: use the address shown in the project's Domains list, never a guessed one) |
 | `VITE_ASR_BASE` | Optional speech server endpoint | Leave unset in production unless local speech tunnel is active |
 
 ### 3.2 Build & Verification
