@@ -109,3 +109,22 @@ Work on a branch `module/model-tuning`. In `ml/train.py`, bump `VERSION` (for ex
 Commit: `ml/signals.json`, `ml/train.py`, `apps/web/public/model/model.json`, `apps/web/public/model/signals.json`, `apps/web/src/detector/__fixtures__/parity.json`, `docs/evaluation.json`, `docs/evaluation_report.md`, `data/team/real_v1.csv` (redacted only), and a new row for it in `data/DATA.md`. Before the last commit run `python ml/leak_check.py`, `python ml/redact_check.py`, `python -m pytest ml` and, in `apps/web`, `npm test`, `npx tsc --noEmit`, `npm run build`, `npm run check:content`.
 
 Never commit `data/real/`, `ai tuning/data/ext/` or `data/processed/`.
+
+## 6. Development sets and the GPU tools (`ml/dev/`)
+
+`ml/dev/` holds hand-written **development** sets (stress cases, realistic SMS-inbox formats, spelling and look-alike evasions, and LLM rewrites of the first two) and the scripts around them. They are for choosing between candidates quickly; they are not independent test sets: the same person wrote them and the v3 data generators, so numbers on them flatter a v3 model. They are never read by `build_corpus.py` or `train.py`.
+
+```powershell
+cd ml
+python dev/compare.py artifacts/candidate/model.json                      # every dev set, "full" and "clean" (near-duplicates of training rows dropped)
+$env:PIPELINE_DIR = "artifacts/old_pipeline"; python dev/compare.py old_model.json   # score a model with the text pipeline and signals it was trained with
+python dev/explain.py artifacts/candidate/model.json "message text"       # what pushes one message's score
+python dev/score_dev.py artifacts/candidate/model.json -v --sms           # misses and false flags on one dev set
+```
+
+GPU tools (optional; they need `torch` with CUDA and `transformers`, not listed in `requirements.txt`):
+
+- `dev/teacher_gpu.py` fine-tunes `multilingual-e5-small` with group-aware cross-fitting (about 7 minutes on a laptop GPU) and writes out-of-fold probabilities to `ml/artifacts/teacher_oof.csv`, to audit labels. The teacher never ships.
+- `dev/paraphrase_gpu.py` rewrites team-written messages with `Qwen2.5-1.5B-Instruct` (Apache-2.0) into `data/team/paraphrase_v3.csv`, keeping only rewrites a teacher model agrees with; `--dev` writes the rewrite set used to measure robustness. Hindi and Hinglish rewrites were dropped because the small model writes poor Hindi.
+
+The generators `gen_gap_v3.py`, `gen_sms_v3.py`, `gen_everyday_v3.py` write `data/team/*_v3.csv`; each template is its own group and every row is checked against the frozen evaluation texts.

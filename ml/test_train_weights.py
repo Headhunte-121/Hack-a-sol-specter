@@ -126,7 +126,8 @@ def test_point_estimate_policy_is_the_literal_rule():
     c = train.pick_cuts(p, y, log=lambda *a, **k: None)
     rec = lambda t: (p[y == 1] >= t).mean()
     prec = lambda t: (y[p >= t] == 1).mean()
-    ok_p = [t for t in train.GRID if prec(t) >= 0.97]
-    ok_s = [t for t in train.GRID if rec(t) >= 0.97]
+    fa = lambda t: (p[y == 0] >= t).mean()
+    ok_p = [t for t in train.GRID if prec(t) >= 0.97 and fa(t) <= train.FA_TARGET]
+    ok_s = [t for t in train.GRID if rec(t) >= train.RECALL_TARGET]
     assert c["scam"] == min(ok_p)
     assert c["raw_suspicious_cut_for_recall_target"] == max(ok_s)

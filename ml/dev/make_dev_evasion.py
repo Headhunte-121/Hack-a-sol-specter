@@ -1,0 +1,79 @@
+"""Writes dev/dev_evasion_v1.csv: scam messages disguised the way scammers dodge word lists (spaced or dotted letters, look-alike characters, leetspeak,
+fancy fonts, misspellings, emoji, mixed scripts, polite or roundabout wording, WhatsApp style), plus genuine messages that merely LOOK odd (extra
+punctuation, capitals, emoji, abbreviations) so that "odd formatting" does not become a scam cue. Hand-written, independent of the LLM rewrites.
+Development set only. Format per line: label|text
+"""
+import csv
+from pathlib import Path
+
+ROWS = """
+1|Y0ur acc0unt is bl0cked. Cl1ck h3re t0 v3rify: http://bit.ly/3kXz9
+1|Dear customer share your O T P with our executive to avoid account block today
+1|Your K.Y.C is pending!!! Update N O W or account will be closed http://sbi-kyc.top
+1|𝐘𝐨𝐮𝐫 𝐒𝐁𝐈 𝐚𝐜𝐜𝐨𝐮𝐧𝐭 𝐢𝐬 𝐛𝐥𝐨𝐜𝐤𝐞𝐝. 𝐔𝐩𝐝𝐚𝐭𝐞 𝐊𝐘𝐂 𝐢𝐦𝐦𝐞𝐝𝐢𝐚𝐭𝐞𝐥𝐲: http://sbi-help.xyz
+1|URGENT!!! Your acount will be blokked today. Verfy your detials: http://secure-bank.top
+1|Pls send ur OTP code received on ur mobile, its for verification of ur card
+1|⚠️ Your bank account is on hold ⚠️ Click the link 👉 http://hdfc-secure.club and enter your PIN 🔐
+1|Congrats!! U have won 25 lakh in lucky draw. To claim send ur bank acc no and aadhar on whatsapp 98XXXXXX10
+1|Dear sir kindly share the six digit number that came on your phone, we are updating your records
+1|Apka account band ho jayega. Abhi O T P bhejiye warna block. Jaldi karo
+1|Aapka KYC pending hai bhai, jaldi se apna aadhar aur pan ka photo bhej do isi number pe
+1|Sir aapke account me problem hai, ek code aaya hoga phone par, wo bata do please
+1|Aapka parcel customs me atka hai. Release ke liye sirf Rs 500 UPI kar do, warna return ho jayega
+1|Mummy ye mera naya number hai, phone gir gaya tha. Jaldi 10000 bhejo emergency hai, baad me baat karte hain
+1|आपका खाता बंद हो जाएगा। अपना ओ टी पी बताएं और केवाईसी पूरा करें
+1|आपके पैन कार्ड में गड़बड़ी है। नीचे दिए नंबर पर कॉल करके अपनी बैंक जानकारी दीजिए वरना खाता फ्रीज होगा
+1|मैं पुलिस विभाग से बोल रहा हूँ। आपके नाम पर शिकायत दर्ज हुई है। वीडियो कॉल चालू रखिए और किसी को मत बताइए
+1|बधाई! आपको 5 लाख का इनाम मिला है। लेने के लिए पहले 2000 रुपये का शुल्क जमा करें
+1|Your electricity will be cut tonight. Call officer now 70XXXXXX55, pay pending bill via UPI id helpdesk@ybl
+1|Dear user, we noticed unusual login. Confirm identity by replying with the verification code sent to you
+1|Tax refund approved. Provide card number, expiry and CVV at http://incometax-gov.refund-portal.top to receive funds
+1|Hello, I am calling from Amazon. You are eligible for refund. Download QuickSupport and tell me the code
+1|Earn money from home!! Like YouTube videos and get paid daily. Registration fee only 300. Join telegram t.me/earnfast
+1|Your SIM KYC expired. Visit http://sim-update.cc within 2 hours or number will be disconnected
+1|Account Blocked. To unblock send Rs.1 to verify@paytm and enter UPI PIN to confirm
+1|Please scan the QR I am sending and enter your PIN to receive the payment for your product
+1|I m sorry sent 5000 to your number by mistake. plz return n accept collect request sent
+1|Dear customer, your FASTag wallet is suspended. Recharge 500 immediately at fastag-support.link
+1|Tumhara electricity bill pending hai. Aaj raat 9 baje light kat jayegi. Is number par turant call karo
+1|Congratulations you are selected for work from home job. Daily income 3000-5000. Deposit 999 for training kit
+1|Sir loan approved 5 lakh. Insurance fee 4500 bhejiye turant, uske baad paisa aapke account me
+1|Aadhar update karna zaroori hai. Is link par jaakar OTP daalein: http://uidai-update.online
+1|Hi Dad, I lost my phone. New number. Need money urgently for a bill, send 20k on GPay. Will explain later 🙏
+1|Your Netflix subscription is on hold. Update payment at http://netflix-billing.top to avoid cancellation
+1|Your courier could not be delivered. Reschedule and pay Rs 29 here http://india-post.redeliver.site
+1|SBI ALERT: Rs 49,999 debited. If not you click http://sbi-dispute.xyz to cancel immediately
+1|Your account has been compromised. Our agent will call you. Tell him the OTP to secure your funds
+1|Pay the processing fees for your prize and receive it. First time offer, only today!!!
+1|Dear valued customer, your bank wants you to reverify KYC via the app: apk link http://bank-app.cc/install.apk
+1|WhatsApp: your account will be banned. Forward this code to your contact to stop it
+1|Aapke account se ek suspicious transaction hui hai. Turant ye number dial karein aur card details batayein
+1|आपके बिजली बिल में गड़बड़ी है। आज रात कनेक्शन कट जाएगा। अभी इस नंबर पर बात करें और पैसे ट्रांसफर करें
+1|नमस्ते, मैं बैंक मैनेजर बोल रहा हूँ। आपके कार्ड का सीवीवी बताइए ताकि मैं कार्ड सुरक्षित कर दूँ
+1|You have been selected for a government scheme. Send Rs 1500 registration charge to claim Rs 50000 subsidy
+1|Final notice: legal action will be taken against you. Pay the pending amount now to avoid arrest
+1|Customer care here: to cancel your wrong order, install the app I send and give me the screen sharing code
+1|Bhai ek kaam kar, tere phone me jo code aaya hai wo mujhe forward kar de, mera account verify karna hai
+0|Your OTP is 482913. Do NOT share it with anyone!!! Valid for 10 mins.
+0|REMINDER!!! Your EMI of Rs 4,520 is due TOMORROW. Please keep sufficient balance. Thank you 🙏
+0|HDFC Bank: Rs 2,350.00 debited from A/c **1234 on 23-Nov. Not you? Call 18002586161.
+0|Aapka OTP 4 8 2 9 1 3 hai. Kisi ko na batayein.
+0|U will get ur refund in 5-7 working days. Thx for shopping with us :)
+0|HAPPY DIWALI!!! 🪔 Flat 50% off on all items at our store today only. Visit now!
+0|Pls call me when u r free. Need to discuss abt tomorrow's plan
+0|Ur order #4521 has shipped & will arrive by Fri. Track: https://www.amazon.in/track
+0|Dear Customer, your A/c is credited with Rs 25,000 (salary). Avl bal: Rs 31,250.55 -SBI
+0|Meeting at 5pm!! Dont be late. Bring the docs plz
+0|आपका ओटीपी 4 8 2 9 1 3 है। किसी को न बताएं।
+0|Aapka bill Rs 860 hai!!! Last date 25 Nov. Pls pay on time. Dhanyavad
+0|FREE Delivery on orders above Rs 499 ✅ Shop now on the Myntra app. T&C apply.
+0|Congratulations on your new job!! 🎉 Let's celebrate this weekend, dinner on me
+0|Your appointment is confirmed 👍 Reply Y to confirm, N to cancel. - City Clinic
+""".strip()
+rows = [(int(l.split("|", 1)[0]), l.split("|", 1)[1].strip()) for l in ROWS.splitlines()]
+assert len({t for _, t in rows}) == len(rows)
+out = Path(__file__).resolve().parent / "dev_evasion_v1.csv"
+with open(out, "w", newline="", encoding="utf-8") as f:
+    w = csv.writer(f); w.writerow(["text", "label", "lang", "family"])
+    for y, t in rows: w.writerow([t, y, "mixed", "evasion"])
+print(f"wrote {len(rows)} rows ({sum(y for y, _ in rows)} scam, {sum(1 - y for y, _ in rows)} genuine)")

@@ -143,7 +143,7 @@
     "id": "gen_cybercrime_advisory_hi",
     "text": "साइबर जागरूकता: लॉटरी या नौकरी के नाम पर अज्ञात खातों में पैसे न भेजें। किसी को अपना ओटीपी न बताएं। सुरक्षित रहें।",
     "lang": "hindi",
-    "expectedBand": "suspicious",
+    "expectedBand": "looks_genuine",
     "notes": "Cyber security awareness advisory"
   },
   {

@@ -1,0 +1,76 @@
+text,label,lang,group
+"Dear Kotak Mahindra Bank user, your account is blocked. Update PAN now: http://upi-reward.site/claim",1,english,phish_bank:en:s3a
+"Dear Axis Bank user, your account is blocked. Update PAN now: http://hdfc-secure-verify.xyz",1,english,phish_bank:en:s3a
+"Dear SBI user, your account is blocked. Update PAN now: http://sbi-update-kyc.com/login",1,english,phish_bank:en:s3a
+IDFC First Bank: Your net banking will be suspended today. Complete KYC at http://tinyurl.com/4abx7 or call 98XXXXXX10,1,english,phish_bank:en:s3b
+Axis Bank: Your net banking will be suspended today. Complete KYC at http://bit.ly/3kXz9 or call 70XXXXXX55,1,english,phish_bank:en:s3b
+ICICI Bank: Your net banking will be suspended today. Complete KYC at http://paytm-kyc-now.cc or call 81XXXXXX47,1,english,phish_bank:en:s3b
+"Dear customer, your IDFC First Bank debit card is deactivated. Verify immediately: http://bit.ly/3kXz9",1,english,phish_bank:en:s3c
+"Dear customer, your SBI debit card is deactivated. Verify immediately: http://fastag-recharge.link",1,english,phish_bank:en:s3c
+"Dear customer, your Kotak Mahindra Bank debit card is deactivated. Verify immediately: http://sbi-kyc-update.top/login",1,english,phish_bank:en:s3c
+Bank of Baroda ALERT: Unusual activity detected on A/c XX1234. Confirm your details now: http://bit.ly/3kXz9,1,english,phish_bank:en:s3d
+SBI ALERT: Unusual activity detected on A/c *7745. Confirm your details now: http://fastag-recharge.link,1,english,phish_bank:en:s3d
+ICICI Bank ALERT: Unusual activity detected on A/c XXXX3307. Confirm your details now: http://fastag-recharge.link,1,english,phish_bank:en:s3d
+Your Axis Bank account has been limited. Restore access within 24 hours: http://paytm-kyc-now.cc,1,english,phish_bank:en:s3e
+Your SBI account has been limited. Restore access within 24 hours: http://upi-reward.site/claim,1,english,phish_bank:en:s3e
+Your SBI account has been limited. Restore access within 24 hours: http://sbi-kyc-update.top/login,1,english,phish_bank:en:s3e
+Dear user your KYC is expired. Share the OTP sent to you with our agent on 98XXXXXX10 to keep your account active.,1,english,phish_bank:en:s3f
+Dear user your KYC is expired. Share the OTP sent to you with our agent on 70XXXXXX55 to keep your account active.,1,english,phish_bank:en:s3f
+Dear user your KYC is expired. Share the OTP sent to you with our agent on 81XXXXXX47 to keep your account active.,1,english,phish_bank:en:s3f
+Congratulations! You have won Rs 25 Lakh in Vi Lucky Draw. Claim here: http://sbi-update-kyc.com/login,1,english,phish_other:en:s3a
+Congratulations! You have won Rs 25 Lakh in Jio Lucky Draw. Claim here: http://paytm-kyc-now.cc,1,english,phish_other:en:s3a
+Congratulations! You have won Rs 25 Lakh in Jio Lucky Draw. Claim here: http://tinyurl.com/4abx7,1,english,phish_other:en:s3a
+Your Income Tax refund of Rs 99 is approved. Submit bank details: http://sbi-update-kyc.com/login,1,english,phish_other:en:s3b
+Your Income Tax refund of Rs 250 is approved. Submit bank details: http://bit.ly/3kXz9,1,english,phish_other:en:s3b
+"Your Income Tax refund of Rs 8,999 is approved. Submit bank details: http://refund-india.online",1,english,phish_other:en:s3b
+Dear customer your electricity will be disconnected tonight 9:30 PM. Call 70XXXXXX55 for officer.,1,english,phish_other:en:s3c
+Dear customer your electricity will be disconnected tonight 9:30 PM. Call 98XXXXXX10 for officer.,1,english,phish_other:en:s3c
+Dear customer your electricity will be disconnected tonight 9:30 PM. Call 81XXXXXX47 for officer.,1,english,phish_other:en:s3c
+Your parcel is held at customs. Pay Rs 75 clearance here: http://sbi-kyc-update.top/login,1,english,phish_other:en:s3d
+Your parcel is held at customs. Pay Rs 75 clearance here: http://paytm-kyc-now.cc,1,english,phish_other:en:s3d
+Your parcel is held at customs. Pay Rs 75 clearance here: http://refund-india.online,1,english,phish_other:en:s3d
+URGENT: Your FASTag is blocked. Recharge now: http://hdfc-secure-verify.xyz,1,english,phish_other:en:s3e
+URGENT: Your FASTag is blocked. Recharge now: http://refund-india.online,1,english,phish_other:en:s3e
+URGENT: Your FASTag is blocked. Recharge now: http://upi-reward.site/claim,1,english,phish_other:en:s3e
+Dear Myntra user your account has unusual sign-in. Verify at http://paytm-kyc-now.cc,1,english,phish_other:en:s3f
+Dear Nykaa user your account has unusual sign-in. Verify at http://sbi-kyc-update.top/login,1,english,phish_other:en:s3f
+Dear Myntra user your account has unusual sign-in. Verify at http://refund-india.online,1,english,phish_other:en:s3f
+"You are selected for a job at Swiggy. Earn Rs 5,000 per day. WhatsApp 70XXXXXX55 with your Aadhaar and bank details.",1,english,phish_other:en:s3g
+"You are selected for a job at BigBasket. Earn Rs 5,000 per day. WhatsApp 81XXXXXX47 with your Aadhaar and bank details.",1,english,phish_other:en:s3g
+"You are selected for a job at Nykaa. Earn Rs 5,000 per day. WhatsApp 81XXXXXX47 with your Aadhaar and bank details.",1,english,phish_other:en:s3g
+Sir your SIM will be blocked in 2 hours. Complete Aadhaar verification: http://sbi-update-kyc.com/login,1,english,phish_other:en:s3h
+Sir your SIM will be blocked in 2 hours. Complete Aadhaar verification: http://amazon-prize-claim.club,1,english,phish_other:en:s3h
+Sir your SIM will be blocked in 2 hours. Complete Aadhaar verification: http://hdfc-secure-verify.xyz,1,english,phish_other:en:s3h
+"Dear customer, your gas subsidy of Rs 499 is pending. Update bank details: http://hdfc-secure-verify.xyz",1,english,phish_other:en:s3i
+"Dear customer, your gas subsidy of Rs 4,500 is pending. Update bank details: http://refund-india.online",1,english,phish_other:en:s3i
+"Dear customer, your gas subsidy of Rs 499 is pending. Update bank details: http://paytm-kyc-now.cc",1,english,phish_other:en:s3i
+"A request of Rs 1,200 from Ajio Support is pending on your UPI app. Approve it to receive your refund.",1,english,phish_other:en:s3j
+A request of Rs 99 from Ajio Support is pending on your UPI app. Approve it to receive your refund.,1,english,phish_other:en:s3j
+"A request of Rs 25,000 from Amazon Support is pending on your UPI app. Approve it to receive your refund.",1,english,phish_other:en:s3j
+Your Amazon order is on hold. Pay the redelivery fee of Rs 49 here: http://amazon-prize-claim.club,1,english,phish_other:en:s3k
+Your Meesho order is on hold. Pay the redelivery fee of Rs 49 here: http://sbi-kyc-update.top/login,1,english,phish_other:en:s3k
+Your BigBasket order is on hold. Pay the redelivery fee of Rs 49 here: http://amazon-prize-claim.club,1,english,phish_other:en:s3k
+"Dear customer, you are eligible for a pre-approved loan of Rs 25,000. Pay Rs 999 processing fee to 98XXXXXX10 to get it today.",1,english,phish_other:en:s3l
+"Dear customer, you are eligible for a pre-approved loan of Rs 99. Pay Rs 999 processing fee to 70XXXXXX55 to get it today.",1,english,phish_other:en:s3l
+"Dear customer, you are eligible for a pre-approved loan of Rs 250. Pay Rs 999 processing fee to 70XXXXXX55 to get it today.",1,english,phish_other:en:s3l
+Aapka IDFC First Bank account aaj band ho jayega. Turant KYC update karein: http://upi-reward.site/claim,1,hinglish,phish_hinglish:hi:s3a
+Aapka Bank of Baroda account aaj band ho jayega. Turant KYC update karein: http://hdfc-secure-verify.xyz,1,hinglish,phish_hinglish:hi:s3a
+Aapka HDFC Bank account aaj band ho jayega. Turant KYC update karein: http://paytm-kyc-now.cc,1,hinglish,phish_hinglish:hi:s3a
+Myntra: Aapka reward claim karne ke liye ye link kholein aur card details daalein: http://paytm-kyc-now.cc,1,hinglish,phish_hinglish:hi:s3b
+Swiggy: Aapka reward claim karne ke liye ye link kholein aur card details daalein: http://sbi-update-kyc.com/login,1,hinglish,phish_hinglish:hi:s3b
+Amazon: Aapka reward claim karne ke liye ye link kholein aur card details daalein: http://tinyurl.com/4abx7,1,hinglish,phish_hinglish:hi:s3b
+Aapka bijli connection aaj raat kat jayega. Turant 98XXXXXX10 par call karein.,1,hinglish,phish_hinglish:hi:s3c
+Aapka bijli connection aaj raat kat jayega. Turant 81XXXXXX47 par call karein.,1,hinglish,phish_hinglish:hi:s3c
+Aapka bijli connection aaj raat kat jayega. Turant 70XXXXXX55 par call karein.,1,hinglish,phish_hinglish:hi:s3c
+Aapko Vi lucky draw me Rs 25 lakh mile hain. Claim karne ke liye processing fee bhejein: http://fastag-recharge.link,1,hinglish,phish_hinglish:hi:s3d
+Aapko Vi lucky draw me Rs 25 lakh mile hain. Claim karne ke liye processing fee bhejein: http://refund-india.online,1,hinglish,phish_hinglish:hi:s3d
+Aapko Jio lucky draw me Rs 25 lakh mile hain. Claim karne ke liye processing fee bhejein: http://sbi-kyc-update.top/login,1,hinglish,phish_hinglish:hi:s3d
+आपका Canara Bank खाता आज बंद हो जाएगा। केवाईसी अपडेट करें: http://fastag-recharge.link,1,hindi,phish_hindi:hi:s3a
+आपका ICICI Bank खाता आज बंद हो जाएगा। केवाईसी अपडेट करें: http://fastag-recharge.link,1,hindi,phish_hindi:hi:s3a
+आपका Kotak Mahindra Bank खाता आज बंद हो जाएगा। केवाईसी अपडेट करें: http://upi-reward.site/claim,1,hindi,phish_hindi:hi:s3a
+आपको Airtel लकी ड्रॉ में 25 लाख रुपये मिले हैं। इनाम पाने के लिए यह लिंक खोलें: http://upi-reward.site/claim,1,hindi,phish_hindi:hi:s3b
+आपको Jio लकी ड्रॉ में 25 लाख रुपये मिले हैं। इनाम पाने के लिए यह लिंक खोलें: http://refund-india.online,1,hindi,phish_hindi:hi:s3b
+आपको Vi लकी ड्रॉ में 25 लाख रुपये मिले हैं। इनाम पाने के लिए यह लिंक खोलें: http://fastag-recharge.link,1,hindi,phish_hindi:hi:s3b
+आपका बिजली कनेक्शन आज रात कट जाएगा। तुरंत 98XXXXXX10 पर कॉल करें।,1,hindi,phish_hindi:hi:s3c
+आपका बिजली कनेक्शन आज रात कट जाएगा। तुरंत 70XXXXXX55 पर कॉल करें।,1,hindi,phish_hindi:hi:s3c
+आपका बिजली कनेक्शन आज रात कट जाएगा। तुरंत 81XXXXXX47 पर कॉल करें।,1,hindi,phish_hindi:hi:s3c

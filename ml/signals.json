@@ -63,7 +63,21 @@
           "बताईये",
           "बतायें",
           "बताएँ",
-          "शेयर"
+          "शेयर",
+          "forward",
+          "forwarding",
+          "fwd",
+          "frwd",
+          "फॉरवर्ड",
+          "reply with",
+          "read out",
+          "read the",
+          "bol do",
+          "bol dijiye",
+          "bolo",
+          "forward kar",
+          "forward kijiye",
+          "padh kar sunao"
         ]
       ],
       "none": [
@@ -229,7 +243,17 @@
           "आज रात",
           "अंतिम",
           "24 घंटे",
-          "2 घंटे"
+          "2 घंटे",
+          "आज समाप्त",
+          "कल बंद",
+          "aaj band",
+          "aaj expire",
+          "आज expire",
+          "jaldi se",
+          "जल्दी से",
+          "फौरन",
+          "fauran",
+          "within the hour"
         ]
       ],
       "none": [
@@ -273,7 +297,28 @@
           "रद्द",
           "काट दी",
           "काट दिया",
-          "जुर्माना"
+          "जुर्माना",
+          "warrant",
+          "वारंट",
+          "वॉरंट",
+          "money laundering",
+          "मनी लॉन्ड्रिंग",
+          "laundering",
+          "seized",
+          "confiscat*",
+          "non bailable",
+          "गैर जमानती",
+          "कट जाएगा",
+          "कट जाएगी",
+          "कटेगा",
+          "निष्क्रिय",
+          "बंद हो जाएगा",
+          "band ho jayega",
+          "band ho jayegi",
+          "case darj",
+          "केस दर्ज",
+          "fir darj",
+          "एफआईआर"
         ]
       ],
       "none": [
@@ -324,7 +369,10 @@
           "pan card",
           "aadhaar card",
           "आधार कार्ड",
-          "pan"
+          "pan",
+          "aadhaar",
+          "aadhar",
+          "आधार"
         ],
         [
           "update",
@@ -341,7 +389,14 @@
           "बंद",
           "समाप्त",
           "karein",
-          "karo"
+          "karo",
+          "सत्यापन",
+          "नवीनीकरण",
+          "अधूरा",
+          "adhura",
+          "incomplete",
+          "expired",
+          "expire"
         ]
       ],
       "none": [
@@ -351,7 +406,8 @@
         "ho gaya hai thanks",
         "धन्यवाद",
         "thanks",
-        "thank you"
+        "thank you",
+        "urlgovtok"
       ]
     },
     {
@@ -507,7 +563,17 @@
           "scan qr",
           "qr code",
           "approve on gpay",
-          "approve on"
+          "approve on",
+          "bhejiye",
+          "bhejein",
+          "bhej do",
+          "भेजो",
+          "भेज दो",
+          "जमा कीजिए",
+          "jama kijiye",
+          "transfer karein",
+          "transfer kijiye",
+          "ट्रांसफर करें"
         ],
         [
           "amounttok",
@@ -603,7 +669,22 @@
           "call na kate",
           "call mat kaatna",
           "कॉल न काटें",
-          "कॉल मत काटें"
+          "कॉल मत काटें",
+          "कॉल मत काट*",
+          "कॉल न काट*",
+          "फोन मत काट*",
+          "call mat kat*",
+          "call na kat*",
+          "phone mat kat*",
+          "line par bane rah*",
+          "लाइन पर बने रह*",
+          "वीडियो कॉल पर बने रह*",
+          "kisi ko kuch mat",
+          "किसी को कुछ मत",
+          "किसी को भी मत",
+          "kisi ko bhi mat",
+          "kisi se baat mat",
+          "किसी से बात न"
         ]
       ],
       "none": []
@@ -631,7 +712,32 @@
           "kamayein",
           "kamao",
           "कमाएं",
-          "गारंटी"
+          "गारंटी*",
+          "guaranteed profit",
+          "guaranteed returns",
+          "गारंटीड",
+          "घर बैठे",
+          "रोज कमाएं",
+          "रोजाना कमाएं",
+          "stock tips",
+          "crypto plan",
+          "trading group",
+          "vip group",
+          "वीआईपी ग्रुप",
+          "स्टॉक ग्रुप",
+          "रेटिंग दें",
+          "rating do",
+          "rating dene",
+          "video like",
+          "like karo",
+          "task deposit",
+          "invest karo",
+          "निवेश करें",
+          "return milega",
+          "रिटर्न मिलेगा",
+          "munafa",
+          "मुनाफा",
+          "profit milega"
         ]
       ],
       "none": []
@@ -955,7 +1061,25 @@
           "bheja tha",
           "sent by mistake",
           "transferred by mistake",
-          "wrong transaction"
+          "wrong transaction",
+          "accidentally",
+          "in error",
+          "by error",
+          "wrong number",
+          "wrong person",
+          "wrong account",
+          "galat number",
+          "galat account",
+          "galti ho gayi",
+          "गलत नंबर",
+          "गलत खाते",
+          "गल्ती से",
+          "धोखे से",
+          "ग़लती से",
+          "galti se bhej",
+          "sent money to you",
+          "paise bhej diye",
+          "पैसे भेज दिए"
         ],
         [
           "return",
@@ -969,7 +1093,25 @@
           "कलेक्ट रिक्वेस्ट",
           "wapas bhej",
           "return the money",
-          "wapas kar"
+          "wapas kar",
+          "approve",
+          "accept",
+          "एक्सेप्ट",
+          "मंजूर",
+          "स्वीकार",
+          "लौटा*",
+          "lauta*",
+          "return it",
+          "returned",
+          "refund me",
+          "send it back",
+          "wapas kar do",
+          "wapas kar dijiye",
+          "wapas bhej do",
+          "वापस कर दें",
+          "वापस कर दीजिए",
+          "वापस भेज दें",
+          "कलेक्ट"
         ]
       ],
       "none": []
@@ -1005,6 +1147,57 @@
         ]
       ],
       "none": []
+    },
+    {
+      "id": "qr_receive_trick",
+      "kind": "risk",
+      "groups": [
+        [
+          "qr",
+          "क्यूआर",
+          "scan",
+          "स्कैन"
+        ],
+        [
+          "receive",
+          "receiving",
+          "refund",
+          "cashback",
+          "prize",
+          "credit",
+          "paisa pane",
+          "paise pane",
+          "पैसे पाने",
+          "पाने के लिए",
+          "रिसीव",
+          "रिफंड",
+          "कैशबैक",
+          "upi pin",
+          "pin",
+          "पिन",
+          "यूपीआई पिन",
+          "advance",
+          "paisa lene",
+          "paise lene"
+        ]
+      ],
+      "none": [
+        "never scan",
+        "do not scan",
+        "don t scan",
+        "scan mat",
+        "स्कैन न",
+        "स्कैन मत",
+        "no need to",
+        "not required",
+        "need not",
+        "don t need",
+        "dont need",
+        "successfully",
+        "paid via",
+        "सफलतापूर्वक",
+        "भुगतान सफल"
+      ]
     }
   ]
 }

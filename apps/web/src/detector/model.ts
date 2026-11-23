@@ -1,4 +1,4 @@
-import { ENTITY_TOKENS, charNgrams, extractSignals, textFeatures, tokenize, type FiredSignal, type SignalsFile, type Token } from './textpipe'
+import { ENTITY_TOKENS, charNgrams, extractSignals, shadowOf, textFeatures, tokenize, type FiredSignal, type SignalsFile, type Token } from './textpipe'
 
 export interface ModelFile {
   version: string
@@ -67,6 +67,8 @@ export class Scorer {
     r.words.forEach((w, ti) => {
       if (!ENTITY_TOKENS.has(w)) for (const g of charNgrams(w, lo, hi)) add('c:' + g, ti)
       add('w:' + w, ti)
+      const sh = ENTITY_TOKENS.has(w) ? null : shadowOf(w)
+      if (sh !== null) add('x:' + sh, ti)
       if (ti + 1 < r.words.length) {
         add('b:' + w + ' ' + r.words[ti + 1], ti)
         add('b:' + w + ' ' + r.words[ti + 1], ti + 1)
