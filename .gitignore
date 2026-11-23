@@ -43,3 +43,6 @@ data/real/
 
 # translation review spreadsheets (never committed)
 review_sheet*.csv
+
+# raw lesson recordings (the processed .m4a files in apps/web/public/audio are small enough to commit)
+apps/web/recordings/
