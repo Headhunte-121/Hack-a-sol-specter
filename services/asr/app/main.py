@@ -55,11 +55,26 @@ class WhisperTranscriber:
     Recommended: a CTranslate2 conversion of vasista22/whisper-hindi-small (Apache-2.0), see convert_model.py.
     Default 'small' is the multilingual OpenAI Whisper small model with the language forced to Hindi."""
 
-    def __init__(self, model: str | None = None, device: str | None = None, compute_type: str | None = None):
+    def __init__(self, model: str | None = None, device: str | None = None, compute_type: str | None = None, hindi_model: str | None = None):
         self.name = model or os.environ.get("ASR_MODEL", "small")
+        # Optional Hindi fine-tune (ASR_HINDI_MODEL). The multilingual model above still detects the language and handles English;
+        # speech detected as Hindi goes to the fine-tune, which hears Hindi and Hinglish far better but cannot do English.
+        self._hindi_name = (hindi_model if hindi_model is not None else os.environ.get("ASR_HINDI_MODEL", "")).strip()
+        self._hindi = None
         self._device = device or os.environ.get("ASR_DEVICE", "cpu")
         self._compute = compute_type or os.environ.get("ASR_COMPUTE", "int8" if self._device == "cpu" else "float16")
+        self._forced = os.environ.get("ASR_LANGUAGE", "").strip().lower()  # "hi" or "en" skips detection
         self._model = None
+
+    def _language(self, model, audio: np.ndarray) -> str:
+        if self._forced in PROMPTS:
+            return self._forced
+        try:
+            _, _, probs = model.detect_language(audio)
+            return pick_language(dict(probs))
+        except Exception:
+            # A Hindi-only fine-tune has no usable language detector, and what it hears is Hindi.
+            return "hi"
 
     def _load(self):
         if self._model is None:
@@ -68,11 +83,24 @@ class WhisperTranscriber:
             self._model = WhisperModel(self.name, device=self._device, compute_type=self._compute)
         return self._model
 
+    def _load_hindi(self):
+        if self._hindi is None:
+            from faster_whisper import WhisperModel
+
+            self._hindi = WhisperModel(self._hindi_name, device=self._device, compute_type=self._compute)
+        return self._hindi
+
+    def preload(self) -> None:
+        self._load()
+        if self._hindi_name:
+            self._load_hindi()
+
     def transcribe(self, audio: np.ndarray) -> list[dict[str, Any]]:
         # splitIntoSpeech + transcribeChunks: voice-activity detection skips silence; the library cuts long audio into 30 s windows.
         model = self._load()
-        _, _, probs = model.detect_language(audio)
-        lang = pick_language(dict(probs))
+        lang = self._language(model, audio)
+        if lang == "hi" and self._hindi_name:
+            model = self._load_hindi()
         segments, _ = model.transcribe(audio, language=lang, task="transcribe", vad_filter=True, beam_size=1, condition_on_previous_text=False,
                                        initial_prompt=PROMPTS[lang])
         out = []
@@ -91,7 +119,7 @@ def post_process(text: str) -> str:
 def create_app(transcriber: Transcriber | None = None, rate_limit: int | None = None, tmp_dir: str | None = None, now_fn: Callable[[], float] | None = None) -> FastAPI:
     tr = transcriber or WhisperTranscriber()
     if os.environ.get("ASR_PRELOAD") == "1" and isinstance(tr, WhisperTranscriber):
-        tr._load()  # load the model before accepting requests, so the first caller does not wait for it
+        tr.preload()  # load the model(s) before accepting requests, so the first caller does not wait for them
     LIMIT = int(rate_limit if rate_limit is not None else os.environ.get("ASR_RATE_LIMIT", 20))  # clips per client per hour
     now = now_fn or time.time
     counts: dict[str, tuple[int, int]] = {}   # hashed client -> (hour, count), in memory only

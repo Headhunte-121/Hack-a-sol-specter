@@ -112,3 +112,83 @@ def test_pick_language_hindi_or_english_only():
     assert pick_language({"ur": 0.6, "hi": 0.1, "en": 0.3}) == "hi"     # Hindi speech heard as Urdu is written as Hindi
     assert pick_language({}) == "hi"
     assert set(PROMPTS) == {"hi", "en"} and all(PROMPTS.values())
+
+
+class _Seg:
+    start, end, text, no_speech_prob, compression_ratio, avg_logprob = 0.0, 1.0, " नमस्ते ", 0.0, 1.0, -0.2
+
+
+class _HindiOnlyModel:
+    """Like a Hindi fine-tune: the language detector has nothing to return."""
+
+    def __init__(self):
+        self.lang = None
+
+    def detect_language(self, audio):
+        raise IndexError("list index out of range")
+
+    def transcribe(self, audio, language=None, **kw):
+        self.lang = language
+        return [_Seg()], None
+
+
+def test_a_model_without_a_language_detector_is_treated_as_hindi():
+    from app.main import WhisperTranscriber
+
+    t = WhisperTranscriber(model="x")
+    t._model = _HindiOnlyModel()
+    out = t.transcribe(np.zeros(16000, dtype=np.float32))
+    assert t._model.lang == "hi"
+    assert out[0]["text"] == "नमस्ते"
+
+
+def test_asr_language_setting_skips_detection(monkeypatch):
+    from app.main import WhisperTranscriber
+
+    monkeypatch.setenv("ASR_LANGUAGE", "en")
+    t = WhisperTranscriber(model="x")
+    t._model = _HindiOnlyModel()
+    t.transcribe(np.zeros(16000, dtype=np.float32))
+    assert t._model.lang == "en"
+
+
+class _Router:
+    """A multilingual model that detects the language, plus a record of which model transcribed."""
+
+    def __init__(self, tag, probs):
+        self.tag, self.probs, self.used = tag, probs, False
+
+    def detect_language(self, audio):
+        return "x", 0.9, self.probs
+
+    def transcribe(self, audio, language=None, **kw):
+        self.used = True
+        return [_Seg()], None
+
+
+def _routed(probs):
+    from app.main import WhisperTranscriber
+
+    t = WhisperTranscriber(model="small", hindi_model="hindi-ft")
+    t._model, t._hindi = _Router("base", probs), _Router("hindi", {})
+    t.transcribe(np.zeros(16000, dtype=np.float32))
+    return t
+
+
+def test_hindi_speech_goes_to_the_hindi_model_when_one_is_set():
+    t = _routed([("hi", 0.8), ("en", 0.1)])
+    assert t._hindi.used and not t._model.used
+
+
+def test_english_speech_stays_on_the_multilingual_model():
+    t = _routed([("en", 0.9), ("hi", 0.05)])
+    assert t._model.used and not t._hindi.used
+
+
+def test_without_a_hindi_model_everything_uses_the_default_model():
+    from app.main import WhisperTranscriber
+
+    t = WhisperTranscriber(model="small", hindi_model="")
+    t._model = _Router("base", [("hi", 0.9)])
+    t.transcribe(np.zeros(16000, dtype=np.float32))
+    assert t._model.used
