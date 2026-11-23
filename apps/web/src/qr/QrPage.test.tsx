@@ -54,7 +54,9 @@ describe('the QR page asks first and explains a switched-off camera', () => {
     await act(async () => { (q('camera-off-note')!.querySelector('button') as HTMLElement).click() })
     expect(q('camera-help')?.getAttribute('data-kind')).toBe('denied')
     expect(q('camera-help')?.getAttribute('data-mode')).toBe('browser')
-    expect(q('camera-help')?.textContent).toContain(en['qr.cam.web.1'])
+    expect(q('camera-help')?.textContent).toContain('Site settings, then All sites') // the lock icon is hidden in newer Chrome, so the steps go through the menu
+    expect(q('camera-help')?.textContent).toContain(location.host) // names the site to look for
+    expect(q('camera-help')?.textContent).not.toContain('{site}')
   })
 
   it('from the home screen there is no address bar, so the steps use App info instead of the lock', async () => {
