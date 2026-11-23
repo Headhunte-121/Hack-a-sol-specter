@@ -72,6 +72,25 @@ export async function applyUpdate(): Promise<boolean> {
 }
 export const dismissUpdate = () => emit({ needRefresh: false })
 
+/** forceUpdateApp: check for service worker updates, clear old caches, and reload the latest assets. */
+export async function forceUpdateApp(): Promise<void> {
+  if (typeof window === 'undefined') return
+  try {
+    if ('serviceWorker' in navigator) {
+      const reg = await navigator.serviceWorker.getRegistration()
+      if (reg) {
+        await reg.update().catch(() => {})
+      }
+    }
+    if ('caches' in window) {
+      const keys = await caches.keys()
+      await Promise.all(keys.map((k) => caches.delete(k)))
+    }
+  } finally {
+    window.location.reload()
+  }
+}
+
 /** promptInstall: show the browser install dialog. Returns the outcome, or null if unsupported / already installed. */
 export async function promptInstall(): Promise<'accepted' | 'dismissed' | null> {
   const ev = state.installEvent

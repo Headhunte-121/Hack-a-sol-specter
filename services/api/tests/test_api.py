@@ -250,3 +250,15 @@ def test_postgres_schema_idempotency_and_rls():
             assert len(rows) >= 6
             for table, rls in rows:
                 assert rls is True, f"RLS must be enabled on {table}"
+
+
+def test_cors_preflight_allows_cache_control_and_headers(clock):
+    _, c = make(clock)
+    headers = {
+        "Origin": "https://hack-a-sol-specter.vercel.app",
+        "Access-Control-Request-Method": "GET",
+        "Access-Control-Request-Headers": "cache-control",
+    }
+    r = c.options("/health", headers=headers)
+    assert r.status_code == 200
+    assert r.headers.get("access-control-allow-origin") in ("*", "https://hack-a-sol-specter.vercel.app")

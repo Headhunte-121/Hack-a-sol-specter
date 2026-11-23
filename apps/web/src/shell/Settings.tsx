@@ -5,7 +5,7 @@ import { DemoModeCard } from '../ui/shared/DemoModeCard'
 import { hasConsent, setConsent } from './consent'
 import { useLang } from './i18n'
 import { LanguageSwitch, Layout } from './Layout'
-import { applyUpdate, usePwaState } from './pwa'
+import { applyUpdate, forceUpdateApp, usePwaState } from './pwa'
 import { clearQueue } from './queue'
 import { kvClearAll } from './storage'
 import { Icon } from './ui'
@@ -53,7 +53,7 @@ export function Settings() {
     const aBase = apiBase()
     if (aBase) {
       const ctl = new AbortController()
-      const timer = setTimeout(() => ctl.abort(), 4000)
+      const timer = setTimeout(() => ctl.abort(), 8000)
       fetch(`${aBase}/health`, { signal: ctl.signal, cache: 'no-store' })
         .then((r) => {
           clearTimeout(timer)
@@ -199,17 +199,27 @@ export function Settings() {
         </div>
       </section>
 
-      <section className="card space-y-2" data-testid="app-version">
-        <p className="text-[13px] text-slate-500">
-          {t('settings.version')}: <span className="font-mono">{appVersion()}</span>
-        </p>
+      <section className="card space-y-3" data-testid="app-version">
+        <div className="flex items-center justify-between">
+          <p className="text-[13px] text-slate-500">
+            {t('settings.version')}: <span className="font-mono">{appVersion()}</span>
+          </p>
+          <button
+            type="button"
+            className="btn btn-secondary !min-h-8 !py-1 !px-2.5 text-xs font-semibold"
+            onClick={() => void forceUpdateApp()}
+            data-testid="force-update-btn"
+          >
+            🔄 {t('update.check')}
+          </button>
+        </div>
         {pwa.needRefresh && (
-          <>
-            <p className="text-[13.5px] font-bold">{t('update.ready')}</p>
+          <div className="space-y-1.5 pt-1">
+            <p className="text-[13.5px] font-bold text-brand">{t('update.ready')}</p>
             <button className="btn btn-primary min-h-10.5! w-full text-[13.5px]!" onClick={() => void applyUpdate()}>
               {t('update.refresh')}
             </button>
-          </>
+          </div>
         )}
       </section>
     </Layout>

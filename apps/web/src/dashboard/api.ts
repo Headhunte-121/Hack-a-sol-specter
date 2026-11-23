@@ -41,12 +41,12 @@ export async function apiGet<T>(path: string, timeoutMs = 6000): Promise<ApiResu
   }
 }
 
-export async function apiHealthy(): Promise<boolean> {
+export async function apiHealthy(timeoutMs = 8000): Promise<boolean> {
   const base = apiBase()
   if (!base || (typeof navigator !== 'undefined' && !navigator.onLine)) return false
   try {
     const ctl = new AbortController()
-    const timer = setTimeout(() => ctl.abort(), 4000)
+    const timer = setTimeout(() => ctl.abort(), timeoutMs)
     const r = await fetch(base + '/health', { signal: ctl.signal, cache: 'no-store' })
     clearTimeout(timer)
     return r.ok

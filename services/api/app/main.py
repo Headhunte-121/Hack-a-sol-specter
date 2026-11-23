@@ -69,8 +69,8 @@ def create_app(db_path: str | None = None, secret: str | None = None, min_count:
     app = FastAPI(title="Suraksha anonymous reports API", version=VERSION)
     app.state.db = db
     app.state.min_count = MIN
-    app.add_middleware(CORSMiddleware, allow_origins=os.environ.get("API_CORS", "*").split(","), allow_methods=["GET", "POST"],
-                       allow_headers=["Content-Type", "X-Client-Token", "X-Admin-Key", "Authorization"], allow_credentials=False)
+    app.add_middleware(CORSMiddleware, allow_origins=os.environ.get("API_CORS", "*").split(","), allow_methods=["*"],
+                       allow_headers=["*"], allow_credentials=False)
 
     @app.middleware("http")
     async def limit_body(request: Request, call_next):

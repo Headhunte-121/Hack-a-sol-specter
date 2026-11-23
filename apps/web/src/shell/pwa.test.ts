@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { checkOfflineReady } from './pwa'
+import { checkOfflineReady, forceUpdateApp } from './pwa'
 
 vi.mock('virtual:pwa-register', () => ({ registerSW: () => async () => {} }))
 
@@ -39,5 +39,29 @@ describe('checkOfflineReady', () => {
     vi.stubGlobal('caches', fakeCaches([]))
     vi.stubGlobal('navigator', { ...navigator, serviceWorker: { getRegistration: async () => ({ active: {} }) } })
     expect(await checkOfflineReady()).toBe('partial')
+  })
+})
+
+describe('forceUpdateApp', () => {
+  it('updates registration, clears caches, and reloads window', async () => {
+    const updateSpy = vi.fn().mockResolvedValue(undefined)
+    const deleteSpy = vi.fn().mockResolvedValue(true)
+    const reloadSpy = vi.fn()
+    vi.stubGlobal('navigator', {
+      serviceWorker: {
+        getRegistration: async () => ({ update: updateSpy }),
+      },
+    })
+    vi.stubGlobal('caches', {
+      keys: async () => ['workbox-precache-v1', 'runtime-cache'],
+      delete: deleteSpy,
+    })
+    vi.stubGlobal('location', { reload: reloadSpy })
+
+    await forceUpdateApp()
+    expect(updateSpy).toHaveBeenCalled()
+    expect(deleteSpy).toHaveBeenCalledWith('workbox-precache-v1')
+    expect(deleteSpy).toHaveBeenCalledWith('runtime-cache')
+    expect(reloadSpy).toHaveBeenCalled()
   })
 })

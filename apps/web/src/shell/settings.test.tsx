@@ -134,4 +134,17 @@ describe('Settings server status row', () => {
     expect(apiStatus?.textContent).toContain('Offline')
     expect(asrStatus?.textContent).toContain('Offline')
   })
+
+  it('renders force update button in version card', async () => {
+    await act(async () => {
+      root = createRoot(host)
+      root.render(
+        <LangProvider>
+          <Settings />
+        </LangProvider>
+      )
+    })
+    const updateBtn = host.querySelector('[data-testid="force-update-btn"]')
+    expect(updateBtn).not.toBeNull()
+  })
 })
