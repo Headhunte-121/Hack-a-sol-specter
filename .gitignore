@@ -40,3 +40,6 @@ services/asr/models/
 
 # real messages used for tuning: stay on the phone owner's PC, never committed
 data/real/
+
+# translation review spreadsheets (never committed)
+review_sheet*.csv
