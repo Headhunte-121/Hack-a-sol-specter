@@ -27,7 +27,12 @@ interface SearchItem {
   keywords: string[]
 }
 
-export function HeroSearch() {
+export interface HeroSearchProps {
+  showQrShortcut?: boolean
+  className?: string
+}
+
+export function HeroSearch({ showQrShortcut = false, className = '' }: HeroSearchProps) {
   const { lang, t } = useLang()
   const ui = getUiLabels(lang)
   const [query, setQuery] = useState('')
@@ -44,7 +49,20 @@ export function HeroSearch() {
         sub: t('tile.message.sub'),
         icon: MessageSquareText,
         tone: 'bg-blue-50 text-blue-700',
-        keywords: ['message', 'sms', 'whatsapp', 'link', 'url', 'otp', 'kyc', 'scam', 'phishing', 'संदेश', 'संदेसा', 'लिंक'],
+        keywords: [
+          'message',
+          'sms',
+          'whatsapp',
+          'link',
+          'url',
+          'otp',
+          'kyc',
+          'scam',
+          'phishing',
+          'संदेश',
+          'संदेसा',
+          'लिंक',
+        ],
       },
       {
         id: 'call',
@@ -186,8 +204,8 @@ export function HeroSearch() {
   }
 
   return (
-    <div ref={wrapperRef} className="relative z-20">
-      <div className="flex h-11 items-center gap-2 rounded-2xl bg-white px-3.5 text-slate-900 shadow-md shadow-blue-950/20 ring-1 ring-slate-200/80 transition-shadow focus-within:ring-2 focus-within:ring-sky-300">
+    <div ref={wrapperRef} className={`relative z-20 ${className}`}>
+      <div className="flex h-11.5 items-center gap-2.5 rounded-2xl bg-white px-3.5 text-slate-900 shadow-md shadow-blue-950/20 ring-1 ring-white/80 focus-within:ring-2 focus-within:ring-blue-300">
         <Search className="size-4 shrink-0 text-[#1B3B73]" strokeWidth={2.3} />
         <input
           type="search"
@@ -205,7 +223,8 @@ export function HeroSearch() {
           aria-autocomplete="list"
           className="h-full w-full min-w-0 bg-transparent text-[13.5px] font-medium text-slate-800 placeholder:text-slate-400 focus:outline-none"
         />
-        {query && (
+
+        {query ? (
           <button
             type="button"
             onClick={() => {
@@ -213,17 +232,28 @@ export function HeroSearch() {
               setOpen(true)
             }}
             aria-label="Clear search"
-            className="flex size-6 shrink-0 cursor-pointer items-center justify-center rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-800"
+            className="flex size-6.5 shrink-0 cursor-pointer items-center justify-center rounded-full bg-slate-100 text-slate-500 transition-colors hover:bg-slate-200 hover:text-slate-700"
           >
             <X className="size-3.5" strokeWidth={2.4} />
           </button>
+        ) : (
+          showQrShortcut && (
+            <a
+              href="#/qr"
+              aria-label={t('tile.qr')}
+              title={t('tile.qr')}
+              className="flex size-8 shrink-0 items-center justify-center rounded-xl text-slate-500 transition-colors hover:bg-slate-100 hover:text-[#1B3B73]"
+            >
+              <QrCode className="size-4.5" strokeWidth={2} />
+            </a>
+          )
         )}
       </div>
 
       {open && (
         <div
           role="listbox"
-          className="absolute inset-x-0 top-full z-30 mt-2 max-h-72 overflow-y-auto rounded-2xl border border-slate-200/90 bg-white p-1.5 text-slate-900 shadow-xl shadow-slate-900/20"
+          className="absolute inset-x-0 top-full z-30 mt-2 max-h-72 overflow-y-auto rounded-2xl border border-slate-200/90 bg-white p-1.5 text-left text-slate-900 shadow-xl shadow-slate-900/15"
         >
           {!trimmed && (
             <div className="px-2.5 pt-1 pb-1.5 text-[10.5px] font-bold uppercase tracking-wider text-slate-400">
@@ -266,7 +296,7 @@ export function HeroSearch() {
               <button
                 type="button"
                 onClick={() => goTo('#/message')}
-                className="inline-flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-xl bg-blue-50 px-3 py-2 text-[12.5px] font-bold text-[#1B3B73] hover:bg-blue-100"
+                className="inline-flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-xl bg-blue-50 px-3 py-2 text-[12.5px] font-bold text-[#1B3B73] transition-colors hover:bg-blue-100"
               >
                 <MessageSquareText className="size-3.5" />
                 <span>{ui.searchCheckFallback}</span>
