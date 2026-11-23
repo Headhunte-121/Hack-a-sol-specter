@@ -89,3 +89,19 @@ def test_allow_small_builds_and_excludes_frozen_texts(tmp_path, monkeypatch, cap
     corpus = pd.read_csv(root / "data" / "processed" / "corpus.csv")
     assert not corpus.text.str.contains("alpha template 2 ", case=False).any()
     assert corpus.text.str.contains("beta template 2 ").any()                 # other rows stay
+
+
+def test_generated_families_keep_most_structures_in_training():
+    rows = []
+    for fam in ("otp_delivery:en", "card_block_user:en", "awareness:en"):
+        for k in range(10):                                           # ten sentence structures per family, three rows each
+            for i in range(3):
+                rows.append({"text": f"{fam} structure {k} row {i}", "label": 0, "source": "team_trap_genuine_v1", "group": f"{fam}:v2{chr(97 + k)}"})
+    df = pd.DataFrame(rows)
+    df["split"] = bc.assign_splits(df)
+    for fam in ("otp_delivery:en", "card_block_user:en", "awareness:en"):
+        sub = df[df.group.str.startswith(fam + ":")]
+        by_group = sub.groupby("group").split.first().value_counts()
+        assert by_group.get("train", 0) >= 6 and by_group.get("val", 0) + by_group.get("test", 0) >= 1, (fam, dict(by_group))
+    assert (df.groupby("group").split.nunique() == 1).all()            # still one split per group
+    assert bc.family_of("team_trap_genuine_v1", "card_block_user:en:v2a") == "card_block_user:en" and bc.family_of("cloveai", "cloveai:dear customer") == ""

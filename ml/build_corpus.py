@@ -95,14 +95,24 @@ def load_team() -> pd.DataFrame:
     return pd.concat(rows, ignore_index=True)
 
 
+GENERATED_SOURCES = ("team_trap_genuine_v1", "team_scam_gap_v1")      # gen_team_data.py output: groups look like "family:lang:structure"
+
+
+def family_of(source: str, group: str) -> str:
+    """Message family of a generated group ('card_block_user:en' for 'card_block_user:en:v2a'); empty for every other source."""
+    return group.rsplit(":", 1)[0] if source in GENERATED_SOURCES else ""
+
+
 def assign_splits(df: pd.DataFrame) -> pd.Series:
-    """Group-aware 70/15/15 split, stratified by (source, majority label): a whole group always lands in one split."""
-    rng = random.Random(SEED)
+    """Group-aware 70/15/15 split, stratified by (source, majority label): a whole group always lands in one split.
+    Generated groups (one per sentence structure) are stratified by message family as well, so every family keeps about 70% of its
+    structures in training instead of a whole family landing in validation or test by chance."""
     g = df.groupby("group").agg(source=("source", "first"), label=("label", lambda s: int(round(s.mean()))), n=("label", "size")).reset_index()
+    g["family"] = [family_of(s, n) for s, n in zip(g.source, g.group)]
     tag_of = {}
-    for (src, lab), sub in g.groupby(["source", "label"]):
+    for (src, lab, fam), sub in g.groupby(["source", "label", "family"]):
         groups = sorted(sub.group)
-        rng.shuffle(groups)
+        random.Random(f"{SEED}|{src}|{lab}|{fam}").shuffle(groups)        # one seeded stream per stratum: adding rows to one source never reshuffles another
         sizes = dict(zip(sub.group, sub.n))
         total, acc = int(sub.n.sum()), 0
         for name in groups:

@@ -44,3 +44,19 @@ def test_committed_training_sources_contain_no_frozen_text():
     files = [f for f in lc.training_sources() if f.name != "corpus.csv"]      # corpus.csv is generated and may be stale
     assert files
     assert lc.run(lc.DEFAULT_FROZEN, files, drop=False, out=io.StringIO()) == 0
+
+
+def test_hard_negative_batches_have_their_own_group_suffixes_and_labels():
+    g1, s1, g2, s2 = g.make_h1_genuine(), g.make_h1_scam(), g.make_h2_genuine(), g.make_h2_scam()
+    assert {r["label"] for r in g1 + g2} == {0} and {r["label"] for r in s1 + s2} == {1}
+    assert all(":h1" in r["group"] for r in g1 + s1) and all(":h2" in r["group"] for r in g2 + s2)
+    assert len(g1) > 100 and len(g2) > 60 and len(s1) > 30 and len(s2) > 10
+    texts = [r["text"] for r in g1 + s1 + g2 + s2]
+    assert all(t.strip() and "{" not in t and "}" not in t for t in texts)          # every slot was filled
+
+
+def test_generated_texts_contain_no_unfilled_slots_and_no_real_personal_data():
+    import redact_check
+    rows = g.make_genuine() + g.make_v2_genuine() + g.make_h1_genuine() + g.make_h2_genuine() + g.make_scam() + g.make_v2_scam() + g.make_h1_scam() + g.make_h2_scam()
+    bad = [(r["group"], rule) for r in rows for rule, _ in redact_check.check_text(r["text"])]
+    assert bad == []

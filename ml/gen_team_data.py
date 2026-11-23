@@ -15,6 +15,15 @@ refuses to run (use --allow-missing-frozen only for tests): otherwise a regenera
 The original template families (group ids ending :1, :2) use RNG, in a fixed order, so existing rows never change. The "v2" variants
 added after the leak removal (group ids with a v2 suffix) use RNG2 and are new sentence structures, written without reference to any
 evaluation text, to refill the families that lost every variant to the filter.
+
+Hard-negative loop (at most two rounds, driven only by the training and validation splits and the group-held-out family tables):
+  round 1 (suffix h1, RNG3): genuine families still flagged on validation / when their wording was held out (OTP delivery, promotions,
+          credit-card statements, awareness tips, periodic-KYC branch notices, Aadhaar status, genuine refunds, card blocked on request),
+          scam families still missed (wrong-payment / collect-request tricks, loan-app photo threats, new-number family emergencies);
+  round 2 (suffix h2, RNG4): the families still flagged after round 1 (awareness in all three languages, Hindi statements and bills,
+          Hindi KYC / card-block notices) plus more wrong-payment wording. English card-control confirmations (online / international /
+          contactless / ATM controls) were added to this batch after the repo's golden regression suite showed a false flag there.
+Every row of every batch goes through the frozen-text filter above. Nothing was written by looking at an evaluation text.
 """
 
 from __future__ import annotations
@@ -34,6 +43,9 @@ OUT_DIR = ROOT / "data" / "team"
 SEED = 20261123
 RNG = random.Random(SEED)
 RNG2 = random.Random(SEED + 1)         # stream for the v2 variants, independent of RNG
+RNG3 = random.Random(SEED + 2)         # stream for the hard-negative round 1 variants (group ids with an h1 suffix)
+RNG4 = random.Random(SEED + 3)         # stream for the hard-negative round 2 variants (group ids with an h2 suffix)
+HARD_NEGATIVE_ROUNDS = 2               # at most two rounds: round 1 = h1 variants, round 2 adds the h2 variants
 
 BANKS = ["HDFC Bank", "SBI", "ICICI Bank", "Axis Bank", "Kotak Bank", "PNB"]
 MERCHANTS = ["Amazon", "Flipkart", "Swiggy", "Zomato", "Myntra", "JioMart", "Zepto", "Blinkit"]
@@ -506,16 +518,18 @@ def make_scam() -> list[dict[str, str | int]]:
     return rows
 
 
-def expand(group: str, lang: str, label: int, templates: list[str], slots: dict[str, list[str]], per_template: int = 6) -> list[dict[str, str | int]]:
-    """One group id per template (`group:v2a`, `group:v2b`, ...) so that every new sentence structure can land in a different split.
-    Up to `per_template` slot combinations per template, chosen with RNG2."""
+def expand(group: str, lang: str, label: int, templates: list[str], slots: dict[str, list[str]], per_template: int = 6, tag: str = "v2",
+           rng: random.Random | None = None) -> list[dict[str, str | int]]:
+    """One group id per template (`group:v2a`, `group:v2b`, ...; `tag` names the batch) so that every new sentence structure can land in a
+    different split. Up to `per_template` slot combinations per template, chosen with the batch's own random stream."""
     rows: list[dict[str, str | int]] = []
+    rng = rng or RNG2
     for k, tpl in enumerate(templates):
         names = [s for s in slots if "{" + s + "}" in tpl]
         combos = list(itertools.product(*[slots[s] for s in names]))
-        RNG2.shuffle(combos)
+        rng.shuffle(combos)
         for combo in combos[:per_template]:
-            rows.append({"text": tpl.format(**dict(zip(names, combo))), "label": label, "lang": lang, "group": f"{group}:v2{chr(97 + k)}"})
+            rows.append({"text": tpl.format(**dict(zip(names, combo))), "label": label, "lang": lang, "group": f"{group}:{tag}{chr(97 + k)}"})
     return rows
 
 
@@ -617,6 +631,267 @@ def make_v2_scam() -> list[dict[str, str | int]]:
     return R
 
 
+def make_h1_genuine() -> list[dict[str, str | int]]:
+    """Hard-negative round 1 (genuine). Families that the retrained model still flagged on the VALIDATION split, or when a family's wording
+    was held out (group-wise check on the training split): OTP delivery, promotions / coupons / shipping, credit-card statements, awareness
+    tips, periodic-KYC branch notices, Aadhaar status, genuine refunds, card blocked on request. New sentence structures, one group each."""
+    R: list[dict[str, str | int]] = []
+    kw = {"tag": "h1", "rng": RNG3}
+    codes = [str(RNG3.randint(100000, 999999)) for _ in range(4)]
+    brands_otp = ["Google", "Microsoft", "WhatsApp", "Instagram", "Uber", "Amazon", "Zomato", "Swiggy", "Paytm", "PhonePe", "Flipkart", "Ola"]
+    brands_hi = ["गूगल", "व्हाट्सएप", "इंस्टाग्राम", "अमेज़न", "पेटीएम", "फोनपे", "जोमैटो"]
+    banks_en = ["HDFC Bank", "SBI", "ICICI Bank", "Axis Bank", "Kotak Bank", "PNB"]
+    banks_hi = ["एसबीआई", "एचडीएफसी बैंक", "आईसीआईसीआई बैंक", "एक्सिस बैंक", "कोटक बैंक", "पीएनबी"]
+    amounts = ["450", "1,250", "2,000", "3,500", "8,200"]
+    shops = ["Amazon", "Flipkart", "Swiggy", "Zomato", "BigBasket"]
+    days = ["28 Nov", "01 Dec", "05 Dec", "12 Dec", "20 Dec"]
+
+    R += expand("otp_delivery:en", "english", 0, [
+        "{c} is the one-time code for your {b} sign-in. It is valid for 5 minutes.",
+        "Enter {c} to verify your phone number on {b}. Do not share this code.",
+        "Your {b} login code is {c}. Never forward it to anyone.",
+        "{b}: {c} is your OTP for the payment of Rs {a} to {m}. Do not share it with anyone.",
+        "Here is the password reset code for your {b} account: {c}. Ignore this message if you did not ask for a reset.",
+        "{c} - verification code for {b}. It will expire in 3 minutes.",
+    ], {"b": brands_otp + banks_en, "c": codes, "a": amounts, "m": shops}, per_template=8, **kw)
+    R += expand("otp_delivery:hinglish", "hinglish", 0, [
+        "Aapka {b} login code {c} hai. Ise kisi ko na batayein.",
+        "{b} par sign in karne ke liye {c} daalein. Yeh 10 minute mein expire ho jayega.",
+        "{b}: Rs {a} ke payment ke liye aapka OTP {c} hai. Kisi se share na karein.",
+    ], {"b": brands_otp, "c": codes, "a": amounts}, per_template=6, **kw)
+    R += expand("otp_delivery:hi", "hindi", 0, [
+        "{b} में साइन इन करने के लिए कोड {c} दर्ज करें। यह 10 मिनट में समाप्त हो जाएगा।",
+        "आपका {b} पासवर्ड रीसेट कोड {c} है। यह अनुरोध आपने नहीं किया तो इसे अनदेखा करें।",
+        "{b}: {a} रुपये के भुगतान के लिए आपका ओटीपी {c} है। इसे किसी को न बताएं।",
+    ], {"b": brands_hi, "c": codes, "a": amounts}, per_template=6, **kw)
+
+    R += expand("brand_sale:en", "english", 0, [
+        "Flat {pct}% off on your next order with code {code}. Valid till {day}. Order in the {b} app.",
+        "Your {b} order has been shipped and will reach you by {day}. Track it in the app under My Orders.",
+        "Hurry! The {b} sale ends tonight. Open the app to see deals picked for you.",
+        "Rate your recent {b} order and help other shoppers. Open the app and tap Review.",
+    ], {"b": ["Myntra", "Flipkart", "Amazon", "Swiggy", "Zomato", "JioMart"], "pct": ["20", "30", "40", "60"], "code": ["SAVE20", "FESTIVE", "NEWUSER", "WEEKEND"], "day": days}, per_template=6, **kw)
+    R += expand("brand_sale:hinglish", "hinglish", 0, [
+        "{b} sale mein {pct}% tak ki chhoot! Offers dekhne ke liye app kholein.",
+        "Aapka {b} coupon {day} ko expire ho raha hai. Agle order mein use karein. Terms apply.",
+        "Aapka {b} order ship ho gaya hai aur {day} tak pahunch jayega. Track karne ke liye app kholein.",
+    ], {"b": ["Myntra", "Flipkart", "Amazon", "Swiggy", "Zomato", "JioMart"], "pct": ["20", "30", "40", "60"], "day": days}, per_template=6, **kw)
+    R += expand("brand_sale:hi", "hindi", 0, [
+        "{b} पर सेल शुरू: {pct}% तक की छूट। ऑफर देखने के लिए ऐप खोलें।",
+        "आपका {b} कूपन {day} को समाप्त हो रहा है। अगले ऑर्डर में इस्तेमाल करें।",
+        "आपका {b} ऑर्डर भेज दिया गया है और {day} तक पहुंचेगा। ट्रैक करने के लिए ऐप खोलें।",
+    ], {"b": ["अमेज़न", "फ्लिपकार्ट", "मिंत्रा", "स्विगी", "जोमैटो"], "pct": ["20", "30", "40", "60"], "day": days}, per_template=6, **kw)
+
+    R += expand("card_statement:en", "english", 0, [
+        "Your {bank} credit card statement for {month} is ready. Total due Rs {a}, due date {day}. View it in the {bank} app.",
+        "{bank}: payment of Rs {a} received on your credit card. Thank you. Your available limit is now Rs 80,000.",
+        "Reminder: your {bank} card bill of Rs {a} is due on {day}. Pay on time through the bank app or net banking to avoid late fees.",
+    ], {"bank": banks_en, "month": ["October", "November"], "a": amounts, "day": days}, per_template=6, **kw)
+    R += expand("card_statement:hinglish", "hinglish", 0, [
+        "Aapke {bank} credit card ka {month} ka statement taiyaar hai. Kul baaki Rs {a}, antim tithi {day}. App mein dekhein.",
+        "{bank}: aapke credit card par Rs {a} ka payment mil gaya. Dhanyavad.",
+        "Yaad dilana: {bank} card ka bill Rs {a} {day} ko due hai. Late fees se bachne ke liye bank app se samay par bharein.",
+    ], {"bank": banks_en, "month": ["October", "November"], "a": amounts, "day": days}, per_template=6, **kw)
+    R += expand("card_statement:hi", "hindi", 0, [
+        "{bank} क्रेडिट कार्ड का {month} का स्टेटमेंट तैयार है। कुल देय राशि {a} रुपये, अंतिम तिथि {day}। ऐप में देखें।",
+        "{bank}: आपके क्रेडिट कार्ड पर {a} रुपये का भुगतान मिल गया है। धन्यवाद।",
+        "अनुस्मारक: {bank} कार्ड का बिल {a} रुपये {day} को देय है। विलंब शुल्क से बचने के लिए बैंक ऐप से समय पर भरें।",
+    ], {"bank": banks_hi, "month": ["अक्टूबर", "नवंबर"], "a": amounts, "day": days}, per_template=6, **kw)
+
+    orgs = ["Delhi Police", "Cyber Cell", "Mumbai Police", "State Police", "RBI", "Your bank"]
+    R += expand("awareness:en", "english", 0, [
+        "{org}: Never share your PIN or password with anyone, not even bank staff. Genuine banks never ask for them. Call 1930 if you are targeted.",
+        "Safety tip from {org}: before paying a stranger, check the request by calling the person on a number you already know.",
+        "{org} reminder: courier or customs officials do not ask for payment over WhatsApp. Report such messages at cybercrime.gov.in",
+        "Beware of callers claiming to be police or CBI. {org} will never ask you to stay on a video call or move money to another account.",
+        "Public notice from {org}: loan apps that ask for photo and contact access and then threaten you are illegal. You can report them on 1930.",
+    ], {"org": orgs}, per_template=5, **kw)
+    R += expand("awareness:hinglish", "hinglish", 0, [
+        "{org} salah: Koi bhi bank aapse OTP ya PIN nahi maangta. Shak ho to call kaat dein aur 1930 par report karein.",
+        "{org} chetavni: Police kabhi phone par paise nahi maangti. Aise call aaye to 1930 par batayein.",
+    ], {"org": ["Delhi Police", "Cyber Cell", "RBI", "Aapka bank"]}, per_template=4, **kw)
+    R += expand("awareness:hi", "hindi", 0, [
+        "{org} सलाह: कोई भी बैंक आपसे ओटीपी या पिन नहीं मांगता। संदिग्ध कॉल की सूचना 1930 पर दें।",
+        "{org} चेतावनी: पुलिस कभी फोन पर पैसे नहीं मांगती। ऐसा कॉल आए तो 1930 पर बताएं।",
+    ], {"org": ["दिल्ली पुलिस", "साइबर सेल", "आरबीआई", "आपका बैंक"]}, per_template=4, **kw)
+
+    R += expand("kyc_branch:en", "english", 0, [
+        "Periodic KYC refresh: please carry an ID proof to your {bank} home branch before {day}. We will not send any link for this.",
+        "{bank} notice: your KYC documents are due for renewal. Visit the branch during working hours. No online form is needed.",
+    ], {"bank": banks_en, "day": days}, per_template=6, **kw)
+    R += expand("kyc_branch:hi", "hindi", 0, [
+        "{bank}: आपकी केवाईसी अपडेट की अवधि पूरी होने वाली है। कृपया पहचान पत्र लेकर अपनी शाखा में आएं। कोई लिंक नहीं भेजा जाएगा।",
+        "{bank} सूचना: आवधिक केवाईसी के लिए {day} तक शाखा में दस्तावेज जमा करें। ऑनलाइन फॉर्म की जरूरत नहीं है।",
+    ], {"bank": banks_hi, "day": days}, per_template=6, **kw)
+    R += expand("kyc_branch:hinglish", "hinglish", 0, [
+        "{bank}: aapki KYC renew karni hai. Pehchaan patra lekar {day} se pehle apni branch aayein. Koi link nahi bheja jayega.",
+    ], {"bank": banks_en, "day": days}, per_template=6, **kw)
+
+    fields_en = ["address", "mobile number", "email", "name", "date of birth"]
+    sites = ["uidai.gov.in", "myaadhaar.uidai.gov.in"]
+    R += expand("aadhaar_status:en", "english", 0, [
+        "UIDAI: your request to change {f} has been received and is being processed. You can check the status on {site}.",
+        "Your updated e-Aadhaar is ready and can be downloaded from {site} using your enrolment number. This is an automated message.",
+        "Aadhaar service request closed: your {f} correction is complete. Details are available on {site}.",
+    ], {"f": fields_en, "site": sites}, per_template=6, **kw)
+    R += expand("aadhaar_status:hinglish", "hinglish", 0, [
+        "UIDAI: aapke {f} badalne ki request process ho rahi hai. Status {site} par dekhein.",
+        "Aapka updated e-Aadhaar taiyaar hai. Enrolment number se {site} par download karein. Yeh automatic message hai.",
+    ], {"f": fields_en, "site": sites}, per_template=6, **kw)
+    R += expand("aadhaar_status:hi", "hindi", 0, [
+        "यूआईडीएआई: आपके {f} बदलने का अनुरोध प्रक्रिया में है। स्थिति {site} पर देखें।",
+        "आपका अपडेटेड ई-आधार तैयार है। नामांकन संख्या से {site} पर डाउनलोड करें। यह स्वचालित संदेश है।",
+    ], {"f": ["पते", "मोबाइल नंबर", "ईमेल", "नाम", "जन्मतिथि"], "site": sites}, per_template=6, **kw)
+
+    R += expand("refund_genuine:en", "english", 0, [
+        "Refund of Rs {a} for your cancelled {b} order has been processed. It will show in your original payment method in 3 to 5 days.",
+        "Your return request is approved. Pickup is scheduled for {day} and the refund will be issued once the item is received.",
+    ], {"a": amounts, "b": shops, "day": days}, per_template=6, **kw)
+    R += expand("refund_genuine:hinglish", "hinglish", 0, [
+        "Aapke cancel kiye gaye {b} order ka Rs {a} ka refund process ho gaya hai. 3-5 din mein original payment method mein dikhega.",
+        "Aapki return request approve ho gayi hai. Pickup {day} ko hoga, item milte hi refund issue hoga.",
+    ], {"a": amounts, "b": shops, "day": days}, per_template=6, **kw)
+    R += expand("refund_genuine:hi", "hindi", 0, [
+        "आपके रद्द किए गए {b} ऑर्डर का {a} रुपये का रिफंड प्रोसेस हो गया है। 3 से 5 दिन में मूल भुगतान माध्यम में दिखेगा।",
+        "आपकी रिटर्न रिक्वेस्ट मंजूर हो गई है। पिकअप {day} को होगा, सामान मिलते ही रिफंड जारी होगा।",
+    ], {"a": amounts, "b": ["अमेज़न", "फ्लिपकार्ट", "मिंत्रा", "स्विगी"], "day": days}, per_template=6, **kw)
+
+    R += expand("card_block_user:hi", "hindi", 0, [
+        "{bank}: कार्ड XX{d} आपकी मांग पर बंद कर दिया गया है। नया कार्ड चाहिए तो शाखा में आवेदन दें।",
+        "आपके अनुरोध पर {bank} ने कार्ड XX{d} पर विदेश में उपयोग की सुविधा बंद कर दी है।",
+    ], {"bank": banks_hi, "d": ["1234", "4821", "9012", "5541", "3312", "7789"]}, per_template=6, **kw)
+    return R
+
+
+def make_h1_scam() -> list[dict[str, str | int]]:
+    """Hard-negative round 1 (scam): families still missed on validation or when held out: wrong-payment / collect-request tricks, loan-app
+    photo threats, a second 'new number' shape."""
+    R: list[dict[str, str | int]] = []
+    kw = {"tag": "h1", "rng": RNG3}
+    amts = ["3,000", "5,000", "9,500", "14,000"]
+    R += expand("refund_trick:en", "english", 1, [
+        "Hello, please check your account. I transferred Rs {a} to you by mistake while paying someone else. Kindly return the same amount at once.",
+        "I am really sorry, the money I sent you today was meant for my landlord. Please send back Rs {a} to this number, I will share my UPI details.",
+        "Wrong transfer from my side: Rs {a} credited to you. Return it on {app} within the hour or I will have to file a complaint.",
+        "Accept the collect request I just sent for Rs {a}, it will cancel my wrong transfer and refund your balance.",
+    ], {"a": amts, "app": ["PhonePe", "GPay", "Paytm", "BHIM"]}, per_template=5, **kw)
+    R += expand("refund_trick:hi", "hindi", 1, [
+        "नमस्ते, मेरे खाते से गलती से आपके खाते में {a} रुपये चले गए हैं। कृपया वही रकम तुरंत लौटा दें।",
+        "मैंने अभी आपको कलेक्ट रिक्वेस्ट भेजी है, उसे एक्सेप्ट करें ताकि गलती से भेजी गई {a} रुपये की रकम वापस हो जाए।",
+    ], {"a": amts}, per_template=4, **kw)
+    R += expand("refund_trick:hinglish", "hinglish", 1, [
+        "Hello, galti se aapke account mein Rs {a} chale gaye hain. Please wahi amount turant wapas bhej dijiye.",
+        "Maine abhi aapko collect request bheji hai, use accept kijiye taaki galti se gaye Rs {a} wapas ho jayein.",
+    ], {"a": amts}, per_template=4, **kw)
+    R += expand("loan_threat:en", "english", 1, [
+        "Repay the loan today or your photos will be sent to all your contacts. Last warning.",
+        "Your loan of Rs {a} is overdue. Pay now or we will call every number in your phone and tell them you are a fraud.",
+    ], {"a": ["4,500", "7,000", "12,000", "20,000"]}, per_template=4, **kw)
+    R += expand("loan_threat:hi", "hindi", 1, [
+        "लोन आज ही चुकाओ वरना आपकी फोटो आपके सभी कॉन्टैक्ट्स को भेज दी जाएगी। आखिरी चेतावनी।",
+        "आपका {a} रुपये का लोन बकाया है। अभी भुगतान करें वरना आपके फोन के हर नंबर पर आपको धोखेबाज बताया जाएगा।",
+    ], {"a": ["4,500", "7,000", "12,000", "20,000"]}, per_template=4, **kw)
+    R += expand("loan_threat:hinglish", "hinglish", 1, [
+        "Loan aaj hi chukao warna aapki photo aapke sabhi contacts ko bhej di jayegi. Last warning.",
+        "Aapka Rs {a} ka loan overdue hai. Abhi pay karein warna aapke phone ke har number par aapko fraud bataya jayega.",
+    ], {"a": ["4,500", "7,000", "12,000", "20,000"]}, per_template=4, **kw)
+    R += expand("new_number:en", "english", 1, [
+        "Mom, it is me. My phone fell in water so I am using a friend's number. Can you send Rs {a} to this UPI right now? I will explain later.",
+    ], {"a": ["8,000", "12,000", "15,000", "25,000"]}, per_template=4, **kw)
+    R += expand("new_number:hinglish", "hinglish", 1, [
+        "Papa, mera phone kharab ho gaya hai isliye dost ke number se message kar raha hoon. Abhi Rs {a} is UPI par bhej do, baad mein samjhaunga.",
+    ], {"a": ["8,000", "12,000", "15,000", "25,000"]}, per_template=4, **kw)
+    return R
+
+
+def make_h2_genuine() -> list[dict[str, str | int]]:
+    """Hard-negative round 2 (genuine): families still flagged on the validation split after round 1: awareness tips (all three languages),
+    Hindi card statements / bills (English bank names inside Hindi sentences), periodic-KYC branch notices (Hindi), card blocked on request (Hindi)."""
+    R: list[dict[str, str | int]] = []
+    kw = {"tag": "h2", "rng": RNG4}
+    banks_mix = ["HDFC", "SBI", "ICICI", "Axis", "Kotak", "PNB", "Canara", "Union Bank"]
+    banks_hi = ["एसबीआई", "एचडीएफसी बैंक", "आईसीआईसीआई बैंक", "एक्सिस बैंक", "कोटक बैंक", "पीएनबी"]
+    amounts = ["450", "1,250", "2,000", "3,500", "8,200"]
+    days = ["28 Nov", "01 Dec", "05 Dec", "12 Dec", "20 Dec"]
+    orgs = ["Delhi Police", "Cyber Cell", "Mumbai Police", "State Police", "RBI", "Your bank"]
+    R += expand("card_statement:hi", "hindi", 0, [
+        "आपके {bank} क्रेडिट कार्ड का स्टेटमेंट तैयार है। देय राशि Rs {a}। अंतिम तिथि {day}।",
+        "{bank} कार्ड: Rs {a} का न्यूनतम भुगतान {day} तक करें। ऐप या नेट बैंकिंग से भुगतान कर सकते हैं।",
+        "आपके कार्ड XX{d} पर Rs {a} की खरीदारी हुई। यदि यह आप नहीं थे तो बैंक की हेल्पलाइन पर संपर्क करें।",
+        "{bank}: आपके कार्ड की लिमिट बढ़ाने का अनुरोध स्वीकार हुआ। नई लिमिट ऐप में देखें।",
+        "आपका मोबाइल बिल Rs {a} तैयार है, अंतिम तिथि {day}। अपने ऑपरेटर के ऐप में देखें।",
+    ], {"bank": banks_mix, "a": amounts, "day": days, "d": ["1234", "4821", "9012", "5541"]}, per_template=6, **kw)
+    R += expand("awareness:en", "english", 0, [
+        "{org} advisory: fake customer-care numbers often show up in search results. Always take the number from your bank's official website or card.",
+        "Never scan a QR code to receive money. A QR code is only for paying. - {org}",
+        "{org}: if a caller says your account will be blocked and asks for a code, it is a fraud call. Disconnect and report on 1930.",
+        "Awareness: installing apps from links sent on WhatsApp can give fraudsters control of your phone. Install apps only from the official store. - {org}",
+        "{org} tip: your bank will never ask you to share the OTP you receive. If you did share it by mistake, call 1930 right away.",
+        "{org} warning: a stranger who says you won a prize and asks for a small fee first is cheating you. Do not pay and report the number.",
+    ], {"org": orgs}, per_template=5, **kw)
+    R += expand("awareness:hinglish", "hinglish", 0, [
+        "{org} salah: QR code sirf paise dene ke liye hota hai, paise lene ke liye nahi. Kisi ke kehne par QR scan na karein.",
+        "{org}: agar koi call kare ki aapka account band ho jayega aur code maange, to woh fraud hai. Call kaat dein aur 1930 par batayein.",
+        "{org} tip: WhatsApp par aaye link se app install na karein. Sirf official store se app lein.",
+    ], {"org": ["Delhi Police", "Cyber Cell", "RBI", "Aapka bank"]}, per_template=4, **kw)
+    R += expand("awareness:hi", "hindi", 0, [
+        "{org} सलाह: कस्टमर केयर के नाम पर आए अनजान नंबर पर भरोसा न करें। बैंक की आधिकारिक वेबसाइट से नंबर लें।",
+        "{org}: अनजान लिंक से ऐप इंस्टॉल न करें। केवल आधिकारिक ऐप स्टोर का उपयोग करें।",
+        "{org} चेतावनी: ओटीपी गलती से बता दिया हो तो तुरंत 1930 पर कॉल करें।",
+        "{org} सूचना: इनाम का लालच देकर पहले शुल्क मांगने वाला ठग है। पैसे न दें और नंबर की शिकायत करें।",
+    ], {"org": ["दिल्ली पुलिस", "साइबर सेल", "आरबीआई", "आपका बैंक"]}, per_template=4, **kw)
+    R += expand("kyc_branch:hi", "hindi", 0, [
+        "{bank}: आपके खाते की केवाईसी जांच की तारीख {day} है। कृपया मूल पहचान पत्र के साथ शाखा आएं। फोन या लिंक पर कोई जानकारी न दें।",
+        "प्रिय ग्राहक, {bank} की ओर से सूचना: केवाईसी नवीनीकरण केवल शाखा में होता है। कृपया {day} से पहले आएं।",
+    ], {"bank": banks_hi, "day": days}, per_template=6, **kw)
+    # English had only two card-block-on-request structures (Hindi and Hinglish had seven): added after the repo's golden regression suite
+    # showed a false flag on this message type. Card-control confirmations in different shapes; the golden text itself is not used.
+    R += expand("card_block_user:en", "english", 0, [
+        "Card ending {d}: online purchases are now disabled, as you asked. Turn them on again anytime from your {bank} app.",
+        "Your {bank} debit card XX{d} is on hold following your instruction. A replacement can be requested at any branch.",
+        "{bank} confirms that the contactless limit on card XX{d} was lowered to Rs {a} on your instruction.",
+        "Your instruction to freeze card XX{d} has been completed. {bank} will never ask you for card details to undo this.",
+        "Request received: usage abroad on your {bank} card XX{d} is now switched off. To change it, open card settings in the app.",
+        "{bank}: {ctl} on your card ending {d} have been disabled as requested. You can enable them again in the mobile app.",
+        "Card ending {d}: {ctl} turned off on your request. {bank} will not ask for card details to turn them back on.",
+        "{bank} update: your instruction to restrict {ctl} on debit card XX{d} is complete.",
+        "Per your instruction, {ctl} on your {bank} card XX{d} stay blocked until you re-enable them in the app.",
+    ], {"bank": ["HDFC Bank", "SBI", "ICICI Bank", "Axis Bank", "Kotak Bank", "PNB"], "d": ["1234", "4821", "9012", "5541", "3312", "7789"], "a": amounts,
+        "ctl": ["online transactions", "international transactions", "contactless payments", "ATM withdrawals", "e-commerce usage"]}, per_template=6, **kw)
+    R += expand("card_block_user:hi", "hindi", 0, [
+        "आपके कहने पर {bank} ने कार्ड XX{d} पर ऑनलाइन लेनदेन अस्थायी रूप से बंद कर दिए हैं। चालू करने के लिए ऐप की कार्ड सेटिंग्स में जाएं।",
+        "{bank}: कार्ड XX{d} आपके निर्देश पर ब्लॉक हुआ। अनुरोध की पुष्टि आपके मोबाइल पर भेजी गई है।",
+    ], {"bank": banks_hi, "d": ["1234", "4821", "9012", "5541", "3312", "7789"]}, per_template=6, **kw)
+    return R
+
+
+def make_h2_scam() -> list[dict[str, str | int]]:
+    """Hard-negative round 2 (scam): the wrong-payment trick in more shapes (still missed on validation)."""
+    kw = {"tag": "h2", "rng": RNG4}
+    R = expand("refund_trick:en", "english", 1, [
+        "My brother used the wrong number and Rs {a} went to your {app}. Please transfer it back to the same number and I will thank you.",
+        "I got a bank message that Rs {a} was sent to the wrong person, you. Kindly reverse the payment to me, my number is the one I am messaging from.",
+        "Friend, a payment of Rs {a} meant for my tutor reached your {app} instead. Please send it back to me today, it is very urgent.",
+    ], {"a": ["3,000", "5,000", "9,500", "14,000"], "app": ["PhonePe", "GPay", "Paytm", "BHIM"]}, per_template=5, **kw)
+    # Fake-QR "receive money" scams. The round-2 awareness tips say "never scan a QR code to receive money"; n-grams cannot see the negation,
+    # so the scam side of that contrast needs its own variants (the fake_qr category of data/LABELING.md was missing from the scam data).
+    R += expand("qr_receive:en", "english", 1, [
+        "I have sent the payment. To receive the money, scan this QR code and enter your {pin}.",
+        "Your refund of Rs {a} is on hold. Scan the QR code below and enter your {pin} to receive it.",
+        "Payment done from my side, just scan this QR and put your {pin} to get the Rs {a}.",
+    ], {"a": ["2,000", "4,500", "8,000", "15,000"], "pin": ["UPI PIN", "PIN", "bank PIN"]}, per_template=5, **kw)
+    R += expand("qr_receive:hi", "hindi", 1, [
+        "मैंने आपको पेमेंट भेज दिया है। रकम रिसीव करने के लिए यह क्यूआर कोड स्कैन करिए और अपना यूपीआई पिन दर्ज कीजिए।",
+        "आपके {a} रुपये अटके हुए हैं। उन्हें पाने के लिए यह क्यूआर कोड स्कैन करके पिन डालें।",
+        "पेमेंट सफल रहा है, बस पैसे लेने के लिए क्यूआर स्कैन करके अपना पिन डाल दीजिए।",
+    ], {"a": ["2,000", "4,500", "8,000", "15,000"]}, per_template=4, **kw)
+    R += expand("qr_receive:hinglish", "hinglish", 1, [
+        "Maine payment kar diya hai. Paise receive karne ke liye ye QR code scan karke apna PIN daaliye.",
+        "Aapka Rs {a} ka refund ruka hua hai. Paisa lene ke liye QR scan karein aur UPI PIN enter karein.",
+    ], {"a": ["2,000", "4,500", "8,000", "15,000"]}, per_template=4, **kw)
+    return R
+
+
 def filter_frozen(rows: list[dict[str, str | int]], index: "leak_check.FrozenIndex", label: str) -> list[dict[str, str | int]]:
     """Drop every row that matches a frozen evaluation text under any leak_check rule; print counts only (never the text)."""
     kept, by_rule = [], {r: 0 for r in leak_check.RULES}
@@ -643,8 +918,11 @@ def main(argv: list[str] | None = None) -> None:
         print(f"WARNING: {w}", file=sys.stderr)
     OUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    genuine_rows = make_genuine() + make_v2_genuine()
-    scam_rows = make_scam() + make_v2_scam()
+    genuine_rows = make_genuine() + make_v2_genuine() + make_h1_genuine()
+    scam_rows = make_scam() + make_v2_scam() + make_h1_scam()
+    if HARD_NEGATIVE_ROUNDS >= 2:
+        genuine_rows += make_h2_genuine()
+        scam_rows += make_h2_scam()
 
     # Deduplicate within generated rows
     seen_gen = set()
