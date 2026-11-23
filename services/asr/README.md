@@ -10,7 +10,7 @@ python -m pytest -q                       # 15 tests with a fake transcriber (no
 
 | Endpoint | Purpose |
 |---|---|
-| `GET /health` | Status and model name. The app uses it to show a "waking up" message on free hosting. |
+| `GET /health` | Status, model name and, when Hindi routing is on, the Hindi model's folder name (`hindi_model`). The app uses it to show a "waking up" message on free hosting. |
 | `POST /transcribe` (multipart `file`) | Returns `{segments: [{start, end, text, confidence}], duration}`. |
 
 Limits: 5 MB, 3 minutes, one clip at a time, 20 clips per client per hour, 120 s timeout. Errors: `413 too_big`, `415 bad_type`, `422 too_long` or `silent`, `429` rate limit, `504 timeout`.

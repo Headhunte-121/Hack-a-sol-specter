@@ -66,6 +66,11 @@ class WhisperTranscriber:
         self._forced = os.environ.get("ASR_LANGUAGE", "").strip().lower()  # "hi" or "en" skips detection
         self._model = None
 
+    @property
+    def hindi_name(self) -> str | None:
+        """The folder name of the Hindi model when Hindi routing is on (never a full path), else None."""
+        return os.path.basename(self._hindi_name.rstrip("/\\")) or None if self._hindi_name else None
+
     def _language(self, model, audio: np.ndarray) -> str:
         if self._forced in PROMPTS:
             return self._forced
@@ -149,7 +154,7 @@ def create_app(transcriber: Transcriber | None = None, rate_limit: int | None = 
     @app.get("/health")
     def health():
         """healthCheck: lets the client show a 'waking up' message on free hosting."""
-        return {"status": "ok", "model": tr.name, "version": VERSION, "time": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")}
+        return {"status": "ok", "model": tr.name, "hindi_model": getattr(tr, "hindi_name", None), "version": VERSION, "time": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")}
 
     @app.post("/transcribe")
     async def transcribe(request: Request, file: UploadFile = File(...)):
