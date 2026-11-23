@@ -1,9 +1,9 @@
 {
-  "model_version": "2026-11-22.1",
-  "model_bytes": 1332084,
+  "model_version": "2026-11-23.2",
+  "model_bytes": 1331985,
   "thresholds": {
     "suspicious": 0.05,
-    "scam": 0.21
+    "scam": 0.19
   },
   "test": {
     "name": "test (group-aware split)",
@@ -19,36 +19,36 @@
       "fn": 34,
       "tp": 1002,
       "false_alarm_rate": 0.004468718967229395,
-      "auc_pr": 0.9970029442489746,
-      "auc_roc": 0.9982573721401923
+      "auc_pr": 0.9974788777719297,
+      "auc_roc": 0.9985013208697419
     },
     "flag@suspicious_cut": {
       "n": 3050,
       "scam": 1036,
-      "accuracy": 0.979344262295082,
-      "precision": 0.959395656279509,
-      "recall": 0.9806949806949807,
-      "f1": 0.9699284009546539,
-      "tn": 1971,
-      "fp": 43,
-      "fn": 20,
-      "tp": 1016,
-      "false_alarm_rate": 0.02135054617676266,
-      "auc_pr": 0.9970029442489746,
-      "auc_roc": 0.9982573721401923
+      "accuracy": 0.9845901639344262,
+      "precision": 0.96171802054155,
+      "recall": 0.9942084942084942,
+      "f1": 0.9776934029425723,
+      "tn": 1973,
+      "fp": 41,
+      "fn": 6,
+      "tp": 1030,
+      "false_alarm_rate": 0.02035749751737835,
+      "auc_pr": 0.9974788777719297,
+      "auc_roc": 0.9985013208697419
     },
     "bands": {
       "likely_scam": {
-        "scam": 1004,
+        "scam": 1009,
         "genuine": 21
       },
       "suspicious": {
-        "scam": 12,
-        "genuine": 22
+        "scam": 21,
+        "genuine": 20
       },
       "looks_genuine": {
-        "scam": 20,
-        "genuine": 1971
+        "scam": 6,
+        "genuine": 1973
       }
     },
     "keyword_baseline": {
@@ -77,8 +77,8 @@
         "fn": 34,
         "tp": 887,
         "false_alarm_rate": 0.004253056884635832,
-        "auc_pr": 0.9965659927176119,
-        "auc_roc": 0.9980778122386216
+        "auc_pr": 0.9971409374505192,
+        "auc_roc": 0.9983554615819318
       },
       "hindi": {
         "n": 67,
@@ -115,17 +115,17 @@
       "bolewara_uci": {
         "n": 527,
         "scam": 92,
-        "accuracy": 0.9772296015180265,
-        "precision": 0.9444444444444444,
-        "recall": 0.9239130434782609,
-        "f1": 0.9340659340659341,
+        "accuracy": 0.9753320683111955,
+        "precision": 0.9438202247191011,
+        "recall": 0.9130434782608695,
+        "f1": 0.9281767955801105,
         "tn": 430,
         "fp": 5,
-        "fn": 7,
-        "tp": 85,
+        "fn": 8,
+        "tp": 84,
         "false_alarm_rate": 0.011494252873563218,
-        "auc_pr": 0.958983085762167,
-        "auc_roc": 0.9858570714642678
+        "auc_pr": 0.9588403903293162,
+        "auc_roc": 0.9855822088955521
       },
       "cloveai": {
         "n": 1008,
@@ -145,17 +145,17 @@
       "shade63": {
         "n": 1254,
         "scam": 794,
-        "accuracy": 0.9760765550239234,
-        "precision": 0.9961038961038962,
-        "recall": 0.9659949622166247,
-        "f1": 0.9808184143222506,
+        "accuracy": 0.9768740031897927,
+        "precision": 0.9961089494163424,
+        "recall": 0.9672544080604534,
+        "f1": 0.9814696485623003,
         "tn": 457,
         "fp": 3,
-        "fn": 27,
-        "tp": 767,
+        "fn": 26,
+        "tp": 768,
         "false_alarm_rate": 0.006521739130434782,
-        "auc_pr": 0.9990756272001776,
-        "auc_roc": 0.998401051363487
+        "auc_pr": 0.9994517619628714,
+        "auc_roc": 0.9990554156171284
       },
       "team_messages_v3": {
         "n": 34,
@@ -219,61 +219,67 @@
       }
     },
     "calibration": {
-      "ece": 0.011019607581779986,
+      "ece": 0.008769533017702334,
       "bins": [
         {
           "bin": "0.0-0.1",
-          "n": 2012,
-          "mean_p": 0.0025681125508153287,
-          "frac_scam": 0.01441351888667992
+          "n": 1999,
+          "mean_p": 0.0022191640429528627,
+          "frac_scam": 0.0080040020010005
         },
         {
           "bin": "0.1-0.2",
-          "n": 13,
-          "mean_p": 0.14315413464944207,
-          "frac_scam": 0.23076923076923078
+          "n": 23,
+          "mean_p": 0.14082384378842172,
+          "frac_scam": 0.5652173913043478
         },
         {
           "bin": "0.2-0.3",
-          "n": 9,
-          "mean_p": 0.2572635838692945,
-          "frac_scam": 0.1111111111111111
+          "n": 12,
+          "mean_p": 0.2531893673688195,
+          "frac_scam": 0.25
         },
         {
           "bin": "0.3-0.4",
-          "n": 5,
-          "mean_p": 0.3439746577217522,
-          "frac_scam": 0.2
+          "n": 4,
+          "mean_p": 0.3096719067298247,
+          "frac_scam": 0.25
+        },
+        {
+          "bin": "0.4-0.5",
+          "n": 1,
+          "mean_p": 0.45786606841464994,
+          "frac_scam": 1.0
         },
         {
           "bin": "0.5-0.6",
-          "n": 4,
-          "mean_p": 0.5551968973402976,
+          "n": 1,
+          "mean_p": 0.569379728891683,
           "frac_scam": 1.0
         },
         {
           "bin": "0.6-0.7",
-          "n": 5,
-          "mean_p": 0.656451629724925,
-          "frac_scam": 0.6
+          "n": 3,
+          "mean_p": 0.6409846592673837,
+          "frac_scam": 0.6666666666666666
         },
         {
           "bin": "0.7-0.8",
-          "n": 5,
-          "mean_p": 0.7602000768175723,
-          "frac_scam": 0.6
+          "n": 7,
+          "mean_p": 0.7444337026521782,
+          "frac_scam": 0.5714285714285714
         },
         {
           "bin": "0.8-0.9",
-          "n": 2,
-          "mean_p": 0.8153948696863415,
-          "frac_scam": 1.0
+          "n": 6,
+          "mean_p": 0.8460356599717015,
+          "frac_scam": 0.8333333333333334
         },
         {
           "bin": "0.9-1.0",
-          "n": 995,
-          "mean_p": 0.9983627362610061,
-          "frac_scam": 0.9949748743718593
+          "n": 994,
+          "mean_p": 0.9988009284651473,
+          "frac_scam": 0.9959758551307847
         }
       ]
     },
@@ -339,36 +345,36 @@
         "lang": "english"
       },
       {
-        "text": "You have received a payment request of Rs 30,000 on Google Pay. Approve it to receive a cashback reward credited directly to your wallet. Ta",
-        "label": 1,
-        "p": 0.013,
+        "text": "Message:some text missing* Sender:Name Missing* *Number Missing *Sent:Date missing *Missing U a lot thats y everything is missing sent via f",
+        "label": 0,
+        "p": 0.982,
         "lang": "english"
       },
       {
         "text": "Passport Seva: Your passport application status is 'Under Review'. Estimated processing time: 7-10 working days. Track at passportindia.gov.",
         "label": 0,
-        "p": 0.985,
+        "p": 0.98,
         "lang": "english"
       }
     ],
-    "ms_per_message_python": 1.0260183303082575
+    "ms_per_message_python": 1.1286893438120358
   },
   "challenge": {
     "name": "challenge (hand-written, never trained on)",
     "overall@0.5": {
       "n": 160,
       "scam": 80,
-      "accuracy": 0.90625,
-      "precision": 0.9113924050632911,
+      "accuracy": 0.9125,
+      "precision": 0.9230769230769231,
       "recall": 0.9,
-      "f1": 0.9056603773584906,
-      "tn": 73,
-      "fp": 7,
+      "f1": 0.9113924050632911,
+      "tn": 74,
+      "fp": 6,
       "fn": 8,
       "tp": 72,
-      "false_alarm_rate": 0.0875,
-      "auc_pr": 0.9827255141169745,
-      "auc_roc": 0.98078125
+      "false_alarm_rate": 0.075,
+      "auc_pr": 0.9840816487368466,
+      "auc_roc": 0.9823437500000001
     },
     "flag@suspicious_cut": {
       "n": 160,
@@ -382,17 +388,17 @@
       "fn": 2,
       "tp": 78,
       "false_alarm_rate": 0.1875,
-      "auc_pr": 0.9827255141169745,
-      "auc_roc": 0.98078125
+      "auc_pr": 0.9840816487368466,
+      "auc_roc": 0.9823437500000001
     },
     "bands": {
       "likely_scam": {
         "scam": 74,
-        "genuine": 7
+        "genuine": 8
       },
       "suspicious": {
         "scam": 4,
-        "genuine": 8
+        "genuine": 7
       },
       "looks_genuine": {
         "scam": 2,
@@ -425,8 +431,8 @@
         "fn": 1,
         "tp": 25,
         "false_alarm_rate": 0.14285714285714285,
-        "auc_pr": 0.989409061667126,
-        "auc_roc": 0.989010989010989
+        "auc_pr": 0.9920227920227919,
+        "auc_roc": 0.9917582417582418
       },
       "hindi": {
         "n": 52,
@@ -440,85 +446,97 @@
         "fn": 5,
         "tp": 21,
         "false_alarm_rate": 0.038461538461538464,
-        "auc_pr": 0.9811192732388383,
-        "auc_roc": 0.9792899408284024
+        "auc_pr": 0.9824341976306858,
+        "auc_roc": 0.9807692307692307
       },
       "hinglish": {
         "n": 54,
         "scam": 28,
-        "accuracy": 0.9259259259259259,
-        "precision": 0.9285714285714286,
+        "accuracy": 0.9444444444444444,
+        "precision": 0.9629629629629629,
         "recall": 0.9285714285714286,
-        "f1": 0.9285714285714286,
-        "tn": 24,
-        "fp": 2,
+        "f1": 0.9454545454545454,
+        "tn": 25,
+        "fp": 1,
         "fn": 2,
         "tp": 26,
-        "false_alarm_rate": 0.07692307692307693,
-        "auc_pr": 0.9851603835978835,
-        "auc_roc": 0.9807692307692308
+        "false_alarm_rate": 0.038461538461538464,
+        "auc_pr": 0.9867943705259881,
+        "auc_roc": 0.9835164835164835
       }
     },
     "per_source": {
       "challenge_v1": {
         "n": 160,
         "scam": 80,
-        "accuracy": 0.90625,
-        "precision": 0.9113924050632911,
+        "accuracy": 0.9125,
+        "precision": 0.9230769230769231,
         "recall": 0.9,
-        "f1": 0.9056603773584906,
-        "tn": 73,
-        "fp": 7,
+        "f1": 0.9113924050632911,
+        "tn": 74,
+        "fp": 6,
         "fn": 8,
         "tp": 72,
-        "false_alarm_rate": 0.0875,
-        "auc_pr": 0.9827255141169745,
-        "auc_roc": 0.98078125
+        "false_alarm_rate": 0.075,
+        "auc_pr": 0.9840816487368466,
+        "auc_roc": 0.9823437500000001
       }
     },
     "calibration": {
-      "ece": 0.05744286557516235,
+      "ece": 0.06148117157279191,
       "bins": [
         {
           "bin": "0.0-0.1",
-          "n": 74,
-          "mean_p": 0.009084995077369502,
-          "frac_scam": 0.06756756756756757
+          "n": 75,
+          "mean_p": 0.00963113721879992,
+          "frac_scam": 0.06666666666666667
         },
         {
           "bin": "0.1-0.2",
-          "n": 5,
-          "mean_p": 0.14135672871145308,
-          "frac_scam": 0.2
+          "n": 4,
+          "mean_p": 0.14315655153045354,
+          "frac_scam": 0.25
         },
         {
-          "bin": "0.3-0.4",
+          "bin": "0.2-0.3",
           "n": 2,
-          "mean_p": 0.31887168994388615,
+          "mean_p": 0.2852817972303531,
           "frac_scam": 1.0
         },
         {
+          "bin": "0.4-0.5",
+          "n": 1,
+          "mean_p": 0.4857541791891885,
+          "frac_scam": 0.0
+        },
+        {
           "bin": "0.5-0.6",
-          "n": 5,
-          "mean_p": 0.533882408545493,
-          "frac_scam": 0.4
+          "n": 4,
+          "mean_p": 0.5255728357828162,
+          "frac_scam": 0.5
         },
         {
           "bin": "0.6-0.7",
-          "n": 2,
-          "mean_p": 0.6203635005225157,
-          "frac_scam": 0.5
+          "n": 1,
+          "mean_p": 0.6014365206612897,
+          "frac_scam": 0.0
+        },
+        {
+          "bin": "0.7-0.8",
+          "n": 1,
+          "mean_p": 0.7807276447293244,
+          "frac_scam": 1.0
         },
         {
           "bin": "0.8-0.9",
           "n": 2,
-          "mean_p": 0.8485570783488982,
+          "mean_p": 0.8546290412215154,
           "frac_scam": 0.5
         },
         {
           "bin": "0.9-1.0",
           "n": 70,
-          "mean_p": 0.9942917421532295,
+          "mean_p": 0.9940642866134825,
           "frac_scam": 0.9714285714285714
         }
       ]
@@ -526,7 +544,7 @@
     "bias": {
       "genuine_bank_alerts": {
         "n": 14,
-        "false_alarm_rate": 0.14285714285714285
+        "false_alarm_rate": 0.07142857142857142
       },
       "genuine_otp_messages": {
         "n": 11,
@@ -547,7 +565,7 @@
         },
         "hinglish": {
           "n": 26,
-          "false_alarm_rate": 0.07692307692307693
+          "false_alarm_rate": 0.038461538461538464
         }
       },
       "by_length": {
@@ -557,7 +575,7 @@
         },
         "medium": {
           "n": 43,
-          "false_alarm_rate": 0.16279069767441862
+          "false_alarm_rate": 0.13953488372093023
         }
       }
     },
@@ -565,34 +583,34 @@
       {
         "text": "गलती से आपके खाते में 5000 रुपये चले गए हैं, कृपया वापस भेज दें और मेरा कलेक्ट रिक्वेस्ट मंज़ूर करें।",
         "label": 1,
-        "p": 0.01,
+        "p": 0.007,
         "lang": "hindi"
       },
       {
         "text": "Hello, I accidentally sent Rs 5000 to your UPI, please return it. Also kindly approve the collect request I sent.",
         "label": 1,
-        "p": 0.011,
+        "p": 0.015,
         "lang": "english"
+      },
+      {
+        "text": "आपका बिजली कनेक्शन आज रात कट जाएगा क्योंकि बिल अपडेट नहीं है। तुरंत अधिकारी को फोन करें।",
+        "label": 1,
+        "p": 0.053,
+        "lang": "hindi"
       },
       {
         "text": "Aapka Aadhaar update request mil gaya hai. URN se uidai.gov.in par status check karein.",
         "label": 0,
-        "p": 0.952,
+        "p": 0.944,
         "lang": "hinglish"
       },
       {
         "text": "Bhai galti se tumhare UPI me 5000 chale gaye, please wapas bhej do aur meri collect request accept kar lo.",
         "label": 1,
-        "p": 0.056,
+        "p": 0.06,
         "lang": "hinglish"
-      },
-      {
-        "text": "आपका बिजली कनेक्शन आज रात कट जाएगा क्योंकि बिल अपडेट नहीं है। तुरंत अधिकारी को फोन करें।",
-        "label": 1,
-        "p": 0.059,
-        "lang": "hindi"
       }
     ],
-    "ms_per_message_python": 0.8838474750518799
+    "ms_per_message_python": 0.9416073560714722
   }
 }

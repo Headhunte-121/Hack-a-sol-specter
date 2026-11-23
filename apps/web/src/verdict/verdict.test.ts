@@ -92,3 +92,21 @@ describe('speech clean-up before the checks', () => {
     expect(negatedNear(['share', 'your', 'otp'], 2, 3)).toBe(false)
   })
 })
+
+describe('polite Hindi wording', () => {
+  const QR_PIN = 'मैंने यूपीआई से पेमेंट कर दिया है। पैसे रिसीव करने के लिए ये क्यूआर कोड स्कैन करके अपना पिन डालिए।'
+  const BANK_REMINDER = 'हेलो, मैं बैंक से बोल रहा हूं। आपका क्रेडिट कार्ड का बिल कल ड्यू है, आप ऐप से पेमेंट कर सकते हैं। कृपया किसी को ओटीपी शेयर मत कीजिए।'
+
+  it('asking someone to enter their PIN after scanning a QR code is flagged on both screens', () => {
+    expect(asMessage(QR_PIN).band).not.toBe('looks_genuine')
+    expect(asCall(QR_PIN).level).not.toBe('low')
+  })
+  it('a bank reminder that tells you not to share the OTP stays genuine on both screens', () => {
+    expect(asMessage(BANK_REMINDER).band).toBe('looks_genuine')
+    expect(asCall(BANK_REMINDER).level).toBe('low')
+  })
+  it('asking for an Aadhaar number and OTP in polite Hindi is still flagged', () => {
+    const t = 'अभी अपना आधार नंबर और ओटीपी शेयर कीजिए, वरना खाता बंद हो जाएगा।'
+    expect(asMessage(t).band).not.toBe('looks_genuine')
+  })
+})
