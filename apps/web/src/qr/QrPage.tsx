@@ -3,7 +3,8 @@ import type { BrandsFile } from '../detector/url'
 import { saveLastResult } from '../detector/lastResult'
 import { useLang } from '../shell/i18n'
 import { Layout } from '../shell/Layout'
-import { cameraErrorKey, describeCameraError, openCamera } from './camera'
+import { cameraErrorKey, describeCameraError, isStandalone, openCamera, watchCameraPermission, type CameraPermission } from './camera'
+import { CameraHelp } from './CameraHelp'
 import { decodeImageFile, decodeQr } from './decode'
 import { analyzeQr, type QrAnalysis } from './parse'
 
@@ -19,6 +20,10 @@ export default function QrPage() {
   const [error, setError] = useState<string | null>(null)
   const [opening, setOpening] = useState(false)
   const [errCode, setErrCode] = useState<string | null>(null)
+  const [perm, setPerm] = useState<CameraPermission>('unknown')
+  const [showHelp, setShowHelp] = useState(false)
+  const [nowOk, setNowOk] = useState(false)
+  const permRef = useRef<CameraPermission>('unknown')
   const video = useRef<HTMLVideoElement>(null)
   const stream = useRef<MediaStream | null>(null)
   const raf = useRef<number>(0)
@@ -28,6 +33,18 @@ export default function QrPage() {
     fetch('/model/brands.json').then((r) => r.json()).then(setBrands).catch(() => setBrands({ version: 'none', brands: [] }))
     return stop
   }, [])
+  // The site's camera permission, kept current: when the person turns the camera on in the phone's settings and comes back,
+  // the help goes away by itself and says the camera is allowed.
+  useEffect(() => watchCameraPermission((p) => {
+    const was = permRef.current
+    permRef.current = p
+    setPerm(p)
+    if (was === 'denied' && p !== 'denied') {
+      setError((e) => (e === 'qr.err.camera' || e === 'qr.err.camera_dismissed' ? null : e))
+      setShowHelp(false)
+      setNowOk(true)
+    }
+  }), [])
   const secure = typeof window === 'undefined' || window.isSecureContext // camera works over HTTPS or localhost only
 
   function stop() {
@@ -40,7 +57,7 @@ export default function QrPage() {
 
   /** openScanner: the camera is requested only when the user taps Scan, and stopped as soon as a code is read. */
   async function openScanner() {
-    setError(null); setRaw(null)
+    setError(null); setRaw(null); setNowOk(false); setShowHelp(false)
     setOpening(true) // the first request can take a moment (a permission question, or one quiet retry)
     try {
       stream.current = await openCamera()
@@ -99,10 +116,22 @@ export default function QrPage() {
             <input type="file" accept="image/*" className="sr-only" onChange={(e) => { const f = e.target.files?.[0]; if (f) void fromFile(f); e.target.value = '' }} />
           </label>
           <p className="text-xs text-muted">{t('qr.camera_note')}</p>
+          {perm !== 'denied' && !nowOk && !error && <p className="text-sm" data-testid="camera-ask">{t('qr.cam.ask')}</p>}
+          {nowOk && <p role="status" className="font-bold text-ok" data-testid="camera-now-ok">{t('qr.cam.now_ok')}</p>}
+          {perm === 'denied' && !error && !showHelp && (
+            <div className="flex items-center justify-between gap-3 rounded-xl border-2 border-warn-line bg-warn-bg px-3 py-2 text-warn" data-testid="camera-off-note">
+              <span>{t('qr.cam.off_note')}</span>
+              <button type="button" className="font-bold underline" onClick={() => setShowHelp(true)}>{t('qr.cam.show')}</button>
+            </div>
+          )}
         </div>
       )}
 
-      {error && (
+      {(error === 'qr.err.camera' || error === 'qr.err.camera_dismissed' || showHelp) && (
+        <CameraHelp kind={error === 'qr.err.camera_dismissed' ? 'dismissed' : 'denied'} standalone={isStandalone()} code={errCode} onRetry={() => void openScanner()} onFile={(f) => void fromFile(f)} />
+      )}
+
+      {error && error !== 'qr.err.camera' && error !== 'qr.err.camera_dismissed' && (
         <div role="alert" className="flex flex-col gap-3 rounded-2xl border-2 border-bad-line bg-bad-bg p-3 text-bad">
           <p>{t(error)}</p>
           {error.startsWith('qr.err.camera') && errCode && <p className="font-mono text-xs opacity-80" data-testid="qr-err-code">{t('qr.err.code')}: {errCode}</p>}

@@ -2,7 +2,8 @@
 
 export type CameraErrorKey =
   | 'qr.err.camera' | 'qr.err.camera_dismissed' | 'qr.err.camera_none' | 'qr.err.camera_busy' | 'qr.err.camera_unsupported' | 'qr.err.camera_failed'
-type Permission = PermissionState | 'unknown'
+export type CameraPermission = PermissionState | 'unknown'
+type Permission = CameraPermission
 
 /** cameraErrorKey: the browser's error name (and the site's camera permission, when known) -> the message to show. */
 export function cameraErrorKey(e: unknown): CameraErrorKey {
@@ -31,6 +32,35 @@ export async function cameraPermission(): Promise<Permission> {
   } catch {
     return 'unknown'
   }
+}
+
+/** Whether the app was opened from the home screen (no browser address bar). Advice such as "tap the lock next to the web
+ *  address" cannot be followed there, so the help text changes. */
+export function isStandalone(): boolean {
+  try {
+    if (typeof window === 'undefined') return false
+    return !!window.matchMedia?.('(display-mode: standalone)').matches || (navigator as { standalone?: boolean }).standalone === true
+  } catch {
+    return false
+  }
+}
+
+/** watchCameraPermission: reports the site's camera permission now and again whenever the person changes it (for example
+ *  after turning the camera on in the phone's settings and coming back). Returns a function that stops watching. */
+export function watchCameraPermission(onChange: (p: CameraPermission) => void): () => void {
+  let status: PermissionStatus | null = null
+  let stopped = false
+  const handler = () => { if (status && !stopped) onChange(status.state) }
+  const query = navigator.permissions?.query
+    ? navigator.permissions.query({ name: 'camera' as PermissionName })
+    : Promise.reject(new Error('permissions API not available'))
+  query.then((s) => {
+    if (stopped) return
+    status = s
+    onChange(s.state)
+    s.addEventListener?.('change', handler)
+  }).catch(() => { if (!stopped) onChange('unknown') })
+  return () => { stopped = true; status?.removeEventListener?.('change', handler) }
 }
 
 /** Resolve once the page has focus again (a system permission dialog takes it away), or after a timeout. */
