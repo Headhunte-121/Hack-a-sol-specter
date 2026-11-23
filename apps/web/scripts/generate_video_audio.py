@@ -1,11 +1,18 @@
-"""Generate studio-quality narration audio for lessons in Hindi, Chhattisgarhi, and English.
-Output: apps/web/public/audio/video/<lesson_id>.<lang>.mp3
+"""Generate narration audio for the lesson videos in Hindi, Chhattisgarhi and English.
+Output: apps/web/public/audio/video/<lesson_id>.<lang>.m4a (mono AAC, 32 kbps: about 300 KB a minute, and not matched by the
+service worker's precache list, so it is downloaded only when a lesson is played or when the person asks for offline lessons).
+
+The voice is Google Translate's text-to-speech web address, which is an unofficial service with no stated terms for this use;
+it has no Chhattisgarhi voice, so Chhattisgarhi text is read by the Hindi voice. This is a stand-in until native speakers record
+the lessons (see docs/lesson_audio.md). Needs ffmpeg on the PATH.
 """
 from __future__ import annotations
 
 import json
 import os
 import re
+import shutil
+import subprocess
 import urllib.parse
 import urllib.request
 from pathlib import Path
@@ -72,9 +79,14 @@ def generate_audio(text: str, lang: str, out_file: Path) -> None:
             print(f"Error fetching chunk '{c[:30]}...': {e}")
 
     out_file.parent.mkdir(parents=True, exist_ok=True)
-    with open(out_file, "wb") as f:
-        f.write(combined)
-    print(f"Generated {out_file.name} ({len(combined)} bytes)")
+    raw = out_file.with_suffix(".tmp.mp3")
+    raw.write_bytes(bytes(combined))
+    if not shutil.which("ffmpeg"):
+        raw.unlink(missing_ok=True)
+        raise SystemExit("ffmpeg is needed to make the .m4a files: install it and run this again")
+    subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", str(raw), "-ac", "1", "-ar", "24000", "-c:a", "aac", "-b:a", "32k", "-movflags", "+faststart", str(out_file)], check=True)
+    raw.unlink(missing_ok=True)
+    print(f"Generated {out_file.name} ({out_file.stat().st_size} bytes)")
 
 
 def main():
@@ -93,7 +105,7 @@ def main():
             f"सुरक्षा नियम। {l['todo']['hi']}। यदि धोखाधड़ी हो जाए, तो तुरंत 1930 साइबर हेल्पलाइन पर फोन करें।",
         ]
         hi_text = " ".join(hi_parts)
-        generate_audio(hi_text, "hi", OUT_DIR / f"{lid}.hi.mp3")
+        generate_audio(hi_text, "hi", OUT_DIR / f"{lid}.hi.m4a")
 
         # 2. Chhattisgarhi Narration
         cg_parts = [
@@ -103,7 +115,7 @@ def main():
             f"सुरक्षा नियम। {l['todo']['cg']}। अगर धोखाधड़ी हो जाय, त तुरंत 1930 साइबर हेल्पलाइन म फोन करव।",
         ]
         cg_text = " ".join(cg_parts)
-        generate_audio(cg_text, "cg", OUT_DIR / f"{lid}.cg.mp3")
+        generate_audio(cg_text, "cg", OUT_DIR / f"{lid}.cg.m4a")
 
         # 3. English Narration
         en_parts = [
@@ -113,10 +125,10 @@ def main():
             f"Safety rule. {l['todo']['en']}. In case of fraud, dial 1930 cyber helpline immediately.",
         ]
         en_text = " ".join(en_parts)
-        generate_audio(en_text, "en", OUT_DIR / f"{lid}.en.mp3")
+        generate_audio(en_text, "en", OUT_DIR / f"{lid}.en.m4a")
 
     # Clean up test files if any
-    for t in ["test_hi.mp3", "test_cg.mp3", "test_en.mp3"]:
+    for t in ["test_hi.m4a", "test_cg.m4a", "test_en.m4a"]:
         tp = OUT_DIR / t
         if tp.exists():
             tp.unlink()

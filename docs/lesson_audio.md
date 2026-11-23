@@ -26,3 +26,9 @@ A screen reader hears "Playing", "Paused", "Finished", the new speed, or the err
 ## Offline
 
 The lesson list shows **Download all lessons for offline** when recordings exist. It fetches the recordings and captions of the language on screen into the browser cache named `lesson-audio`, one file at a time, with a progress bar, an estimate of the size ("about 3 MB") and the free space the browser reports (`navigator.storage.estimate()`). The player reads a downloaded file from that cache, so it plays and seeks with no internet; a button removes the downloaded audio again. Recordings are not part of the install: they are downloaded only when the person asks, or streamed when played online.
+
+## Video lesson narration
+
+The Video tab of a lesson plays a short scene-based explainer. Its spoken track is one small file per lesson and language, `public/audio/video/<lesson_id>.<lang>.m4a` (mono AAC, 24 kHz, 32 kbps, about 0.2 MB). It is a **computer voice**, made by `scripts/generate_video_audio.py` with the unofficial text-to-speech endpoint of Google Translate. That endpoint has no published licence or service terms, so these files are placeholders. Chhattisgarhi is not offered by it, so the Chhattisgarhi narration is spoken with the Hindi voice; the player says so on screen. Replace the files with recordings by native speakers using the same names before release (the player and the offline list read whatever is there).
+
+The files are not part of the install: they are streamed when played and added to the browser cache by **Download all lessons for offline**, which counts them in the size estimate. The exported summary video (Video tab, "Generate & download video") has captions and scene chimes but no voice.
