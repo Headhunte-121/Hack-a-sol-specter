@@ -1,5 +1,20 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Award, BookOpen, ChevronRight, Film, HelpCircle, LayoutGrid, Lightbulb, RotateCcw, Scissors, Sparkles, Star, Volume2, VolumeX } from 'lucide-react'
+import {
+  Award,
+  BookOpen,
+  CheckCircle2,
+  ChevronRight,
+  Film,
+  HelpCircle,
+  LayoutGrid,
+  Lightbulb,
+  RotateCcw,
+  Scissors,
+  Sparkles,
+  Star,
+  Volume2,
+  VolumeX,
+} from 'lucide-react'
 import { categoryFromSignals, LESSON_FOR_CATEGORY } from '../shared/categories'
 import { setBusy } from '../shell/busy'
 import { useLang } from '../shell/i18n'
@@ -15,9 +30,21 @@ import { ChapterSelect } from './ChapterSelect'
 import { loadContentPack, lessonCards, lessonMinutes, pick, type ContentPack, type Lesson, type Question } from './content'
 import { LessonAudio } from './LessonAudio'
 import { LessonCards } from './LessonCards'
+import { LessonThumbnail } from './LessonThumbnail'
 import { LessonVideo } from './LessonVideo'
 import { OfflineDownload } from './OfflineDownload'
-import { attemptHistory, chapterAttempts, doneLessons, markLessonComplete, saveChapterAttempt, saveUsedQuestions, storeAttemptHistory, usedQuestions, type Attempt, type ChapterAttempt } from './progress'
+import {
+  attemptHistory,
+  chapterAttempts,
+  doneLessons,
+  markLessonComplete,
+  saveChapterAttempt,
+  saveUsedQuestions,
+  storeAttemptHistory,
+  usedQuestions,
+  type Attempt,
+  type ChapterAttempt,
+} from './progress'
 import { displayOrder, QUIZ_LENGTH, selectQuestions } from './quiz'
 import { playQuizSound } from './quizAudio'
 import { QuizConfetti } from './QuizConfetti'
@@ -208,24 +235,33 @@ function Home({
   onGrandQuiz,
 }: {
   pack: ContentPack
-  done: string[];
-  title: (l: Lesson) => string;
-  onOpen: (id: string) => void;
-  onChapters: () => void;
-  onGrandQuiz: () => void;
+  done: string[]
+  title: (l: Lesson) => string
+  onOpen: (id: string) => void
+  onChapters: () => void
+  onGrandQuiz: () => void
 }) {
   const { t, lang } = useLang()
   const last = attemptHistory().slice(-1)[0]
   const attempts = chapterAttempts()
   const completedChaptersCount = CHAPTERS.filter((c) => !!attempts[c.id]).length
   const rec = last ? recommendNextLesson(last.topics, last.score) : null
+  const completedCount = pack.lessons.filter((l) => done.includes(l.id)).length
+  const totalCount = pack.lessons.length
+  const pct = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0
+
+  // Prefer the quiz-recommended lesson if undone; otherwise fall back to the first uncompleted lesson
+  const recommendedId =
+    rec?.kind === 'lesson' && !done.includes(rec.topic)
+      ? rec.topic
+      : pack.lessons.find((l) => !done.includes(l.id))?.id ?? null
 
   return (
-    <>
-      {/* Primary 5-Chapter Interactive Quiz Button */}
-      <div className="flex flex-col gap-2.5">
+    <div className="space-y-5">
+      {/* Primary 5-Chapter Interactive Quiz Button + Progress Card */}
+      <section className="flex flex-col gap-3 rounded-2xl border border-slate-200/90 bg-white p-4 shadow-md shadow-blue-950/6 sm:p-5">
         <button
-          className="btn btn-primary !min-h-[82px] !text-[22px] flex items-center justify-between !p-3.5 shadow-lg hover:shadow-xl transition-all"
+          className="btn btn-primary !min-h-[82px] !text-[22px] flex items-center justify-between !p-3.5 shadow-md hover:shadow-lg transition-all"
           onClick={onChapters}
         >
           <div className="flex items-center gap-3.5">
@@ -235,66 +271,120 @@ function Home({
               className="h-16 w-16 rounded-2xl object-cover shadow-md ring-2 ring-white/40 shrink-0"
             />
             <div className="text-left">
-              <span className="block font-black leading-tight text-[21px]">
+              <span className="block font-black leading-tight text-[20px] sm:text-[21px]">
                 {t('learn.quiz.chapters_btn')}
               </span>
               <span className="block text-[13px] font-medium text-blue-100 mt-0.5">
                 {completedChaptersCount > 0
-                  ? (lang === 'hi' ? `${completedChaptersCount}/5 अध्याय पूरे हुए · सभी खेलें` : lang === 'cg' ? `${completedChaptersCount}/5 अध्याय पूरा होगे` : `${completedChaptersCount}/5 Chapters Completed`)
-                  : (lang === 'hi' ? 'इंटरैक्टिव विषय चित्र, वीडियो सिमुलेशन एवं उपहार के साथ' : lang === 'cg' ? 'इंटरैक्टिव विषय फोटो, वीडियो सिमुलेशन अउ ईनाम के संग' : 'Interactive topic visuals, video simulations & surprises')}
+                  ? lang === 'hi'
+                    ? `${completedChaptersCount}/5 अध्याय पूरे हुए`
+                    : lang === 'cg'
+                    ? `${completedChaptersCount}/5 अध्याय पूरा होगे`
+                    : `${completedChaptersCount}/5 Chapters Completed`
+                  : lang === 'hi'
+                  ? 'इंटरैक्टिव विषय चित्र, वीडियो सिमुलेशन एवं उपहार के साथ'
+                  : lang === 'cg'
+                  ? 'इंटरैक्टिव विषय फोटो, वीडियो सिमुलेशन अउ ईनाम के संग'
+                  : 'Interactive topic visuals, video simulations & surprises'}
               </span>
             </div>
           </div>
           <ChevronRight size={28} className="shrink-0" />
         </button>
 
-        {/* Quick Speed Assessment Link */}
-        <div className="flex items-center justify-between px-1 text-[15px]">
-          <span className="text-muted">
-            {last && t('learn.score.previous', { score: last.score })}
-          </span>
+        {/* Lesson Progress Pills & Quick Speed Assessment Link */}
+        <div className="flex flex-col gap-2.5 pt-1 sm:flex-row sm:items-center sm:justify-between">
+          <div className="min-w-0 flex-1 space-y-2">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-[#EFF4FF] px-3 py-1 text-xs font-extrabold text-[#163264] ring-1 ring-blue-200/80">
+                <CheckCircle2 className="size-3.5 text-[#1747c4]" strokeWidth={2.4} />
+                <span>
+                  {completedCount} / {totalCount} {t('learn.done')}
+                </span>
+              </span>
+              {last && (
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 px-3 py-1 text-xs font-extrabold text-[#14583a] ring-1 ring-emerald-200">
+                  <Award className="size-3.5 text-emerald-600" strokeWidth={2.4} />
+                  <span>{t('learn.score.previous', { score: last.score })}</span>
+                </span>
+              )}
+            </div>
+
+            <div className="h-2 w-full max-w-md overflow-hidden rounded-full bg-[#E3EBFF]">
+              <div
+                className="h-full rounded-full bg-[#1747c4] transition-all duration-300"
+                style={{ width: `${pct}%` }}
+              />
+            </div>
+          </div>
+
           <button
             type="button"
             onClick={onGrandQuiz}
-            className="font-bold text-brand hover:underline"
+            className="self-start text-[15px] font-bold text-[#1747c4] hover:underline sm:self-center"
           >
             {t('learn.take_quiz', { n: QUIZ_LENGTH })}
           </button>
         </div>
+      </section>
+
+      {/* Section Header */}
+      <div className="flex items-center justify-between px-0.5">
+        <h2 className="text-[19px] font-extrabold tracking-tight text-[#0F1B3D]">
+          {t('learn.lessons')}
+        </h2>
+        <span className="inline-flex items-center gap-1 text-xs font-bold text-slate-500">
+          <Film className="size-3.5 text-[#1747c4]" />
+          <span>
+            {totalCount} {t('learn.video.badge')}
+          </span>
+        </span>
       </div>
 
-      <div className="mt-2 text-[22px] font-bold">{t('learn.lessons')}</div>
-      <ol className="flex flex-col gap-3">
-        {pack.lessons.map((l, i) => (
-          <li key={l.id}>
-            <button
-              className="flex min-h-[76px] w-full items-center gap-3.5 rounded-2xl border-2 border-line bg-white px-4 py-3 text-left transition-all hover:border-brand/40"
-              onClick={() => onOpen(l.id)}
-            >
-              <span className="num bg-brand">{i + 1}</span>
-              <span className="flex-1">
-                <span className="block text-[20px] font-bold leading-snug">{title(l)}</span>
-                <span className="flex items-center gap-2 text-[15px] text-muted">
-                  <span>{t('learn.minutes', { n: lessonMinutes(l) })}</span>
-                  <span>•</span>
-                  <span className="flex items-center gap-1 font-semibold text-brand">
-                    <Film size={13} />
-                    <span>{t('learn.video.badge')}</span>
+      {/* YouTube-Style Video Card Grid */}
+      <ol className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        {pack.lessons.map((l, i) => {
+          const isDone = done.includes(l.id)
+          const isRec = recommendedId === l.id
+          return (
+            <li key={l.id}>
+              <button
+                type="button"
+                onClick={() => onOpen(l.id)}
+                className="group flex h-full w-full flex-col overflow-hidden rounded-2xl border border-slate-200/90 bg-white text-left shadow-md shadow-blue-950/6 transition-all duration-200 hover:-translate-y-0.5 hover:border-[#1747c4]/40 hover:shadow-xl hover:shadow-blue-950/12"
+              >
+                <LessonThumbnail
+                  lessonId={l.id}
+                  index={i}
+                  durationLabel={t('learn.minutes', { n: lessonMinutes(l) })}
+                  done={isDone}
+                  doneLabel={t('learn.done')}
+                  recommended={isRec}
+                  recommendedLabel={t('learn.recommended')}
+                />
+
+                <div className="flex flex-1 flex-col justify-between gap-2 p-3.5">
+                  <span className="line-clamp-2 text-[16.5px] font-bold leading-snug text-[#0F1B3D] transition-colors group-hover:text-[#1747c4]">
+                    {title(l)}
                   </span>
-                </span>
-              </span>
-              {done.includes(l.id) && <span className="text-[15px] font-bold text-ok">✔ {t('learn.done')}</span>}
-              {rec?.kind === 'lesson' && rec.topic === l.id && (
-                <span className="rounded-lg bg-warn-bg px-2 py-0.5 text-[13px] font-bold text-warn">
-                  {t('learn.recommended')}
-                </span>
-              )}
-            </button>
-          </li>
-        ))}
+
+                  <span className="flex items-center gap-2 text-[13px] font-medium text-slate-500">
+                    <span>{t('learn.minutes', { n: lessonMinutes(l) })}</span>
+                    <span aria-hidden="true">•</span>
+                    <span className="inline-flex items-center gap-1 font-semibold text-[#1747c4]">
+                      <Film size={13} />
+                      <span>{t('learn.video.badge')}</span>
+                    </span>
+                  </span>
+                </div>
+              </button>
+            </li>
+          )
+        })}
       </ol>
+
       <OfflineDownload lessons={pack.lessons} />
-    </>
+    </div>
   )
 }
 
@@ -322,30 +412,36 @@ function LessonView({
   const matchingChapter = CHAPTERS.find((c) => c.topics.includes(lesson.id as any))
 
   return (
-    <article className="flex flex-col gap-3">
-      <h1 className={`text-[28px] font-bold leading-[1.3] ${hot(0)}`}>{pick(lesson.title, lang)}</h1>
-      <p className="text-[16px] text-muted">{t('learn.minutes', { n: lessonMinutes(lesson) })}</p>
+    <article className="flex flex-col gap-4">
+      <div className="space-y-1">
+        <h1 className={`text-[26px] font-extrabold leading-tight tracking-tight text-[#0F1B3D] ${hot(0)}`}>
+          {pick(lesson.title, lang)}
+        </h1>
+        <p className="text-[14.5px] font-medium text-slate-500">
+          {t('learn.minutes', { n: lessonMinutes(lesson) })}
+        </p>
+      </div>
 
-      {/* Tab Switcher: Video Explainer vs Visual Cards */}
-      <div className="flex rounded-xl border border-line bg-soft p-1">
+      {/* Light Civic Tab Switcher: Video Explainer vs Visual Cards */}
+      <div className="flex rounded-2xl border border-slate-200/90 bg-white p-1 shadow-xs">
         <button
           type="button"
           onClick={() => setTab('video')}
-          className={`flex flex-1 items-center justify-center gap-2 rounded-lg py-2 text-[16px] font-bold transition-all ${
-            tab === 'video' ? 'bg-brand text-white shadow-sm' : 'text-muted hover:text-ink'
+          className={`flex flex-1 items-center justify-center gap-2 rounded-xl py-2 text-[15px] font-bold transition-all ${
+            tab === 'video' ? 'bg-[#163264] text-white shadow-sm' : 'text-slate-600 hover:bg-slate-50 hover:text-[#0F1B3D]'
           }`}
         >
-          <Film size={18} />
+          <Film size={17} />
           <span>{t('learn.video.tab_video')}</span>
         </button>
         <button
           type="button"
           onClick={() => setTab('cards')}
-          className={`flex flex-1 items-center justify-center gap-2 rounded-lg py-2 text-[16px] font-bold transition-all ${
-            tab === 'cards' ? 'bg-brand text-white shadow-sm' : 'text-muted hover:text-ink'
+          className={`flex flex-1 items-center justify-center gap-2 rounded-xl py-2 text-[15px] font-bold transition-all ${
+            tab === 'cards' ? 'bg-[#163264] text-white shadow-sm' : 'text-slate-600 hover:bg-slate-50 hover:text-[#0F1B3D]'
           }`}
         >
-          <LayoutGrid size={18} />
+          <LayoutGrid size={17} />
           <span>{t('learn.video.tab_cards')}</span>
         </button>
       </div>
@@ -359,16 +455,17 @@ function LessonView({
         </>
       )}
 
-      <section className="card">
-        <h2 className="mb-1 text-[18px] font-bold text-brand">{t('learn.example')}</h2>
-        <p className={`text-[20px] leading-[1.7] ${hot(1)}`}>{pick(lesson.example, lang)}</p>
+      <section className="rounded-2xl border border-slate-200/90 bg-white p-4 shadow-sm shadow-blue-950/5">
+        <h2 className="mb-1.5 text-[16px] font-extrabold text-[#1747c4]">{t('learn.example')}</h2>
+        <p className={`text-[18px] leading-[1.65] text-slate-800 ${hot(1)}`}>{pick(lesson.example, lang)}</p>
       </section>
-      <section className="card">
-        <h2 className="mb-1 flex items-center gap-2 text-[18px] font-bold text-warn">
-          <Icon name="warn" size={24} />
+
+      <section className="rounded-2xl border border-amber-200/90 bg-white p-4 shadow-sm shadow-amber-950/5">
+        <h2 className="mb-2 flex items-center gap-2 text-[16px] font-extrabold text-warn">
+          <Icon name="warn" size={22} />
           {t('learn.signs')}
         </h2>
-        <ul className="list-disc space-y-1 pl-6 text-[20px] leading-[1.6]">
+        <ul className="list-disc space-y-1.5 pl-6 text-[17.5px] leading-[1.6] text-slate-800">
           {lesson.signs.map((s, i) => (
             <li key={i} className={hot(2 + i)}>
               {pick(s, lang)}
@@ -376,37 +473,43 @@ function LessonView({
           ))}
         </ul>
       </section>
-      <Banner tone="ok" className="!border-ok-line">
-        <h2 className="mb-1 flex items-center gap-2 text-[18px] font-bold">
-          <Icon name="check" size={24} stroke={2.5} />
+
+      <Banner tone="ok" className="!rounded-2xl !border-ok-line shadow-sm">
+        <h2 className="mb-1 flex items-center gap-2 text-[16px] font-extrabold">
+          <Icon name="check" size={22} stroke={2.5} />
           {t('learn.todo')}
         </h2>
-        <p className={`text-[20px] leading-[1.6] ${hot(todoLine)}`}>{pick(lesson.todo, lang)}</p>
+        <p className={`text-[18px] leading-[1.6] ${hot(todoLine)}`}>{pick(lesson.todo, lang)}</p>
       </Banner>
 
-      <button className="btn btn-primary" disabled={done} onClick={() => onDone(lesson.id)}>
-        {done ? `✔ ${t('learn.done')}` : t('learn.mark_done')}
-      </button>
-
-      {/* Chapter Quiz Trigger Button */}
-      {matchingChapter && (
-        <button
-          className="btn btn-secondary !min-h-[58px] !text-[18px] flex items-center justify-between"
-          onClick={() => onChapterQuiz(matchingChapter)}
-        >
-          <span>
-            {lang === 'hi'
-              ? `अध्याय ${matchingChapter.number} की प्रश्नोत्तरी दें (20 प्रश्न)`
-              : lang === 'cg'
-              ? `अध्याय ${matchingChapter.number} के सवाल-जवाब देवव (20 सवाल)`
-              : `Take Chapter ${matchingChapter.number} Quiz (20 Qs)`}
-          </span>
-          <ChevronRight size={20} />
+      <div className="flex flex-col gap-2.5 sm:flex-row">
+        <button className="btn btn-primary flex-1 shadow-sm" disabled={done} onClick={() => onDone(lesson.id)}>
+          {done ? `✔ ${t('learn.done')}` : t('learn.mark_done')}
         </button>
-      )}
+
+        {matchingChapter && (
+          <button
+            className="btn btn-secondary flex-1 shadow-xs flex items-center justify-between"
+            onClick={() => onChapterQuiz(matchingChapter)}
+          >
+            <span>
+              {lang === 'hi'
+                ? `अध्याय ${matchingChapter.number} की प्रश्नोत्तरी दें (20 प्रश्न)`
+                : lang === 'cg'
+                ? `अध्याय ${matchingChapter.number} के सवाल-जवाब देवव (20 सवाल)`
+                : `Take Chapter ${matchingChapter.number} Quiz (20 Qs)`}
+            </span>
+            <ChevronRight size={20} />
+          </button>
+        )}
+      </div>
 
       <button className="self-center py-1 text-[16px] font-bold text-brand underline" onClick={onChapters}>
-        {lang === 'hi' ? 'सभी 5 अध्याय प्रश्नोत्तरी देखें' : lang === 'cg' ? 'जम्मो 5 अध्याय सवाल-जवाब देखव' : 'Browse All 5 Chapters'}
+        {lang === 'hi'
+          ? 'सभी 5 अध्याय प्रश्नोत्तरी देखें'
+          : lang === 'cg'
+          ? 'जम्मो 5 अध्याय सवाल-जवाब देखव'
+          : 'Browse All 5 Chapters'}
       </button>
     </article>
   )
@@ -503,9 +606,7 @@ function QuizView({
   // 50:50 Lifeline handler
   const handleUseFiftyFifty = () => {
     if (lifelines.fiftyFiftyAvailable <= 0 || eliminatedOptions.length > 0 || chosen !== null) return
-    const wrongOptions = q.options
-      .map((_, idx) => idx)
-      .filter((idx) => idx !== q.answer)
+    const wrongOptions = q.options.map((_, idx) => idx).filter((idx) => idx !== q.answer)
 
     // Pick 2 wrong options to eliminate if available
     const toEliminate = wrongOptions.slice(0, 2)
@@ -586,7 +687,11 @@ function QuizView({
           {chapter ? (
             <div className="flex items-center gap-2">
               <span className="rounded-lg bg-brand px-2 py-0.5 text-[12px] font-black text-white">
-                {lang === 'hi' ? `अध्याय ${chapter.number}` : lang === 'cg' ? `अध्याय ${chapter.number}` : `Chapter ${chapter.number}`}
+                {lang === 'hi'
+                  ? `अध्याय ${chapter.number}`
+                  : lang === 'cg'
+                  ? `अध्याय ${chapter.number}`
+                  : `Chapter ${chapter.number}`}
               </span>
               <span className="text-[15px] font-bold text-ink truncate max-w-[190px]">
                 {pick(chapter.title, lang)}
@@ -594,7 +699,11 @@ function QuizView({
             </div>
           ) : (
             <span className="text-[14px] font-bold text-brand uppercase tracking-wider">
-              {lang === 'hi' ? 'संपूर्ण गति परीक्षा' : lang === 'cg' ? 'जम्मो गति परीक्षा' : 'Comprehensive Speed Quiz'}
+              {lang === 'hi'
+                ? 'संपूर्ण गति परीक्षा'
+                : lang === 'cg'
+                ? 'जम्मो गति परीक्षा'
+                : 'Comprehensive Speed Quiz'}
             </span>
           )}
         </div>
@@ -642,7 +751,9 @@ function QuizView({
         <div className="flex items-start gap-2.5 rounded-2xl border-2 border-amber-300 bg-amber-50 p-3.5 text-amber-900 shadow-xs animate-fadeIn">
           <Lightbulb size={22} className="shrink-0 text-amber-600 mt-0.5" />
           <div className="text-[15px] leading-relaxed">
-            <span className="font-black">{lang === 'hi' ? '💡 गुप्त संकेत: ' : lang === 'cg' ? '💡 गुप्त संकेत: ' : '💡 Clue: '}</span>
+            <span className="font-black">
+              {lang === 'hi' ? '💡 गुप्त संकेत: ' : lang === 'cg' ? '💡 गुप्त संकेत: ' : '💡 Clue: '}
+            </span>
             <span>{pick(q.explanation, lang).split('.')[0]}.</span>
           </div>
         </div>
@@ -656,7 +767,8 @@ function QuizView({
         <span className="flex items-center gap-1 text-[12px] font-semibold text-muted">
           <span>{lang === 'hi' ? 'कठिनाई:' : lang === 'cg' ? 'कठिनाई:' : 'Difficulty:'}</span>
           <span className="text-amber-500 font-bold">
-            {'★'.repeat(q.difficulty)}{'☆'.repeat(3 - q.difficulty)}
+            {'★'.repeat(q.difficulty)}
+            {'☆'.repeat(3 - q.difficulty)}
           </span>
         </span>
       </div>
@@ -744,9 +856,7 @@ function QuizView({
           className={`${res.correct ? '!border-ok-line' : ''} shadow-md mt-2 animate-fadeIn`}
         >
           <div className="flex items-center gap-2">
-            <span className="text-[22px]">
-              {res.correct ? '✅' : '❌'}
-            </span>
+            <span className="text-[22px]">{res.correct ? '✅' : '❌'}</span>
             <p className="text-[22px] font-black">
               {res.correct ? t('learn.quiz.correct') : t('learn.quiz.wrong')}
             </p>
@@ -817,7 +927,7 @@ function ResultView({
 
   return (
     <section className="flex flex-1 flex-col gap-3" data-testid="score-card">
-      <div className="card flex items-center gap-[18px] !p-4">
+      <div className="card flex items-center gap-[18px] !p-4 shadow-md shadow-blue-950/6">
         <ScoreRing score={attempt.score} />
         <div>
           <div className="text-[26px] font-bold leading-tight text-brand">{t(`learn.score.level.${attempt.level}`)}</div>
@@ -826,7 +936,7 @@ function ResultView({
         </div>
       </div>
 
-      <div className="card flex flex-col gap-3">
+      <div className="card flex flex-col gap-3 shadow-sm shadow-blue-950/5">
         {pack.lessons
           .filter((l) => l.id in attempt.topics)
           .map((l) => {

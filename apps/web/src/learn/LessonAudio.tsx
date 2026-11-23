@@ -1,7 +1,22 @@
 import { useEffect, useMemo, useReducer, useRef, useState } from 'react'
+import { Headphones } from 'lucide-react'
 import { LANGS, useLang } from '../shell/i18n'
 import { Banner } from '../shell/ui'
-import { activeSegment, announcementKey, asRate, chooseSource, formatClock, initialPlayer, parseCaptions, playerReducer, RATES, type AudioSource, type Captions, type Rate, type VoiceLike } from './audio'
+import {
+  activeSegment,
+  announcementKey,
+  asRate,
+  chooseSource,
+  formatClock,
+  initialPlayer,
+  parseCaptions,
+  playerReducer,
+  RATES,
+  type AudioSource,
+  type Captions,
+  type Rate,
+  type VoiceLike,
+} from './audio'
 import { CardIcon } from './cardIcons'
 import type { Lesson } from './content'
 import { playableUrl } from './offline'
@@ -22,10 +37,24 @@ function useVoices(): SpeechSynthesisVoice[] {
 function RateButtons({ rate, onRate }: { rate: Rate; onRate: (r: Rate) => void }) {
   const { t } = useLang()
   return (
-    <div role="group" aria-label={t('learn.audio.speed')} className="flex items-center gap-2">
-      <span className="text-[1rem] font-bold text-muted">{t('learn.audio.speed')}</span>
+    <div
+      role="group"
+      aria-label={t('learn.audio.speed')}
+      className="inline-flex items-center gap-1 rounded-xl border border-slate-200/90 bg-[#F4F7FF] p-1"
+    >
+      <span className="px-2 text-xs font-bold text-slate-500">{t('learn.audio.speed')}</span>
       {RATES.map((r) => (
-        <button key={r} type="button" aria-pressed={r === rate} onClick={() => onRate(r)} className={`btn !min-h-11 !min-w-[4rem] ${r === rate ? 'btn-primary' : 'btn-secondary'}`}>
+        <button
+          key={r}
+          type="button"
+          aria-pressed={r === rate}
+          onClick={() => onRate(r)}
+          className={`min-h-9 min-w-[3.25rem] rounded-lg px-2.5 text-xs font-extrabold transition-all ${
+            r === rate
+              ? 'bg-[#163264] text-white shadow-xs'
+              : 'text-slate-600 hover:bg-white hover:text-[#0F1B3D]'
+          }`}
+        >
           {r}×
         </button>
       ))}
@@ -35,7 +64,11 @@ function RateButtons({ rate, onRate }: { rate: Rate; onRate: (r: Rate) => void }
 
 /** The text a screen reader hears when the player changes: kept in a polite live region that is not shown. */
 function Announcer({ text }: { text: string }) {
-  return <p className="sr-only" role="status" aria-live="polite">{text}</p>
+  return (
+    <p className="sr-only" role="status" aria-live="polite">
+      {text}
+    </p>
+  )
 }
 
 // ---------------------------------------------------------------- a recording
@@ -52,20 +85,36 @@ function FilePlayer({ source, onLine }: { source: Extract<AudioSource, { kind: '
   useEffect(() => {
     let alive = true
     const made: { url: string | null } = { url: null }
-    playableUrl(source.url, typeof caches !== 'undefined' ? caches : undefined, (b) => (made.url = URL.createObjectURL(b))).then((r) => { if (alive) setSrc(r) })
-    return () => { alive = false; if (made.url) URL.revokeObjectURL(made.url) }
+    playableUrl(source.url, typeof caches !== 'undefined' ? caches : undefined, (b) => (made.url = URL.createObjectURL(b))).then((r) => {
+      if (alive) setSrc(r)
+    })
+    return () => {
+      alive = false
+      if (made.url) URL.revokeObjectURL(made.url)
+    }
   }, [source.url])
 
   useEffect(() => {
     setCaptions(null)
     if (!source.captionsUrl) return
     let alive = true
-    fetch(source.captionsUrl).then((r) => (r.ok ? r.json() : null)).then((j) => { if (alive) setCaptions(parseCaptions(j)) }).catch(() => {})
-    return () => { alive = false }
+    fetch(source.captionsUrl)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((j) => {
+        if (alive) setCaptions(parseCaptions(j))
+      })
+      .catch(() => {})
+    return () => {
+      alive = false
+    }
   }, [source.captionsUrl])
 
-  useEffect(() => { onLine(-1) }, [onLine])
-  useEffect(() => { if (audio.current) audio.current.playbackRate = state.rate }, [state.rate, src])
+  useEffect(() => {
+    onLine(-1)
+  }, [onLine])
+  useEffect(() => {
+    if (audio.current) audio.current.playbackRate = state.rate
+  }, [state.rate, src])
   useEffect(() => {
     const key = announcementKey(prev.current, state)
     prev.current = state
@@ -87,6 +136,7 @@ function FilePlayer({ source, onLine }: { source: Extract<AudioSource, { kind: '
   }
   const active = captions ? activeSegment(captions.segments, state.time) : -1
   const playing = state.status === 'playing' || state.status === 'loading'
+  const progressPct = state.duration > 0 ? Math.min(100, Math.max(0, (state.time / state.duration) * 100)) : 0
 
   return (
     <div className="flex flex-col gap-3">
@@ -94,46 +144,82 @@ function FilePlayer({ source, onLine }: { source: Extract<AudioSource, { kind: '
         ref={audio}
         src={src?.src}
         preload={src?.fromCache ? 'metadata' : 'none'}
-        onLoadedMetadata={(e) => { dispatch({ type: 'loaded', duration: e.currentTarget.duration }); e.currentTarget.playbackRate = state.rate }}
+        onLoadedMetadata={(e) => {
+          dispatch({ type: 'loaded', duration: e.currentTarget.duration })
+          e.currentTarget.playbackRate = state.rate
+        }}
         onTimeUpdate={(e) => dispatch({ type: 'time', time: e.currentTarget.currentTime })}
         onPlay={() => dispatch({ type: 'play' })}
         onPause={() => dispatch({ type: 'pause' })}
         onEnded={() => dispatch({ type: 'ended' })}
         onError={() => dispatch({ type: 'error' })}
       />
-      <button type="button" className="btn btn-primary !min-h-[3.75rem] !text-[1.15rem]" onClick={toggle} disabled={!src}>
-        <CardIcon name={playing ? 'pause' : 'play'} size={26} />
-        {playing ? t('learn.audio.pause') : t('learn.audio.play')}
-      </button>
-      <div className="flex items-center gap-3">
-        <span className="min-w-[3rem] text-[1rem] tabular-nums" aria-hidden="true">{formatClock(state.time)}</span>
-        <input
-          type="range"
-          className="h-11 min-w-0 flex-1 accent-[#1b3b73]"
-          min={0}
-          max={Math.max(1, Math.floor(state.duration))}
-          step={1}
-          value={Math.min(Math.floor(state.time), Math.max(1, Math.floor(state.duration)))}
-          disabled={state.duration <= 0}
-          aria-label={t('learn.audio.seek')}
-          aria-valuetext={`${formatClock(state.time)} / ${formatClock(state.duration)}`}
-          onChange={(e) => seek(Number(e.target.value))}
-        />
-        <span className="min-w-[3rem] text-right text-[1rem] tabular-nums" aria-hidden="true">{formatClock(state.duration)}</span>
+
+      {/* Primary Control Row: Play Pill + Inline Speed Controls */}
+      <div className="flex flex-wrap items-center justify-between gap-2.5">
+        <button
+          type="button"
+          className="inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-xl bg-[#163264] px-5 py-2.5 text-[15.5px] font-extrabold text-white shadow-sm shadow-blue-950/15 transition-colors hover:bg-[#1747c4] disabled:opacity-60 sm:flex-none"
+          onClick={toggle}
+          disabled={!src}
+        >
+          <CardIcon name={playing ? 'pause' : 'play'} size={20} />
+          <span>{playing ? t('learn.audio.pause') : t('learn.audio.play')}</span>
+        </button>
+
+        <RateButtons rate={state.rate} onRate={(r) => dispatch({ type: 'rate', rate: asRate(r) })} />
       </div>
-      <RateButtons rate={state.rate} onRate={(r) => dispatch({ type: 'rate', rate: asRate(r) })} />
+
+      {/* Sleek Scrubber Row */}
+      <div className="flex items-center gap-3 rounded-xl border border-slate-200/80 bg-[#F8FAFF] px-3 py-1.5">
+        <span className="min-w-[2.75rem] font-mono text-xs font-bold text-slate-600 tabular-nums" aria-hidden="true">
+          {formatClock(state.time)}
+        </span>
+        <div className="relative flex h-8 min-w-0 flex-1 items-center">
+          <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-200">
+            <div className="h-full rounded-full bg-[#1747c4] transition-all duration-100" style={{ width: `${progressPct}%` }} />
+          </div>
+          <input
+            type="range"
+            className="absolute inset-0 h-full w-full cursor-pointer opacity-0 disabled:cursor-default"
+            min={0}
+            max={Math.max(1, Math.floor(state.duration))}
+            step={1}
+            value={Math.min(Math.floor(state.time), Math.max(1, Math.floor(state.duration)))}
+            disabled={state.duration <= 0}
+            aria-label={t('learn.audio.seek')}
+            aria-valuetext={`${formatClock(state.time)} / ${formatClock(state.duration)}`}
+            onChange={(e) => seek(Number(e.target.value))}
+          />
+        </div>
+        <span className="min-w-[2.75rem] text-right font-mono text-xs font-bold text-slate-500 tabular-nums" aria-hidden="true">
+          {formatClock(state.duration)}
+        </span>
+      </div>
+
       {state.status === 'error' && <Banner tone="warn">{t('learn.audio.error')}</Banner>}
+
       {captions && (
-        <section aria-label={t('learn.audio.transcript')} data-testid="transcript">
-          <h3 className="mb-1 text-[1.05rem] font-bold text-brand">{t('learn.audio.transcript')}</h3>
-          <ol className="flex flex-col gap-1.5">
+        <section
+          aria-label={t('learn.audio.transcript')}
+          data-testid="transcript"
+          className="rounded-xl border border-slate-200/80 bg-[#F8FAFF] p-3"
+        >
+          <h3 className="mb-2 text-xs font-extrabold tracking-wider text-[#163264] uppercase">
+            {t('learn.audio.transcript')}
+          </h3>
+          <ol className="flex max-h-56 flex-col gap-1.5 overflow-y-auto pr-1">
             {captions.segments.map((s, i) => (
               <li key={i}>
                 <button
                   type="button"
                   aria-current={i === active ? 'true' : undefined}
                   onClick={() => seek(s.start)}
-                  className={`w-full rounded-xl px-3 py-2 text-left text-[1.15rem] leading-[1.6] ${i === active ? 'bg-warn-bg font-bold text-warn' : 'bg-white'}`}
+                  className={`w-full rounded-xl border px-3 py-2 text-left text-[15px] leading-relaxed transition-colors ${
+                    i === active
+                      ? 'border-[#1747c4]/30 bg-[#EFF4FF] font-bold text-[#163264] shadow-2xs'
+                      : 'border-transparent bg-white text-slate-700 hover:border-slate-200'
+                  }`}
                 >
                   {s.text}
                 </button>
@@ -174,25 +260,60 @@ function DeviceVoice({ voice, lines, onLine }: { voice: VoiceLike; lines: string
       u.voice = voice as SpeechSynthesisVoice
       u.lang = voice.lang
       u.rate = r
-      u.onstart = () => { if (run.current === mine) { at.current = i; onLine(i) } }
+      u.onstart = () => {
+        if (run.current === mine) {
+          at.current = i
+          onLine(i)
+        }
+      }
       if (i === lines.length - 1) {
-        const finish = () => { if (run.current === mine) { setPlaying(false); onLine(-1); setAnnounce(t('learn.audio.sr.ended')) } }
+        const finish = () => {
+          if (run.current === mine) {
+            setPlaying(false)
+            onLine(-1)
+            setAnnounce(t('learn.audio.sr.ended'))
+          }
+        }
         u.onend = finish
         u.onerror = finish
       }
       speechSynthesis.speak(u)
     })
   }
-  useEffect(() => () => { run.current++; speechSynthesis.cancel() }, [])
+  useEffect(
+    () => () => {
+      run.current++
+      speechSynthesis.cancel()
+    },
+    []
+  )
 
   return (
-    <div className="flex flex-col gap-3">
-      <button type="button" className="btn btn-primary !min-h-[3.75rem] !text-[1.15rem]" onClick={() => (playing ? stop() : start(0, rate))}>
-        <CardIcon name={playing ? 'pause' : 'speaker'} size={26} />
-        {playing ? t('learn.stop_audio') : t('learn.read_aloud')}
-      </button>
-      <RateButtons rate={rate} onRate={(r) => { setRate(r); if (playing) start(at.current, r) }} />
-      <p className="text-[1rem] leading-snug text-muted">{t('learn.audio.device')}</p>
+    <div className="flex flex-col gap-2.5">
+      <div className="flex flex-wrap items-center justify-between gap-2.5">
+        <button
+          type="button"
+          className={`inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-[15.5px] font-extrabold text-white shadow-sm transition-colors sm:flex-none ${
+            playing
+              ? 'bg-[#C62828] shadow-red-950/15 hover:bg-[#B71C1C]'
+              : 'bg-[#163264] shadow-blue-950/15 hover:bg-[#1747c4]'
+          }`}
+          onClick={() => (playing ? stop() : start(0, rate))}
+        >
+          <CardIcon name={playing ? 'pause' : 'speaker'} size={20} />
+          <span>{playing ? t('learn.stop_audio') : t('learn.read_aloud')}</span>
+        </button>
+
+        <RateButtons
+          rate={rate}
+          onRate={(r) => {
+            setRate(r)
+            if (playing) start(at.current, r)
+          }}
+        />
+      </div>
+
+      <p className="text-[13px] font-medium text-slate-500">{t('learn.audio.device')}</p>
       <Announcer text={announce} />
     </div>
   )
@@ -205,12 +326,27 @@ export function LessonAudio({ lesson, lines, onLine }: { lesson: Lesson; lines: 
   const voices = useVoices()
   const source = useMemo(() => chooseSource(lesson, lang, voices), [lesson, lang, voices])
   const language = LANGS.find((l) => l.code === lang)?.label ?? lang
+
   return (
-    <section className="card flex flex-col gap-3" aria-label={t('learn.audio.title')} data-testid="lesson-audio">
-      <h2 className="text-[1.15rem] font-bold text-brand">{t('learn.audio.title')}</h2>
+    <section
+      className="flex flex-col gap-3 rounded-2xl border border-slate-200/90 bg-white p-4 shadow-md shadow-blue-950/6"
+      aria-label={t('learn.audio.title')}
+      data-testid="lesson-audio"
+    >
+      <div className="flex items-center gap-2">
+        <span className="flex size-8 items-center justify-center rounded-xl bg-[#EFF4FF] text-[#1747c4] ring-1 ring-blue-200/80">
+          <Headphones className="size-4" strokeWidth={2.3} />
+        </span>
+        <h2 className="text-[16px] font-extrabold text-[#163264]">{t('learn.audio.title')}</h2>
+      </div>
+
       {source.kind === 'file' && <FilePlayer key={`${lesson.id}:${lang}`} source={source} onLine={onLine} />}
       {source.kind === 'voice' && <DeviceVoice key={`${lesson.id}:${lang}`} voice={source.voice} lines={lines} onLine={onLine} />}
-      {source.kind === 'none' && <p className="text-[1.05rem] leading-[1.6]" data-testid="audio-unavailable">{t('learn.audio.unavailable', { language })}</p>}
+      {source.kind === 'none' && (
+        <p className="rounded-xl bg-[#F8FAFF] p-3 text-[14.5px] leading-relaxed text-slate-600" data-testid="audio-unavailable">
+          {t('learn.audio.unavailable', { language })}
+        </p>
+      )}
     </section>
   )
 }
