@@ -51,8 +51,10 @@ export function MobileLayout({ children, back = true, onBack, title, lead, backT
                   : 'bg-amber-400/25 text-amber-100 ring-amber-300/25'
               }`}
             >
-              <span className={`size-2 rounded-full ${online ? 'bg-emerald-300' : 'bg-amber-300'}`} />
-              {online ? t('status.online') : t('status.offline')}
+              <span className={`size-2 shrink-0 rounded-full ${online ? 'bg-emerald-300' : 'bg-amber-300'}`} />
+              <span className="translate-y-px leading-none">
+                {online ? t('status.online') : t('status.offline')}
+              </span>
             </span>
           </div>
         </div>

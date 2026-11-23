@@ -26,19 +26,41 @@ export function LanguageSwitch() {
 export function LangPill({ inverted = false }: { inverted?: boolean }) {
   const { lang, setLang, t } = useLang()
   const id = useId()
+  const current = LANGS.find((l) => l.code === lang) ?? LANGS[0]
 
   return (
-    <div className="relative inline-flex items-center">
+    <div
+      className={`relative inline-flex h-8.5 items-center gap-1.5 rounded-full px-3 font-semibold transition-colors focus-within:outline-2 focus-within:outline-offset-2 ${
+        inverted
+          ? 'bg-white/15 text-[12px] text-white ring-1 ring-white/25 hover:bg-white/25 focus-within:outline-white'
+          : 'border border-slate-200/90 bg-white text-[12.5px] text-slate-700 shadow-2xs hover:border-slate-300 focus-within:outline-[#1B3B73]'
+      }`}
+    >
       <label htmlFor={id} className="sr-only">
         {t('common.language')}
       </label>
 
       <Globe
         aria-hidden="true"
-        className={`pointer-events-none absolute left-3 z-10 size-3.5 shrink-0 ${
+        className={`pointer-events-none size-3.5 shrink-0 ${
           inverted ? 'text-white/90' : 'text-slate-500'
         }`}
         strokeWidth={2}
+      />
+
+      <span
+        aria-hidden="true"
+        className="pointer-events-none translate-y-px leading-none whitespace-nowrap"
+      >
+        {current.label}
+      </span>
+
+      <ChevronDown
+        aria-hidden="true"
+        className={`pointer-events-none size-3.5 shrink-0 ${
+          inverted ? 'text-white/85' : 'text-slate-500'
+        }`}
+        strokeWidth={2.2}
       />
 
       <select
@@ -46,11 +68,7 @@ export function LangPill({ inverted = false }: { inverted?: boolean }) {
         data-testid="lang-select"
         value={lang}
         onChange={(e) => setLang(e.target.value as Lang)}
-        className={`cursor-pointer appearance-none rounded-full font-semibold transition-colors focus-visible:outline-none ${
-          inverted
-            ? 'h-8.5 bg-white/15 pr-7.5 pl-8 text-[12.5px] text-white ring-1 ring-white/25 hover:bg-white/25'
-            : 'h-8.5 border border-slate-200/90 bg-white pr-7 pl-7.5 text-[12.5px] text-slate-700 shadow-2xs hover:border-slate-300 hover:bg-slate-50'
-        }`}
+        className="absolute inset-0 size-full cursor-pointer appearance-none opacity-0"
       >
         {LANGS.map((l) => (
           <option key={l.code} value={l.code} className="bg-white text-slate-900">
@@ -58,14 +76,6 @@ export function LangPill({ inverted = false }: { inverted?: boolean }) {
           </option>
         ))}
       </select>
-
-      <ChevronDown
-        aria-hidden="true"
-        className={`pointer-events-none absolute right-2.5 z-10 size-3.5 shrink-0 ${
-          inverted ? 'text-white/85' : 'text-slate-500'
-        }`}
-        strokeWidth={2.2}
-      />
     </div>
   )
 }
