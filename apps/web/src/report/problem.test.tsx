@@ -10,6 +10,7 @@ import { markConsentAsked, setConsent } from '../shell/consent'
 import { LangProvider } from '../shell/i18n'
 import ReportPage from './ReportPage'
 import { adviceKey, categoryOfCheck, channelOfCheck, checkApplies, problemFromCheck, reportBand } from './problem'
+import { chooseChannel, PAY_METHODS, withPaymentStep } from './routing'
 import { buildReportSummary } from './summary'
 
 ;(globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true
@@ -65,6 +66,38 @@ describe('advice for every kind of scam', () => {
   })
   it('Hindi and Chhattisgarhi advice has no English letters', () => {
     for (const c of CATEGORY_CODES) for (const d of [hi, cg] as Record<string, string>[]) expect(d[adviceKey(c)]).not.toMatch(/[A-Za-z]/)
+  })
+})
+
+describe('how the money left', () => {
+  const money = chooseChannel({ outcome: 'money_lost' }).steps
+  it('adds one step right after calling 1930 and replaces none', () => {
+    for (const m of PAY_METHODS) {
+      const steps = withPaymentStep(money, m)
+      expect(steps.length).toBe(money.length + 1)
+      expect(steps[0]).toBe('call_1930')
+      expect(steps[1]).toBe(`pay_${m}`)
+      expect(steps.filter((x) => !x.startsWith('pay_'))).toEqual(money)
+    }
+  })
+  it('leaves the steps unchanged when the person did not say', () => {
+    expect(withPaymentStep(money, null)).toEqual(money)
+  })
+  it('only applies where 1930 is called first', () => {
+    const chakshu = chooseChannel({ outcome: 'no_money', shared: false }).steps
+    expect(withPaymentStep(chakshu, 'upi')).toEqual(chakshu)
+  })
+  it('has wording in all three languages, with no English letters in Hindi or Chhattisgarhi', () => {
+    for (const m of PAY_METHODS) {
+      for (const k of [`pay.${m}`, `step.pay_${m}`]) {
+        for (const d of [en, hi, cg] as Record<string, string>[]) expect(d[k], k).toBeTruthy()
+        for (const d of [hi, cg] as Record<string, string>[]) expect(d[k]).not.toMatch(/[A-Za-z]/)
+      }
+    }
+  })
+  it('is written into the summary as the answer given', () => {
+    const s = buildReportSummary(null, (k) => k, new Date(), 'en', { category: null, channel: null, moneyLost: true, paid: 'card' })
+    expect(s).toContain('summary.paid: pay.card')
   })
 })
 
@@ -133,6 +166,28 @@ describe('the Report screen follows what the person says', () => {
     expect(host.querySelector('[data-testid="problem"]')).toBeNull()
     expect(host.querySelector('[data-testid="share-report"]')).toBeNull()
     expect(host.querySelector('pre')!.textContent).not.toContain('KYC, block')
+  })
+
+  it('offers an optional "how did the money leave" choice only when money was lost, and adds that step', async () => {
+    await mount()
+    await click(button('No'))
+    await click(button('No'))
+    expect(host.querySelector('[data-testid="paid"]')).toBeNull()
+    act(() => root.unmount())
+    history.replaceState(null, '', '#/report') // the first screen left a history entry behind; a fresh visit has none
+    await mount()
+    await click(button('Yes, it was taken'))
+    expect(host.querySelector('[data-testid="paid"]')).toBeTruthy()
+    expect(host.querySelector('[data-pay][aria-checked="true"]')).toBeNull()
+    const stepsBefore = host.querySelectorAll('ol li').length
+    await click(radio('data-pay', 'upi'))
+    expect(radio('data-pay', 'upi').getAttribute('aria-checked')).toBe('true')
+    expect(host.querySelectorAll('ol li').length).toBe(stepsBefore + 1)
+    expect(host.querySelectorAll('ol li')[1].textContent).toContain(en['step.pay_upi'])
+    expect(host.querySelector('pre')!.textContent).toContain('How the money left: UPI (a payment app)')
+    await click(radio('data-pay', 'upi')) // tapping again clears it
+    expect(host.querySelectorAll('ol li').length).toBe(stepsBefore)
+    expect(host.querySelector('pre')!.textContent).not.toContain('How the money left')
   })
 
   it('records the money and code answers in the summary', async () => {

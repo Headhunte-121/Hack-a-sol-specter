@@ -3,6 +3,7 @@ import type { LastResult } from '../detector/lastResult'
 import { categoryFromSignals, type CategoryCode } from '../shared/categories'
 import { formatDateTime, type Lang } from '../shell/i18n'
 import { checkApplies } from './problem'
+import type { PayMethod } from './routing'
 
 type T = (key: string, values?: Record<string, string | number>) => string
 
@@ -11,6 +12,7 @@ export interface ReportFacts {
   category: CategoryCode | null
   channel: Channel | null
   moneyLost?: boolean
+  paid?: PayMethod | null // how the money left, if the person said
   shared?: boolean | null
 }
 
@@ -23,6 +25,7 @@ export function buildReportSummary(last: LastResult | null, t: T, now: Date = ne
     if (facts.category) lines.push(`${t('summary.happened')}: ${t('cat.' + facts.category)}`)
     if (facts.channel) lines.push(`${t('summary.channel')}: ${t('trends.channel.' + facts.channel)}`)
     if (facts.moneyLost !== undefined) lines.push(`${t('summary.money')}: ${t(facts.moneyLost ? 'common.yes' : 'common.no')}`)
+    if (facts.paid) lines.push(`${t('summary.paid')}: ${t('pay.' + facts.paid)}`)
     if (typeof facts.shared === 'boolean') lines.push(`${t('summary.shared')}: ${t(facts.shared ? 'common.yes' : 'common.no')}`)
     if (last && checkApplies(last, facts.category)) {
       if (last.signals.length) lines.push(`${t('summary.signs')}: ${last.signals.map((s) => t('reason.' + s)).filter(Boolean).join('; ')}`)
