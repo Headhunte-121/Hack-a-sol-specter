@@ -46,7 +46,7 @@ export function HomeMobile(props: HomeViewProps) {
             decoding="async"
             onLoad={() => setHeroLoaded(true)}
             onError={() => setHeroLoaded(false)}
-            className={`absolute bottom-6 left-[34%] h-[108%] w-auto max-w-none object-contain object-bottom-left mix-blend-multiply transition-opacity duration-200 ${
+            className={`absolute bottom-6 left-[34%] h-[108%] w-auto max-w-none -scale-x-100 object-contain object-bottom-left mix-blend-multiply transition-opacity duration-200 ${
               heroLoaded ? 'opacity-100' : 'opacity-0'
             }`}
           />
