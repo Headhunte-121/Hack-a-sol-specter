@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { playableUrl, videoNarrationUrl } from './offline'
 import {
+  Captions,
+  CheckCircle2,
   Download,
   FastForward,
   Film,
@@ -10,13 +11,16 @@ import {
   Pause,
   Play,
   RotateCcw,
+  ShieldCheck,
   Volume1,
   Volume2,
   VolumeX,
 } from 'lucide-react'
 import { useLang, type Lang } from '../shell/i18n'
-import { formatClock, RATES, type Rate } from './audio'
+import { formatClock, type Rate } from './audio'
 import { pick, type Lesson } from './content'
+import { buildSectionFrames, SceneArtwork, splitSentences } from './LessonVisuals'
+import { playableUrl, videoNarrationUrl } from './offline'
 import { narrateScene, playSceneSound } from './videoAudio'
 import { generateAndDownloadLessonVideo } from './videoGenerator'
 import { buildLessonScenes, totalVideoDuration, type VideoScene } from './videoTypes'
@@ -25,24 +29,146 @@ interface LessonVideoProps {
   lesson: Lesson
 }
 
-/** Determines which scene is active based on continuous timeline in seconds. */
-function getSceneAtTime(
-  scenes: VideoScene[],
-  time: number,
-  totalDur: number
-): { scene: VideoScene; index: number; progress: number } {
-  const durPerScene = totalDur / scenes.length
-  let accumulated = 0
+interface SceneTiming {
+  scene: VideoScene
+  index: number
+  start: number
+  end: number
+}
 
-  for (let i = 0; i < scenes.length; i++) {
-    const end = accumulated + durPerScene
-    if (time < end || i === scenes.length - 1) {
-      const progress = Math.min(1, Math.max(0, (time - accumulated) / durPerScene))
-      return { scene: scenes[i], index: i, progress }
+interface SubtitleCue {
+  start: number
+  end: number
+  text: string
+}
+
+const VIDEO_RATES = [0.75, 1, 1.25, 1.5, 2] as const
+type VideoRate = (typeof VIDEO_RATES)[number]
+
+const SPEED_LABEL: Record<Lang, string> = {
+  en: 'Playback speed',
+  hi: 'प्लेबैक गति',
+  cg: 'रफ्तार',
+}
+
+const CAPTIONS_LABEL: Record<Lang, string> = {
+  en: 'Subtitles',
+  hi: 'उपशीर्षक',
+  cg: 'लिखावट',
+}
+
+const SCENE_LIGHT_BG: Record<VideoScene['kind'], string> = {
+  intro: 'linear-gradient(135deg, #EAF1FF 0%, #FFFFFF 52%, #DCEBFF 100%)',
+  scenario: 'linear-gradient(135deg, #FFF1F2 0%, #FFFFFF 54%, #FFE4E6 100%)',
+  signs: 'linear-gradient(135deg, #FFFBEB 0%, #FFFFFF 54%, #FEF3C7 100%)',
+  todo: 'linear-gradient(135deg, #ECFDF5 0%, #FFFFFF 54%, #D1FAE5 100%)',
+}
+
+/** Estimate spoken duration weight from actual letters, word cadence, and natural punctuation pauses. */
+function speechWeight(text: string): number {
+  const clean = text.trim()
+  if (!clean) return 1
+  const words = clean.split(/\s+/).filter(Boolean).length
+  const commas = (clean.match(/[,;:]/g) ?? []).length
+  const stops = (clean.match(/[.!?।]/g) ?? []).length
+  return Math.max(4, clean.length * 0.72 + words * 1.8 + commas * 3.5 + stops * 7)
+}
+
+/** Break spoken narration into crisp ~2-second subtitle cues (about 6–8 words per cue). */
+function chunkIntoTwoSecCues(text: string, lang: Lang): string[] {
+  const maxChars = lang === 'en' ? 40 : 46
+  const sentences = splitSentences(text)
+  const out: string[] = []
+
+  for (const sentence of sentences) {
+    // Prefer splitting at natural clause boundaries first
+    const clauses = sentence
+      .split(/(?<=[,;:])\s+/)
+      .map((c) => c.trim())
+      .filter(Boolean)
+
+    for (const clause of clauses) {
+      if (clause.length <= maxChars) {
+        out.push(clause)
+        continue
+      }
+      const words = clause.split(/\s+/).filter(Boolean)
+      let line = ''
+      for (const w of words) {
+        if (line && line.length + 1 + w.length > maxChars) {
+          out.push(line)
+          line = w
+        } else {
+          line = line ? `${line} ${w}` : w
+        }
+      }
+      if (line) out.push(line)
     }
-    accumulated = end
   }
-  return { scene: scenes[0], index: 0, progress: 0 }
+
+  return out
+}
+
+/** Allocate scene windows strictly proportional to spoken narration weight (with tiny 0.35s breath between sections). */
+function buildSceneTimings(scenes: VideoScene[], lang: Lang, totalDur: number): SceneTiming[] {
+  const breathSec = scenes.length > 1 ? Math.min(0.35, totalDur * 0.01) : 0
+  const spokenTotalSec = Math.max(1, totalDur - breathSec * Math.max(0, scenes.length - 1))
+  const weights = scenes.map((sc) => {
+    const spoken = pick(sc.narration, lang).trim() || pick(sc.caption, lang).trim()
+    return speechWeight(spoken)
+  })
+  const sum = weights.reduce((a, b) => a + b, 0) || 1
+  let cursor = 0
+
+  return scenes.map((scene, index) => {
+    const span = (weights[index] / sum) * spokenTotalSec
+    const start = cursor
+    const end = index === scenes.length - 1 ? totalDur : cursor + span + breathSec
+    cursor = end
+    return { scene, index, start, end }
+  })
+}
+
+/** Build continuous ~2-second timestamped cues aligned with the narration timeline. */
+function buildSubtitleTimeline(timings: SceneTiming[], lang: Lang): SubtitleCue[] {
+  const cues: SubtitleCue[] = []
+
+  for (const st of timings) {
+    const spoken = pick(st.scene.narration, lang).trim() || pick(st.scene.caption, lang).trim()
+    const chunks = chunkIntoTwoSecCues(spoken, lang)
+    if (chunks.length === 0) continue
+
+    const weights = chunks.map(speechWeight)
+    const totalW = weights.reduce((a, b) => a + b, 0) || 1
+    const sceneSpan = Math.max(0.4, st.end - st.start)
+    let cursor = st.start
+
+    chunks.forEach((chunk, i) => {
+      const span = (weights[i] / totalW) * sceneSpan
+      const start = cursor
+      const end = i === chunks.length - 1 ? st.end : cursor + span
+      cursor = end
+      cues.push({ start, end, text: chunk })
+    })
+  }
+
+  return cues
+}
+
+/** Find active scene and normalized 0..1 progress within that scene from weighted timings. */
+function getTimedSceneAt(
+  timings: SceneTiming[],
+  time: number
+): { scene: VideoScene; index: number; progress: number } {
+  for (let i = 0; i < timings.length; i++) {
+    const st = timings[i]
+    if (time < st.end || i === timings.length - 1) {
+      const span = Math.max(0.01, st.end - st.start)
+      const progress = Math.min(1, Math.max(0, (time - st.start) / span))
+      return { scene: st.scene, index: st.index, progress }
+    }
+  }
+  return { scene: timings[0].scene, index: 0, progress: 0 }
 }
 
 export function LessonVideo({ lesson }: LessonVideoProps) {
@@ -61,12 +187,16 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
   const [isPlaying, setIsPlaying] = useState(false)
   const [isMuted, setIsMuted] = useState(false)
   const [volume, setVolume] = useState(1)
-  const [rate, setRate] = useState<Rate>(1)
+  const [rate, setRate] = useState<VideoRate>(1)
+  const [speedMenuOpen, setSpeedMenuOpen] = useState(false)
+  const [showCaptions, setShowCaptions] = useState(true)
+  const [skipBadge, setSkipBadge] = useState<'-10' | '+10' | null>(null)
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [isGenerating, setIsGenerating] = useState(false)
   const [generateProgress, setGenerateProgress] = useState(0)
   const [downloadSuccess, setDownloadSuccess] = useState(false)
   const [audioError, setAudioError] = useState(false)
+  const [timedCues, setTimedCues] = useState<SubtitleCue[] | null>(null)
 
   // The narration file: the downloaded copy when there is one (it plays with no internet), otherwise the normal address.
   const narrationUrl = videoNarrationUrl(lesson.id, audioLang)
@@ -76,19 +206,80 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
     const made: { url: string | null } = { url: null }
     setNarrationSrc(narrationUrl)
     setAudioError(false)
-    playableUrl(narrationUrl, typeof caches !== 'undefined' ? caches : undefined, (b) => (made.url = URL.createObjectURL(b))).then((r) => { if (alive) setNarrationSrc(r.src) })
-    return () => { alive = false; if (made.url) URL.revokeObjectURL(made.url) }
+    setTimedCues(null)
+
+    playableUrl(
+      narrationUrl,
+      typeof caches !== 'undefined' ? caches : undefined,
+      (b) => (made.url = URL.createObjectURL(b))
+    ).then((r) => {
+      if (alive) setNarrationSrc(r.src)
+    })
+
+    // If an exact timed caption track exists beside the .m4a narration, prefer its timestamps
+    const captionJsonUrl = narrationUrl.replace(/\.m4a$/, '.json')
+    if (typeof fetch === 'function') {
+      fetch(captionJsonUrl)
+        .then((r) => (r.ok ? r.json() : null))
+        .then((data: { segments?: { start?: number; end?: number; text?: string }[] } | null) => {
+          if (!alive || !data?.segments?.length) return
+          const parsed = data.segments
+            .filter((s) => typeof s.start === 'number' && typeof s.end === 'number' && s.text?.trim())
+            .map((s) => ({ start: s.start as number, end: s.end as number, text: (s.text as string).trim() }))
+          if (parsed.length > 0) setTimedCues(parsed)
+        })
+        .catch(() => {})
+    }
+
+    return () => {
+      alive = false
+      if (made.url) URL.revokeObjectURL(made.url)
+    }
   }, [narrationUrl])
 
   const videoContainerRef = useRef<HTMLDivElement>(null)
   const audioRef = useRef<HTMLAudioElement>(null)
   const stopNarrationRef = useRef<(() => void) | null>(null)
   const lastActiveSceneIdx = useRef(-1)
+  const skipBadgeTimer = useRef<number | undefined>(undefined)
 
-  const { scene: currentScene, index: sceneIdx } = useMemo(
-    () => getSceneAtTime(scenes, currentTime, duration),
-    [scenes, currentTime, duration]
+  const sceneTimings = useMemo(
+    () => buildSceneTimings(scenes, audioLang, duration),
+    [scenes, audioLang, duration]
   )
+
+  const fallbackCues = useMemo(
+    () => buildSubtitleTimeline(sceneTimings, audioLang),
+    [sceneTimings, audioLang]
+  )
+
+  const subtitleCues = timedCues ?? fallbackCues
+
+  const { scene: currentScene, index: sceneIdx, progress: sceneProgress } = useMemo(
+    () => getTimedSceneAt(sceneTimings, currentTime),
+    [sceneTimings, currentTime]
+  )
+
+  // 4 distinct visual + explanation frames inside the active section
+  const sectionFrames = useMemo(
+    () => buildSectionFrames(lesson, currentScene, audioLang),
+    [lesson, currentScene, audioLang]
+  )
+  const frameIdx = Math.min(
+    sectionFrames.length - 1,
+    Math.floor(sceneProgress * sectionFrames.length)
+  )
+  const activeFrame = sectionFrames[frameIdx] ?? sectionFrames[0]
+
+  // Active ~2-second subtitle cue synced directly to live audio currentTime
+  const activeSubtitle = useMemo(() => {
+    if (subtitleCues.length === 0) return ''
+    for (let i = 0; i < subtitleCues.length; i++) {
+      const c = subtitleCues[i]
+      if (currentTime < c.end || i === subtitleCues.length - 1) return c.text
+    }
+    return subtitleCues[subtitleCues.length - 1].text
+  }, [subtitleCues, currentTime])
 
   const cancelFallbackNarration = useCallback(() => {
     if (stopNarrationRef.current) {
@@ -108,7 +299,11 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
     }
   }, [rate, volume, isMuted])
 
-  // Sync Play / Pause state with audio element
+  const isPlayingRef = useRef(isPlaying)
+  const langSwitchTimer = useRef<number | undefined>(undefined)
+  isPlayingRef.current = isPlaying
+
+  // Sync Play / Pause state with audio element (and cancel fallback speech when stopped)
   useEffect(() => {
     const el = audioRef.current
     if (!el) return
@@ -116,15 +311,34 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
     if (isPlaying) {
       const playPromise = el.play()
       if (playPromise !== undefined) {
-        playPromise.catch(() => {
-          // If browser blocked audio autoplay or file failed, fallback to synth
-          setAudioError(true)
+        playPromise.catch((err: unknown) => {
+          if (err instanceof DOMException && err.name === 'AbortError') return
+          if (isPlayingRef.current) setAudioError(true)
         })
       }
     } else {
+      window.clearTimeout(langSwitchTimer.current)
       el.pause()
+      cancelFallbackNarration()
     }
-  }, [isPlaying])
+  }, [isPlaying, cancelFallbackNarration])
+
+  // Smooth 60fps audio clock sync so ~2s subtitle cues switch with zero lag
+  useEffect(() => {
+    if (!isPlaying || audioError) return
+    let rafId = 0
+    const tick = () => {
+      if (audioRef.current) {
+        setCurrentTime(audioRef.current.currentTime)
+        if (audioRef.current.duration && !isNaN(audioRef.current.duration)) {
+          setDuration(audioRef.current.duration)
+        }
+      }
+      rafId = window.requestAnimationFrame(tick)
+    }
+    rafId = window.requestAnimationFrame(tick)
+    return () => window.cancelAnimationFrame(rafId)
+  }, [isPlaying, audioError])
 
   // Fallback timer when audio element cannot play
   useEffect(() => {
@@ -149,16 +363,18 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
     return () => clearInterval(timer)
   }, [isPlaying, audioError, rate, duration])
 
-  // Scene transition sound cue
+  // Scene transition sound cue (and cancel fallback speech if paused or muted)
   useEffect(() => {
-    if (isPlaying && sceneIdx !== lastActiveSceneIdx.current) {
+    if (!isPlaying || isMuted) {
+      cancelFallbackNarration()
+      return
+    }
+    if (sceneIdx !== lastActiveSceneIdx.current) {
       lastActiveSceneIdx.current = sceneIdx
-      if (!isMuted) {
-        playSceneSound(currentScene.kind)
-      }
+      playSceneSound(currentScene.kind)
       if (audioError) {
         cancelFallbackNarration()
-        stopNarrationRef.current = narrateScene(currentScene, audioLang, rate)
+        stopNarrationRef.current = narrateScene(currentScene, audioLang, rate as unknown as Rate)
       }
     }
   }, [isPlaying, sceneIdx, isMuted, currentScene, audioError, audioLang, rate, cancelFallbackNarration])
@@ -175,6 +391,8 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
   // Cleanup on unmount
   useEffect(() => {
     return () => {
+      window.clearTimeout(skipBadgeTimer.current)
+      window.clearTimeout(langSwitchTimer.current)
       cancelFallbackNarration()
       if (audioRef.current) {
         audioRef.current.pause()
@@ -182,7 +400,16 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
     }
   }, [cancelFallbackNarration])
 
-  const togglePlay = () => {
+  const togglePlay = useCallback(() => {
+    setSpeedMenuOpen(false)
+    if (isPlayingRef.current) {
+      window.clearTimeout(langSwitchTimer.current)
+      isPlayingRef.current = false
+      audioRef.current?.pause()
+      cancelFallbackNarration()
+      setIsPlaying(false)
+      return
+    }
     if (currentTime >= duration) {
       if (audioRef.current) {
         audioRef.current.currentTime = 0
@@ -190,44 +417,84 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
       setCurrentTime(0)
       lastActiveSceneIdx.current = -1
     }
-    setIsPlaying((prev) => !prev)
-  }
+    setIsPlaying(true)
+  }, [currentTime, duration, cancelFallbackNarration])
 
-  const handleSeek = (newTime: number) => {
-    const clamped = Math.max(0, Math.min(duration, newTime))
-    if (audioRef.current && !isNaN(audioRef.current.duration)) {
-      audioRef.current.currentTime = clamped
-    }
-    setCurrentTime(clamped)
-    lastActiveSceneIdx.current = -1
-  }
+  const handleSeek = useCallback(
+    (newTime: number) => {
+      const clamped = Math.max(0, Math.min(duration, newTime))
+      if (audioRef.current && !isNaN(audioRef.current.duration)) {
+        audioRef.current.currentTime = clamped
+      }
+      setCurrentTime(clamped)
+      lastActiveSceneIdx.current = -1
+    },
+    [duration]
+  )
 
-  const skipRelative = (delta: number) => {
-    handleSeek(currentTime + delta)
+  const skipRelative = useCallback(
+    (delta: number) => {
+      handleSeek(currentTime + delta)
+      setSkipBadge(delta < 0 ? '-10' : '+10')
+      window.clearTimeout(skipBadgeTimer.current)
+      skipBadgeTimer.current = window.setTimeout(() => setSkipBadge(null), 650)
+    },
+    [currentTime, handleSeek]
+  )
+
+  const jumpToScene = (idx: number) => {
+    const target = sceneTimings[idx]?.start ?? 0
+    handleSeek(idx === 0 ? 0 : target + 0.05)
   }
 
   const handleAudioLangChange = (newLang: Lang) => {
     setAudioLang(newLang)
     setAudioError(false)
     cancelFallbackNarration()
-    // When changing language, preserve relative timeline position
+    window.clearTimeout(langSwitchTimer.current)
     const savedTime = currentTime
-    setTimeout(() => {
+    langSwitchTimer.current = window.setTimeout(() => {
       if (audioRef.current) {
+        audioRef.current.playbackRate = rate
         audioRef.current.currentTime = savedTime
-        if (isPlaying) {
+        if (isPlayingRef.current) {
           audioRef.current.play().catch(() => {})
+        } else {
+          audioRef.current.pause()
         }
       }
     }, 50)
   }
 
-  const toggleFullscreen = () => {
+  const toggleFullscreen = useCallback(() => {
     if (!videoContainerRef.current) return
     if (!document.fullscreenElement) {
       videoContainerRef.current.requestFullscreen().catch(() => {})
     } else {
       document.exitFullscreen().catch(() => {})
+    }
+  }, [])
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.target instanceof HTMLInputElement) return
+    if (e.key === ' ' || e.key.toLowerCase() === 'k') {
+      e.preventDefault()
+      togglePlay()
+    } else if (e.key === 'ArrowLeft' || e.key.toLowerCase() === 'j') {
+      e.preventDefault()
+      skipRelative(-10)
+    } else if (e.key === 'ArrowRight' || e.key.toLowerCase() === 'l') {
+      e.preventDefault()
+      skipRelative(10)
+    } else if (e.key.toLowerCase() === 'm') {
+      e.preventDefault()
+      setIsMuted((prev) => !prev)
+    } else if (e.key.toLowerCase() === 'c') {
+      e.preventDefault()
+      setShowCaptions((prev) => !prev)
+    } else if (e.key.toLowerCase() === 'f') {
+      e.preventDefault()
+      toggleFullscreen()
     }
   }
 
@@ -268,10 +535,12 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
   }
 
   const isAtEnd = currentTime >= duration
+  const progressPct = duration > 0 ? Math.min(100, Math.max(0, (currentTime / duration) * 100)) : 0
+  const showStartIntro = !isPlaying && currentTime === 0 && sceneIdx === 0
 
   return (
     <section
-      className="flex flex-col gap-3 rounded-2xl border-2 border-line bg-white p-3 shadow-sm md:p-4"
+      className="flex flex-col gap-3 rounded-2xl border border-slate-200/90 bg-white p-2.5 shadow-md shadow-blue-950/8 sm:p-4"
       aria-label={t('learn.video.title')}
     >
       {/* Hidden audio element with the narration in the chosen language */}
@@ -288,11 +557,24 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
           }
         }}
         onLoadedMetadata={() => {
-          if (audioRef.current && audioRef.current.duration && !isNaN(audioRef.current.duration)) {
-            setDuration(audioRef.current.duration)
+          if (audioRef.current) {
+            audioRef.current.playbackRate = rate
+            if (audioRef.current.duration && !isNaN(audioRef.current.duration)) {
+              setDuration(audioRef.current.duration)
+            }
           }
         }}
+        onPlay={() => {
+          if (!isPlayingRef.current) {
+            audioRef.current?.pause()
+            return
+          }
+          if (audioRef.current) audioRef.current.playbackRate = rate
+        }}
         onEnded={() => {
+          isPlayingRef.current = false
+          audioRef.current?.pause()
+          cancelFallbackNarration()
           setIsPlaying(false)
           setCurrentTime(duration)
         }}
@@ -301,384 +583,406 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
         }}
       />
 
-      {audioLang === 'cg' && <p className="px-1 pb-2 text-xs text-muted" data-testid="video-voice-note">{t('learn.video.audio_note')}</p>}
+      {audioLang === 'cg' && (
+        <p className="rounded-lg bg-[#EFF4FF] px-3 py-1.5 text-xs font-medium text-[#1B3B73]" data-testid="video-voice-note">
+          {t('learn.video.audio_note')}
+        </p>
+      )}
 
-      {/* Main Video Viewport (supports Fullscreen) */}
+      {/* Unified YouTube-Style Light Civic Player Shell (Stage + Unclipped Dock) */}
       <div
         ref={videoContainerRef}
-        onDoubleClick={toggleFullscreen}
-        className={`group relative flex aspect-video w-full flex-col justify-between overflow-hidden rounded-xl border-2 border-slate-800 bg-slate-950 text-white shadow-xl select-none ${
+        tabIndex={0}
+        onKeyDown={handleKeyDown}
+        className={`flex w-full flex-col overflow-hidden rounded-xl border border-blue-200/90 bg-white text-[#0F1B3D] shadow-lg shadow-blue-950/10 outline-none focus-visible:ring-2 focus-visible:ring-[#1747c4] select-none ${
           isFullscreen ? 'fixed inset-0 z-50 h-screen w-screen rounded-none border-none' : ''
         }`}
       >
-        {/* Animated Cinematic Background Gradients */}
-        <div
-          className="absolute inset-0 transition-colors duration-1000 ease-in-out"
-          style={{
-            background:
-              currentScene.kind === 'intro'
-                ? 'radial-gradient(circle at 50% 30%, #1e3a8a 0%, #091124 80%)'
-                : currentScene.kind === 'scenario'
-                ? 'radial-gradient(circle at 50% 30%, #881337 0%, #091124 80%)'
-                : currentScene.kind === 'signs'
-                ? 'radial-gradient(circle at 50% 30%, #7c2d12 0%, #091124 80%)'
-                : 'radial-gradient(circle at 50% 30%, #064e3b 0%, #091124 80%)',
-          }}
-        />
-
-        {/* Subtle grid background pattern */}
-        <div className="pointer-events-none absolute inset-0 opacity-15">
-          <div className="absolute inset-0 bg-[radial-gradient(#ffffff_1px,transparent_1px)] [background-size:24px_24px]" />
-        </div>
-
-        {/* Top Watermark & Scene Tag */}
-        <div className="relative z-10 flex items-center justify-between px-4 pt-3 text-[12px] font-bold tracking-wider">
-          <span className="flex items-center gap-1.5 text-blue-400 drop-shadow">
-            🛡️ SURAKSHA
-          </span>
-          <span
-            className="rounded px-2.5 py-0.5 text-[11px] font-bold text-white uppercase shadow transition-all duration-300"
-            style={{ backgroundColor: currentScene.accentColor }}
-          >
-            {pick(currentScene.subheading, audioLang)}
-          </span>
-        </div>
-
-        {/* Center Stage Presentation - Click to Play / Pause */}
+        {/* 1. Visual Stage (Reserved pb-13 keeps cards stationary when CC toggles ON/OFF) */}
         <div
           onClick={togglePlay}
-          className="relative z-10 flex flex-1 cursor-pointer items-center justify-center px-4 text-center"
+          onDoubleClick={toggleFullscreen}
+          className={`group relative flex w-full cursor-pointer flex-col justify-between overflow-hidden bg-[#F4F8FF] ${
+            isFullscreen ? 'flex-1' : 'min-h-[265px] sm:aspect-video sm:min-h-[330px]'
+          }`}
         >
-          {/* Scene 1: Intro */}
-          {currentScene.kind === 'intro' && (
-            <div className="flex max-w-lg flex-col items-center gap-2.5 animate-fadeIn">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-blue-600/30 text-3xl shadow-xl ring-4 ring-blue-500/40">
-                🛡️
-              </div>
-              <h3 className="text-xl font-extrabold text-white drop-shadow md:text-3xl">
-                {pick(currentScene.heading, audioLang)}
-              </h3>
-              <p className="text-sm font-medium text-slate-300 md:text-base">
-                {pick(currentScene.subheading, audioLang)}
-              </p>
-              <div className="mt-1 flex flex-wrap justify-center gap-2">
-                <span className="rounded-full bg-white/10 px-3 py-1 text-xs text-slate-200 backdrop-blur-sm">
-                  🔒 {t('action.dont_share')}
-                </span>
-              </div>
-            </div>
-          )}
-
-          {/* Scene 2: Scenario Simulation */}
-          {currentScene.kind === 'scenario' && (
-            <div className="w-full max-w-md rounded-2xl border-2 border-red-500/60 bg-slate-900/90 p-4 text-left shadow-2xl backdrop-blur-md animate-fadeIn">
-              <div className="mb-2.5 flex items-center justify-between border-b border-red-500/30 pb-2">
-                <span className="flex items-center gap-2 text-xs font-bold text-red-400 uppercase tracking-wide">
-                  <span className="h-2.5 w-2.5 animate-ping rounded-full bg-red-500" />
-                  ⚠️ {pick(currentScene.heading, audioLang)}
-                </span>
-                <span className="rounded bg-red-950/80 px-2 py-0.5 text-[11px] font-semibold text-red-300">
-                  SCAM ALERT
-                </span>
-              </div>
-              <p className="text-sm font-semibold leading-relaxed text-slate-100 md:text-base">
-                "{pick(currentScene.narration, audioLang)}"
-              </p>
-            </div>
-          )}
-
-          {/* Scene 3: Warning Red Flags */}
-          {currentScene.kind === 'signs' && (
-            <div className="flex w-full max-w-lg flex-col gap-2 text-left animate-fadeIn">
-              <div className="flex items-center gap-2">
-                <span className="text-2xl text-amber-400">🚨</span>
-                <h4 className="text-base font-extrabold text-amber-400 drop-shadow md:text-xl">
-                  {pick(currentScene.heading, audioLang)}
-                </h4>
-              </div>
-              <div className="flex flex-col gap-2">
-                {currentScene.details.slice(0, 3).map((d, i) => (
-                  <div
-                    key={i}
-                    className="flex items-center gap-2.5 rounded-xl border border-amber-500/30 bg-slate-900/85 px-3 py-2 text-xs font-semibold text-slate-200 shadow backdrop-blur-sm md:text-sm"
-                  >
-                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-amber-500/30 text-xs font-extrabold text-amber-300">
-                      {i + 1}
-                    </span>
-                    <span className="line-clamp-2">{pick(d, audioLang)}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Scene 4: Safe Action */}
-          {currentScene.kind === 'todo' && (
-            <div className="w-full max-w-lg rounded-2xl border-2 border-emerald-500/60 bg-slate-900/90 p-4 text-left shadow-2xl backdrop-blur-md animate-fadeIn">
-              <div className="mb-2 flex items-center gap-2 text-emerald-400">
-                <span className="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-500 text-xs font-extrabold text-slate-950 shadow">
-                  ✓
-                </span>
-                <h4 className="text-sm font-extrabold tracking-wide uppercase md:text-base">
-                  {pick(currentScene.heading, audioLang)}
-                </h4>
-              </div>
-              <p className="text-base font-bold leading-snug text-white md:text-xl">
-                {pick(currentScene.caption, audioLang)}
-              </p>
-              <div className="mt-3 flex items-center justify-between rounded-xl bg-blue-950/80 px-3.5 py-2 text-xs font-bold text-blue-200 border border-blue-500/30">
-                <span>📞 Cyber Helpline: Dial 1930</span>
-                <span>GovTech Chhattisgarh</span>
-              </div>
-            </div>
-          )}
-
-          {/* Big Center Play / Replay Overlay Button when paused */}
-          {!isPlaying && (
-            <div className="absolute inset-0 flex items-center justify-center bg-black/45 backdrop-blur-[2px] transition-all">
-              <div className="flex h-20 w-20 items-center justify-center rounded-full bg-brand/95 text-white shadow-2xl ring-4 ring-white/30 transition-transform hover:scale-110 active:scale-95">
-                {isAtEnd ? <RotateCcw size={36} /> : <Play size={38} className="translate-x-0.5" />}
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Pinned Closed Captions [CC] Banner */}
-        <div className="relative z-10 px-4 pb-1">
-          <div className="mx-auto flex max-w-xl justify-center text-center">
-            <p className="rounded-lg bg-black/85 px-3.5 py-1 text-xs font-semibold text-amber-200 shadow-lg md:text-sm">
-              {pick(currentScene.caption, audioLang)}
-            </p>
-          </div>
-        </div>
-
-        {/* Progress Bar Line on video bottom */}
-        <div className="relative z-10 h-1.5 w-full bg-slate-800">
+          {/* Light Civic Scene Gradient Background */}
           <div
-            className="h-full transition-all duration-150"
+            className="absolute inset-0 transition-all duration-700 ease-in-out"
+            style={{ background: SCENE_LIGHT_BG[currentScene.kind] }}
+          />
+
+          {/* Subtle civic dot-grid texture */}
+          <div
+            className="pointer-events-none absolute inset-0 opacity-45"
             style={{
-              width: `${(currentTime / duration) * 100}%`,
-              backgroundColor: currentScene.accentColor,
+              backgroundImage: 'radial-gradient(rgba(22, 50, 100, 0.12) 1px, transparent 1px)',
+              backgroundSize: '22px 22px',
             }}
           />
-        </div>
-      </div>
 
-      {/* Basic Video Controls Bar */}
-      <div className="flex flex-col gap-2.5 rounded-xl border border-line bg-soft p-3">
-        {/* Timeline Scrubber Slider */}
-        <div className="flex items-center gap-3">
-          <input
-            type="range"
-            min={0}
-            max={duration}
-            step={0.1}
-            value={currentTime}
-            onChange={(e) => handleSeek(Number(e.target.value))}
-            aria-label={t('learn.video.seek')}
-            className="h-2.5 w-full cursor-pointer appearance-none rounded-full bg-slate-200 accent-brand transition-all"
-            style={{
-              background: `linear-gradient(to right, #1747c4 0%, #1747c4 ${
-                (currentTime / duration) * 100
-              }%, #cbd5e1 ${(currentTime / duration) * 100}%, #cbd5e1 100%)`,
-            }}
-          />
-          <span className="font-mono text-xs font-bold text-muted whitespace-nowrap min-w-[75px] text-right">
-            {formatClock(currentTime)} / {formatClock(duration)}
-          </span>
-        </div>
-
-        {/* Controls Toolbar: Play, Skip, Audio Language, Volume, Speed, Fullscreen */}
-        <div className="flex flex-wrap items-center justify-between gap-2 pt-1 border-t border-line/60">
-          {/* Left Controls: Play/Pause, -10s, +10s */}
-          <div className="flex items-center gap-1.5">
-            <button
-              type="button"
-              onClick={togglePlay}
-              aria-label={isPlaying ? t('learn.video.pause') : t('learn.video.play')}
-              className="btn btn-primary !h-10 !px-4 gap-2 font-bold shadow-sm"
-            >
-              {isPlaying ? <Pause size={18} /> : <Play size={18} className="translate-x-0.5" />}
-              <span>{isPlaying ? t('learn.video.pause') : t('learn.video.play')}</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={() => skipRelative(-10)}
-              aria-label={t('learn.video.rewind')}
-              title={t('learn.video.rewind')}
-              className="btn btn-secondary !h-10 !w-10 !p-0"
-            >
-              <RotateCcw size={16} />
-            </button>
-
-            <button
-              type="button"
-              onClick={() => skipRelative(10)}
-              aria-label={t('learn.video.forward')}
-              title={t('learn.video.forward')}
-              className="btn btn-secondary !h-10 !w-10 !p-0"
-            >
-              <FastForward size={16} />
-            </button>
-          </div>
-
-          {/* Center: Audio Language Switcher (Hindi, Chhattisgarhi, English) */}
-          <div className="flex items-center gap-1.5 rounded-lg border border-line bg-white p-1 shadow-sm">
-            <span className="flex items-center gap-1 pl-1 text-[11px] font-bold text-muted">
-              <Languages size={14} className="text-brand" />
-              <span className="hidden sm:inline">{t('learn.video.audio_lang')}:</span>
+          {/* Top Bar: Brand + Section Pill + Visual Frame Counter */}
+          <div className="relative z-10 flex items-center justify-between gap-2 px-3 pt-2.5 text-[10.5px] font-extrabold tracking-wider sm:px-4 sm:pt-3 sm:text-[11px]">
+            <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-white/94 px-2.5 py-1 text-[#163264] shadow-xs ring-1 ring-blue-900/10">
+              <ShieldCheck className="size-3.5 text-[#1747c4]" strokeWidth={2.4} />
+              <span>SURAKSHA</span>
             </span>
-            <button
-              type="button"
-              onClick={() => handleAudioLangChange('hi')}
-              aria-pressed={audioLang === 'hi'}
-              className={`rounded px-2.5 py-1 text-xs font-bold transition-all ${
-                audioLang === 'hi'
-                  ? 'bg-brand text-white shadow'
-                  : 'text-muted hover:text-ink hover:bg-soft'
-              }`}
-            >
-              हिन्दी
-            </button>
-            <button
-              type="button"
-              onClick={() => handleAudioLangChange('cg')}
-              aria-pressed={audioLang === 'cg'}
-              className={`rounded px-2.5 py-1 text-xs font-bold transition-all ${
-                audioLang === 'cg'
-                  ? 'bg-brand text-white shadow'
-                  : 'text-muted hover:text-ink hover:bg-soft'
-              }`}
-            >
-              छत्तीसगढ़ी
-            </button>
-            <button
-              type="button"
-              onClick={() => handleAudioLangChange('en')}
-              aria-pressed={audioLang === 'en'}
-              className={`rounded px-2.5 py-1 text-xs font-bold transition-all ${
-                audioLang === 'en'
-                  ? 'bg-brand text-white shadow'
-                  : 'text-muted hover:text-ink hover:bg-soft'
-              }`}
-            >
-              English
-            </button>
+
+            <div className="flex min-w-0 items-center gap-1.5">
+              <span className="shrink-0 rounded-full bg-white/90 px-2 py-0.5 font-mono text-[10px] font-extrabold text-[#163264] ring-1 ring-blue-900/10">
+                {frameIdx + 1}/{sectionFrames.length}
+              </span>
+              <span
+                className="truncate rounded-full px-2.5 py-1 text-[10px] font-extrabold tracking-wide text-white uppercase shadow-xs transition-colors duration-300 sm:text-[10.5px]"
+                style={{ backgroundColor: currentScene.accentColor }}
+              >
+                {pick(currentScene.subheading, audioLang)}
+              </span>
+            </div>
           </div>
 
-          {/* Right Controls: Volume, Speed, Fullscreen */}
-          <div className="flex items-center gap-2">
-            {/* Volume Control */}
-            <div className="flex items-center gap-1">
+          {/* Center Stage: Visual Card + Respective Topic Explanation (Zero Stepper Dots) */}
+          <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-3 pt-2 pb-13 sm:px-5 sm:pb-14">
+            {showStartIntro ? (
+              <div className="grid w-full max-w-2xl grid-cols-1 items-center gap-3 sm:grid-cols-12">
+                <div className="mx-auto w-full max-w-[185px] sm:col-span-5 sm:max-w-none">
+                  <SceneArtwork frame={activeFrame} accentColor={currentScene.accentColor} />
+                </div>
+                <div className="flex flex-col items-center gap-2 text-center sm:col-span-7 sm:items-start sm:text-left">
+                  <h3 className="text-[18px] font-extrabold leading-tight text-[#0F1B3D] sm:text-2xl">
+                    {pick(currentScene.heading, audioLang)}
+                  </h3>
+                  <p className="text-xs font-semibold text-slate-600 sm:text-sm">
+                    {pick(currentScene.subheading, audioLang)}
+                  </p>
+                  <div className="mt-1 inline-flex items-center gap-2 rounded-full bg-[#163264] px-5 py-2 text-xs font-extrabold text-white shadow-lg shadow-blue-950/25 ring-4 ring-white/90 transition-transform group-hover:scale-105 sm:text-sm">
+                    <Play className="size-4 translate-x-px fill-current" />
+                    <span>{t('learn.video.play')}</span>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="grid w-full max-w-2xl grid-cols-1 items-center gap-3 sm:grid-cols-12">
+                {/* Left: Rotating Topic Visual Card (4 distinct visuals per section) */}
+                <div className="mx-auto w-full max-w-[180px] transition-all duration-300 sm:col-span-5 sm:max-w-none">
+                  <SceneArtwork frame={activeFrame} accentColor={currentScene.accentColor} />
+                </div>
+
+                {/* Right: Matched Topic Explanation Card */}
+                <div className="flex flex-col gap-1.5 rounded-2xl border border-slate-200/90 bg-white/95 p-3 text-left shadow-md shadow-blue-950/8 sm:col-span-7 sm:p-4">
+                  <span
+                    className="inline-flex w-fit items-center rounded-full px-2.5 py-0.5 text-[10px] font-extrabold tracking-wide text-white uppercase"
+                    style={{ backgroundColor: currentScene.accentColor }}
+                  >
+                    {activeFrame.tag}
+                  </span>
+                  <h4 className="text-[14px] font-extrabold leading-snug text-[#0F1B3D] sm:text-[16px]">
+                    {activeFrame.heading}
+                  </h4>
+                  <p className="line-clamp-4 text-[12px] font-medium leading-relaxed text-slate-700 sm:text-[13.5px]">
+                    {activeFrame.explanation}
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Paused Overlay (when paused mid-video) */}
+            {!isPlaying && !showStartIntro && (
+              <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-white/45 backdrop-blur-[1.5px] transition-opacity">
+                <div className="flex size-14 items-center justify-center rounded-full bg-[#163264] text-white shadow-xl shadow-blue-950/30 ring-4 ring-white/95 sm:size-16">
+                  {isAtEnd ? <RotateCcw className="size-6" /> : <Play className="size-7 translate-x-0.5 fill-current" />}
+                </div>
+              </div>
+            )}
+
+            {/* Brief YouTube-style ±10s Skip Indicator */}
+            {skipBadge && (
+              <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+                <span className="rounded-full bg-[#163264]/90 px-4 py-1.5 font-mono text-sm font-extrabold text-white shadow-lg">
+                  {skipBadge}s
+                </span>
+              </div>
+            )}
+          </div>
+
+          {/* Pure Floating YouTube-Style Live Subtitles Overlay (Zero Layout Shift) */}
+          {showCaptions && !showStartIntro && activeSubtitle && (
+            <div
+              className="pointer-events-none absolute inset-x-0 bottom-2.5 z-20 px-3"
+              data-testid="video-subtitle"
+            >
+              <div className="mx-auto flex max-w-2xl justify-center text-center">
+                <p className="line-clamp-2 rounded-lg bg-[#0F1B3D]/92 px-3.5 py-1.5 text-[11.5px] font-semibold leading-snug text-white shadow-md backdrop-blur-xs sm:text-[13px]">
+                  {activeSubtitle}
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* 2. Unclipped YouTube-Style Playback Control Dock */}
+        <div
+          onClick={(e) => e.stopPropagation()}
+          className="relative z-20 border-t border-blue-100 bg-white px-2.5 pt-2 pb-2.5 sm:px-3.5"
+        >
+          {/* Interactive Scrubber with Weighted Chapter Dividers */}
+          <div className="group/scrub relative mb-2 flex h-4 items-center">
+            <div className="relative h-1.5 w-full overflow-hidden rounded-full bg-slate-200 transition-all group-hover/scrub:h-2">
+              <div
+                className="h-full rounded-full bg-[#1747c4] transition-all duration-75"
+                style={{ width: `${progressPct}%` }}
+              />
+              {duration > 0 &&
+                sceneTimings.slice(1).map((st) => (
+                  <span
+                    key={st.index}
+                    className="pointer-events-none absolute inset-y-0 w-0.5 bg-white"
+                    style={{ left: `${(st.start / duration) * 100}%` }}
+                  />
+                ))}
+            </div>
+
+            <input
+              type="range"
+              min={0}
+              max={duration}
+              step={0.1}
+              value={currentTime}
+              onChange={(e) => handleSeek(Number(e.target.value))}
+              aria-label={t('learn.video.seek')}
+              className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+            />
+          </div>
+
+          {/* Single Responsive Control Row */}
+          <div className="flex items-center justify-between gap-1 sm:gap-2">
+            {/* Left: Play/Pause, -10s, +10s, Volume, Clock */}
+            <div className="flex min-w-0 items-center gap-0.5 sm:gap-1.5">
               <button
                 type="button"
-                onClick={() => setIsMuted((prev) => !prev)}
-                aria-label={isMuted ? t('learn.video.unmute') : t('learn.video.mute')}
-                title={isMuted ? t('learn.video.unmute') : t('learn.video.mute')}
-                className="btn btn-secondary !h-10 !w-10 !p-0"
+                onClick={togglePlay}
+                aria-label={isPlaying ? t('learn.video.pause') : t('learn.video.play')}
+                className="flex size-9 shrink-0 items-center justify-center rounded-full bg-[#163264] text-white shadow-xs transition-colors hover:bg-[#1747c4]"
               >
-                {isMuted || volume === 0 ? (
-                  <VolumeX size={17} />
-                ) : volume < 0.5 ? (
-                  <Volume1 size={17} />
+                {isPlaying ? (
+                  <Pause className="size-4 fill-current" />
                 ) : (
-                  <Volume2 size={17} />
+                  <Play className="size-4 translate-x-px fill-current" />
                 )}
               </button>
-              <input
-                type="range"
-                min={0}
-                max={1}
-                step={0.05}
-                value={isMuted ? 0 : volume}
-                onChange={(e) => {
-                  setVolume(Number(e.target.value))
-                  setIsMuted(false)
-                }}
-                aria-label={t('learn.video.volume')}
-                className="h-1.5 w-16 cursor-pointer accent-brand"
-              />
+
+              <button
+                type="button"
+                onClick={() => skipRelative(-10)}
+                aria-label={t('learn.video.rewind')}
+                title={t('learn.video.rewind')}
+                className="flex size-8 shrink-0 items-center justify-center rounded-full text-[#163264] transition-colors hover:bg-blue-50"
+              >
+                <RotateCcw className="size-4" strokeWidth={2.2} />
+              </button>
+
+              <button
+                type="button"
+                onClick={() => skipRelative(10)}
+                aria-label={t('learn.video.forward')}
+                title={t('learn.video.forward')}
+                className="flex size-8 shrink-0 items-center justify-center rounded-full text-[#163264] transition-colors hover:bg-blue-50"
+              >
+                <FastForward className="size-4" strokeWidth={2.2} />
+              </button>
+
+              <div className="flex items-center gap-1">
+                <button
+                  type="button"
+                  onClick={() => setIsMuted((prev) => !prev)}
+                  aria-label={isMuted ? t('learn.video.unmute') : t('learn.video.mute')}
+                  title={isMuted ? t('learn.video.unmute') : t('learn.video.mute')}
+                  className="flex size-8 shrink-0 items-center justify-center rounded-full text-[#163264] transition-colors hover:bg-blue-50"
+                >
+                  {isMuted || volume === 0 ? (
+                    <VolumeX className="size-4" strokeWidth={2.2} />
+                  ) : volume < 0.5 ? (
+                    <Volume1 className="size-4" strokeWidth={2.2} />
+                  ) : (
+                    <Volume2 className="size-4" strokeWidth={2.2} />
+                  )}
+                </button>
+                <input
+                  type="range"
+                  min={0}
+                  max={1}
+                  step={0.05}
+                  value={isMuted ? 0 : volume}
+                  onChange={(e) => {
+                    setVolume(Number(e.target.value))
+                    setIsMuted(false)
+                  }}
+                  aria-label={t('learn.video.volume')}
+                  className="hidden h-1 w-14 cursor-pointer accent-[#1747c4] sm:block"
+                />
+              </div>
+
+              <span className="pl-1 font-mono text-[11px] font-bold whitespace-nowrap text-slate-600 tabular-nums">
+                {formatClock(currentTime)} / {formatClock(duration)}
+              </span>
             </div>
 
-            {/* Playback Speed */}
-            <div className="flex items-center rounded-lg border border-line bg-white p-0.5 shadow-sm">
-              {RATES.map((r) => (
+            {/* Right: Captions Toggle, Speed Popover (up to 2×), Fullscreen */}
+            <div className="relative flex shrink-0 items-center gap-1">
+              <button
+                type="button"
+                onClick={() => setShowCaptions((v) => !v)}
+                aria-pressed={showCaptions}
+                aria-label={CAPTIONS_LABEL[lang]}
+                title={CAPTIONS_LABEL[lang]}
+                className={`flex size-8 items-center justify-center rounded-lg transition-colors ${
+                  showCaptions
+                    ? 'bg-[#EFF4FF] text-[#1747c4] ring-1 ring-blue-200'
+                    : 'text-slate-500 hover:bg-slate-100'
+                }`}
+              >
+                <Captions className="size-4" strokeWidth={2.2} />
+              </button>
+
+              {/* Speed Selector Button + Popover Menu (0.75× to 2×) */}
+              <div className="relative">
                 <button
-                  key={r}
                   type="button"
-                  onClick={() => setRate(r)}
-                  className={`rounded px-1.5 py-1 text-[11px] font-bold transition-all ${
-                    rate === r ? 'bg-brand text-white shadow' : 'text-muted hover:text-ink'
+                  onClick={() => setSpeedMenuOpen((v) => !v)}
+                  aria-expanded={speedMenuOpen}
+                  aria-label={SPEED_LABEL[lang]}
+                  title={SPEED_LABEL[lang]}
+                  className={`flex h-8 min-w-[44px] items-center justify-center rounded-lg border px-2 text-[11.5px] font-extrabold transition-colors ${
+                    rate !== 1 || speedMenuOpen
+                      ? 'border-[#1747c4]/40 bg-[#EFF4FF] text-[#1747c4]'
+                      : 'border-slate-200 bg-slate-50 text-[#163264] hover:border-[#1747c4]/40 hover:bg-blue-50'
                   }`}
                 >
-                  {r}×
+                  {rate}×
                 </button>
-              ))}
-            </div>
 
-            {/* Fullscreen Option */}
-            <button
-              type="button"
-              onClick={toggleFullscreen}
-              aria-label={isFullscreen ? t('learn.video.exit_fullscreen') : t('learn.video.fullscreen')}
-              title={isFullscreen ? t('learn.video.exit_fullscreen') : t('learn.video.fullscreen')}
-              className="btn btn-secondary !h-10 gap-1.5 font-bold shadow-sm"
-            >
-              {isFullscreen ? <Minimize size={17} /> : <Maximize size={17} />}
-              <span className="hidden md:inline">
-                {isFullscreen ? t('learn.video.exit_fullscreen') : t('learn.video.fullscreen')}
-              </span>
-            </button>
+                {speedMenuOpen && (
+                  <div className="absolute right-0 bottom-10 z-30 flex flex-col gap-0.5 rounded-xl border border-slate-200 bg-white p-1.5 shadow-xl shadow-blue-950/15">
+                    {VIDEO_RATES.map((r) => (
+                      <button
+                        key={r}
+                        type="button"
+                        onClick={() => {
+                          setRate(r)
+                          setSpeedMenuOpen(false)
+                        }}
+                        className={`min-w-[68px] rounded-lg px-3 py-1.5 text-left text-xs font-extrabold transition-colors ${
+                          rate === r
+                            ? 'bg-[#163264] text-white'
+                            : 'text-[#0F1B3D] hover:bg-[#EFF4FF] hover:text-[#1747c4]'
+                        }`}
+                      >
+                        {r}×
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              <button
+                type="button"
+                onClick={toggleFullscreen}
+                aria-label={isFullscreen ? t('learn.video.exit_fullscreen') : t('learn.video.fullscreen')}
+                title={isFullscreen ? t('learn.video.exit_fullscreen') : t('learn.video.fullscreen')}
+                className="flex size-8 items-center justify-center rounded-full text-[#163264] transition-colors hover:bg-blue-50"
+              >
+                {isFullscreen ? <Minimize className="size-4" strokeWidth={2.2} /> : <Maximize className="size-4" strokeWidth={2.2} />}
+              </button>
+            </div>
+          </div>
+
+          {/* 4-Step Chapter Quick-Jump Strip */}
+          <div className="mt-2 grid grid-cols-4 gap-1 border-t border-slate-100 pt-2">
+            {scenes.map((sc, idx) => {
+              const active = idx === sceneIdx
+              return (
+                <button
+                  key={sc.kind}
+                  type="button"
+                  onClick={() => jumpToScene(idx)}
+                  className={`truncate rounded-lg px-2 py-1 text-[10.5px] font-bold transition-all sm:text-[11px] ${
+                    active
+                      ? 'bg-[#EFF4FF] text-[#1747c4] ring-1 ring-[#1747c4]/25'
+                      : 'bg-slate-50/80 text-slate-500 hover:bg-slate-100 hover:text-[#0F1B3D]'
+                  }`}
+                >
+                  {idx + 1}. {pick(sc.subheading, audioLang)}
+                </button>
+              )
+            })}
           </div>
         </div>
       </div>
 
-      {/* Video Generation / Offline Export Section */}
-      <div className="rounded-xl border border-brand/20 bg-brand/5 p-3">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div>
-            <h3 className="flex items-center gap-1.5 text-sm font-bold text-ink">
-              <Download size={16} className="text-brand" />
-              <span>{t('learn.video.generate')}</span>
-            </h3>
-            <p className="text-xs text-muted">{t('learn.video.generate_hint')}</p>
-          </div>
-
-          <button
-            type="button"
-            onClick={handleGenerateVideo}
-            disabled={isGenerating}
-            className="btn btn-primary !h-10 shrink-0 text-xs font-bold shadow-sm"
-          >
-            {isGenerating ? (
-              <span className="flex items-center gap-2">
-                <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-white border-t-transparent" />
-                {t('learn.video.generating', { percent: generateProgress })}
-              </span>
-            ) : downloadSuccess ? (
-              <span className="flex items-center gap-1.5 text-white">
-                ✓ {t('learn.video.download_ready')}
-              </span>
-            ) : (
-              <span className="flex items-center gap-1.5">
-                <Film size={15} />
-                <span>{t('learn.video.generate')}</span>
-              </span>
-            )}
-          </button>
+      {/* Compact YouTube-Style Action Strip: Audio Language Pills + Offline Download Pill */}
+      <div className="flex flex-wrap items-center justify-between gap-2 pt-0.5">
+        <div className="flex items-center gap-1 rounded-xl border border-slate-200/90 bg-[#F4F7FF] p-1">
+          <span className="inline-flex items-center gap-1 px-1.5 text-[11px] font-bold text-slate-500">
+            <Languages className="size-3.5 text-[#1747c4]" />
+            <span className="hidden sm:inline">{t('learn.video.audio_lang')}:</span>
+          </span>
+          {(['hi', 'cg', 'en'] as const).map((code) => (
+            <button
+              key={code}
+              type="button"
+              onClick={() => handleAudioLangChange(code)}
+              aria-pressed={audioLang === code}
+              className={`rounded-lg px-2.5 py-1 text-xs font-bold transition-all ${
+                audioLang === code
+                  ? 'bg-[#163264] text-white shadow-xs'
+                  : 'text-slate-600 hover:bg-white hover:text-[#0F1B3D]'
+              }`}
+            >
+              {code === 'hi' ? 'हिन्दी' : code === 'cg' ? 'छत्तीसगढ़ी' : 'English'}
+            </button>
+          ))}
         </div>
 
-        {/* Generation Progress Bar */}
-        {isGenerating && (
-          <div className="mt-2.5 h-2 w-full overflow-hidden rounded-full bg-soft">
+        <button
+          type="button"
+          onClick={handleGenerateVideo}
+          disabled={isGenerating}
+          className="inline-flex h-9 items-center gap-1.5 rounded-xl border border-[#163264]/15 bg-[#EFF4FF] px-3 text-xs font-bold text-[#163264] shadow-2xs transition-all hover:border-[#1747c4]/40 hover:bg-[#E3EBFF] disabled:opacity-70"
+        >
+          {isGenerating ? (
+            <>
+              <span className="size-3.5 animate-spin rounded-full border-2 border-[#163264] border-t-transparent" />
+              <span>{t('learn.video.generating', { percent: generateProgress })}</span>
+            </>
+          ) : downloadSuccess ? (
+            <>
+              <CheckCircle2 className="size-3.5 text-emerald-600" />
+              <span>{t('learn.video.download_ready')}</span>
+            </>
+          ) : (
+            <>
+              <Download className="size-3.5 text-[#1747c4]" />
+              <span>{t('learn.video.generate')}</span>
+            </>
+          )}
+        </button>
+      </div>
+
+      {/* Slim Generation Progress Bar (shown only while exporting) */}
+      {isGenerating && (
+        <div className="space-y-1">
+          <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-100">
             <div
-              className="h-full bg-brand transition-all duration-200"
+              className="h-full rounded-full bg-[#1747c4] transition-all duration-200"
               style={{ width: `${generateProgress}%` }}
             />
           </div>
-        )}
-      </div>
+          <p className="flex items-center gap-1 text-[11px] text-slate-500">
+            <Film className="size-3" />
+            <span>{t('learn.video.generate_hint')}</span>
+          </p>
+        </div>
+      )}
     </section>
   )
 }
