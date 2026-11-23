@@ -1,7 +1,7 @@
 """Seed script (seedDemoData) and purge script (purgeExpiredData).
 
 Seeded rows are a clearly labelled SYNTHETIC dataset: source='seed'. The dashboard shows a demo banner whenever they are included.
-Usage:  python -m app.seed          (from services/api, creates data/reports.db demo data)
+Usage:  python -m app.seed          (from services/api, populates demo data)
         python -m app.seed --purge  (apply the retention rule)
 """
 from __future__ import annotations
@@ -11,7 +11,7 @@ import random
 import sys
 from datetime import datetime, timedelta, timezone
 
-from .db import Database
+from .db import Database, get_database
 from .regions import CATEGORIES, CHANNELS, REGIONS
 
 # Larger districts get more demo reports; a few remote ones stay below the suppression threshold on purpose.
@@ -24,7 +24,7 @@ CHANNEL_FOR = {"kyc_bank": ["sms", "call"], "otp": ["call", "sms"], "digital_arr
 def seed_demo_data(db: Database, now: datetime | None = None, weeks: int = 8, seed: int = 42) -> int:
     rnd = random.Random(seed)
     now = now or datetime.now(timezone.utc)
-    inserted = 0
+    items: list[tuple[str, str, str, str, str, str, str]] = []
     for w in range(weeks):                      # w = 0 is the most recent week
         age = weeks - 1 - w
         for code, _, _ in REGIONS:
@@ -38,25 +38,24 @@ def seed_demo_data(db: Database, now: datetime | None = None, weeks: int = 8, se
                 for _ in range(int(round(base / 2))):
                     day = now - timedelta(days=age * 7 + rnd.randint(0, 6))
                     ch = rnd.choice(CHANNEL_FOR.get(cat, list(CHANNELS)))
-                    db.execute("INSERT OR IGNORE INTO scam_reports (created_hour, scam_category, channel, region_code, risk_band, source, client_batch_id) VALUES (?,?,?,?,?,'seed',?)",
-                               (day.strftime("%Y-%m-%dT%H:00:00Z"), cat, ch, code, rnd.choice(["likely_scam", "suspicious"]), f"seed-{seed}-{inserted:07d}"))
-                    db.execute("""INSERT INTO daily_aggregates VALUES (?,?,?,?, 'seed', 1)
-                                  ON CONFLICT(date, region_code, scam_category, channel, source) DO UPDATE SET report_count = report_count + 1""",
-                               (day.strftime("%Y-%m-%d"), code, cat, ch))
-                    inserted += 1
-    return inserted
+                    hour_str = day.strftime("%Y-%m-%dT%H:00:00Z")
+                    date_str = day.strftime("%Y-%m-%d")
+                    band = rnd.choice(["likely_scam", "suspicious"])
+                    bid = f"seed-{seed}-{len(items):07d}"
+                    items.append((hour_str, cat, ch, code, band, bid, date_str))
+    return db.seed_reports_batch(items)
 
 
 def purge_expired_data(db: Database, now: datetime | None = None, retention_days: int = 30) -> dict[str, int]:
     """Delete rate-limit logs older than a day and raw app rows older than the retention period. Aggregates and demo rows are kept."""
     now = now or datetime.now(timezone.utc)
-    rl = db.execute("DELETE FROM rate_limit_log WHERE window_start < ?", ((now - timedelta(days=1)).strftime("%Y-%m-%dT%H"),)).rowcount
-    raw = db.execute("DELETE FROM scam_reports WHERE source='app' AND created_hour < ?", ((now - timedelta(days=retention_days)).strftime("%Y-%m-%dT%H:00:00Z"),)).rowcount
-    return {"rate_limit_rows_deleted": rl, "raw_rows_deleted": raw}
+    rl_before = (now - timedelta(days=1)).strftime("%Y-%m-%dT%H")
+    raw_before = (now - timedelta(days=retention_days)).strftime("%Y-%m-%dT%H:00:00Z")
+    return db.purge_expired(rl_before, raw_before)
 
 
 if __name__ == "__main__":
-    database = Database(os.environ.get("API_DB", "data/reports.db"))
+    database = get_database()
     if "--purge" in sys.argv:
         print(purge_expired_data(database))
     else:
