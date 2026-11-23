@@ -6,11 +6,47 @@ What has been checked automatically, what each person should check by hand, and 
 
 | Suite | Command | Covers |
 |---|---|---|
-| Web (102 tests) | `cd apps/web && npx vitest run` | Python/TypeScript scorer parity (247 examples), detector bands and the saved demo set, link checks, reporting routes (one per routing row), quiz scoring and selection, report builder (no message text can enter), consent gate, call lexicon on 16 transcripts, ten QR codes |
-| Reports API (12) | `cd services/api && python -m pytest -q` | validation, idempotent batch sync (counted once), small-cell suppression, raw rows unreadable, rate limit, alerts, purge |
-| Transcription service (9) | `cd services/asr && python -m pytest -q` | size, type, length and silence limits, audio deleted after success and after failure, rate limit |
+| Web (209 tests) | `cd apps/web && npx vitest run` | Python/TypeScript scorer parity (247 examples), detector bands and the saved demo set, link checks, reporting routes (one per routing row), quiz scoring and selection, report builder (no message text can enter), consent gate, call lexicon on 16 transcripts, ten QR codes |
+| Reports API (14) | `cd services/api && python -m pytest -q` | validation, idempotent batch sync (counted once), small-cell suppression, raw rows unreadable, rate limit, alerts, purge |
+| Transcription service (16) | `cd services/asr && python -m pytest -q` | size, type, length and silence limits, audio deleted after success and after failure, rate limit |
 | Content check | `cd apps/web && npm run check:content` | every UI string exists in Hindi and Chhattisgarhi, placeholders match |
 | Model pipeline | `cd ml && python build_corpus.py && python train.py && python evaluate.py && python parity.py` | no template group in two splits, metrics, bias checks, export |
+
+## Spec acceptance matrix
+
+Every acceptance criterion in the GT-02 build specification, with the evidence for it. **Automated** means a test or check in this repository proves it; **Open (manual)** means it still has to be tried by a person on a real phone (see the manual tests below); **Not met** means the work is not done yet.
+
+| Spec | Criterion | Evidence | Status |
+|---|---|---|---|
+| 4.5 Shell | Installs on an Android phone from the live link and opens with no address bar | `display: standalone` manifest; real-phone check | Open (manual) |
+| 4.5 Shell | In airplane mode after one online visit, home, language switch and offline modules work | model, rules, lessons, fonts and content are precached (47 files); real-phone check | Open (manual) |
+| 4.5 Shell | Switching language changes every visible string with no reload | `src/shell/lang.test.tsx`, `npm run check:content` | Automated; manual check open |
+| 4.5 Shell | A report saved offline is queued and sent after reconnecting, exactly once | `src/dashboard/dashboard.test.ts`, API idempotency tests (`client_batch_id`) | Automated for each part; end to end needs the deployed API |
+| 5.7 Message | Works in airplane mode and returns a result in under 1 second | the model runs on the phone (1.3 MB) with no network call; timing on a mid-range phone not yet measured | Open (manual timing) |
+| 5.7 Message | Evaluation report with overall and per-language metrics and a limitations section | `docs/evaluation_report.md` | Done; refreshed after each model change |
+| 5.7 Message | Parity test passes | `src/detector/parity.test.ts` (247 examples) | Automated |
+| 5.7 Message | Every result has at least one reason in the active language | `src/detector/detect.test.ts` | Automated |
+| 5.7 Message | A genuine bank debit alert and a genuine OTP message are classified genuine in a saved demo set | `src/verdict/verdict.test.ts`, demo set in `src/detector/demo.ts` | Automated for the demo set. On the team's separate blind set about 17% of genuine messages were still flagged (23 Nov); fixing this is in progress |
+| 6.8 Call | Each of 12 recorded clips produces a transcript, a verdict and flagged phrases | needs 12 clips recorded by the team (`docs/call_clips.md`); 16 acted demo transcripts work today | **Not met** (clips not recorded) |
+| 6.8 Call | Every scam clip is flagged with the right script, or the misses are documented | same | **Not met** |
+| 6.8 Call | No genuine clip is flagged high risk, or the false positives are documented | the 16 demo transcripts are all rated as designed | Partly met (demo transcripts only) |
+| 6.8 Call | The paste-transcript path and the demo clips work with the transcription service off | `src/call/call.test.ts`, `src/verdict/verdict.test.ts` | Automated |
+| 7.6 Report | Every row of the routing table has a unit test and a manual walk-through | `src/report/report.test.ts` (one test per row) | Automated; walk-through open |
+| 7.6 Report | Works with the network off, apart from opening the portal | the guidance and checklist are local | Open (manual) |
+| 7.6 Report | A first-time user reaches the right channel within three taps from a flagged result | result button, money question, then the channel card (one more question only when no money was lost) | By design; timed test open |
+| 7.6 Report | No screen asks for or stores a bank number, OTP, Aadhaar or phone number | the checklist only asks the person to keep items ready; the summary carries no numbers (`report.test.ts`) | Automated |
+| 8.7 Learn | All lessons and at least 28 questions exist in Hindi and Chhattisgarhi, with English | 7 lessons and 28 questions in three languages; Chhattisgarhi not yet reviewed by a native speaker | Met in count; review open |
+| 8.7 Learn | A complete quiz run works offline and gives the same score for the same answers | `src/learn/learn.test.ts`; offline run is a manual check | Automated; manual open |
+| 8.7 Learn | The score card names the weakest topic and opens the right lesson | `src/learn/learn.test.ts` | Automated |
+| 8.7 Learn | The validator reports zero missing strings | `npm run check:content` | Automated |
+| 9.7 Trends | With consent off, no network request carries report data | `src/dashboard/dashboard.test.ts` | Automated |
+| 9.7 Trends | A report sent from an offline device appears in the aggregates after reconnection, exactly once | client queue and API idempotency tests; needs the deployed API for end to end | Partly automated; end to end open |
+| 9.7 Trends | A region and period with fewer reports than the minimum shows no figure | `services/api/tests`, `src/dashboard/localDemo.test.ts` | Automated |
+| 9.7 Trends | The public interface cannot read raw rows, proven by a test | API tests: no route returns raw rows; the hosted-database lockdown check is added with the deployment | Automated for the API; hosted check open |
+| 9.7 Trends | The dashboard clearly shows when data is demo data | the demo banner follows the data (`trends.demo_banner`) | By design; checked in the browser |
+| 10 Bonus | Ten team-made QR codes are classified as designed, and the screen never says "safe" | `docs/qr-test-codes` (10 images), tests in `src/qr`; tried by the owner on a phone | Done |
+| 10 Bonus | The During-a-Call card loads from the cache, works offline, uses large text | `src/duringcall` | By design; manual open |
+| 12.6 Security | The six security checks | see [security_checklist.md](security_checklist.md) | Open rows: dedicated secret scan, clear-data check by hand, tampered-file check |
 
 ## Manual tests per module
 
