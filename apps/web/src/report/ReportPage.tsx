@@ -10,7 +10,7 @@ import { Layout } from '../shell/Layout'
 import { kvGet, kvSet } from '../shell/storage'
 import { Banner, Icon, NumberedList, type Tone } from '../shell/ui'
 import { CHANNELS, LAST_VERIFIED } from './channels'
-import { buildEvidenceChecklist, chooseChannel, type Answers, type ChecklistId, type ChannelId, type Outcome, type StepId } from './routing'
+import { asPayMethod, buildEvidenceChecklist, chooseChannel, PAY_METHODS, withPaymentStep, type Answers, type ChecklistId, type ChannelId, type Outcome, type PayMethod, type StepId } from './routing'
 import { adviceKey, asCategory, asChannel, problemFromCheck, reportBand } from './problem'
 import { buildReportSummary, type ReportFacts } from './summary'
 
@@ -29,6 +29,7 @@ export default function ReportPage() {
   const [category, setCategory] = useState<CategoryCode | null>(initial.category)
   const [channelPick, setChannelPick] = useState<Channel | null>(initial.channel)
   const [edited, setEdited] = useState(false)
+  const [payMethod, setPayMethod] = useState<PayMethod | null>(null) // optional: how the money left
 
   useEffect(() => {
     setBusy('report', outcome !== null) // an app update must never refresh the page mid-report
@@ -53,9 +54,10 @@ export default function ReportPage() {
     category: asksProblem ? category : null,
     channel: asksProblem ? channelPick : null,
     moneyLost: outcome === 'money_lost' ? true : outcome === 'no_money' ? false : undefined,
+    paid: outcome === 'money_lost' ? payMethod : undefined,
     shared: outcome === 'no_money' ? shared : undefined,
   }
-  const summary = useMemo(() => (route && route.channel !== 'tips' ? buildReportSummary(last, t, new Date(), lang, facts) : ''), [route?.channel, last, lang, category, channelPick, outcome, shared])
+  const summary = useMemo(() => (route && route.channel !== 'tips' ? buildReportSummary(last, t, new Date(), lang, facts) : ''), [route?.channel, last, lang, category, channelPick, outcome, shared, payMethod])
   const copy = async () => {
     try { await navigator.clipboard.writeText(summary); setCopied(true); setTimeout(() => setCopied(false), 2000) } catch { /* clipboard blocked: the text stays selectable */ }
   }
@@ -65,7 +67,7 @@ export default function ReportPage() {
     setOfflineNote(false)
     window.open(url, '_blank', 'noopener,noreferrer')
   }
-  const reset = () => { setOutcome(null); setShared(null); setCopied(false); setOfflineNote(false); setCategory(initial.category); setChannelPick(initial.channel); setEdited(false) }
+  const reset = () => { setOutcome(null); setShared(null); setCopied(false); setOfflineNote(false); setCategory(initial.category); setChannelPick(initial.channel); setEdited(false); setPayMethod(null) }
   // Phone Back returns to the first question; coming back from a lesson or another screen shows the same advice again.
   useInnerScreenOnReturn((d) => {
     const o = d?.outcome
@@ -75,14 +77,16 @@ export default function ReportPage() {
     const c = asCategory(d?.category)
     const ch = asChannel(d?.channel)
     if (c || ch) { setCategory(c); setChannelPick(ch); setEdited(true) }
+    setPayMethod(asPayMethod(d?.paid))
     return true
   })
-  const back = useBackStep(outcome !== null, reset, { outcome, shared, category, channel: channelPick })
+  const back = useBackStep(outcome !== null, reset, { outcome, shared, category, channel: channelPick, paid: payMethod })
 
   const stepText: Record<StepId, string> = {
     call_1930: t('step.call_1930'), open_cybercrime: t('step.open_cybercrime'), open_chakshu: t('step.open_chakshu'), call_bank: t('step.call_bank'),
     block_cards: t('step.block_cards'), keep_evidence: t('step.keep_evidence'), dont_delete: t('step.dont_delete'), watch_followup: t('step.watch_followup'),
     read_tips: t('step.read_tips'), open_learn: t('step.open_learn'),
+    pay_upi: t('step.pay_upi'), pay_card: t('step.pay_card'), pay_bank: t('step.pay_bank'), pay_other: t('step.pay_other'),
   }
   const callButton = isTouch()
     ? <a className="btn btn-primary !min-h-[68px] !text-[26px]" href={`tel:${CHANNELS.helpline_1930.phone}`}><Icon name="phone" size={30} color="#fff" />{t('report.act.call_1930')}</a>
@@ -132,6 +136,18 @@ export default function ReportPage() {
           {route.primary === 'open_learn' && <a className="btn btn-primary" href="#/learn">{t('report.act.learn')}</a>}
           {offlineNote && <Banner tone="info" role="status" className="!text-[16px]">{t('report.offline')}</Banner>}
 
+          {route.channel === 'helpline_1930' && (
+            <div className="card space-y-2.5" data-testid="paid">
+              <h3 className="text-[20px] font-bold">{t('report.paid.title')}</h3>
+              <p className="text-[16px] text-muted">{t('report.paid.hint')}</p>
+              <div role="radiogroup" aria-label={t('report.paid.title')} className="grid grid-cols-2 gap-2">
+                {PAY_METHODS.map((m) => (
+                  <button key={m} type="button" role="radio" aria-checked={payMethod === m} data-pay={m} className={`btn !min-h-14 !px-2 !text-[16px] !leading-tight ${payMethod === m ? 'btn-primary' : 'btn-secondary'}`} onClick={() => setPayMethod(payMethod === m ? null : m)}>{t(`pay.${m}`)}</button>
+                ))}
+              </div>
+            </div>
+          )}
+
           {asksProblem && (
             <div className="card space-y-3" data-testid="problem">
               <h3 className="text-[20px] font-bold">{t('report.happened.title')}</h3>
@@ -160,7 +176,7 @@ export default function ReportPage() {
           )}
 
           <div className="mt-1 text-[20px] font-bold">{t('report.steps')}</div>
-          <NumberedList items={route.steps.map((s) => stepText[s])} />
+          <NumberedList items={withPaymentStep(route.steps, payMethod).map((s) => stepText[s])} />
 
           {checklist.length > 0 && (
             <>

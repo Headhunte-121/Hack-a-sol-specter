@@ -5,7 +5,20 @@ export interface Answers {
   shared?: boolean // only asked when outcome === 'no_money': did you share any code, PIN, card or ID detail?
 }
 export type ChannelId = 'helpline_1930' | 'bank_then_1930' | 'chakshu' | 'cybercrime_portal' | 'tips'
-export type StepId = 'call_1930' | 'open_cybercrime' | 'open_chakshu' | 'call_bank' | 'block_cards' | 'keep_evidence' | 'dont_delete' | 'watch_followup' | 'read_tips' | 'open_learn'
+export type PayMethod = 'upi' | 'card' | 'bank' | 'other'
+export const PAY_METHODS: readonly PayMethod[] = ['upi', 'card', 'bank', 'other']
+export type PayStepId = 'pay_upi' | 'pay_card' | 'pay_bank' | 'pay_other'
+export type StepId = 'call_1930' | 'open_cybercrime' | 'open_chakshu' | 'call_bank' | 'block_cards' | 'keep_evidence' | 'dont_delete' | 'watch_followup' | 'read_tips' | 'open_learn' | PayStepId
+
+export const asPayMethod = (x: unknown): PayMethod | null => ((PAY_METHODS as readonly string[]).includes(x as string) ? (x as PayMethod) : null)
+
+/** withPaymentStep: how the money left decides the first thing to do after calling 1930. It never replaces a step and never adds a question
+ *  that must be answered: with no answer the steps are unchanged. */
+export function withPaymentStep(steps: StepId[], method: PayMethod | null): StepId[] {
+  const at = steps.indexOf('call_1930')
+  if (!method || at < 0) return steps
+  return [...steps.slice(0, at + 1), `pay_${method}` as PayStepId, ...steps.slice(at + 1)]
+}
 export interface Route {
   channel: ChannelId
   steps: StepId[]
