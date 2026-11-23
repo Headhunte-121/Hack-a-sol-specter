@@ -45,6 +45,23 @@ export function isStandalone(): boolean {
   }
 }
 
+/** cameraEnvironment: a few facts that explain WHY the camera is refused, for the error box (fixed browser facts, nothing personal):
+ *  whether this site's own policy allows the camera, whether the app runs from the home screen or a tab, and which browser. */
+export function cameraEnvironment(): string {
+  const parts: string[] = []
+  try {
+    const doc = document as unknown as { permissionsPolicy?: { allowsFeature?: (f: string) => boolean }; featurePolicy?: { allowsFeature?: (f: string) => boolean } }
+    const policy = doc.permissionsPolicy ?? doc.featurePolicy
+    if (policy?.allowsFeature) parts.push(policy.allowsFeature('camera') ? 'site policy allows camera' : 'site policy BLOCKS camera')
+  } catch { /* the browser cannot say */ }
+  parts.push(isStandalone() ? 'home-screen app' : 'browser tab')
+  const ua = typeof navigator !== 'undefined' ? navigator.userAgent : ''
+  const m = /(SamsungBrowser|MiuiBrowser|EdgA|OPR|Firefox|Chrome)\/(\d+)/.exec(ua)
+  if (m) parts.push(`${m[1]} ${m[2]}`)
+  if (/; wv\)/.test(ua)) parts.push('in-app web view')
+  return parts.join(', ')
+}
+
 /** watchCameraPermission: reports the site's camera permission now and again whenever the person changes it (for example
  *  after turning the camera on in the phone's settings and coming back). Returns a function that stops watching. */
 export function watchCameraPermission(onChange: (p: CameraPermission) => void): () => void {
