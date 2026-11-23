@@ -7,11 +7,13 @@ Usage: python train.py
 """
 from __future__ import annotations
 
+import argparse
 import json
 import math
 import random
 import re
 import shutil
+import sys
 import time
 from collections import Counter
 from pathlib import Path
@@ -22,6 +24,8 @@ from scipy.sparse import csr_matrix, hstack
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import average_precision_score, roc_auc_score
 
+import leak_check
+from build_corpus import FROZEN, MIN_EXTERNAL_ROWS
 from textpipe import analyse, load_signals
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -54,9 +58,33 @@ def sigmoid(x):
     return 1.0 / (1.0 + np.exp(-x))
 
 
-def main():
+def refuse_unsafe_corpus(df: pd.DataFrame, allow_small: bool = False) -> None:
+    """Stop (exit status 1 or 2) instead of training on a truncated corpus or on frozen evaluation text."""
+    if len(df) < MIN_EXTERNAL_ROWS and not allow_small:
+        print(f"ERROR: the corpus has only {len(df)} rows (a full corpus has about 23,000). The git-ignored datasets are probably missing in "
+              "this worktree: fix the junctions and run build_corpus.py again. Refusing to train.", file=sys.stderr)
+        sys.exit(2)
+    index, warns = leak_check.build_index(FROZEN, ROOT)
+    for w in warns:
+        print(f"WARNING: {w}", file=sys.stderr)
+    if not FROZEN.is_dir():
+        print("!" * 78 + f"\nWARNING: frozen evaluation directory {FROZEN} is missing: only the challenge sets could be checked for leaks.\n" + "!" * 78,
+              file=sys.stderr)
+    mask, detail = leak_check.scan_dataframe(df, index)
+    if mask.any():
+        print(f"ERROR: {int(mask.sum())} training-corpus rows match frozen evaluation texts (rows {sorted(detail)[:10]}...). "
+              "Run build_corpus.py again (it removes them) or leak_check.py --drop on the source CSVs. Refusing to train.", file=sys.stderr)
+        sys.exit(1)
+    print(f"leak guard: 0 of {len(df)} corpus rows match the {sum(index.sizes.values())} frozen evaluation texts (exact / signature / Jaccard >= 0.85)")
+
+
+def main(argv=None):
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--allow-small", action="store_true", help="skip the corpus-size refusal (unit tests only)")
+    args = ap.parse_args(argv)
     t0 = time.time()
     df = pd.read_csv(PROC / "corpus.csv")
+    refuse_unsafe_corpus(df, args.allow_small)
     sg = load_signals()
     sig_ids = [s["id"] for s in sg["signals"]]
 
