@@ -1,7 +1,7 @@
 import type { CapacitorConfig } from '@capacitor/cli'
 
 const config: CapacitorConfig = {
-  appId: 'in.gov.cg.suraksha',
+  appId: 'com.hackasol.suraksha',
   appName: 'Suraksha',
   webDir: 'dist',
   server: {

@@ -4,7 +4,7 @@ android {
     namespace = "in.gov.cg.suraksha"
     compileSdk = rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "in.gov.cg.suraksha"
+        applicationId "com.hackasol.suraksha"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -16,8 +16,20 @@ android {
             ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
-    buildTypes {
+    signingConfigs {
         release {
+            storeFile file('../../release.keystore')
+            storePassword 'suraksha123'
+            keyAlias 'suraksha'
+            keyPassword 'suraksha123'
+        }
+    }
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.release
+        }
+        release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
