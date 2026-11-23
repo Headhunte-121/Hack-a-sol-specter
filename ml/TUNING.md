@@ -127,4 +127,4 @@ GPU tools (optional; they need `torch` with CUDA and `transformers`, not listed 
 - `dev/teacher_gpu.py` fine-tunes `multilingual-e5-small` with group-aware cross-fitting (about 7 minutes on a laptop GPU) and writes out-of-fold probabilities to `ml/artifacts/teacher_oof.csv`, to audit labels. The teacher never ships.
 - `dev/paraphrase_gpu.py` rewrites team-written messages with `Qwen2.5-1.5B-Instruct` (Apache-2.0) into `data/team/paraphrase_v3.csv`, keeping only rewrites a teacher model agrees with; `--dev` writes the rewrite set used to measure robustness. Hindi and Hinglish rewrites were dropped because the small model writes poor Hindi.
 
-The generators `gen_gap_v3.py`, `gen_sms_v3.py`, `gen_everyday_v3.py` write `data/team/*_v3.csv`; each template is its own group and every row is checked against the frozen evaluation texts.
+The generators `gen_gap_v3.py`, `gen_sms_v3.py`, `gen_everyday_v3.py`, `gen_telecom_v3.py`, `gen_promo_v3.py` write `data/team/*_v3.csv`; each template is its own group and every row is checked against the frozen evaluation texts.
