@@ -1,12 +1,9 @@
 import type { Segment } from './analyze'
 
 // Client side of the transcription service. Only this module talks to it; everything else works with the transcript text.
-export const asrBase = (): string => {
+export const asrBase = (): string | null => {
   const env = (import.meta.env?.VITE_ASR_BASE as string | undefined)?.trim()
-  if (env && !env.includes('onrender.com')) {
-    return env.replace(/\/$/, '')
-  }
-  return 'https://paternal-ideology-situation.ngrok-free.dev'
+  return env ? env.replace(/\/$/, '') : null
 }
 export const LIMITS = { maxBytes: 5 * 1024 * 1024, maxSeconds: 180 }
 const OK_TYPES = ['audio/mpeg', 'audio/mp3', 'audio/wav', 'audio/x-wav', 'audio/wave', 'audio/webm', 'audio/ogg', 'audio/mp4', 'audio/aac', 'audio/x-m4a', 'audio/m4a', 'video/webm']
@@ -42,7 +39,13 @@ export function audioDuration(blob: Blob, timeoutMs = 4000): Promise<number | nu
   })
 }
 
-export async function healthCheck(timeoutMs = 5000): Promise<{ ok: boolean; model?: string }> {
+export interface AsrHealthResult {
+  ok: boolean
+  model?: string
+  hindi_model?: string
+}
+
+export async function healthCheck(timeoutMs = 4000): Promise<AsrHealthResult> {
   const base = asrBase()
   if (!base) return { ok: false }
   try {
@@ -55,8 +58,8 @@ export async function healthCheck(timeoutMs = 5000): Promise<{ ok: boolean; mode
     })
     clearTimeout(timer)
     if (!r.ok) return { ok: false }
-    const j = (await r.json()) as { model?: string }
-    return { ok: true, model: j.model }
+    const j = (await r.json()) as { model?: string; hindi_model?: string }
+    return { ok: true, model: j.model, hindi_model: j.hindi_model }
   } catch {
     return { ok: false }
   }
