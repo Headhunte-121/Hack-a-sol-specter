@@ -39,7 +39,12 @@ export function tokenMatches(word: string, want: string): boolean {
   return levenshtein(word, want, 1) <= 1
 }
 
-/** postProcessTranscript: collapse words repeated by speech recognition ("आप आप आप"), keep the original script, no translation. */
+/** postProcessTranscript: collapse words repeated by speech recognition ("आप आप आप"), join letters it spelled out one by one
+ *  ("O T P", "K Y C", "U.P.I" become "OTP", "KYC", "UPI"), keep the original script, no translation. */
 export function postProcessTranscript(text: string): string {
-  return text.replace(/(^|\s)(\S+)(\s+\2)+(?=\s|$)/gu, '$1$2').replace(/\s+/g, ' ').trim()
+  return text
+    .replace(/(^|\s)(\S+)(\s+\2)+(?=\s|$)/gu, '$1$2')
+    .replace(/(?<![A-Za-z])(?:[A-Za-z][\s.]){2,}[A-Za-z](?![A-Za-z])/g, (m) => m.replace(/[\s.]/g, ''))
+    .replace(/\s+/g, ' ')
+    .trim()
 }
