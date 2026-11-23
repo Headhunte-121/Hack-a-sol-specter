@@ -49,6 +49,25 @@ function roundRect(
   ctx.closePath()
 }
 
+/** Words drawn onto the exported video, in the language of the viewer (the page passes them in; English is only the fallback). */
+export interface ExportLabels {
+  sceneOf: (current: number, total: number) => string
+  trigger: string
+  flag: (n: number) => string
+  safe: string
+  helpline: string
+  captions: string
+}
+
+const ENGLISH_LABELS: ExportLabels = {
+  sceneOf: (c, t) => `Scene ${c} of ${t}`,
+  trigger: 'Suspicious message',
+  flag: (n) => `Warning sign ${n}:`,
+  safe: 'What to do:',
+  helpline: 'Cyber fraud helpline: call 1930 now',
+  captions: 'Captions',
+}
+
 /**
  * Generates an HD (1280x720) video with synchronized audio and subtitles for a lesson,
  * and triggers an automatic browser download.
@@ -56,7 +75,8 @@ function roundRect(
 export async function generateAndDownloadLessonVideo(
   lesson: Lesson,
   lang: Lang,
-  onProgress?: (percent: number) => void
+  onProgress?: (percent: number) => void,
+  labels: ExportLabels = ENGLISH_LABELS
 ): Promise<Blob | null> {
   if (typeof window === 'undefined' || typeof document === 'undefined') {
     return null
@@ -130,7 +150,7 @@ export async function generateAndDownloadLessonVideo(
 
     for (let f = 0; f < sceneDurationFrames; f++) {
       // Render Frame
-      drawVideoFrame(ctx, scene, sIdx, scenes.length, f, sceneDurationFrames, lang)
+      drawVideoFrame(ctx, scene, sIdx, scenes.length, f, sceneDurationFrames, lang, labels)
 
       const overallProgress = Math.round(
         ((sIdx * sceneDurationFrames + f) / (scenes.length * sceneDurationFrames)) * 100
@@ -175,7 +195,8 @@ function drawVideoFrame(
   totalScenes: number,
   frame: number,
   totalFrames: number,
-  lang: Lang
+  lang: Lang,
+  labels: ExportLabels
 ) {
   const w = 1280
   const h = 720
@@ -198,22 +219,22 @@ function drawVideoFrame(
     ctx.stroke()
   }
 
-  // 3. Top Banner: Suraksha Chhattisgarh
+  // 3. Top banner
   ctx.fillStyle = '#1e293b'
   roundRect(ctx, 40, 24, w - 80, 52, 12)
   ctx.fill()
 
   ctx.fillStyle = '#60a5fa'
   ctx.font = 'bold 20px "Noto Sans Devanagari", sans-serif'
-  ctx.fillText('🛡️ SURAKSHA • SCAM SHIELD CHHATTISGARH', 60, 57)
+  ctx.fillText('🛡️ SURAKSHA', 60, 57)
 
   // Scene indicator pill
-  const scenePill = `SCENE ${sceneIndex + 1} OF ${totalScenes}`
+  const scenePill = labels.sceneOf(sceneIndex + 1, totalScenes)
   ctx.fillStyle = '#334155'
   roundRect(ctx, w - 240, 32, 180, 36, 8)
   ctx.fill()
   ctx.fillStyle = '#e2e8f0'
-  ctx.font = 'bold 16px sans-serif'
+  ctx.font = 'bold 16px "Noto Sans Devanagari", sans-serif'
   ctx.fillText(scenePill, w - 215, 56)
 
   // 4. Main Stage Content Card
@@ -280,8 +301,8 @@ function drawVideoFrame(
     roundRect(ctx, phoneX + 24, phoneY + 20, 200, 36, 8)
     ctx.fill()
     ctx.fillStyle = '#ffffff'
-    ctx.font = 'bold 16px sans-serif'
-    ctx.fillText('⚠️ SUSPICIOUS TRIGGER', phoneX + 40, phoneY + 44)
+    ctx.font = 'bold 16px "Noto Sans Devanagari", sans-serif'
+    ctx.fillText(`⚠️ ${labels.trigger}`, phoneX + 40, phoneY + 44)
 
     // Message Content
     ctx.fillStyle = '#f8fafc'
@@ -300,8 +321,8 @@ function drawVideoFrame(
       ctx.fill()
 
       ctx.fillStyle = '#fb923c'
-      ctx.font = 'bold 26px sans-serif'
-      ctx.fillText(`🚨 FLAG ${idx + 1}:`, 100, boxY + 42)
+      ctx.font = 'bold 26px "Noto Sans Devanagari", sans-serif'
+      ctx.fillText(`🚨 ${labels.flag(idx + 1)}`, 100, boxY + 42)
 
       ctx.fillStyle = '#ffffff'
       ctx.font = '22px "Noto Sans Devanagari", sans-serif'
@@ -320,7 +341,7 @@ function drawVideoFrame(
 
     ctx.fillStyle = '#4ade80'
     ctx.font = 'bold 28px "Noto Sans Devanagari", sans-serif'
-    ctx.fillText('✅ SAFE ACTION TO TAKE:', 110, 280)
+    ctx.fillText(`✅ ${labels.safe}`, 110, 280)
 
     ctx.fillStyle = '#ffffff'
     ctx.font = '24px "Noto Sans Devanagari", sans-serif'
@@ -334,8 +355,8 @@ function drawVideoFrame(
     roundRect(ctx, 75, 430, w - 150, 64, 12)
     ctx.fill()
     ctx.fillStyle = '#93c5fd'
-    ctx.font = 'bold 24px sans-serif'
-    ctx.fillText('📞 CYBER FRAUD HELPLINE: DIAL 1930 IMMEDIATELY', 110, 471)
+    ctx.font = 'bold 24px "Noto Sans Devanagari", sans-serif'
+    ctx.fillText(`📞 ${labels.helpline}`, 110, 471)
   }
 
   // 6. Subtitles & Caption Bar at the bottom
@@ -344,8 +365,8 @@ function drawVideoFrame(
   ctx.fill()
 
   ctx.fillStyle = '#facc15'
-  ctx.font = 'bold 16px sans-serif'
-  ctx.fillText('SUBTITLES / उपशीर्षक:', 60, 620)
+  ctx.font = 'bold 16px "Noto Sans Devanagari", sans-serif'
+  ctx.fillText(labels.captions, 60, 620)
 
   ctx.fillStyle = '#ffffff'
   ctx.font = '20px "Noto Sans Devanagari", sans-serif'
@@ -363,3 +384,6 @@ function drawVideoFrame(
   ctx.fillStyle = scene.accentColor
   ctx.fillRect(40, 685, barWidth, 8)
 }
+
+/** Exposed so a test can check what gets drawn without recording a video. */
+export const drawVideoFrameForTest = drawVideoFrame

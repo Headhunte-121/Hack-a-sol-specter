@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { playableUrl, videoNarrationUrl } from './offline'
 import {
   Download,
   FastForward,
@@ -66,6 +67,18 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
   const [generateProgress, setGenerateProgress] = useState(0)
   const [downloadSuccess, setDownloadSuccess] = useState(false)
   const [audioError, setAudioError] = useState(false)
+
+  // The narration file: the downloaded copy when there is one (it plays with no internet), otherwise the normal address.
+  const narrationUrl = videoNarrationUrl(lesson.id, audioLang)
+  const [narrationSrc, setNarrationSrc] = useState(narrationUrl)
+  useEffect(() => {
+    let alive = true
+    const made: { url: string | null } = { url: null }
+    setNarrationSrc(narrationUrl)
+    setAudioError(false)
+    playableUrl(narrationUrl, typeof caches !== 'undefined' ? caches : undefined, (b) => (made.url = URL.createObjectURL(b))).then((r) => { if (alive) setNarrationSrc(r.src) })
+    return () => { alive = false; if (made.url) URL.revokeObjectURL(made.url) }
+  }, [narrationUrl])
 
   const videoContainerRef = useRef<HTMLDivElement>(null)
   const audioRef = useRef<HTMLAudioElement>(null)
@@ -230,9 +243,21 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
     }
 
     try {
-      await generateAndDownloadLessonVideo(lesson, audioLang, (pct) => {
-        setGenerateProgress(pct)
-      })
+      await generateAndDownloadLessonVideo(
+        lesson,
+        audioLang,
+        (pct) => {
+          setGenerateProgress(pct)
+        },
+        {
+          sceneOf: (current, total) => t('learn.video.scene_of', { current, total }),
+          trigger: t('learn.video.gen_trigger'),
+          flag: (n) => t('learn.video.gen_flag', { n }),
+          safe: t('learn.video.gen_safe'),
+          helpline: t('learn.video.gen_helpline'),
+          captions: t('learn.video.subtitles'),
+        }
+      )
       setDownloadSuccess(true)
       setTimeout(() => setDownloadSuccess(false), 5000)
     } catch {
@@ -249,10 +274,10 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
       className="flex flex-col gap-3 rounded-2xl border-2 border-line bg-white p-3 shadow-sm md:p-4"
       aria-label={t('learn.video.title')}
     >
-      {/* Hidden Native Audio Element with multi-language MP3 narration */}
+      {/* Hidden audio element with the narration in the chosen language */}
       <audio
         ref={audioRef}
-        src={`/audio/video/${lesson.id}.${audioLang}.mp3`}
+        src={narrationSrc}
         preload="auto"
         onTimeUpdate={() => {
           if (audioRef.current) {
@@ -275,6 +300,8 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
           setAudioError(true)
         }}
       />
+
+      {audioLang === 'cg' && <p className="px-1 pb-2 text-xs text-muted" data-testid="video-voice-note">{t('learn.video.audio_note')}</p>}
 
       {/* Main Video Viewport (supports Fullscreen) */}
       <div
@@ -307,7 +334,7 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
         {/* Top Watermark & Scene Tag */}
         <div className="relative z-10 flex items-center justify-between px-4 pt-3 text-[12px] font-bold tracking-wider">
           <span className="flex items-center gap-1.5 text-blue-400 drop-shadow">
-            🛡️ SURAKSHA • SCAM SHIELD
+            🛡️ SURAKSHA
           </span>
           <span
             className="rounded px-2.5 py-0.5 text-[11px] font-bold text-white uppercase shadow transition-all duration-300"
@@ -337,9 +364,6 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
               <div className="mt-1 flex flex-wrap justify-center gap-2">
                 <span className="rounded-full bg-white/10 px-3 py-1 text-xs text-slate-200 backdrop-blur-sm">
                   🔒 {t('action.dont_share')}
-                </span>
-                <span className="rounded-full bg-white/10 px-3 py-1 text-xs text-slate-200 backdrop-blur-sm">
-                  ⚡ 100% Offline
                 </span>
               </div>
             </div>
@@ -423,7 +447,6 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
         <div className="relative z-10 px-4 pb-1">
           <div className="mx-auto flex max-w-xl justify-center text-center">
             <p className="rounded-lg bg-black/85 px-3.5 py-1 text-xs font-semibold text-amber-200 shadow-lg md:text-sm">
-              <span className="font-extrabold text-amber-400 mr-1.5">[CC]</span>
               {pick(currentScene.caption, audioLang)}
             </p>
           </div>
@@ -452,7 +475,7 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
             step={0.1}
             value={currentTime}
             onChange={(e) => handleSeek(Number(e.target.value))}
-            aria-label="Seek video timeline"
+            aria-label={t('learn.video.seek')}
             className="h-2.5 w-full cursor-pointer appearance-none rounded-full bg-slate-200 accent-brand transition-all"
             style={{
               background: `linear-gradient(to right, #1747c4 0%, #1747c4 ${
@@ -482,8 +505,8 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
             <button
               type="button"
               onClick={() => skipRelative(-10)}
-              aria-label="Rewind 10 seconds"
-              title="Rewind 10 seconds (-10s)"
+              aria-label={t('learn.video.rewind')}
+              title={t('learn.video.rewind')}
               className="btn btn-secondary !h-10 !w-10 !p-0"
             >
               <RotateCcw size={16} />
@@ -492,8 +515,8 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
             <button
               type="button"
               onClick={() => skipRelative(10)}
-              aria-label="Forward 10 seconds"
-              title="Forward 10 seconds (+10s)"
+              aria-label={t('learn.video.forward')}
+              title={t('learn.video.forward')}
               className="btn btn-secondary !h-10 !w-10 !p-0"
             >
               <FastForward size={16} />
@@ -551,8 +574,8 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
               <button
                 type="button"
                 onClick={() => setIsMuted((prev) => !prev)}
-                aria-label={isMuted ? 'Unmute' : 'Mute'}
-                title={isMuted ? 'Unmute' : 'Mute'}
+                aria-label={isMuted ? t('learn.video.unmute') : t('learn.video.mute')}
+                title={isMuted ? t('learn.video.unmute') : t('learn.video.mute')}
                 className="btn btn-secondary !h-10 !w-10 !p-0"
               >
                 {isMuted || volume === 0 ? (
@@ -573,7 +596,7 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
                   setVolume(Number(e.target.value))
                   setIsMuted(false)
                 }}
-                aria-label="Volume slider"
+                aria-label={t('learn.video.volume')}
                 className="h-1.5 w-16 cursor-pointer accent-brand"
               />
             </div>
@@ -619,11 +642,7 @@ export function LessonVideo({ lesson }: LessonVideoProps) {
               <Download size={16} className="text-brand" />
               <span>{t('learn.video.generate')}</span>
             </h3>
-            <p className="text-xs text-muted">
-              Creates an offline HD video with chosen audio track (
-              {audioLang === 'hi' ? 'हिन्दी' : audioLang === 'cg' ? 'छत्तीसगढ़ी' : 'English'}) and
-              subtitles.
-            </p>
+            <p className="text-xs text-muted">{t('learn.video.generate_hint')}</p>
           </div>
 
           <button

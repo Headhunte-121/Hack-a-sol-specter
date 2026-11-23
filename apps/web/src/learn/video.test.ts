@@ -130,6 +130,25 @@ describe('Video Audio & Voice Resolution', () => {
   })
 })
 
+describe('Video export labels', () => {
+  it('draws the labels it is given, in the viewer language, and no hard-coded English', async () => {
+    const drawn: string[] = []
+    const ctx = new Proxy({ measureText: (t: string) => ({ width: t.length * 8 }), fillText: (t: string) => { drawn.push(t) } } as Record<string, unknown>, {
+      get: (o, k: string) => (k in o ? o[k] : () => ({ addColorStop: () => {} })),
+      set: () => true,
+    })
+    const labels = { sceneOf: (c: number, t: number) => `दृश्य ${c} / ${t}`, trigger: 'संदिग्ध संदेश', flag: (n: number) => `चेतावनी ${n}:`, safe: 'क्या करें:', helpline: 'हेल्पलाइन 1930', captions: 'उपशीर्षक' }
+    const mod = await import('./videoGenerator')
+    const scenes = buildLessonScenes(mockLesson)
+    for (let i = 0; i < scenes.length; i++) mod.drawVideoFrameForTest(ctx as unknown as CanvasRenderingContext2D, scenes[i], i, scenes.length, 0, 120, 'hi', labels)
+    const text = drawn.join(' | ')
+    expect(text).toContain('संदिग्ध संदेश')
+    expect(text).toContain('हेल्पलाइन 1930')
+    expect(text).toContain('उपशीर्षक')
+    expect(text).not.toMatch(/SCENE|SUSPICIOUS|SAFE ACTION|HELPLINE|SUBTITLES|CHHATTISGARH|FLAG/)
+  })
+})
+
 describe('Video Generator', () => {
   it('handles video generation call gracefully', async () => {
     const onProgress = vi.fn()
