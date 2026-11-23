@@ -1,5 +1,6 @@
 import { useEffect, useSyncExternalStore } from 'react'
 import { registerSW } from 'virtual:pwa-register'
+import { Capacitor } from '@capacitor/core'
 import { isBusy } from './busy'
 import { requestPersistentStorage } from './storage'
 
@@ -23,6 +24,7 @@ let updateSW: ((reload?: boolean) => Promise<void>) | null = null
 
 /** checkOfflineReady: is the model (the key offline asset) in the precache? Ready / partial / not ready. */
 export async function checkOfflineReady(): Promise<OfflineState> {
+  if (Capacitor.isNativePlatform()) return 'ready'
   try {
     if (!('caches' in window)) return 'not_ready'
     // The precache stores files that have a revision under "<url>?__WB_REVISION__=<hash>", so a bare-URL lookup never hits.
@@ -37,6 +39,10 @@ export async function checkOfflineReady(): Promise<OfflineState> {
 
 /** registerOfflineCache: register the service worker, which precaches app files, model, content and fonts. */
 export function registerOfflineCache(): void {
+  if (Capacitor.isNativePlatform()) {
+    emit({ offline: 'ready', installed: true })
+    return
+  }
   if (!('serviceWorker' in navigator)) return
   try {
     updateSW = registerSW({

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { Capacitor } from '@capacitor/core'
 import type { BrandsFile } from '../detector/url'
 import { saveLastResult } from '../detector/lastResult'
 import { useLang } from '../shell/i18n'
@@ -26,29 +27,35 @@ export default function QrPage() {
   const permRef = useRef<CameraPermission>('unknown')
   const video = useRef<HTMLVideoElement>(null)
   const stream = useRef<MediaStream | null>(null)
-  const raf = useRef<number>(0)
+  const scanTimer = useRef<number>(0)
 
   useEffect(() => {
     // without the brand list the UPI checks still work; only the lookalike-name link check is skipped
     fetch('/model/brands.json').then((r) => r.json()).then(setBrands).catch(() => setBrands({ version: 'none', brands: [] }))
     return stop
   }, [])
-  // The site's camera permission, kept current: when the person turns the camera on in the phone's settings and comes back,
-  // the help goes away by itself and says the camera is allowed.
-  useEffect(() => watchCameraPermission((p) => {
-    const was = permRef.current
-    permRef.current = p
-    setPerm(p)
-    if (was === 'denied' && p !== 'denied') {
-      setError((e) => (e === 'qr.err.camera' || e === 'qr.err.camera_dismissed' ? null : e))
-      setShowHelp(false)
-      setNowOk(true)
+
+  const isNative = Capacitor.isNativePlatform()
+  useEffect(() => {
+    if (isNative) {
+      void openScanner()
+      return
     }
-  }), [])
+    return watchCameraPermission((p) => {
+      const was = permRef.current
+      permRef.current = p
+      setPerm(p)
+      if (was === 'denied' && p !== 'denied') {
+        setError((e) => (e === 'qr.err.camera' || e === 'qr.err.camera_dismissed' ? null : e))
+        setShowHelp(false)
+        setNowOk(true)
+      }
+    })
+  }, [isNative])
   const secure = typeof window === 'undefined' || window.isSecureContext // camera works over HTTPS or localhost only
 
   function stop() {
-    cancelAnimationFrame(raf.current)
+    window.clearTimeout(scanTimer.current)
     stream.current?.getTracks().forEach((x) => x.stop())
     stream.current = null
     if (video.current) video.current.srcObject = null
@@ -62,17 +69,15 @@ export default function QrPage() {
     v.srcObject = stream.current
     void v.play().catch(() => {})
 
+    type NativeDetector = { detect: (src: HTMLVideoElement) => Promise<{ rawValue?: string }[]> }
+    const BD = (window as unknown as { BarcodeDetector?: new (o: { formats: string[] }) => NativeDetector }).BarcodeDetector
+    const detector = BD ? new BD({ formats: ['qr_code'] }) : null
     const canvas = document.createElement('canvas')
-    const ctx = canvas.getContext('2d', { willReadFrequently: true })
-    const detector = typeof window !== 'undefined' && 'BarcodeDetector' in window
-      ? new (window as unknown as { BarcodeDetector: new (o: { formats: string[] }) => { detect: (s: HTMLVideoElement) => Promise<{ rawValue: string }[]> } }).BarcodeDetector({ formats: ['qr_code'] })
-      : null
-
-    let cancelled = false
-    let timer = 0
+    const ctx = canvas.getContext('2d', { willReadFrequently: true })!
+    let alive = true
 
     const scanFrame = async () => {
-      if (cancelled) return
+      if (!alive) return
       if (v.readyState >= 2 && v.videoWidth) {
         let code: string | null = null
         if (detector) {
@@ -85,20 +90,18 @@ export default function QrPage() {
           ctx.drawImage(v, 0, 0, canvas.width, canvas.height)
           code = decodeQr(ctx.getImageData(0, 0, canvas.width, canvas.height).data, canvas.width, canvas.height)
         }
-        if (code && !cancelled) {
+        if (code && alive) {
+          navigator.vibrate?.(120)
           stop()
           setRaw(code)
           return
         }
       }
-      timer = window.setTimeout(() => void scanFrame(), 150)
+      scanTimer.current = window.setTimeout(() => void scanFrame(), 150)
     }
 
-    timer = window.setTimeout(() => void scanFrame(), 150)
-    return () => {
-      cancelled = true
-      clearTimeout(timer)
-    }
+    scanTimer.current = window.setTimeout(() => void scanFrame(), 150)
+    return () => { alive = false; window.clearTimeout(scanTimer.current) }
   }, [scanning])
 
   /** openScanner: the camera is requested only when the user taps Scan, and stopped as soon as a code is read. */
@@ -138,23 +141,34 @@ export default function QrPage() {
         <input value={expected} onChange={(e) => setExpected(e.target.value)} maxLength={60} className="mt-1 min-h-12 w-full rounded-2xl border-2 border-line bg-white text-ink px-3 font-normal" />
       </label>
 
-      <video ref={video} playsInline muted hidden={!scanning} className="w-full rounded-xl bg-black" aria-label={t('qr.scan')} />
-      {scanning ? (
-        <button className="btn btn-secondary w-full" onClick={stop}>⏹ {t('qr.stop')}</button>
-      ) : (
+      {scanning && (
+        <div className="space-y-2">
+          <div className="relative overflow-hidden rounded-2xl bg-black">
+            <video ref={video} autoPlay playsInline muted className="aspect-square w-full object-cover" aria-label={t('qr.scan')} />
+            <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+              <div className="h-52 w-52 rounded-2xl border-4 border-white/80 shadow-[0_0_0_9999px_rgba(0,0,0,0.35)]" />
+            </div>
+          </div>
+          <p className="text-center text-sm font-bold text-brand">{t('qr.live.scanning')}</p>
+          <button className="btn btn-secondary w-full" onClick={stop}>⏹ {t('qr.stop')}</button>
+        </div>
+      )}
+
+      {!scanning && (
         <div className="grid gap-2">
-          {/* The first choice is a photo taken by the phone's own camera app: it needs no permission, so it always works. */}
-          <label className="btn btn-primary cursor-pointer" data-testid="qr-photo-main">📷 {t('qr.take_photo')}
+          <button className="btn btn-primary" disabled={!secure || opening} onClick={openScanner} data-testid="qr-scan-live">
+            🎥 {opening ? t('qr.opening') : t('qr.scan')}
+          </button>
+          <label className="btn btn-secondary cursor-pointer" data-testid="qr-photo-main">📷 {t('qr.take_photo')}
             <input type="file" accept="image/*" capture="environment" className="sr-only" onChange={(e) => { const f = e.target.files?.[0]; if (f) void fromFile(f); e.target.value = '' }} />
           </label>
           <label className="btn btn-secondary cursor-pointer">🖼️ {t('qr.upload')}
             <input type="file" accept="image/*" className="sr-only" onChange={(e) => { const f = e.target.files?.[0]; if (f) void fromFile(f); e.target.value = '' }} />
           </label>
-          <button className="btn btn-secondary" disabled={!secure || opening} onClick={openScanner} data-testid="qr-scan-live">🎥 {opening ? t('qr.opening') : t('qr.scan')}</button>
           <p className="text-xs text-muted">{t('qr.camera_note')}</p>
-          {perm !== 'denied' && !nowOk && !error && <p className="text-sm" data-testid="camera-ask">{t('qr.cam.ask')}</p>}
-          {nowOk && <p role="status" className="font-bold text-ok" data-testid="camera-now-ok">{t('qr.cam.now_ok')}</p>}
-          {perm === 'denied' && !error && !showHelp && (
+          {!isNative && perm !== 'denied' && !nowOk && !error && <p className="text-sm" data-testid="camera-ask">{t('qr.cam.ask')}</p>}
+          {!isNative && nowOk && <p role="status" className="font-bold text-ok" data-testid="camera-now-ok">{t('qr.cam.now_ok')}</p>}
+          {!isNative && perm === 'denied' && !error && !showHelp && (
             <div className="flex flex-col gap-2 rounded-xl border-2 border-warn-line bg-warn-bg px-3 py-2 text-warn" data-testid="camera-off-note">
               <span>{t('qr.cam.use_photo')}</span>
               <button type="button" className="self-start text-sm font-bold underline" onClick={() => setShowHelp(true)}>{t('qr.cam.show')}</button>

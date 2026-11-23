@@ -1,0 +1,23 @@
+# Strings for Capacitor 8 Android APK + Live Scanner features
+S = {
+ "sms.inbox.title": ("Your SMS messages (auto-checked)", "आपके एसएमएस संदेश (अपने-आप जाँचे गए)", "तुंहर एसएमएस संदेसा (अपन-आप जांचे गे)"),
+ "sms.inbox.sub": ("Scanned on your phone. Nothing leaves this device.", "आपके फ़ोन पर जाँचा गया। कुछ भी इस फ़ोन से बाहर नहीं जाता।", "तुंहर फोन म जांचे गे। कुछु ए फोन ले बाहिर नइ जाय।"),
+ "sms.inbox.refresh": ("Refresh SMS", "एसएमएस फिर जाँचें", "एसएमएस फेर जांचव"),
+ "sms.inbox.empty": ("No SMS messages found on this phone.", "इस फ़ोन में कोई एसएमएस संदेश नहीं मिला।", "ए फोन म कोनो एसएमएस संदेसा नइ मिलिस।"),
+ "sms.inbox.permission": ("Allow SMS access to check messages automatically without pasting.", "बिना चिपकाए संदेश अपने-आप जाँचने के लिए एसएमएस की अनुमति दें।", "बिना चिपकाए संदेसा अपन-आप जांचे बर एसएमएस के अनुमति देवव।"),
+ "sms.inbox.allow": ("Allow SMS access", "एसएमएस की अनुमति दें", "एसएमएस के अनुमति देवव"),
+ "sms.inbox.live_badge": ("Watching new SMS live", "नए एसएमएस पर सीधी नज़र", "नवा एसएमएस म सीधा नजर"),
+ "sms.inbox.manual_toggle": ("Check a WhatsApp text or link manually", "व्हाट्सऐप संदेश या लिंक हाथ से जाँचें", "व्हाट्सऐप संदेसा या लिंक हाथ ले जांचव"),
+ "sms.inbox.scam_count": ("{n} suspicious or scam SMS found", "{n} संदिग्ध या ठगी वाले एसएमएस मिले", "{n} संदिग्ध या ठगी वाले एसएमएस मिलिस"),
+ "call.live.mode": ("Live mic", "लाइव माइक", "लाइव माइक"),
+ "call.mode.upload": ("Upload audio", "ऑडियो फ़ाइल", "ऑडियो फाइल"),
+ "call.live.title": ("Live Call Warning", "लाइव कॉल चेतावनी", "लाइव कॉल चेतावनी"),
+ "call.live.start": ("Start live listening", "लाइव सुनना शुरू करें", "लाइव सुनना सुरु करव"),
+ "call.live.stop": ("Stop listening", "सुनना रोकें", "सुनना रोकव"),
+ "call.live.listening": ("Listening live… put the call on speakerphone", "लाइव सुन रहे हैं… कॉल को स्पीकर पर रखें", "लाइव सुनत हन… कॉल ला स्पीकर म राखव"),
+ "call.live.lang_hi": ("Hindi / Hinglish", "हिन्दी / हिंग्लिश", "हिन्दी / हिंग्लिश"),
+ "call.live.lang_en": ("English", "अंग्रेज़ी", "अंगरेजी"),
+ "call.live.unsupported": ("Live speech is not supported in this browser. Open in Chrome or the Android app, or paste the transcript.", "इस ब्राउज़र में लाइव आवाज़ की सुविधा नहीं है। क्रोम या एंड्रॉइड ऐप में खोलें, या टेक्स्ट चिपकाएँ।", "ए ब्राउज़र म लाइव अवाज के सुविधा नइ हे। क्रोम या एंड्रॉइड ऐप म खोलव, या टेक्स्ट चिपकावव।"),
+ "call.live.full_report": ("View full verdict & report", "पूरा नतीजा और शिकायत देखें", "पूरा नतीजा अउ शिकायत देखव"),
+ "qr.live.scanning": ("Point the camera at the QR code…", "कैमरा क्यूआर कोड की ओर रखें…", "कैमरा ला क्यूआर कोड कोती राखव…"),
+}

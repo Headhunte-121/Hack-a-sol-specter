@@ -45,6 +45,9 @@ export default function DuringCallPage() {
       </button>
 
       {'speechSynthesis' in window && <button className="btn btn-secondary" onClick={speak}>{t('dc.listen')}</button>}
+      <a className="btn btn-danger !min-h-14 !text-[20px]" href="#/call?live=1">
+        🎙️ {t('call.live.start')}
+      </a>
       <a className="btn btn-primary mt-auto !min-h-16 !text-[24px]" href="#/report">{t('report.cta')}</a>
     </Layout>
   )

@@ -99,14 +99,13 @@ describe('the QR page asks first and explains a switched-off camera', () => {
     expect((q('camera-steps') as HTMLDetailsElement).open).toBe(false) // the settings steps stay out of the way until asked for
   })
 
-  it('the first choice is a photo taken by the camera app; live scanning comes last and is not the main button', async () => {
+  it('the first choice is live camera scanning; taking a photo is the fallback below it', async () => {
     await mount('prompt')
-    const photo = q('qr-photo-main') as HTMLElement
     const live = q('qr-scan-live') as HTMLElement
-    expect(photo.className).toContain('btn-primary')
-    expect(live.className).toContain('btn-secondary')
-    expect(photo.querySelector('input')?.getAttribute('capture')).toBe('environment')
-    expect(photo.compareDocumentPosition(live) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+    const photo = q('qr-photo-main') as HTMLElement
+    expect(live.className).toContain('btn-primary')
+    expect(photo.className).toContain('btn-secondary')
+    expect(live.compareDocumentPosition(photo) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
   })
 
   it('opens the settings steps only when the person asks for them', async () => {

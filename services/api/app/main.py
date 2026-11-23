@@ -169,10 +169,20 @@ def create_app(db_path: str | None = None, secret: str | None = None, min_count:
 
     @app.get("/trends/rising")
     def rising(region: str | None = None, demo: bool = True):
-        """suggestFromReports: categories whose weekly count rises sharply, as a prompt for a human to write an alert (optionally per district/region)."""
+        """suggestFromReports: categories whose weekly count rises sharply, as a prompt for a human to write an alert."""
         cur, prev = window_counts(region, 6, 0, demo), window_counts(region, 13, 7, demo)
         rows = [{"scam_category": c, "this_week": n, "last_week": prev.get(c, 0)} for c, n in cur.items() if n >= MIN and n >= 2 * max(1, prev.get(c, 0))]
-        return {"rows": sorted(rows, key=lambda r: -r["this_week"])}
+        d_cur = db.query_district_window_counts((now() - timedelta(days=6)).strftime("%Y-%m-%d"), now().strftime("%Y-%m-%d"), demo)
+        d_prev = db.query_district_window_counts((now() - timedelta(days=13)).strftime("%Y-%m-%d"), (now() - timedelta(days=7)).strftime("%Y-%m-%d"), demo)
+        district_rows = [
+            {"region_code": reg, "scam_category": cat, "this_week": n, "last_week": d_prev.get((reg, cat), 0)}
+            for (reg, cat), n in d_cur.items()
+            if n >= MIN and n >= 2 * max(1, d_prev.get((reg, cat), 0))
+        ]
+        return {
+            "rows": sorted(rows, key=lambda r: -r["this_week"]),
+            "district_rows": sorted(district_rows, key=lambda r: -r["this_week"]),
+        }
 
     @app.get("/regions")
     def regions(response: Response):

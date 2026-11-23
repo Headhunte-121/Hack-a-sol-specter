@@ -19,6 +19,19 @@ export function SystemNotices({ pending, pwa, updateBlocked, onApplyUpdate }: Ho
   const [showManualHint, setShowManualHint] = useState(false)
 
   const handleInstallClick = async () => {
+    // 1. Direct APK download
+    try {
+      const a = document.createElement('a')
+      a.href = '/suraksha.apk'
+      a.download = 'Suraksha.apk'
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+    } catch {
+      // ignore
+    }
+
+    // 2. Also trigger PWA prompt if available on browser
     if (pwa.installEvent) {
       await promptInstall()
     } else {
@@ -71,16 +84,28 @@ export function SystemNotices({ pending, pwa, updateBlocked, onApplyUpdate }: Ho
           </div>
 
           {showManualHint && (
-            <div className="mt-2 flex items-start justify-between gap-2 border-t border-slate-100 pt-2 text-[11.5px] leading-snug text-slate-500">
-              <span>{ui.installHint}</span>
-              <button
-                type="button"
-                onClick={() => setShowManualHint(false)}
-                aria-label="Close tip"
-                className="shrink-0 cursor-pointer rounded p-0.5 text-slate-400 hover:text-slate-700"
-              >
-                <X className="size-3.5" />
-              </button>
+            <div className="mt-2 flex flex-col gap-2 border-t border-slate-100 pt-2 text-[11.5px] leading-snug text-slate-500">
+              <div className="flex items-start justify-between gap-2">
+                <span>{ui.installHint}</span>
+                <button
+                  type="button"
+                  onClick={() => setShowManualHint(false)}
+                  aria-label="Close tip"
+                  className="shrink-0 cursor-pointer rounded p-0.5 text-slate-400 hover:text-slate-700"
+                >
+                  <X className="size-3.5" />
+                </button>
+              </div>
+              <div className="flex items-center gap-2 pt-0.5">
+                <a
+                  href="/suraksha.apk"
+                  download="Suraksha.apk"
+                  className="inline-flex items-center gap-1.5 rounded-md bg-blue-50 px-2.5 py-1 text-[12px] font-bold text-[#1B3B73] transition-colors hover:bg-blue-100"
+                >
+                  <Download className="size-3.5" />
+                  Suraksha.apk (12.6 MB)
+                </a>
+              </div>
             </div>
           )}
         </div>
