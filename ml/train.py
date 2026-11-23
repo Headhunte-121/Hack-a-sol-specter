@@ -33,7 +33,7 @@ MIN_DF = 3
 KEEP = 60000          # features kept after pruning (model-size control)
 SIG_SCALE = 1.0
 LANG_WEIGHT = 3.0
-VERSION = "2026-11-23.2"
+VERSION = "2026-11-23.3"
 rng = random.Random(7)
 
 
@@ -99,7 +99,22 @@ def main():
         return hstack([X, csr_matrix(D)]).tocsr()
 
     y_tr, y_va = tr_aug.label.values, va.label.values
-    w_tr = np.where(tr_aug.lang.values == 'english', 1.0, LANG_WEIGHT)   # Hindi/Hinglish data is scarce: upweight it
+    # Sample weighting by source and language
+    w_tr = np.ones(len(tr_aug))
+    for i, row in tr_aug.iterrows():
+        w = 1.0
+        if row.source == "team_trap_genuine_v1":
+            w = 2.5
+        elif row.source == "team_scam_gap_v1":
+            w = 2.0
+        elif str(row.source).startswith("team_"):
+            w = 1.5
+        elif row.source in ("bolewara_uci", "cloveai"):
+            w = 0.8
+        if row.lang != "english":
+            w *= 1.8
+        w_tr[i] = w
+
     # 1) choose C on validation (full vocabulary)
     X_tr, X_va = build(F_tr, S_tr, vocab_all), build(F_va, S_va, vocab_all)
     best = None
@@ -132,13 +147,13 @@ def main():
     grid = np.round(np.arange(0.02, 0.99, 0.01), 2)
     def prec(t): s = pr_ >= t; return (yr[s] == 1).mean() if s.sum() else 1.0
     def rec(t): return (pr_[yr == 1] >= t).mean()
-    ok_p = [t for t in grid if prec(t) >= 0.97]
-    scam_cut = min(ok_p) if ok_p else 0.85
-    ok_r = [t for t in grid if rec(t) >= 0.97]
-    susp_cut = max(ok_r) if ok_r else 0.15
-    if susp_cut >= scam_cut - 0.15:          # keep a real "suspicious" band so uncertain cases are never shown as certain
-        susp_cut = max(0.05, round(scam_cut - 0.25, 2))
-    print(f"calibration a={a:.3f} b={b:.3f}; suspicious cut={susp_cut:.2f} (recall {rec(susp_cut):.3f}), scam cut={scam_cut:.2f} (precision {prec(scam_cut):.3f})")
+    is_trap = (va.source == "team_trap_genuine_v1") & (va.label == 0)
+    def trap_fp(t): return float((p_va[is_trap] >= t).mean()) if is_trap.sum() else 0.0
+
+    ok_p = [t for t in grid if prec(t) >= 0.97 and t >= 0.35]
+    scam_cut = min(ok_p) if ok_p else 0.50
+    susp_cut = 0.10
+    print(f"calibration a={a:.3f} b={b:.3f}; suspicious cut={susp_cut:.2f} (recall {rec(susp_cut):.3f}, trap FP {trap_fp(susp_cut):.3f}), scam cut={scam_cut:.2f} (precision {prec(scam_cut):.3f})")
 
     # 5) export
     coef = m.coef_[0]
@@ -153,6 +168,9 @@ def main():
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / "model.json").write_text(json.dumps(model, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     shutil.copy(Path(__file__).parent / "signals.json", OUT / "signals.json")
+    shutil.copy(Path(__file__).parent / "domains.json", OUT / "domains.json")
+    (ROOT / "apps" / "web" / "src" / "detector").mkdir(parents=True, exist_ok=True)
+    shutil.copy(Path(__file__).parent / "domains.json", ROOT / "apps" / "web" / "src" / "detector" / "domains.json")
     size = (OUT / "model.json").stat().st_size
     ART.mkdir(exist_ok=True)
     (ART / "train_report.json").write_text(json.dumps({"C": C, "features": len(vocab), "model_bytes": size, "val_ap": float(average_precision_score(y_va, z_va)),

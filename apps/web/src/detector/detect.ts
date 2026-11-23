@@ -12,7 +12,7 @@ export interface DetectResult {
   text: string // the sanitised text that was analysed (and is displayed)
   script: 'english' | 'hindi' | 'hinglish'
   band: Band
-  basis?: 'script' | 'script+model' | 'model' | 'advisory' | 'none' // what decided the verdict (see verdict/engine.ts)
+  basis?: 'script' | 'script+model' | 'model' | 'advisory' | 'genuine_notice' | 'none' // what decided the verdict (see verdict/engine.ts)
   category?: CategoryCode // set when a known scam script matched
   p: number
   confidence: 'low' | 'medium' | 'high'
@@ -83,10 +83,15 @@ export function analyzeInput(rawInput: string, scorer: Scorer, brands: BrandsFil
     reasons.length = 0
     if (a.basis === 'advisory') reasons.push('reason.ok.tells_not_to_share') // it only warns you not to share a code
     for (const s of ex.reassureSignals.slice(0, 2)) if (!reasons.includes(`reason.ok.${s.id}`) && reasons.length < 2) reasons.push(`reason.ok.${s.id}`)
+    const hasGovOrBrand = r.tokens.some((t) => t.t === 'urlgovtok' || t.t === 'urlbrandtok')
+    const hasHighLink = links.some((l) => l.risk === 'high')
+    if (hasGovOrBrand && !hasHighLink && reasons.length < 3) {
+      reasons.push('reason.ok.official_link')
+    }
     if (!reasons.length) reasons.push('reason.no_flags')
   } else if (!reasons.length) reasons.push('reason.model_pattern')
 
-  const confidence = a.basis === 'script' ? (a.top!.stagesHeard.length >= 3 ? 'high' : 'medium') : a.basis === 'advisory' ? 'medium' : confidenceOf(band, r.p)
+  const confidence = a.basis === 'script' ? (a.top!.stagesHeard.length >= 3 ? 'high' : 'medium') : a.basis === 'advisory' || a.basis === 'genuine_notice' ? 'medium' : confidenceOf(band, r.p)
   return {
     type, text, script, band, basis: a.basis, category: top ? SCRIPT_CATEGORY[top.script] : undefined, p: r.p, confidence,
     highlights, topWords: [...new Set(topWords)].slice(0, 5), reasons, actions: ACTIONS[band], links, scamSignals: r.fired.filter((s) => s.kind === 'risk').map((s) => s.id),

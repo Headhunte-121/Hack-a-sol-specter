@@ -42,4 +42,21 @@ describe('parity with the Python scorer (ml/textpipe.py)', () => {
     for (let i = 0; i < 50; i++) scorer.score(rows[10 + (i % 100)].text)
     expect((performance.now() - t) / 50).toBeLessThan(50) // ms per message on a laptop; the phone target is < 1000 ms
   })
+
+  it('contains every official domain from brands.json with a dot in domains.json', () => {
+    const brands = JSON.parse(readFileSync(join(pub, 'brands.json'), 'utf8')) as {
+      brands: { official: string[] }[]
+    }
+    const domains = JSON.parse(
+      readFileSync(join(__dirname, 'domains.json'), 'utf8'),
+    ) as { official: string[] }
+    const officialSet = new Set(domains.official)
+    for (const b of brands.brands) {
+      for (const d of b.official) {
+        if (d.includes('.')) {
+          expect(officialSet.has(d)).toBe(true)
+        }
+      }
+    }
+  })
 })
