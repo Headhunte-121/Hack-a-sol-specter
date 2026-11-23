@@ -4572,9 +4572,9 @@
    "difficulty": 1,
    "type": "tf",
    "question": {
-    "en": "If money is fraudulently deducted from your account, reporting within the 'golden hour' (first 2-3 hours) increases the chance of recovering it.",
-    "hi": "यदि खाते से धोखे से पैसे कट जाएं, तो शुरुआती 'गोल्डन ऑवर' (पहले 2-3 घंटे) में शिकायत करने से पैसे वापस मिलने की संभावना सबसे ज्यादा होती है।",
-    "cg": "अगर खाता ले धोखे ले पइसा कट जाय, त पहिली 'गोल्डन ऑवर' (पहिली 2-3 घंटा) म शिकायत करे ले पइसा वापस मिले के संभावना सबसे जादा होथे।"
+    "en": "If money is fraudulently deducted from your account, reporting as early as you can, by calling 1930, gives the best chance of stopping the transfer.",
+    "hi": "यदि खाते से धोखे से पैसे कट जाएं, तो जितनी जल्दी हो सके 1930 पर शिकायत करने से पैसे रोकने की संभावना सबसे अच्छी रहती है।",
+    "cg": "अगर खाता ले धोखे ले पइसा कट जाय, त जतका जल्दी हो सकय 1930 म शिकायत करे ले पइसा रोके के संभावना सबले बढ़िया रहिथे।"
    },
    "options": [
     {
@@ -4590,9 +4590,9 @@
    ],
    "answer": 0,
    "explanation": {
-    "en": "True! Calling 1930 immediately allows authorities to freeze the scammer's beneficiary bank account before they withdraw the cash.",
-    "hi": "सही! 1930 पर तुरंत कॉल करने से पुलिस और बैंक ठग के खाते को तुरंत फ्रीज कर देते हैं इससे पहले कि वह पैसे निकाल सके।",
-    "cg": "सही! 1930 म तुरंत फोन करे ले पुलिस अउ बैंक ठग के खाता ला तुरंत सील कर देथें एकर ले पहिली कि ओ पइसा निकाल सकय।"
+    "en": "True. Report as early as you can: calling 1930 quickly gives the helpline and your bank the best chance to act before the money moves on. Nothing can be promised.",
+    "hi": "सही। जितनी जल्दी हो सके शिकायत करें: 1930 पर जल्दी कॉल करने से हेल्पलाइन और बैंक को पैसे आगे जाने से पहले कदम उठाने का सबसे अच्छा मौका मिलता है। कुछ भी पक्का नहीं कहा जा सकता।",
+    "cg": "सही। जतका जल्दी हो सकय शिकायत करव: 1930 म जल्दी फोन करे ले हेल्पलाइन अउ बैंक ला पइसा आगू जाए ले पहिली कदम उठाए के सबले बढ़िया मौका मिलथे। कुछु पक्का नइ कहे जा सकय।"
    }
   },
   {

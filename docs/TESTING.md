@@ -35,7 +35,7 @@ Every acceptance criterion in the GT-02 build specification, with the evidence f
 | 7.6 Report | Works with the network off, apart from opening the portal | the guidance and checklist are local | Open (manual) |
 | 7.6 Report | A first-time user reaches the right channel within three taps from a flagged result | result button, money question, then the channel card (one more question only when no money was lost) | By design; timed test open |
 | 7.6 Report | No screen asks for or stores a bank number, OTP, Aadhaar or phone number | the checklist only asks the person to keep items ready; the summary carries no numbers (`report.test.ts`) | Automated |
-| 8.7 Learn | All lessons and at least 28 questions exist in Hindi and Chhattisgarhi, with English | 10 lessons with 6 to 8 cards each and 60 questions (at least 6 per topic) in three languages; Chhattisgarhi not yet reviewed by a native speaker | Met in count; review open |
+| 8.7 Learn | All lessons and at least 28 questions exist in Hindi and Chhattisgarhi, with English | 10 lessons with 6 to 8 cards each and 150 questions (15 per topic) in three languages; Chhattisgarhi not yet reviewed by a native speaker | Met in count; review open |
 | 8.7 Learn | A complete quiz run works offline and gives the same score for the same answers | `src/learn/learn.test.ts`; offline run is a manual check | Automated; manual open |
 | 8.7 Learn | The score card names the weakest topic and opens the right lesson | `src/learn/learn.test.ts` | Automated |
 | 8.7 Learn | The validator reports zero missing strings | `npm run check:content` | Automated |
