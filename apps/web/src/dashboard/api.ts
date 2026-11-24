@@ -24,8 +24,10 @@ export interface ApiResult<T> {
   error: boolean
 }
 
-/** apiGet: the live server first; when it is not configured, or cannot be reached, the last saved copy, then on-device figures. */
-export async function apiGet<T>(path: string, timeoutMs = 6000): Promise<ApiResult<T>> {
+/** apiGet: the live server first; when it is not configured, or cannot be reached, the last saved copy, then on-device figures.
+ *  The limit is generous on purpose: the trends endpoints measured 2 to 8 seconds on the hosted database (each query opens its own connection), and a slow phone
+ *  connection adds to that. At 6 seconds a working server was reported as "No connection" and the screen showed the old copy. */
+export async function apiGet<T>(path: string, timeoutMs = 15000): Promise<ApiResult<T>> {
   const key = `api.${path}`
   const cached = kvGet<{ at: number; data: T } | null>(key, null)
   const base = apiBase()
