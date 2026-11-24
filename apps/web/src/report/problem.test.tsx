@@ -23,6 +23,7 @@ describe('what the check pre-fills', () => {
     expect(problemFromCheck(kycCall)).toEqual({ category: 'kyc_bank', channel: 'call' })
     expect(channelOfCheck({ ...kycCall, kind: 'message' })).toBe('sms')
     expect(channelOfCheck({ ...kycCall, kind: 'url' })).toBe('other')
+    expect(channelOfCheck({ ...kycCall, kind: 'url', script: 'qr', category: 'fake_qr' })).toBe('qr')
   })
   it('pre-fills nothing from a genuine check or one with no clear type', () => {
     expect(problemFromCheck({ ...kycCall, band: 'looks_genuine' })).toEqual({ category: null, channel: null })
@@ -199,5 +200,12 @@ describe('the Report screen follows what the person says', () => {
     expect(summary).toContain('Money taken: No')
     expect(summary).toContain('Shared a code or detail: Yes')
     expect(summary).toContain('How it reached me: SMS / message')
+  })
+
+  it('pre-fills channel from query param ?from=qr when no recent check exists', async () => {
+    history.replaceState(null, '', '#/report?from=qr')
+    await mount()
+    await click(button('Yes, it was taken'))
+    expect(radio('data-channel-pick', 'qr').getAttribute('aria-checked')).toBe('true')
   })
 })

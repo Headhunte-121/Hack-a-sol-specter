@@ -9,7 +9,7 @@ export function currentQuery(): URLSearchParams {
   return new URLSearchParams(h.includes('?') ? h.slice(h.indexOf('?') + 1) : '')
 }
 export function navigate(path: string) {
-  window.location.hash = path
+  window.location.hash = '#' + path.replace(/^#+/, '')
 }
 export function usePath(): string {
   const [p, setP] = useState(currentPath)

@@ -7,7 +7,7 @@ import { useBackStep, useInnerScreenOnReturn } from '../shell/backStep'
 import { setBusy } from '../shell/busy'
 import { formatDate, useLang } from '../shell/i18n'
 import { Layout } from '../shell/Layout'
-import { navigate } from '../shell/router'
+import { currentQuery, navigate } from '../shell/router'
 import { kvGet, kvSet } from '../shell/storage'
 import { Banner, Icon, NumberedList, type Tone } from '../shell/ui'
 import { CHANNELS, LAST_VERIFIED } from './channels'
@@ -25,10 +25,17 @@ export default function ReportPage() {
   const [copied, setCopied] = useState(false)
   const [offlineNote, setOfflineNote] = useState(false)
   const last = useMemo(() => recentLastResult(), [])
+  const fromParam = useMemo(() => currentQuery().get('from'), [])
+  const fromChannel: Channel | null = useMemo(() => {
+    if (fromParam === 'call') return 'call'
+    if (fromParam === 'qr') return 'qr'
+    if (fromParam === 'message' || fromParam === 'sms') return 'sms'
+    return null
+  }, [fromParam])
   // What happened, in the person's own answer. A recent flagged check only pre-fills it; it stays visible and can be changed.
   const initial = useMemo(() => problemFromCheck(last), [last])
   const [category, setCategory] = useState<CategoryCode | null>(initial.category)
-  const [channelPick, setChannelPick] = useState<Channel | null>(initial.channel)
+  const [channelPick, setChannelPick] = useState<Channel | null>(initial.channel ?? fromChannel)
   const [edited, setEdited] = useState(false)
   const [payMethod, setPayMethod] = useState<PayMethod | null>(null) // optional: how the money left
 
@@ -68,7 +75,7 @@ export default function ReportPage() {
     setOfflineNote(false)
     window.open(url, '_blank', 'noopener,noreferrer')
   }
-  const reset = () => { setOutcome(null); setShared(null); setCopied(false); setOfflineNote(false); setCategory(initial.category); setChannelPick(initial.channel); setEdited(false); setPayMethod(null) }
+  const reset = () => { setOutcome(null); setShared(null); setCopied(false); setOfflineNote(false); setCategory(initial.category); setChannelPick(initial.channel ?? fromChannel); setEdited(false); setPayMethod(null) }
   // Phone Back returns to the first question; coming back from a lesson or another screen shows the same advice again.
   useInnerScreenOnReturn((d) => {
     const o = d?.outcome

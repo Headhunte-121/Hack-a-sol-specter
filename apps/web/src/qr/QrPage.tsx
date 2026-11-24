@@ -211,7 +211,7 @@ export default function QrPage() {
           <div className="grid gap-2">
             <a className="btn btn-secondary" href="#/learn?lesson=upi_qr">🎓 {t('qr.next.lesson')}</a>
             {a.risk !== 'none' && !(a.flags.length === 1 && a.flags[0].id === 'preset_amount') && (
-              <a className="btn btn-danger" href="#/report?from=message">🚨 {t('qr.next.report')}</a>
+              <a className="btn btn-danger" href="#/report?from=qr">🚨 {t('qr.next.report')}</a>
             )}
           </div>
         </section>

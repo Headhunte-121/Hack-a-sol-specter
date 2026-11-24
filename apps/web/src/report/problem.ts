@@ -25,6 +25,7 @@ export function categoryOfCheck(last: LastResult | null): CategoryCode | null {
 /** How the flagged thing reached the person, as far as the check knows. */
 export function channelOfCheck(last: LastResult | null): Channel | null {
   if (!flagged(last)) return null
+  if (last.script === 'qr' || last.category === 'fake_qr') return 'qr'
   return last.kind === 'message' ? 'sms' : last.kind === 'call' ? 'call' : 'other'
 }
 
