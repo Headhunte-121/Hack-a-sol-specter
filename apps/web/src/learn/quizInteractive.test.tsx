@@ -6,6 +6,7 @@ import { CHAPTERS } from './chapters'
 import { ChapterSelect } from './ChapterSelect'
 import { QuizScenarioVisual } from './QuizScenarioVisual'
 import { QuizVideoScenario } from './QuizVideoScenario'
+import { QuizSurprise } from './QuizSurprise'
 import quizJson from '../../public/content/quiz.json'
 import type { Question } from './content'
 
@@ -90,3 +91,85 @@ describe('QuizScenarioVisual and Video', () => {
     expect(host.textContent).toContain('Pause')
   })
 })
+
+describe('QuizSurprise on final question', () => {
+  it('calls onFinishQuiz when closing the mystery chest modal on the final question', async () => {
+    const onFinishQuiz = vi.fn()
+    const onOpenMysteryChest = vi.fn()
+    const onToggleChestModal = vi.fn()
+
+    await mount(
+      <QuizSurprise
+        streak={3}
+        streakRecord={3}
+        lifelines={{ fiftyFiftyAvailable: 1, clueAvailable: 1, shieldActive: false }}
+        onUseFiftyFifty={vi.fn()}
+        onUseClue={vi.fn()}
+        hasMysteryChest={true}
+        onOpenMysteryChest={onOpenMysteryChest}
+        lang="en"
+        chestModalOpen={true}
+        onToggleChestModal={onToggleChestModal}
+        isFinalQuestion={true}
+        onFinishQuiz={onFinishQuiz}
+      />
+    )
+
+    // Modal is open with "Open Gift"
+    const openBtn = Array.from(host.querySelectorAll('button')).find((b) => b.textContent?.includes('Open Gift'))
+    expect(openBtn).toBeDefined()
+
+    // Click "Open Gift"
+    act(() => {
+      openBtn?.click()
+    })
+    expect(onOpenMysteryChest).toHaveBeenCalled()
+
+    // Button should now be "View Results"
+    const viewResultsBtn = Array.from(host.querySelectorAll('button')).find((b) => b.textContent?.includes('View Results'))
+    expect(viewResultsBtn).toBeDefined()
+
+    // Click "View Results"
+    act(() => {
+      viewResultsBtn?.click()
+    })
+
+    // onFinishQuiz must be called!
+    expect(onFinishQuiz).toHaveBeenCalled()
+    expect(onToggleChestModal).toHaveBeenCalledWith(false)
+  })
+
+  it('calls onFinishQuiz when dismissing via X button on the final question', async () => {
+    const onFinishQuiz = vi.fn()
+    const onToggleChestModal = vi.fn()
+
+    await mount(
+      <QuizSurprise
+        streak={3}
+        streakRecord={3}
+        lifelines={{ fiftyFiftyAvailable: 1, clueAvailable: 1, shieldActive: false }}
+        onUseFiftyFifty={vi.fn()}
+        onUseClue={vi.fn()}
+        hasMysteryChest={true}
+        onOpenMysteryChest={vi.fn()}
+        lang="en"
+        chestModalOpen={true}
+        onToggleChestModal={onToggleChestModal}
+        isFinalQuestion={true}
+        onFinishQuiz={onFinishQuiz}
+      />
+    )
+
+    // Find the X close button
+    const closeBtn = host.querySelector('button.absolute') as HTMLButtonElement | null
+    expect(closeBtn).toBeDefined()
+
+    act(() => {
+      closeBtn?.click()
+    })
+
+    expect(onFinishQuiz).toHaveBeenCalled()
+    expect(onToggleChestModal).toHaveBeenCalledWith(false)
+  })
+})
+

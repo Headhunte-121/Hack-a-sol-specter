@@ -23,6 +23,7 @@ interface QuizSurpriseProps {
   onToggleChestModal?: (open: boolean) => void
   isFiftyFiftyDisabled?: boolean
   isFinalQuestion?: boolean
+  onFinishQuiz?: () => void
 }
 
 export function QuizSurprise({
@@ -38,6 +39,7 @@ export function QuizSurprise({
   onToggleChestModal,
   isFiftyFiftyDisabled = false,
   isFinalQuestion = false,
+  onFinishQuiz,
 }: QuizSurpriseProps) {
   const [internalChestModalOpen, setInternalChestModalOpen] = useState(false)
   const [unlockedReward, setUnlockedReward] = useState<'fiftyFifty' | 'clue' | 'shield' | null>(null)
@@ -59,6 +61,9 @@ export function QuizSurprise({
   const closeChestModal = () => {
     setModalOpen(false)
     setUnlockedReward(null)
+    if (isFinalQuestion && onFinishQuiz) {
+      onFinishQuiz()
+    }
   }
 
   return (

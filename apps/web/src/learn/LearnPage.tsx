@@ -653,6 +653,7 @@ function QuizView({
   }
 
   const finishQuiz = () => {
+    setHasMysteryChest(false)
     if (chapter && onFinishChapter) {
       const correctCount = answers.filter((a) => a.correct).length
       const score = Math.round((correctCount / session.length) * 100)
@@ -774,7 +775,8 @@ function QuizView({
         chestModalOpen={chestModalOpen}
         onToggleChestModal={setChestModalOpen}
         isFiftyFiftyDisabled={lifelines.fiftyFiftyAvailable <= 0 || q.options.length <= 2 || eliminatedOptions.length > 0 || chosen !== null}
-        isFinalQuestion={i + 1 >= session.length}
+        isFinalQuestion={i + 1 >= session.length && chosen !== null}
+        onFinishQuiz={finishQuiz}
       />
 
       {/* Clue Reveal Box */}
