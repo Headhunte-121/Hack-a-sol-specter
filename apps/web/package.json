@@ -8,7 +8,8 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "check:content": "node scripts/validate-content.mjs"
+    "check:content": "node scripts/validate-content.mjs",
+    "android:sync": "node scripts/android-sync.mjs"
   },
   "dependencies": {
     "@capacitor/android": "^8.6.2",
