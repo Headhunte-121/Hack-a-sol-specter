@@ -192,7 +192,7 @@ public class ChatNotificationListener extends NotificationListenerService {
                 row.put("sender", o.optString("sender"));
                 row.put("body", o.optString("body"));
                 row.put("date", o.optLong("date"));
-                row.put("via", "chat");
+                row.put("via", o.optString("via", "chat")); // keep the WhatsApp tag the message was stored with
                 result.put(row);
             }
         }
