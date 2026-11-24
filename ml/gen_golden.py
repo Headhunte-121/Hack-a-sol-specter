@@ -399,6 +399,50 @@ examples = [
         "lang": "english",
         "expectedBand": "likely_scam",
         "notes": "Still a scam: the same words, but it asks for the OTP"
+    },
+
+    # ---- 10. Found by scoring a realistic inbox on 24 Nov: bank messages that the call-script rules or two rules used to turn red ----
+    {
+        "id": "gen_bank_otp_not_share_staff_en",
+        "text": "482913 is your OTP for Axis Bank net banking login. Valid for 5 minutes. Do not share it with anyone including bank staff.",
+        "lang": "english",
+        "expectedBand": "looks_genuine",
+        "notes": "Was red: 'bank' and 'OTP' looked like two stages of the fake-KYC call script although the message only delivers a code and warns not to share it"
+    },
+    {
+        "id": "gen_bank_debit_sms_block_en",
+        "text": "ICICI Bank Acct XX812 debited for Rs 3,499.00 on 23-Nov-26; Amazon Pay. Call 18002662 for dispute or SMS BLOCK 812 to 9215676766.",
+        "lang": "english",
+        "expectedBand": "looks_genuine",
+        "notes": "Was red: 'call' with a number and 'block' fired two scam rules; SMS BLOCK and 'for dispute' are the bank's own instructions"
+    },
+    {
+        "id": "gen_bank_debit_sms_block_upi_en",
+        "text": "HDFC Bank: Rs 2,000.00 debited from a/c XX1234 on 24-11-26. Not you? SMS BLOCK UPI to 7308080808 or call 18002586161.",
+        "lang": "english",
+        "expectedBand": "looks_genuine",
+        "notes": "Debit alert with the bank's SMS BLOCK instruction"
+    },
+    {
+        "id": "gen_courier_delivery_call_link_en",
+        "text": "Your DTDC parcel 4412887 is out for delivery. Our executive will call you on delivery. Track at dtdc.in",
+        "lang": "english",
+        "expectedBand": "looks_genuine",
+        "notes": "A courier's own site is an official link"
+    },
+    {
+        "id": "scam_otp_warning_then_read_out_en",
+        "text": "Dear customer your OTP is 482913. Bank staff will call you; read the OTP to the caller to complete KYC verification today.",
+        "lang": "english",
+        "expectedBand": "likely_scam",
+        "notes": "Still a scam: a code message that tells the person to read the code out to a caller"
+    },
+    {
+        "id": "scam_otp_warning_then_link_en",
+        "text": "SBI: Your OTP is 556712. Do not share it. Your account will be blocked today, verify PAN at http://sbi-verify.top/pan",
+        "lang": "english",
+        "expectedBand": "likely_scam",
+        "notes": "Still a scam: borrows the do-not-share warning and adds a look-alike link and a threat"
     }
 ]
 

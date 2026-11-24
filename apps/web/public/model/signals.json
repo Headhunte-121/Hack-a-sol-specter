@@ -328,7 +328,9 @@
         "वैधता समाप्त",
         "वैधता जल्द",
         "प्लान समाप्त",
-        "प्लान जल्द"
+        "प्लान जल्द",
+        "sms block",
+        "to block"
       ]
     },
     {
@@ -541,7 +543,11 @@
         "मिस कॉल",
         "फोन किया था",
         "कॉल करेगा",
-        "कॉल आई"
+        "कॉल आई",
+        "for dispute",
+        "for disputes",
+        "to dispute",
+        "sms block"
       ]
     },
     {
@@ -554,7 +560,15 @@
           "urlsusptok"
         ]
       ],
-      "none": []
+      "none": [
+        "t c apply",
+        "tc apply",
+        "terms and conditions apply",
+        "reply stop",
+        "opt out",
+        "to unsubscribe",
+        "unsubscribe"
+      ]
     },
     {
       "id": "short_or_odd_link",

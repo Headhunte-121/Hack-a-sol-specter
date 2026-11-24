@@ -53,9 +53,20 @@ export function assess(segments: Segment[], scorer: Scorer | null, lex: Lexicon 
   const firedRisk = (scored?.fired ?? []).filter((f) => f.kind === 'risk').map((f) => f.id)
   const justAWarning = advisory && firedRisk.every((id) => WARNING_ONLY_RULES.has(id)) && !links.some((l) => l.risk === 'high')
 
+  // A bank's own one-time-code message ("482913 is your OTP for Axis Bank ... Do not share it with anyone including bank staff"): the model sees nothing wrong and no
+  // risk rule fired, but "bank" and "OTP" alone are two stages of the fake-KYC script. A message that only delivers a code, or warns not to share one, is never
+  // decided by the script rules. (A scam that borrows the warning also fires a risk rule or raises the model band, so this does not apply to it.)
+  const warnsNotToShare = (scored?.fired ?? []).some((f) => f.id === 'tells_not_to_share')
+  const deliversCode = (scored?.fired ?? []).some((f) => f.id === 'otp_delivery_notice')
+  const codeNotice = modelBand === 'looks_genuine' && firedRisk.length === 0 && (warnsNotToShare || deliversCode) && !links.some((l) => l.risk === 'high')
+  const scriptDecides = !!top && top.stagesHeard.length >= 2 && hasSpecific
+
   let band: Band = modelBand
   let basis: Basis = modelBand === 'looks_genuine' ? 'none' : 'model'
-  if (top && top.stagesHeard.length >= 2 && hasSpecific) {
+  if (scriptDecides && codeNotice) {
+    band = 'looks_genuine'
+    basis = warnsNotToShare ? 'advisory' : 'genuine_notice'
+  } else if (scriptDecides) {
     band = 'likely_scam' // two stages of one known scam script, at least one specific to it
     basis = 'script'
   } else if (justAWarning && modelBand !== 'looks_genuine') {
