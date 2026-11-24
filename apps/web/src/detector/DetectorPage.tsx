@@ -395,7 +395,7 @@ export default function DetectorPage() {
             ) : inbox.length > 0 ? (
               <div className="mt-3 flex items-center gap-2 rounded-xl bg-emerald-500/20 border border-emerald-400/25 px-3 py-1.5 text-xs font-medium text-emerald-200">
                 <span>🛡️</span>
-                <span>No scam threats detected in recent messages</span>
+                <span>{t('sms.inbox.clean')}</span>
               </div>
             ) : null}
           </div>
@@ -433,7 +433,7 @@ export default function DetectorPage() {
                       : 'bg-white text-slate-600 border border-slate-200/80 hover:bg-slate-100'
                   }`}
                 >
-                  All ({inbox.length})
+                  {t('sms.inbox.filter_all', { n: inbox.length })}
                 </button>
                 {scamCount > 0 && (
                   <button
@@ -478,7 +478,7 @@ export default function DetectorPage() {
               {displayInbox.length === 0 ? (
                 <div className="rounded-2xl border border-dashed border-slate-200 bg-white p-8 text-center text-slate-500">
                   <p className="text-2xl mb-1">🎉</p>
-                  <p className="font-semibold text-slate-700">No messages in this category</p>
+                  <p className="font-semibold text-slate-700">{t('sms.inbox.none_in_filter')}</p>
                 </div>
               ) : (
                 <ul className="space-y-2">

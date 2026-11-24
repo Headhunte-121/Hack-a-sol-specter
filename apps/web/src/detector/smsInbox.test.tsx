@@ -111,6 +111,15 @@ describe('the Android inbox screen', { timeout: 15000 }, () => {
     expect(host.textContent).toContain('AX-HDFCBK-S')
   })
 
+  it('shows the inbox filter and the all-clear line in Hindi, not in English, and never says nothing was threatening', async () => {
+    localStorage.setItem('gt02:lang', JSON.stringify('hi'))
+    await mount()
+    const text = host.textContent ?? ''
+    expect(text).toContain('सभी (1)')
+    expect(text).toContain('कोई जाँच पूरी तरह सही नहीं होती')
+    expect(text).not.toMatch(/No scam threats|No messages in this category|All \(/)
+  })
+
   it('stops listening when the screen is left, even if it is left right away', async () => {
     await mount()
     act(() => root.unmount())
