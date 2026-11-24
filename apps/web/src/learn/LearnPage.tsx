@@ -24,7 +24,7 @@ import { currentQuery, navigate } from '../shell/router'
 import { kvGet, kvSet } from '../shell/storage'
 import { Banner, Icon } from '../shell/ui'
 import { lessonLines } from './audio'
-import { CHAPTERS, CHAPTER_QUESTIONS_COUNT, selectChapterQuestions, type Chapter } from './chapters'
+import { CHAPTERS, CHAPTER_QUESTIONS_COUNT, selectChapterQuestions, starsFor, type Chapter } from './chapters'
 import { ChapterResultView } from './ChapterResultView'
 import { ChapterSelect } from './ChapterSelect'
 import { loadContentPack, lessonCards, lessonMinutes, pick, type ContentPack, type Lesson, type Question } from './content'
@@ -656,7 +656,7 @@ function QuizView({
     if (chapter && onFinishChapter) {
       const correctCount = answers.filter((a) => a.correct).length
       const score = Math.round((correctCount / session.length) * 100)
-      const stars = score >= 90 ? 3 : score >= 70 ? 2 : score >= 50 ? 1 : 0
+      const stars = starsFor(score)
       const prevAttempt = chapterAttempts()[chapter.id]
       const prevScore = prevAttempt ? prevAttempt.score : null
 

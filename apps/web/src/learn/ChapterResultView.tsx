@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { Award, CheckCircle, ChevronRight, Flame, RotateCcw, Sparkles, Star, Trophy } from 'lucide-react'
 import { useLang } from '../shell/i18n'
-import { CHAPTERS, type Chapter } from './chapters'
+import { CHAPTERS, starsMessage, type Chapter } from './chapters'
 import { pick, type ContentPack } from './content'
 import type { ChapterAttempt } from './progress'
 import { QuizConfetti } from './QuizConfetti'
@@ -79,11 +79,7 @@ export function ChapterResultView({
           ))}
         </div>
         <p className="mt-1 text-[14px] text-blue-100">
-          {attempt.stars === 3
-            ? (lang === 'hi' ? 'उत्कृष्ट! पूर्ण 3 सितारे प्राप्त हुए!' : lang === 'cg' ? 'बब्बाल! पूरा 3 सितारा मिलिस!' : 'Outstanding! All 3 Stars Earned!')
-            : attempt.stars === 2
-            ? (lang === 'hi' ? 'बहुत अच्छा! 2 सितारे प्राप्त हुए।' : lang === 'cg' ? 'बने हे! 2 सितारा मिलिस।' : 'Great Job! 2 Stars Earned.')
-            : (lang === 'hi' ? 'अच्छा प्रयास! 1 सितारा प्राप्त हुआ।' : lang === 'cg' ? 'बने कोसिस! 1 सितारा मिलिस।' : 'Good Effort! 1 Star Earned.')}
+          {starsMessage(attempt.stars, lang)}
         </p>
       </div>
 

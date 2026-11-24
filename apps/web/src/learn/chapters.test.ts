@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { CHAPTERS, CHAPTER_QUESTIONS_COUNT, selectChapterQuestions } from './chapters'
+import { CHAPTERS, CHAPTER_QUESTIONS_COUNT, selectChapterQuestions, starsFor, starsMessage } from './chapters'
 import quizJson from '../../public/content/quiz.json'
 import type { Question } from './content'
 
@@ -47,5 +47,22 @@ describe('Chapter system (5 chapters x 20 questions)', () => {
     const a = selectChapterQuestions(questions, ch, 20, 1).map((q) => q.id)
     const b = selectChapterQuestions(questions, ch, 20, 2).map((q) => q.id)
     expect(a.join()).not.toEqual(b.join())
+  })
+})
+
+describe('Stars for a chapter score', () => {
+  it('gives 3, 2, 1 or no stars at 90, 70 and 50 percent', () => {
+    expect([100, 90, 89, 70, 69, 50, 49, 0].map(starsFor)).toEqual([3, 3, 2, 2, 1, 1, 0, 0])
+  })
+
+  it('never says a star was earned when none was, in any language', () => {
+    for (const lang of ['en', 'hi', 'cg'] as const) {
+      expect(starsMessage(0, lang)).not.toMatch(/1 Star|1 सितारा|\b1\b/)
+      expect(starsMessage(1, lang)).toMatch(/1/)
+      expect(starsMessage(2, lang)).toMatch(/2/)
+      expect(starsMessage(3, lang)).toMatch(/3/)
+      expect(new Set([0, 1, 2, 3].map((s) => starsMessage(s, lang))).size).toBe(4)
+    }
+    expect(starsMessage(0, 'en')).toContain('Try again')
   })
 })

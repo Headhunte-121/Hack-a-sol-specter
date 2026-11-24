@@ -1,3 +1,4 @@
+import type { Lang } from '../shell/i18n'
 import type { Tri, Question } from './content'
 import { rng, hashSeed } from './quiz'
 
@@ -106,6 +107,18 @@ export const CHAPTERS: Chapter[] = [
 ]
 
 export const CHAPTER_QUESTIONS_COUNT = 20
+
+/** The stars a chapter score earns: 3 at 90 percent or more, 2 at 70, 1 at 50, none below that. */
+export const starsFor = (score: number): 0 | 1 | 2 | 3 => (score >= 90 ? 3 : score >= 70 ? 2 : score >= 50 ? 1 : 0)
+
+/** The line under the stars. With no star earned it must not say one was: it asks the person to try again. */
+export function starsMessage(stars: number, lang: Lang): string {
+  const say = (en: string, hi: string, cg: string) => (lang === 'hi' ? hi : lang === 'cg' ? cg : en)
+  if (stars >= 3) return say('Outstanding! All 3 Stars Earned!', 'उत्कृष्ट! पूर्ण 3 सितारे प्राप्त हुए!', 'बब्बाल! पूरा 3 सितारा मिलिस!')
+  if (stars === 2) return say('Great Job! 2 Stars Earned.', 'बहुत अच्छा! 2 सितारे प्राप्त हुए।', 'बने हे! 2 सितारा मिलिस।')
+  if (stars === 1) return say('Good Effort! 1 Star Earned.', 'अच्छा प्रयास! 1 सितारा प्राप्त हुआ।', 'बने कोसिस! 1 सितारा मिलिस।')
+  return say('Keep practising! Try again to earn stars.', 'अभ्यास जारी रखें! फिर से कोशिश करके सितारे जीतें।', 'अभ्यास करत रहव! फेर कोसिस करके सितारा जीतव।')
+}
 
 function shuffleArray<T>(arr: T[], r: () => number): T[] {
   const a = [...arr]
