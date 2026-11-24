@@ -37,8 +37,12 @@ export const chapterAttempts = (): Record<string, ChapterAttempt> =>
 export function saveChapterAttempt(a: ChapterAttempt) {
   const current = chapterAttempts()
   const prev = current[a.chapterId]
+  const bestStreak = Math.max(a.bestStreak, prev?.bestStreak || 0)
+  const stars = Math.max(a.stars, prev?.stars || 0)
   if (!prev || a.score >= prev.score) {
-    kvSet('quiz.chapter_attempts', { ...current, [a.chapterId]: a })
+    kvSet('quiz.chapter_attempts', { ...current, [a.chapterId]: { ...a, bestStreak, stars } })
+  } else if (bestStreak > (prev.bestStreak || 0) || stars > (prev.stars || 0)) {
+    kvSet('quiz.chapter_attempts', { ...current, [a.chapterId]: { ...prev, bestStreak, stars } })
   }
 }
 
