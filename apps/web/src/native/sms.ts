@@ -51,7 +51,8 @@ export async function readChatMessages(limit = 30): Promise<ChatRead> {
   if (!isAndroidNative()) return { supported: false, enabled: false, messages: [] }
   try {
     const r = await SmsReader.getChatMessages({ limit })
-    return { supported: true, enabled: !!r.enabled, messages: (r.messages ?? []).map((m) => ({ ...m, via: 'chat' as const })) }
+    // a WhatsApp message keeps its own tag; everything else the listener read is a Chat (RCS) message
+    return { supported: true, enabled: !!r.enabled, messages: (r.messages ?? []).map((m) => ({ ...m, via: m.via === 'whatsapp' ? ('whatsapp' as const) : ('chat' as const) })) }
   } catch {
     return { supported: false, enabled: false, messages: [] }
   }
