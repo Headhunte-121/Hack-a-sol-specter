@@ -254,6 +254,14 @@ export default function DetectorPage() {
   const back = useBackStep(result !== null, () => setResult(null), { text: input })
 
   const canSpeak = useMemo(() => typeof window !== 'undefined' && 'speechSynthesis' in window, [])
+  useEffect(() => {
+    return () => {
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel()
+      }
+    }
+  }, [result])
+
   const speak = () => {
     if (!result || !canSpeak) return
     const b = BAND[result.band]

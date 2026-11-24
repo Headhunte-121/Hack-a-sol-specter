@@ -11,7 +11,14 @@ export default function DuringCallPage() {
   const { t, lang } = useLang()
   const [left, setLeft] = useState<number | null>(null)
   const timer = useRef<number | undefined>(undefined)
-  useEffect(() => () => window.clearInterval(timer.current), [])
+  useEffect(() => {
+    return () => {
+      window.clearInterval(timer.current)
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel()
+      }
+    }
+  }, [])
 
   /** startCooldown: an optional 60 second pause with a reminder that urgency is the scammer's main tool. */
   const startCooldown = () => {
