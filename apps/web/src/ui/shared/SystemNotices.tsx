@@ -103,7 +103,7 @@ export function SystemNotices({ pending, pwa, updateBlocked, onApplyUpdate }: Ho
                   className="inline-flex items-center gap-1.5 rounded-md bg-blue-50 px-2.5 py-1 text-[12px] font-bold text-[#1B3B73] transition-colors hover:bg-blue-100"
                 >
                   <Download className="size-3.5" />
-                  Suraksha.apk (12.6 MB)
+                  Suraksha.apk
                 </a>
               </div>
             </div>
